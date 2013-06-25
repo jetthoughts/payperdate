@@ -13,7 +13,8 @@ gem 'pg'
 gem 'turbolinks'
 
 #User registrtation
-gem 'devise'
+gem 'devise', github: 'plataformatec/devise', branch: 'rails4'
+gem "recaptcha", :require => "recaptcha/rails"
 gem 'phony_rails'
 gem 'twilio-ruby'
 
