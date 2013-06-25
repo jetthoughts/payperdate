@@ -14,6 +14,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       ## Trackable
       t.integer :sign_in_count, :default => 0
+      t.integer :failed_sign_in_count, :default => 0
       t.datetime :current_sign_in_at
       t.datetime :last_sign_in_at
       t.string :current_sign_in_ip
@@ -25,14 +26,14 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.datetime :confirmation_sent_at
       t.string :unconfirmed_email # Only if using reconfirmable
 
-      t.string :login, null: false
+      t.string :username, null: false
       t.string :name, null: false
       t.string :phone, limit: 20
       t.timestamps
     end
 
     add_index :users, :email, :unique => true
-    add_index :users, :login, :unique => true
+    add_index :users, :username, :unique => true
     add_index :users, :phone, :unique => true
     add_index :users, :reset_password_token, :unique => true
     add_index :users, :confirmation_token, :unique => true

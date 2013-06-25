@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20130625134717) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                     default: 0
+    t.integer  "failed_sign_in_count",              default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -28,7 +29,7 @@ ActiveRecord::Schema.define(version: 20130625134717) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "login",                                          null: false
+    t.string   "username",                                       null: false
     t.string   "name",                                           null: false
     t.string   "phone",                  limit: 20
     t.datetime "created_at"
@@ -37,8 +38,8 @@ ActiveRecord::Schema.define(version: 20130625134717) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["login"], name: "index_users_on_login", unique: true, using: :btree
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

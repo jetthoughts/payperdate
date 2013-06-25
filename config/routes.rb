@@ -1,6 +1,15 @@
 Payperdate::Application.routes.draw do
-  get '/', to: 'pages#landing'
+  root to: 'pages#landing'
   devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'users/sessions'}
+
+  resources :users do
+
+  end
+
+  resource :me, only: :show, to: 'users#show' do
+
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -55,5 +64,5 @@ Payperdate::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
- root to: 'pages#about'
+  get '/about', to: 'pages#about'
 end
