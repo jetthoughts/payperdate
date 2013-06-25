@@ -1,0 +1,44 @@
+common:
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] || '' %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] || '' %>
+  s3_bucket: 'payperdate'
+  airbrake_api_key: <%= ENV['AIRBRAKE_API_KEY'] %>
+  google_analytics_value: <%= ENV['GA_VALUE'] || '' %>
+  url_with_port: http://localhost:3000
+  host: localhost:3000
+
+  mailer:
+    delivery_method: :test
+
+  redis:
+    url: <%= ENV["REDISCLOUD_URL"] || 'redis://localhost:6379' %>
+
+  twilio:
+    account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
+    auth_token: 3b18fea775dbad1720212f11fffe53ab
+    sms_application_sid: AP4ac1d80b640a005a81d660d59d2bed13
+    from: '+15005550006'
+
+test:
+  s3_bucket: 'playjoiner-development'
+
+  #NOTE: I need setup Sandbox API keys to do not spend real money in tests.
+  twilio:
+    account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
+    auth_token: 3b18fea775dbad1720212f11fffe53ab
+    sms_application_sid: AP4ac1d80b640a005a81d660d59d2bed13
+    from: '+15005550006'
+
+staging:
+  s3_bucket: 'payperdate-staging'
+  url_with_port: http://payperdate-staging.herokuapp.com
+  host: payperdate-staging.herokuapp.com
+  mailer:
+    delivery_method: :smtp
+
+production:
+  s3_bucket: 'payperdate-production'
+  url_with_port: http://payperdate-staging.herokuapp.com
+  host: payperdate-staging.herokuapp.com/
+  mailer:
+    delivery_method: :smtp
