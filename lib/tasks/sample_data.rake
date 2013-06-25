@@ -12,7 +12,7 @@ end
 desc 'Setup sample data'
 
 task setup_sample_data: :environment do
-  raise 'do not run this task in production' if Rails.env.production?
+  #raise 'do not run this task in production' if Rails.env.production?
   User.delete_all
 
   puts 'setup_sample_data done'
