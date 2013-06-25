@@ -1,6 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def create
-    if verify_recaptcha
+    if captcha_valid?
       super
     else
       build_resource
@@ -17,6 +17,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     params.require(:user).permit(:email, :password, :name, :phone, :login)
+  end
+
+  private
+
+  def captcha_valid?
+    Rails.env.development? || verify_recaptcha
   end
 
 end

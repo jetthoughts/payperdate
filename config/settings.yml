@@ -7,11 +7,18 @@ common:
   url_with_port: http://localhost:3000
   host: localhost:3000
 
-  mailer:
-    delivery_method: :test
+  recaptcha:
+    public_key: 6LfoU-MSAAAAAJkcGfgpMtKBuGuh41oGizqW8ksW
+    private_key: 6LfoU-MSAAAAAAbA6Wua96F8PSbZnoiLz-DcLrT_
 
-  redis:
-    url: <%= ENV["REDISCLOUD_URL"] || 'redis://localhost:6379' %>
+  mailer:
+    delivery_method: :smtp
+    smtp_settings:
+      user_name: 'payperdate-e2628fe3aea4a5d8'
+      password:  '7a0189049f61178d'
+      address: mailtrap.io
+      port: 2525
+      authentication: :plain
 
   twilio:
     account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
@@ -35,6 +42,12 @@ staging:
   host: payperdate-staging.herokuapp.com
   mailer:
     delivery_method: :smtp
+    smtp_settings:
+      user_name: 'payperdate-e2628fe3aea4a5d8'
+      password:  '7a0189049f61178d'
+      address: mailtrap.io
+      port: 2525
+      authentication: :plain
 
 production:
   s3_bucket: 'payperdate-production'
