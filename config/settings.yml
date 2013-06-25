@@ -11,6 +11,14 @@ common:
     public_key: 6LfoU-MSAAAAAJkcGfgpMtKBuGuh41oGizqW8ksW
     private_key: 6LfoU-MSAAAAAAbA6Wua96F8PSbZnoiLz-DcLrT_
 
+  facebook:
+    app_id: 187477277963833
+    app_secret: 18e0f6e229a06b15a2c047c990f44dc5
+
+  twitter:
+    app_id: MSn1xUVKKSEyLpLcSQoGBQ
+    app_secret: Zl9folFaGWHKep6cV6ouD1MJ0uCMBNOjpeqXNmPuPM
+
   mailer:
     delivery_method: :smtp
     smtp_settings:
@@ -48,6 +56,10 @@ staging:
       address: mailtrap.io
       port: 2525
       authentication: :plain
+
+  facebook:
+    app_id: 465140673576329
+    app_secret: bf6cf7f765d938dd09a8ee4b69146005
 
 production:
   s3_bucket: 'payperdate-production'

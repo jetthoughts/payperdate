@@ -13,6 +13,18 @@
 
 ActiveRecord::Schema.define(version: 20130625134717) do
 
+  create_table "authentitications", force: true do |t|
+    t.string   "provider",     null: false
+    t.integer  "user_id",      null: false
+    t.string   "uid",          null: false
+    t.string   "access_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
+  add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
   create_table "users", force: true do |t|
     t.string   "email",                             default: "", null: false
     t.string   "encrypted_password",                default: "", null: false
@@ -29,7 +41,7 @@ ActiveRecord::Schema.define(version: 20130625134717) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "username",                                       null: false
+    t.string   "nickname",                                       null: false
     t.string   "name",                                           null: false
     t.string   "phone",                  limit: 20
     t.datetime "created_at"
@@ -38,8 +50,8 @@ ActiveRecord::Schema.define(version: 20130625134717) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

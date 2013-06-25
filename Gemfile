@@ -15,6 +15,9 @@ gem 'turbolinks'
 #User registrtation
 gem 'devise', github: 'plataformatec/devise', branch: 'rails4'
 gem "recaptcha", :require => "recaptcha/rails"
+gem 'omniauth'
+gem "omniauth-facebook"
+gem "omniauth-twitter"
 gem 'phony_rails'
 gem 'twilio-ruby'
 

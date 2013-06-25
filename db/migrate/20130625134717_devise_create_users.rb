@@ -26,14 +26,14 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.datetime :confirmation_sent_at
       t.string :unconfirmed_email # Only if using reconfirmable
 
-      t.string :username, null: false
+      t.string :nickname, null: false
       t.string :name, null: false
       t.string :phone, limit: 20
       t.timestamps
     end
 
     add_index :users, :email, :unique => true
-    add_index :users, :username, :unique => true
+    add_index :users, :nickname, :unique => true
     add_index :users, :phone, :unique => true
     add_index :users, :reset_password_token, :unique => true
     add_index :users, :confirmation_token, :unique => true
