@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20130625134717) do
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                             default: "", null: false
-    t.string   "encrypted_password",                default: "", null: false
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -41,9 +41,10 @@ ActiveRecord::Schema.define(version: 20130625134717) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "nickname",                                       null: false
-    t.string   "name",                                           null: false
+    t.string   "nickname",                                          null: false
+    t.string   "name",                                              null: false
     t.string   "phone",                  limit: 20
+    t.boolean  "no_password",                       default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

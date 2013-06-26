@@ -2,7 +2,7 @@ module UserOauth
 
   def find_from_oauth oauth_info
     provider    = oauth_info.provider
-    signup_info = prepare_signup_info_for(provider, oauth_info)
+    signup_info = send "prepare_info_for_#{provider}", oauth_info
 
     uid      = signup_info[:uid]
     token    = signup_info[:token]
@@ -15,33 +15,49 @@ module UserOauth
     else
       ActiveRecord::Base.transaction do
         user = User.create! name:         name,
-                            nickname:     nickname,
+                            nickname:     find_free_nickname(nickname),
                             email:        email,
                             password:     Devise.friendly_token[0, 20],
-                            confirmed_at: Time.now
-        user.authentitications.create :provider => provider, uid: uid, access_token: token
+                            confirmed_at: Time.now,
+                            no_password:  true
+        user.authentitications.create provider: provider, uid: uid, access_token: token
         user
       end
     end
   end
 
   private
+  #TODO: Use birthday when they ask
+  #facebook:
+  #>>  request.env["omniauth.auth"].extra.raw_info.birthday
+  #=> "07/03/1997"  = month/day/year!
+  #twitter:
+  #
+  #
+  def prepare_info_for_facebook(oauth_info)
+    { uid:      oauth_info.uid.to_s,
+      token:    oauth_info.credentials.token,
+      nickname: oauth_info.info.nickname || "fbuser_#{uid}",
+      name:     oauth_info.info.name,
+      email:    oauth_info.info.email }
+  end
 
-  def prepare_signup_info_for(provider, oauth_info)
-    if provider == 'facebook'
-      { uid:      oauth_info.uid.to_s,
-        token:    oauth_info.credentials.token,
-        nickname: oauth_info.info.nickname || "fbuser_#{uid}",
-        name:     oauth_info.info.name,
-        email:    oauth_info.info.email }
-    elsif provider == 'twitter'
-      { uid:      oauth_info.extra.access_token.params[:user_id].to_s,
-        token:    oauth_info.extra.access_token.token,
-        nickname: oauth_info.info.nickname || "twitter_user_#{uid}",
-        name:     oauth_info.info.name,
-        email:    nil }
+  def prepare_info_for_twitter(oauth_info)
+    { uid:      oauth_info.extra.access_token.params[:user_id].to_s,
+      token:    oauth_info.extra.access_token.token,
+      nickname: oauth_info.info.nickname || "twitter_user_#{uid}",
+      name:     oauth_info.info.name,
+      email:    nil }
+  end
+
+  def find_free_nickname nn
+    res = nn
+    counter = 2
+    while User.where(nickname: res).exists? do
+      res = nn + counter.to_s
+      counter += 1
     end
-
+    res
   end
 
 end

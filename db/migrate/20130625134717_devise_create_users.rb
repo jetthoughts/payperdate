@@ -29,6 +29,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :nickname, null: false
       t.string :name, null: false
       t.string :phone, limit: 20
+
+      t.boolean :no_password, default: false, null: false
       t.timestamps
     end
 

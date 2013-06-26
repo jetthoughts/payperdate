@@ -61,6 +61,10 @@ staging:
     app_id: 465140673576329
     app_secret: bf6cf7f765d938dd09a8ee4b69146005
 
+  twitter:
+    app_id: 5Xu4GAOxQDZ8RxzvsYYtHw
+    app_secret: Cadb937Wg1wmHMYeI3SehUSb1ixmqRVG3JEXN221Qk
+
 production:
   s3_bucket: 'payperdate-production'
   url_with_port: http://payperdate-staging.herokuapp.com

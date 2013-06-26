@@ -22,8 +22,10 @@
                 <li>
                   <%= link_to 'Profile', me_path -%>
                 </li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li>
+                  <%= link_to 'Edit Account', edit_user_registration_path -%>
+                </li>
+
                 <li class="divider"></li>
                 <li><%= link_to 'SignOut', destroy_user_session_path, method: :delete -%></li>
               </ul>
