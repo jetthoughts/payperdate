@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if captcha_valid?
       super
     else
-      build_resource
+      self.resource = build_resource(sign_up_params)
       clean_up_passwords(resource)
       flash.now[:alert] = "There was an error with the recaptcha code below. Please re-enter the code."
       flash.delete :recaptcha_error

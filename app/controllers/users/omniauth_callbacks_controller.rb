@@ -16,7 +16,7 @@ class Users::OmniauthCallbacksController < ApplicationController
 
   def process_oauth_login
     user = User.find_from_oauth request.env["omniauth.auth"]
-    if user.persisted?
+    if user && user.persisted?
       flash[:notice] = t "devise.omniauth_callbacks.success", kind: provider
       sign_in_and_redirect user, event: :authentication
     else

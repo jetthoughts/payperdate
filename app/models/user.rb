@@ -13,4 +13,18 @@ class User < ActiveRecord::Base
   include UserAuthMethods
   extend UserOauth
 
+  def self.find_for_database_authentication(conditions={})
+    login = conditions[:email]
+    self.where(nickname: login).limit(1).first || self.where(email: login).limit(1).first
+  end
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if (login = conditions.delete(:email))
+      self.where(email: login).limit(1).first || self.where(nickname: login).limit(1).first
+    else
+      self.where(conditions).first
+    end
+
+  end
 end
