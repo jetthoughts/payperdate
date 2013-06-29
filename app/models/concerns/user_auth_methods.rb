@@ -17,7 +17,7 @@ module UserAuthMethods
   end
 
   def existent_email=(new_value)
-    self.email = new_value
+    self.email = new_value  if new_value.present?
   end
 
   def update_with_password(params, *options)

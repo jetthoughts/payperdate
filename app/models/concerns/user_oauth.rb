@@ -8,19 +8,19 @@ module UserOauth
     token    = signup_info[:token]
     nickname = signup_info[:nickname]
     name     = signup_info[:name]
-    email    = signup_info[:email] || "dummy_#{uid}@dummy.com"
+    email    = signup_info[:email]
     if (auth = Authentitication.where(provider: provider, uid: uid).first)
       auth.update_attribute(:access_token, token)
       auth.user
     else
       ActiveRecord::Base.transaction do
-        user = User.create! name:         name,
-                            nickname:     find_free_nickname(nickname),
-                            email:        email,
+        user = User.create! nickname:     find_free_nickname(nickname),
+                            email:        find_free_email(email, provider, uid),
+                            name:         name,
                             password:     Devise.friendly_token[0, 20],
                             confirmed_at: Time.now,
                             no_password:  true
-        user.authentitications.create provider: provider, uid: uid, access_token: token
+        user.authentitications.create! provider: provider, uid: uid, access_token: token
         user
       end
     end
@@ -58,6 +58,14 @@ module UserOauth
       counter += 1
     end
     res
+  end
+
+  def find_free_email em, provider, uid
+    if em.present? && User.where(email: em).empty?
+      em
+    else
+      "dummy_#{provider}_#{uid}@dummy.com"
+    end
   end
 
 end
