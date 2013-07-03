@@ -1,0 +1,4 @@
+<%- if @album.persisted? -%>
+  $('#albums').append("<%= escape_javascript(render @album) -%>");
+  $('#album_name').val('');
+<%- end -%>

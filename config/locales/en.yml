@@ -31,3 +31,10 @@ en:
   profiles:
     errors:
       required_field: 'Field is required'
+  activerecord:
+    errors:
+      models:
+        photo:
+          attributes:
+            image:
+              size_too_big: 'Size too big'

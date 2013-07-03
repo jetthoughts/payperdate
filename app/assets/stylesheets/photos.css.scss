@@ -1,0 +1,11 @@
+// Place all the styles related to the Photos controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.bar {
+  height: 18px;
+  background-image: linear-gradient(left top, rgb(162,252,141) 10%, rgb(47,171,36) 56%);
+  background-image: -o-linear-gradient(left top, rgb(162,252,141) 10%, rgb(47,171,36) 56%);
+  background-image: -moz-linear-gradient(left top, rgb(162,252,141) 10%, rgb(47,171,36) 56%);
+  background-image: -webkit-linear-gradient(left top, rgb(162,252,141) 10%, rgb(47,171,36) 56%);
+  background-image: -ms-linear-gradient(left top, rgb(162,252,141) 10%, rgb(47,171,36) 56%);
+}
