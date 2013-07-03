@@ -1,0 +1,8 @@
+<h1>Albums</h1>
+<div id="albums">
+  <%= render @albums -%>
+</div>
+
+<%- if page_owner? -%>
+  <%= render 'form', {album: Album.new} -%>
+<%- end -%>

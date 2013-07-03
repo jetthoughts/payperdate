@@ -13,6 +13,7 @@ gem 'turbolinks'
 
 #User registrtation
 gem 'devise', github: 'plataformatec/devise', branch: 'rails4'
+gem 'cancan'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'omniauth'
 gem "omniauth-facebook"
@@ -30,6 +31,7 @@ gem 'fog', '~> 1.3.1'
 gem 'jquery-rails'
 gem "twitter-bootstrap-rails"
 gem 'knockoutjs-rails', '~> 2.2.1', require: 'knockoutjs-rails'
+gem 'fancybox-rails'
 gem 'therubyracer'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -42,11 +44,16 @@ gem 'haml', '~> 4.0.0'
 gem 'haml-rails', '~> 0.4'
 gem 'haml-contrib', '~> 1.0.0'
 
+gem "jquery-fileupload-rails"
 group :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'heroku', require: false
+end
+
+group :staging do
+  gem "cloudinary"
 end
 
 group :assets do

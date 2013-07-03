@@ -10,12 +10,12 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-// from gems
 //= require jquery
 //= require jquery_ujs
+//= require fancybox
 //= require twitter/bootstrap
 //= require knockout
-
+//= require jquery-fileupload/basic
 // from assets, but should load first
 //= require turbo-events
 

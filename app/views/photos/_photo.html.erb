@@ -1,0 +1,9 @@
+<span id="<%= dom_id(photo) -%>">
+<a href="<%= photo.image_url -%>" rel="gallery">
+  <%= image_tag(photo.image_url(:medium)) %>
+</a>
+  <% if can? :destroy, photo %>
+     <%= link_to 'remove', album_photo_path(photo.album, photo),
+                 remote: true, method: :delete, confirm: 'Sure?' -%>
+  <%- end -%>
+</span>

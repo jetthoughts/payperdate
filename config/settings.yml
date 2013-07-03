@@ -45,8 +45,8 @@ staging:
   mailer:
     delivery_method: :smtp
     smtp_settings:
-      user_name: 'payperdate-e2628fe3aea4a5d8'
-      password:  '7a0189049f61178d'
+      user_name: 'payperdate-staging'
+      password:  '90e60916630bd963'
       address: mailtrap.io
       port: 2525
       authentication: :plain
