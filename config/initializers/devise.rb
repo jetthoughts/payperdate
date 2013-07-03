@@ -5,6 +5,10 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
   config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.omniauth :facebook, Settings.facebook.app_id, Settings.facebook.app_secret, scope: 'email'
+  config.omniauth :twitter, Settings.twitter.app_id, Settings.twitter.app_secret, scope: 'email'
+
+  config.reconfirmable = true
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -94,7 +98,7 @@ Devise.setup do |config|
 
   # If true, uses the password salt as remember token. This should be turned
   # to false if you are not using database authenticatable.
-  config.use_salt_as_remember_token = true
+  #config.use_salt_as_remember_token = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # :secure => true in order to force SSL only cookies.
