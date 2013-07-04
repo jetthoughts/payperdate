@@ -5,10 +5,13 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
+  has_one :profile
 
   validates :nickname, :name, presence: true
   validates :nickname, uniqueness: true
   validates :phone, uniqueness: true, allow_nil: true
+
+  after_create { build_profile.save! }
 
   include UserAuthMethods
   extend UserOauth
@@ -25,6 +28,6 @@ class User < ActiveRecord::Base
     else
       self.where(conditions).first
     end
-
   end
+
 end
