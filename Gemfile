@@ -27,7 +27,7 @@ gem 'mini_magick'
 gem 'fog', '~> 1.3.1'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem "jquery-rails", "2.3.0"
 gem "twitter-bootstrap-rails"
 gem 'therubyracer'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -36,6 +36,13 @@ gem 'jbuilder', '~> 1.2'
 gem 'handy', github: 'bigbinary/handy'
 
 gem 'will_paginate'
+
+#Admin Panel
+gem 'responders', github: 'plataformatec/responders'
+gem 'inherited_resources', github: 'josevalim/inherited_resources'
+gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
+gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
+gem 'activeadmin', github: 'akashkamboj/active_admin', branch: 'rails4'
 
 group :development do
   gem 'quiet_assets'
