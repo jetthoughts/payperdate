@@ -11,8 +11,8 @@ gem 'pg'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
-#User registrtation
-gem 'devise', github: 'plataformatec/devise', branch: 'rails4'
+#User registrattion
+gem 'devise'
 gem 'cancan'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'omniauth'
@@ -28,23 +28,44 @@ gem 'mini_magick'
 gem 'fog', '~> 1.3.1'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem "jquery-rails"
 gem "twitter-bootstrap-rails"
 gem 'knockoutjs-rails', '~> 2.2.1', require: 'knockoutjs-rails'
 gem 'fancybox-rails'
 gem 'therubyracer'
+#Assets
+gem 'sass-rails', '~> 4.0.0'
+gem 'sprockets-rails'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.0.0'
+
+gem 'sprockets-rails'
+
+gem 'RedCloth', '~> 4.2.9'
+gem 'haml', '~> 4.0.0'
+gem 'haml-rails', '~> 0.4'
+gem 'haml-contrib', '~> 1.0.0'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
 gem 'handy', github: 'bigbinary/handy'
 
-gem 'will_paginate'
+#Admin Panel
+gem 'responders', github: 'plataformatec/responders'
+gem 'inherited_resources', github: 'josevalim/inherited_resources'
+gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
+gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
+gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+
 
 gem 'haml', '~> 4.0.0'
 gem 'haml-rails', '~> 0.4'
 gem 'haml-contrib', '~> 1.0.0'
 
 gem "jquery-fileupload-rails"
+gem 'will_paginate'
+
 group :development do
   gem 'quiet_assets'
   gem 'better_errors'
@@ -54,25 +75,6 @@ end
 
 group :staging do
   gem "cloudinary"
-end
-
-group :assets do
-  gem 'sass-rails', '~> 4.0.0'
-  gem 'sprockets-rails'
-  gem 'uglifier', '>= 1.3.0'
-  gem 'coffee-rails', '~> 4.0.0'
-  gem 'RedCloth', '~> 4.2.9'
-  gem 'haml', '~> 4.0.0'
-  gem 'haml-rails', '~> 0.4'
-  gem 'haml-contrib', '~> 1.0.0'
-end
-
-group :development do
-  gem 'sass-rails', '~> 4.0.0'
-  gem 'coffee-rails', '~> 4.0.0'
-  gem 'haml', '~> 4.0.0'
-  gem 'haml-rails', '~> 0.4'
-  gem 'haml-contrib', '~> 1.0.0'
 end
 
 group :test do
