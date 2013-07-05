@@ -21,5 +21,5 @@ end
 
 
 def create_users
-  User.create! nickname: 'user', name: 'User', email: 'user@example.com', password: 'welcome', confirmed_at: Time.current
+  User.create! nickname: 'john', name: 'John Smith', email: 'john.smith@example.com', password: 'welcome', confirmed_at: Time.current
 end
