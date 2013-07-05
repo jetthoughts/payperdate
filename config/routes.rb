@@ -1,4 +1,10 @@
 Payperdate::Application.routes.draw do
+  begin
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  rescue => ex
+    p ex
+  end
   devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout' }, controllers: {registrations: 'users/registrations',
                                                                                          sessions: 'users/sessions',
                                                                                          :omniauth_callbacks => "users/omniauth_callbacks"}
