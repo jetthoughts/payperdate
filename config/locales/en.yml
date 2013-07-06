@@ -24,3 +24,10 @@ en:
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
+  users:
+    errors:
+      current_user_has_no_profile: 'You have no profile, create it now.'
+      foreign_user_has_no_profile: 'Sorry, but this user has no profile yet.'
+  profiles:
+    errors:
+      required_field: 'Field is required'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130625134717) do
+ActiveRecord::Schema.define(version: 20130704065041) do
 
   create_table "authentitications", force: true do |t|
     t.string   "provider",     null: false
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 20130625134717) do
 
   add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
+  create_table "profiles", force: true do |t|
+    t.integer  "user_id",              null: false
+    t.hstore   "general_info"
+    t.hstore   "personal_preferences"
+    t.hstore   "date_preferences"
+    t.hstore   "optional_info"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                             default: "",    null: false

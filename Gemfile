@@ -29,6 +29,7 @@ gem 'fog', '~> 1.3.1'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem "twitter-bootstrap-rails"
+gem 'knockoutjs-rails', '~> 2.2.1', require: 'knockoutjs-rails'
 gem 'therubyracer'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -36,6 +37,10 @@ gem 'jbuilder', '~> 1.2'
 gem 'handy', github: 'bigbinary/handy'
 
 gem 'will_paginate'
+
+gem 'haml', '~> 4.0.0'
+gem 'haml-rails', '~> 0.4'
+gem 'haml-contrib', '~> 1.0.0'
 
 group :development do
   gem 'quiet_assets'
@@ -49,6 +54,18 @@ group :assets do
   gem 'sprockets-rails'
   gem 'uglifier', '>= 1.3.0'
   gem 'coffee-rails', '~> 4.0.0'
+  gem 'RedCloth', '~> 4.2.9'
+  gem 'haml', '~> 4.0.0'
+  gem 'haml-rails', '~> 0.4'
+  gem 'haml-contrib', '~> 1.0.0'
+end
+
+group :development do
+  gem 'sass-rails', '~> 4.0.0'
+  gem 'coffee-rails', '~> 4.0.0'
+  gem 'haml', '~> 4.0.0'
+  gem 'haml-rails', '~> 0.4'
+  gem 'haml-contrib', '~> 1.0.0'
 end
 
 group :test do
