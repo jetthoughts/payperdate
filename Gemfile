@@ -19,8 +19,6 @@ gem 'omniauth'
 gem "omniauth-facebook"
 gem "omniauth-twitter"
 gem 'phony_rails'
-gem 'twilio-ruby'
-
 
 #Upload photo
 gem 'carrierwave'
