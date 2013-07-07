@@ -5,7 +5,7 @@ class Profile < ActiveRecord::Base
   include HstoreProperties
 
   belongs_to :user
-
+  belongs_to :avatar
   # general_info validations
   hstore_validates_presence_of  'general_info.address_line_1',
                                 'general_info.city',
@@ -37,6 +37,10 @@ class Profile < ActiveRecord::Base
   def filled?
     general_info && personal_preferences &&
     date_preferences && optional_info
+  end
+
+  def avatar_url(version=:avatar)
+    (avatar || Avatar.new).image_url(version)
   end
 
 end

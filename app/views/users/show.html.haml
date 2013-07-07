@@ -3,7 +3,7 @@
     .span2.profile-column
       %div
         / need to render photo here
-        [photo]
+        = render 'profile/avatar', {profile: @user.profile}
       %p
         :textile
           *Age:*
@@ -77,7 +77,7 @@
                       failed login counts:
                       = @user.failed_sign_in_count
 
-      - if @user == current_user
+      - if page_owner?
         = link_to 'Edit profile', profile_edit_path, class: 'btn'
 
       :textile

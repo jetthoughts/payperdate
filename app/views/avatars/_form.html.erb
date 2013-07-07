@@ -1,0 +1,7 @@
+<%= link_to 'Upload new avatar', '#', data: { toggle: 'collapse', target: '#new_avatar_form' } -%>
+<div id='new_avatar_form' class="collapse">
+  <div id="progress">
+    <div class="bar" style="width: 0%;"></div>
+  </div>
+  <input id="fileupload" type="file" name="avatar[image]" data-url="<%= avatars_path -%>">
+</div>

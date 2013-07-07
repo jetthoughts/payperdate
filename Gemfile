@@ -58,10 +58,17 @@ gem 'responders', github: 'plataformatec/responders'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
-
+gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', ref: 'aacd75556'
 
 gem 'jquery-fileupload-rails'
+
+# Background jobs
+gem 'redis'
+gem 'slim', '>= 1.1.0'
+gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sidekiq'
+
 
 group :development do
   gem 'quiet_assets'
