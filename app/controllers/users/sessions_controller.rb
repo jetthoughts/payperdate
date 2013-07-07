@@ -6,7 +6,7 @@ class Users::SessionsController < Devise::SessionsController
   def log_failed_login
     if failed_login?
       login = request.filtered_parameters['user']['email']
-      user  = User.find_for_database_authentication(email: login)
+      user = User.find_by_login(login)
       user.failed_login! if user
     end
   end
