@@ -1,7 +1,7 @@
 Payperdate::Application.routes.draw do
   devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout' }, controllers: {registrations: 'users/registrations',
                                                                                          sessions: 'users/sessions',
-                                                                                         :omniauth_callbacks => 'users/omniauth_callbacks'}
+                                                                                         :omniauth_callbacks => "users/omniauth_callbacks"}
 
 
   unauthenticated :user do
@@ -12,9 +12,15 @@ Payperdate::Application.routes.draw do
   authenticated :user do
     root to: 'users#show'
     resources :users do
+      resources :albums, only: :index do
+        resources :photos, only: :index
+      end
     end
-
-    resource :me, only: :show, to: 'users#show' do
+    get '/me', to: 'users#show'
+    scope :me do
+      resources :albums do
+        resources :photos
+      end
     end
 
     get '/profile/edit'

@@ -1,0 +1,38 @@
+class AlbumsController < BaseController
+  respond_to :js, :html
+  def index
+    @albums = selected_user.albums
+  end
+
+  def create
+    @album  = current_user.albums.create(albums_attributes)
+    respond_with(@album)
+  end
+
+  def edit
+    @album = current_user.albums.find(params[:id])
+  end
+
+  def update
+    @album = current_user.albums.find(params[:id])
+    if @album.update_attributes(albums_attributes)
+      redirect_to albums_path
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    album = current_user.albums.find(params[:id])
+    @album_id = dom_id(album)
+    album.destroy
+    respond_with(@album_id)
+  end
+
+  private
+
+  def albums_attributes
+    params.require(:album).permit(:name)
+  end
+
+end
