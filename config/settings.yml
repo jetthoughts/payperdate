@@ -22,21 +22,7 @@ common:
   mailer:
     delivery_method: :test
 
-  twilio:
-    account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
-    auth_token: 3b18fea775dbad1720212f11fffe53ab
-    sms_application_sid: AP4ac1d80b640a005a81d660d59d2bed13
-    from: '+15005550006'
-
 test:
-  s3_bucket: 'playjoiner-development'
-
-  #NOTE: I need setup Sandbox API keys to do not spend real money in tests.
-  twilio:
-    account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
-    auth_token: 3b18fea775dbad1720212f11fffe53ab
-    sms_application_sid: AP4ac1d80b640a005a81d660d59d2bed13
-    from: '+15005550006'
 
 staging:
   s3_bucket: 'payperdate-staging'
