@@ -13,6 +13,17 @@
 
 ActiveRecord::Schema.define(version: 20130704065041) do
 
+  create_table "albums", force: true do |t|
+    t.string   "name",                       null: false
+    t.boolean  "system",     default: false, null: false
+    t.integer  "user_id",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "albums", ["name", "user_id"], name: "index_albums_on_name_and_user_id", unique: true, using: :btree
+  add_index "albums", ["user_id"], name: "index_albums_on_user_id", using: :btree
+
   create_table "authentitications", force: true do |t|
     t.string   "provider",     null: false
     t.integer  "user_id",      null: false
@@ -24,6 +35,16 @@ ActiveRecord::Schema.define(version: 20130704065041) do
 
   add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
+  create_table "photos", force: true do |t|
+    t.integer  "album_id",                    null: false
+    t.string   "image",                       null: false
+    t.integer  "verified_status", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
   create_table "profiles", force: true do |t|
     t.integer  "user_id",              null: false
