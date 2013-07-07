@@ -1,0 +1,120 @@
+empty: '-'
+sex:
+  empty: 
+  items:
+    - M: Male
+    - F: Female
+relationship:
+  empty: 
+  items:
+    - S: Single
+    - D: Divorced
+    - W: Widowed
+    - M: Married
+    - Se: Separated
+    - Da: Dating
+    - C: Cohabiting
+want_relationship:
+  empty: 
+  items:
+    - S: Short Term Relationship
+    - D: Date
+    - F: Friendship
+    - A: Activity Partner
+smoker:
+  empty: Smoking habits?
+  items:
+    - S: Smoker
+    - N: Non-smoker
+    - O: Occasional smoker
+    - D: Don't care
+me_smoker:
+  empty: Smoking habits?
+  items:
+    - S: Smoker
+    - N: Non-smoker
+    - O: Occasional smoker
+drinker:
+  empty: Drinking habits?
+  items:
+    - D: Drink every night
+    - N: Occasionally
+    - ND: Non-drinker
+    - DC: Don't care
+me_drinker:
+  empty: Drinking habits?
+  items:
+    - D: Drink every night
+    - N: Occasionally
+    - ND: Non-drinker
+education:
+  empty: Select education please
+  items:
+    - H: High School
+    - S: Some College
+    - A: Associates Degree
+    - B: Bachelors Degree
+    - G: Graduate Degree
+    - P: Post Doctoral
+body_type:
+  empty: Select body type please
+  items:
+    - S: Slim / Slender
+    - At: Athletic
+    - Av: Average
+    - E: A Few Extra Pounds
+    - F: Full / Overweight
+religion:
+  empty: Select religion please
+  items:
+    - A: Agnostic
+    - B: Buddhist
+    - C: Christian
+    - H: Hindu
+    - J: Jewish
+    - M: Muslim
+    - O: Other Religion
+ethnicity:
+  empty: Select ethnicity please
+  items:
+    - A: Asian
+    - B: Black / African Descent
+    - L: Latin / Hispanic
+    - E: East Indian
+    - M: Middle Eastern
+    - MR: Mixed Race
+    - N: Native American
+    - P: Pacific Islander
+    - W: White / Caucasian
+    - O: Other Ethnicity
+eye_color:
+  empty: Select eye color please
+  items:
+    - black: Black Eyes
+    - blue: Blue Eyes
+    - brown: Brown Eyes
+    - gray: Gray Eyes
+    - green: Green Eyes
+    - other: Other Eyes
+hair_color:
+  empty: Select hair color please
+  items:
+    - A: Auburn Hair
+    - Bla: Black Hair
+    - Blo: Blonde Hair
+    - DBlo: Dark Blonde Hair
+    - LBro: Light Brown Hair
+    - DBro: Dark Brown Hair
+    - G: Gray Hair
+    - R: Red Hair
+    - W: White Hair
+    - O: Other Hair
+children:
+  empty: Select children please
+  items:
+    - N: No Children
+    - 1: 1 Child
+    - 2: 2 Children
+    - 3: 3 Child
+    - More: '> 3 Children'
+
