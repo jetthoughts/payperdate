@@ -12,6 +12,10 @@ when "development"
     config.directory_permissions = 0777
     config.storage               = :file
   end
+when "staging"
+  class ImageUploader < CarrierWave::Uploader::Base
+    include Cloudinary::CarrierWave
+  end
 else
   CarrierWave.configure do |config|
     config.fog_credentials = {

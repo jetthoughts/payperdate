@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :authentitications, dependent: :destroy
   has_one :profile
+  has_many :albums, dependent: :destroy
 
   validates :nickname, :name, presence: true
   validates :nickname, uniqueness: true
@@ -15,6 +16,7 @@ class User < ActiveRecord::Base
 
   include UserAuthMethods
   extend UserOauth
+
 
   def self.find_for_database_authentication(conditions={})
     login = conditions[:email]
