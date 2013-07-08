@@ -72,7 +72,11 @@ group :development do
 end
 
 group :staging do
-  gem "cloudinary"
+  gem 'cloudinary'
+end
+
+group :staging, :production do
+  gem 'rails_12factor'
 end
 
 group :test do
