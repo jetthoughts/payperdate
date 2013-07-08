@@ -3,5 +3,5 @@
   $ bundle
   $ cp config/database.yml.example config/database.yml
   $ edit config/database.yml to use your DB credentials
-  $ rake db:create db:migrate
+  $ rake setup
   $ rails s
