@@ -113,8 +113,8 @@ children:
   empty: Select children please
   items:
     - N: No Children
-    - 1: 1 Child
-    - 2: 2 Children
-    - 3: 3 Child
+    - C1: 1 Child
+    - C2: 2 Children
+    - C3: 3 Child
     - More: '> 3 Children'
 
