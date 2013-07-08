@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
 # Use sqlite3 as the database for Active Record
 gem 'pg'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -14,10 +16,11 @@ gem 'turbolinks'
 #User registrattion
 gem 'devise'
 gem 'cancan'
-gem "recaptcha", :require => "recaptcha/rails"
+gem 'recaptcha', require: 'recaptcha/rails'
 gem 'omniauth'
-gem "omniauth-facebook"
-gem "omniauth-twitter"
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+
 gem 'phony_rails'
 
 #Upload photo
@@ -26,11 +29,12 @@ gem 'mini_magick'
 gem 'fog', '~> 1.3.1'
 
 # Use jquery as the JavaScript library
-gem "jquery-rails"
-gem "twitter-bootstrap-rails"
-gem 'knockoutjs-rails', '~> 2.2.1', require: 'knockoutjs-rails'
+gem 'jquery-rails'
+gem 'twitter-bootstrap-rails'
+gem 'knockoutjs-rails', '~> 2.2.1'
 gem 'fancybox-rails'
 gem 'therubyracer'
+
 #Assets
 gem 'sass-rails', '~> 4.0.0'
 gem 'sprockets-rails'
@@ -54,15 +58,15 @@ gem 'responders', github: 'plataformatec/responders'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
-gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+
+gem 'activeadmin', github: 'gregbell/active_admin', ref: 'aacd75556'
 
 
 gem 'haml', '~> 4.0.0'
 gem 'haml-rails', '~> 0.4'
 gem 'haml-contrib', '~> 1.0.0'
 
-gem "jquery-fileupload-rails"
-gem 'will_paginate'
+gem 'jquery-fileupload-rails'
 
 group :development do
   gem 'quiet_assets'
