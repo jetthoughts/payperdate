@@ -16,9 +16,7 @@ task setup_sample_data: :environment do
   Authentitication.delete_all
 
 
-  AdminUser.create!(email:                 'admin@example.com',
-                    password:              'welcome',
-                    password_confirmation: 'welcome')
+  AdminUser.create!(email: 'admin@example.com', password: 'welcome', password_confirmation: 'welcome')
 
   create_users
 
