@@ -9,6 +9,7 @@ module UserOauth
     nickname = signup_info[:nickname]
     name     = signup_info[:name]
     email    = signup_info[:email]
+
     if (auth = Authentitication.where(provider: provider, uid: uid).first)
       auth.update_attribute(:access_token, token)
       auth.user
@@ -51,10 +52,10 @@ module UserOauth
   end
 
   def find_free_nickname nn
-    res = nn
+    res     = nn
     counter = 2
     while User.where(nickname: res).exists? do
-      res = nn + counter.to_s
+      res     = nn + counter.to_s
       counter += 1
     end
     res

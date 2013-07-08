@@ -8,19 +8,34 @@ task setup: :environment do
   end
 end
 
-
 desc 'Setup sample data'
-
 task setup_sample_data: :environment do
   #raise 'do not run this task in production' if Rails.env.production?
   User.delete_all
+  AdminUser.delete_all
   Authentitication.delete_all
+
+
+  AdminUser.create!(email:                 'admin@example.com',
+                    password:              'welcome',
+                    password_confirmation: 'welcome')
+
   create_users
+
   puts 'setup_sample_data done'
 end
 
 
 def create_users
-  User.create! nickname: 'john', name: 'John Smith', email: 'john.smith@example.com', password: 'welcome', confirmed_at: Time.current
-  User.create! nickname: 'user', name: 'User User', email: 'user@mail.com', password: 'qweqwe', confirmed_at: Time.current
+  create_user('John Smith') # nickname: john, email: john.smith@example.com, password: welcome
+  create_user('User User') # nickname: user, email: user.user@example.com, password: welcome
+end
+
+
+def create_user(name)
+  User.create! nickname:     name.split(' ', 1).first.downcase, # => john
+               name:         name,
+               email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
+               password:     'welcome',
+               confirmed_at: Time.current
 end

@@ -18,8 +18,7 @@ class User < ActiveRecord::Base
   extend UserOauth
 
 
-  def self.find_for_database_authentication(conditions={})
-    login = conditions[:email]
+  def self.find_for_database_authentication(login)
     self.where(nickname: login).limit(1).first || self.where(email: login).limit(1).first
   end
 

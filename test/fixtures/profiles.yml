@@ -1,15 +1,2 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  user_id: 1
-  general_info: 
-  personal_preferences: 
-  date_preferences: 
-  optional_info: 
-
-two:
-  user_id: 1
-  general_info: 
-  personal_preferences: 
-  date_preferences: 
-  optional_info: 
+pauls:
+  user: paul
