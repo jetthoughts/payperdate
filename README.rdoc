@@ -5,3 +5,5 @@
   $ edit config/database.yml to use your DB credentials
   $ rake setup
   $ rails s
+
+Now you can open the url: http://localhost:3000.
