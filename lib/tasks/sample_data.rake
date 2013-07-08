@@ -31,7 +31,7 @@ end
 
 
 def create_user(name)
-  User.create! nickname:     name.split(' ', 1).first.downcase, # => john
+  User.create! nickname:     name.split(' ').first.downcase, # => john
                name:         name,
                email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
                password:     'welcome',

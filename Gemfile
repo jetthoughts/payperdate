@@ -61,11 +61,6 @@ gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
 
 gem 'activeadmin', github: 'gregbell/active_admin', ref: 'aacd75556'
 
-
-gem 'haml', '~> 4.0.0'
-gem 'haml-rails', '~> 0.4'
-gem 'haml-contrib', '~> 1.0.0'
-
 gem 'jquery-fileupload-rails'
 
 group :development do
