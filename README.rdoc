@@ -7,3 +7,23 @@
   $ rails s
 
 Now you can open the url: http://localhost:3000.
+
+
+== Sample Data
+
+=== Admin User
+
+  * email: 'admin@example.com'
+  * password: 'welcome'
+
+=== Users
+
+  * name: John Smith
+  * nickname: john
+  * email: john.smith@example.com
+  * password: welcome
+
+  * name: User User
+  * nickname: user
+  * email: user.user@example.com
+  * password: welcome
