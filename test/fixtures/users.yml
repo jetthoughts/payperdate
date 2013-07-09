@@ -1,7 +1,23 @@
+# User without completed profile filled
 paul:
   email: 'paul@example.com'
-  name: 'Paul'
+  name: 'Paul N'
   nickname: 'paul'
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
-  confirmation_token: "e5FQUVnQnxD9Ax75uGeD"
+
+# User without completed profile filled
+john:
+  email: 'john@example.com'
+  name: 'John Smith'
+  nickname: 'john'
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  confirmed_at: <%= Time.current %>
+
+# User with completed profile filled
+martin:
+  email: 'martin@example.com'
+  name: 'Martin Hunter'
+  nickname: 'martin'
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  confirmed_at: <%= Time.current %>
