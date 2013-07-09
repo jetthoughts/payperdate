@@ -1,6 +1,8 @@
 class AlbumsController < BaseController
+  before_filter :ensure_user_has_filled_profile
   respond_to :js, :html
   load_and_authorize_resource except: [:create]
+
   def index
     @albums = selected_user.albums
   end
@@ -35,5 +37,4 @@ class AlbumsController < BaseController
   def albums_attributes
     params.require(:album).permit(:name)
   end
-
 end

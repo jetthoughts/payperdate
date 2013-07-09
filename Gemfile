@@ -7,6 +7,8 @@ gem 'rails', '4.0.0'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 
+gem 'unicorn'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -53,13 +55,14 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'handy', github: 'bigbinary/handy'
 
-#Admin Panel
+# Admin Panel
 gem 'responders', github: 'plataformatec/responders'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
+
 gem 'kaminari'
-gem 'activeadmin', github: 'gregbell/active_admin', ref: 'aacd75556'
+gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 
 gem 'jquery-fileupload-rails'
 

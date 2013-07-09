@@ -1,0 +1,125 @@
+.row-fluid
+  .span2.profile-column
+    %div
+      / need to render photo here
+      = render 'profile/avatar', profile: profile
+    %p
+      :textile
+        *Age:*
+        #{profile.optional_info['age']}
+
+        ---
+
+        *Body Type:*
+        #{select_title 'body_type', profile.optional_info['body_type']}
+
+        ---
+
+        *Hair / Eyes:*
+        #{select_title 'hair_color', profile.optional_info['hair_color']} / #{select_title 'eye_color', profile.optional_info['eye_color']}
+
+        ---
+
+        *Education*
+        #{select_title 'education', profile.optional_info['education']}
+
+        ---
+
+        *Children*
+        #{select_title 'children', profile.optional_info['children']}
+
+        ---
+
+        *Ethnicity*
+        #{select_title 'ethnicity', profile.optional_info['ethnicity']}
+
+        ---
+
+        *Religion*
+        #{select_title 'religion', profile.optional_info['religion']}
+
+        ---
+
+        *Smoking / Drinking*
+        #{select_title 'me_smoker', profile.optional_info['smoker']} / #{select_title 'me_drinker', profile.optional_info['drinker']}
+
+        ---
+
+  .span10.profile-column
+    :textile
+      h3. #{profile.user.name} <small>(#{select_title 'sex', profile.personal_preferences['sex']})</small>
+
+      ---
+
+      **#{profile.optional_info['age']} / #{profile.general_info['address_line_1']}, #{profile.general_info['address_line_2']} / #{profile.general_info['city']}, #{profile.general_info['state']}**
+
+      __#{profile.general_info['tagline']}__
+
+    / - if profile.user == current_user
+    - if true
+      .row-fluid
+        .span12
+          .accordion#dev_info_accordion
+            .accordion-group
+              .accordion-heading
+                %a.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#dev_info_accordion', href: '#collapse_dev_info' }
+                  Dev info (it will go away)
+              .accordion-body.collapse#collapse_dev_info
+                .accordion-inner
+                  %div
+                    last_sign_in_ip:
+                    = profile.user.last_sign_in_ip
+                  %div
+                    sign_in_count:
+                    = profile.user.sign_in_count
+                  %div
+                    failed login counts:
+                    = profile.user.failed_sign_in_count
+
+    - if profile.user == current_user #
+      = link_to 'Edit profile', edit_profile_path, class: 'btn'
+
+    :textile
+      h3. About
+
+      ---
+
+      h4. About me:
+
+      #{profile.general_info['description']}
+
+      h4. My First Date Expectations:
+
+      #{profile.date_preferences['description']}
+
+      <br>
+
+      *Occupation:*
+      #{profile.optional_info['occupation']}
+
+      ---
+
+      *Annual Income:*
+      #{profile.optional_info['annual_income']}$ per year
+
+      ---
+
+      *Net Worth:*
+      #{profile.optional_info['net_worth']}$
+
+      ---
+
+      *Relationship Status:*
+      #{select_title 'relationship', profile.personal_preferences['relationship']}
+
+      ---
+
+      *Looking To Meet:*
+      #{select_title 'sex', profile.personal_preferences['partners_sex']}
+
+      ---
+
+      *Interested In:*
+      #{select_title 'want_relationship', profile.personal_preferences['want_relationship']}
+
+      ---
