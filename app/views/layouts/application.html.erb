@@ -3,11 +3,9 @@
 <head>
   <title>Payperdate</title>
   <%= stylesheet_link_tag 'application', media: "all", "data-turbolinks-track" => true %>
-  <!-- <%= stylesheet_link_tag params[:controller] %> -->
   <%= csrf_meta_tags %>
 </head>
-<body>
-<div id='turbo_events_controller' class='hide'><%= params[:controller] %></div>
+<body rails-controller='<%= params[:controller] %>' rails-action='<%= params[:action] %>'>
 <%= render 'layouts/nav' %>
 <div class="container-fluid">
 	<%= render 'layouts/flash' %>

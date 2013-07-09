@@ -1,4 +1,36 @@
+<h2>Search</h2>
 <p>
-  [Search fields should be here in future]
+<strong>Basic criterias</strong>
+<hr/>
+<%= form_for_hash @search, :search, search_path, method: :get do |f| %>
+<div class="row-fluid">
+	<div class="span"></div>
+	<% @profile_sections[:primary].each do |sections| sections.each do |section, params| %>
+		<%= render partial: 'search/sections', locals: { params: params, section: section, f: f } %>
+	<% end end %>
+</div>
+<div class="row-fluid">
+	<a class="btn offset9 span2" data-toggle="collapse" href="#" data-target="#collapse_other_criterias">All criterias</a>
+</div>
+<div class="collapse" id="collapse_other_criterias">
+	<br/>
+	<strong>All criterias</strong>
+	<hr/>
+	<div class="row-fluid">
+		<div class="span"></div>
+		<% @profile_sections[:hidden].each do |sections| sections.each do |section, params| %>
+			<%= render partial: 'search/sections', locals: { params: params, section: section, f: f } %>
+		<% end end %>
+	</div>
+</div>
+<%= f.submit 'Search', class: 'span2 btn btn-primary' %>
+<% end %>
 </p>
-<%= render @users -%>
+<h2>Search results</h2>
+<div class="row-fluid">
+	<div class="span"></div>
+	<%= render @users -%>
+</div>
+
+
+

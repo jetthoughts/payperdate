@@ -43,4 +43,24 @@ module SelectHelper
   def select_title(id, value)
     SelectHelper.generated(id)[:hash][value]
   end
+
+  def select_config
+    SelectHelper.selector_config
+  end
+
+  def selects
+    res = {}
+    select_config.each do |key, value|
+      if key != 'empty'
+        res[key] = value['items'].map do |x|
+          ret = nil
+          x.each do |k, v|
+            ret = { key: k, title: v }
+          end
+          ret
+        end
+      end
+    end
+    res
+  end
 end
