@@ -1,0 +1,74 @@
+@import "variables";
+
+:link {
+  color: $pink;
+}
+
+body {
+  padding-top: 40px;
+}
+
+#layer1 {
+  height: 800px;
+  background: url("/assets/layer1_bg_02.jpg") no-repeat;
+  background-size: cover;
+}
+
+#layer2 {
+  padding-top: 200px;
+}
+
+#layer3 {
+  position: relative;
+  z-index: 2;
+  background: $white;
+}
+
+#layer4 {
+  //height: 600px;
+  position: relative;
+  .video-main {
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 0;
+    video {
+      width: 100%;
+      height: auto;
+    }
+
+  }
+  .play {
+    background: $white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+  }
+}
+
+#layer6 {
+  background: darken($white,10%);
+}
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.form-horizontal {
+  .box {
+    background: lighten($black, 40%);
+    border-radius: 20px;
+    padding: 20px 0;
+    margin-bottom: 40px;
+  }
+}
