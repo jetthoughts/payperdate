@@ -23,7 +23,7 @@ task setup_sample_data: :environment do
   User.delete_all
   AdminUser.delete_all
   Authentitication.delete_all
-
+  Album.destroy_all
 
   AdminUser.create!(email: 'admin@example.com', password: 'welcome', password_confirmation: 'welcome')
 

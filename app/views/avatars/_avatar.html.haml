@@ -1,0 +1,4 @@
+#avatar
+  = image_tag  profile.avatar_url
+  - if page_owner?
+    = link_to 'Remove avatar', profile.avatar, method: :delete, data: {confirm: 'Sure?'}, remote: true if profile.avatar.present?

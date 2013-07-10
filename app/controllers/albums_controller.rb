@@ -1,5 +1,6 @@
 class AlbumsController < BaseController
   respond_to :js, :html
+  load_and_authorize_resource except: [:create]
   def index
     @albums = selected_user.albums
   end
