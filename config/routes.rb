@@ -2,6 +2,10 @@ Payperdate::Application.routes.draw do
   begin
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+  authenticate :admin_user do
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+  end
   rescue => ex
     p ex
   end
@@ -24,6 +28,11 @@ Payperdate::Application.routes.draw do
     end
     get '/me', to: 'users#show'
     scope :me do
+      resources :avatars do
+        member do
+          post :use
+        end
+      end
       resources :albums do
         resources :photos
       end

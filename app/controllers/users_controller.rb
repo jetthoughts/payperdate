@@ -2,14 +2,18 @@ class UsersController < BaseController
   layout 'application'
 
   def show
-    @user = foreign_user || current_user
+    @user = selected_user
     ensure_user_has_filled_profile
+  end
+
+  def index
+    @users = User.all
   end
 
   private
 
-  def foreign_user
-    User.find params[:id] if params[:id]
+  def user_param_name
+    :id
   end
 
   def ensure_user_has_filled_profile

@@ -28,6 +28,9 @@ common:
       port: 2525
       authentication: :plain
 
+  redis:
+    url: <%= ENV["REDISTOGO_URL"] || 'redis://localhost:6379' %>
+
 test:
 
 staging:
