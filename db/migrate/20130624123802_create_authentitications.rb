@@ -2,7 +2,6 @@ class CreateAuthentitications < ActiveRecord::Migration
   def change
     enable_extension 'plpgsql'
     enable_extension 'hstore'
-    
     create_table :authentitications do |t|
       t.string :provider, null: false
       t.integer :user_id, null: false
