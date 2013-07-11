@@ -10,6 +10,7 @@ class CreateAuthentitications < ActiveRecord::Migration
       t.string :access_token
       t.timestamps
     end
+
     add_index :authentitications, [:user_id, :provider], unique: true
     add_index :authentitications, [:provider, :uid], unique: true
   end

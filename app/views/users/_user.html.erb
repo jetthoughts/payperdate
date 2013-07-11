@@ -1,4 +1,4 @@
 <div>
   <%= image_tag user.profile.avatar_url(:thumb) -%>
-  <%= link_to user.name, user -%>
+  <%= link_to user.name, user_profile_path(user.profile) -%>
 </div>
