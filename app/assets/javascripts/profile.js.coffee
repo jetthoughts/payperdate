@@ -9,6 +9,6 @@ class ProfileEditorViewModel
         doCare: -> @datePreferences.acceptedDistance.care true
         dontCare: -> @datePreferences.acceptedDistance.care false
 
-if railsController == 'profile'
+if railsController == 'me/profiles'
   window.model = new ProfileEditorViewModel
   ko.applyBindings window.model
