@@ -3,6 +3,8 @@ class PhotosController < BaseController
   respond_to :html, :js
   before_action :find_album
   load_and_authorize_resource except: [:create]
+  before_filter :ensure_user_has_filled_profile
+
 
   def index
     @photos = page_owner? ? @album.photos : @album.photos.approved
