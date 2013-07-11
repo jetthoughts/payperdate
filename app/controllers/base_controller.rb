@@ -29,7 +29,9 @@ class BaseController < ApplicationController
   end
 
   def redirect_to_finish_signup
-    redirect_to edit_user_registration_path, notice: 'Need to complete registration. Fill your email and password' if current_user.registration_incomplete?
+    if current_user.registration_incomplete?
+      redirect_to edit_user_registration_path,
+                  notice: 'Need to complete registration. Fill your email and password'
+    end
   end
-
 end
