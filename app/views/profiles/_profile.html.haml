@@ -53,10 +53,11 @@
 
       **#{profile.optional_info['age']} / #{profile.general_info['address_line_1']}, #{profile.general_info['address_line_2']} / #{profile.general_info['city']}, #{profile.general_info['state']}**
 
+      !#{gmap_for(profile)}!
+
       __#{profile.general_info['tagline']}__
 
-    / - if profile.user == current_user
-    - if true
+    - if can? :manage, profile
       .row-fluid
         .span12
           .accordion#dev_info_accordion
@@ -76,7 +77,7 @@
                     failed login counts:
                     = profile.user.failed_sign_in_count
 
-    - if profile.user == current_user #
+    - if can? :manage, profile
       = link_to 'Edit profile', edit_profile_path, class: 'btn'
 
     :textile
