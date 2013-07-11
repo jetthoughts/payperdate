@@ -31,6 +31,16 @@ class Profile < ActiveRecord::Base
       p.date_preferences['accepted_distance_do_care'] == 'true'
   end
 
+  geocoded_by :full_address   # can also be an IP address
+  after_validation :geocode          # auto-fetch coordinates
+
+  def full_address
+    return nil unless general_info
+
+    attrs = general_info.slice('address_line_1', 'city', 'state', 'zip_code').symbolize_keys
+    I18n.t 'profile.address.full', attrs
+  end
+
   # optional info validations
   # none for now
 
@@ -42,5 +52,4 @@ class Profile < ActiveRecord::Base
   def avatar_url(version=:avatar)
     (avatar || Avatar.new).image_url(version)
   end
-
 end
