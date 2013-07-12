@@ -5,6 +5,21 @@
 <%= form_for @search, as: :search, url: search_path, method: :get do |f| %>
 	<div class="row-fluid">
 		<div class="span"></div>
+		<div class="span5">
+			<label><strong><%= t :where_are_you %></strong></label>
+			<div class="row-fluid">
+				<div><%= f.text_field :location, class: 'span5' %></div>
+			</div>
+		</div>
+		<div class="span5">
+			<label><strong><%= t :max_distance %></strong></label>
+			<div class="row-fluid">
+				<div><%= f.number_field :max_distance, class: 'span5', min: 0 %></div>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span"></div>
 		<% @profile_sections[:primary].each do |criteria| %>
 			<%= render partial: 'search/sections', locals: { criteria: criteria, f: f } %>
 		<% end %>
