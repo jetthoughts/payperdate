@@ -1,9 +1,11 @@
-window.turboEventsReadyList = []
+@turboEventsReadyList = []
 
-window.railsController = ($ '#turbo_events_controller').text()
+@railsController = $('body').attr('rails-controller')
+@railsAction = $('body').attr('rails-action')
+@railsFullAction = "#{railsController}##{railsAction}"
 
-window.ready = (onready) ->
-  window.turboEventsReadyList.unshift onready
+@ready = (onready) ->
+  @turboEventsReadyList.push onready
 
 document.addEventListener 'page:load', ->
   turboEventsReadyList.forEach (onready) -> 
