@@ -20,7 +20,6 @@ module Payperdate
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.assets.initialize_on_precompile = false
     config.assets.precompile += ['rails_admin/rails_admin.css', 'rails_admin/rails_admin.js']
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
   end

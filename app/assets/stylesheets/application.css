@@ -10,7 +10,7 @@
  *
  *= require_self
  *= require fancybox
- *= require_tree .
- *= require bootstrap_and_overrides
- *= require_tree .
+ *= require ./bootstrap_and_overrides
+ *= require ./photos
+ *= require ./landing_page
  */
