@@ -21,4 +21,5 @@
 //= require turbo-events
 
 // everything else from assets
+//= require parallax
 //= require_tree .
