@@ -38,3 +38,9 @@ en:
           attributes:
             image:
               size_too_big: 'Size too big'
+  profile:
+    address:
+      full: "%{address_line_1}, %{city}, %{state} %{zip_code}"
+  tools:
+    gmap:
+      uri: "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=%{latitude}%2C%{longitude}"
