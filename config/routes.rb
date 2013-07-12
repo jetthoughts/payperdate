@@ -50,6 +50,8 @@ Payperdate::Application.routes.draw do
     end
 
     root to: 'users#index'
+    
+    get '/search', to: 'users#search'
   end
 
   get '/about', to: 'pages#about'
