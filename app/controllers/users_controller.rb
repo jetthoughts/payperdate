@@ -16,10 +16,31 @@ class UsersController < BaseController
   end
 
   def setup_profiles_and_users
-    @search = Search.new(params[:search] || {})
-    @profiles = Profile.preload(:user).search_hstore(@search.query)
-    @users = @profiles.map { |profile| profile.user }
-    @users.compact!
+    setup_current_profile
+    setup_search
+    setup_profiles
+    setup_users
+  end
+
+  def setup_current_profile
+    @profile = current_user.profile
+  end
+
+  def setup_search
+    @search = Search.new(params[:search] || @profile.default_search)
+  end
+
+  def setup_profiles
+    @profiles = @profile.near_me(@search.location, @search.max_distance)
+        .preload(:user).search_hstore(@search.query)
     @profile_sections = Profile.searchable_params
+  end
+
+  def setup_users
+    @users = @profiles.map do |profile|
+      profile.user.distance = profile['distance'] unless profile.user.nil?
+      profile.user
+    end
+    @users.compact!
   end
 end

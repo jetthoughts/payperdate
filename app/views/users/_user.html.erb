@@ -2,7 +2,10 @@
 	<div class="span5">
 		<div class="row-fluid search-profile-row">
 			<div class="span3">
-		  		<%= image_tag user.profile.avatar_url(:thumb) -%>
+		  		<p><%= image_tag user.profile.avatar_url(:thumb) -%></p>
+		  		<% if user.distance %>
+		  			<p><em><%= t :distance, distance: number_with_precision(user.distance) %></em></p>
+		  		<% end %>
 			</div>
 			<div class="span9">
 				<p><strong><%= user.nickname %></strong></p>
