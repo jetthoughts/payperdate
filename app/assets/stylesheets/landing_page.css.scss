@@ -27,8 +27,10 @@ body {
 #layer4 {
   //height: 600px;
   position: relative;
+  background: $black;
   .video-main {
-    width: 100%;
+    width: 94%;
+    margin: 0 auto;
     height: auto;
     position: relative;
     z-index: 0;
