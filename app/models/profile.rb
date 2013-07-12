@@ -2,10 +2,23 @@ require 'hstore'
 
 class Profile < ActiveRecord::Base
   extend HstoreValidator
+  extend HstoreSearch
   include HstoreProperties
 
   belongs_to :user
+
   belongs_to :avatar
+
+  @@config_params = YAML.load_file 'config/profile_params.yml'
+
+  def self.editable_params 
+    @@config_params[:editable]
+  end
+
+  def self.searchable_params
+    @@config_params[:searchable]
+  end
+
   # general_info validations
   hstore_validates_presence_of 'general_info.address_line_1',
                                'general_info.city',

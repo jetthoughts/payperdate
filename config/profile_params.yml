@@ -1,0 +1,88 @@
+---
+:editable:
+  :general_info:
+  - :address_line_1
+  - :address_line_2
+  - :city
+  - :state
+  - :zip_code
+  - :tagline
+  - :description
+  :personal_preferences:
+  - :sex
+  - :partners_sex
+  - :relationship
+  - :want_relationship
+  :date_preferences:
+  - :accepted_distance
+  - :accepted_distance_do_care
+  - :smoker
+  - :drinker
+  - :description
+  :optional_info:
+  - :age
+  - :education
+  - :occupation
+  - :annual_income
+  - :net_worth
+  - :height
+  - :body_type
+  - :religion
+  - :ethnicity
+  - :eye_color
+  - :hair_color
+  - :address
+  - :children
+  - :smoker
+  - :drinker
+:searchable:
+  :primary:
+    - personal_preferences:
+      - sex:
+          criteriaSelect: sex
+    - optional_info:
+      - age:
+          criteriaRange: 
+    - general_info:
+      - city:
+          criteriaString: 
+      - state:
+          criteriaString: 
+  :hidden:
+    - personal_preferences:
+      - partners_sex:
+          criteriaSelect: sex
+      - relationship:
+          criteriaSelect: relationship
+      - want_relationship:
+          criteriaSelect: want_relationship
+    - date_preferences:
+      - accepted_distance:
+          criteriaRange: 
+    - optional_info:
+      - education:
+          criteriaSelect: education
+      - occupation:
+          criteriaString: 
+      - annual_income:
+          criteriaRange: 
+      - net_worth:
+          criteriaRange: 
+      - height:
+          criteriaRange: 
+      - body_type:
+          criteriaSelect: body_type
+      - religion:
+          criteriaSelect: religion
+      - ethnicity:
+          criteriaSelect: ethnicity
+      - eye_color:
+          criteriaSelect: eye_color
+      - hair_color:
+          criteriaSelect: hair_color
+      - children:
+          criteriaSelect: children
+      - smoker:
+          criteriaSelect: me_smoker
+      - drinker:
+          criteriaSelect: me_drinker

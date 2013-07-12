@@ -15,7 +15,7 @@ gem 'unicorn'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
-#User registrattion
+# User registrattion
 gem 'devise'
 gem 'cancan'
 gem 'recaptcha', require: 'recaptcha/rails'
@@ -25,7 +25,7 @@ gem 'omniauth-twitter'
 
 gem 'phony_rails'
 
-#Upload photo
+# Upload photo
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog', '~> 1.3.1'
@@ -37,7 +37,7 @@ gem 'knockoutjs-rails', '~> 2.2.1'
 gem 'fancybox-rails'
 gem 'therubyracer'
 
-#Assets
+# Assets
 gem 'sass-rails', '~> 4.0.0'
 gem 'sprockets-rails'
 gem 'uglifier', '>= 1.3.0'
@@ -73,6 +73,8 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'sidekiq'
 
 gem 'geocoder'
+# Search (already added in admin panel)
+# gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 
 group :development do
   gem 'quiet_assets'
