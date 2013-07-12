@@ -1,20 +1,58 @@
 Payperdate::Application.routes.draw do
-  devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout' }, controllers: {registrations: 'users/registrations',
-                                                                                         sessions: 'users/sessions',
-                                                                                         :omniauth_callbacks => "users/omniauth_callbacks"}
+
+  begin
+    devise_for :admin_users, ActiveAdmin::Devise.config
+    ActiveAdmin.routes(self)
+    authenticate :admin_user do
+      require 'sidekiq/web'
+      mount Sidekiq::Web => '/sidekiq'
+    end
+  rescue => ex
+    p ex
+  end
+
+  devise_for :users,
+             path_names:  { sign_in: 'login', sign_out: 'logout' },
+             controllers: { registrations:      'users/registrations',
+                            sessions:           'users/sessions',
+                            omniauth_callbacks: 'users/omniauth_callbacks' }
 
 
   unauthenticated :user do
     root to: 'pages#landing', as: :guest_root
+    match '*missing' => 'pages#landing', via: [:get, :post]
   end
 
   authenticated :user do
-    root to: 'users#show'
     resources :users do
+      resource :profile
 
+      resources :albums, only: :index do
+        resources :photos, only: :index
+      end
     end
-    resource :me, only: :show, to: 'users#show' do
+
+    get '/me', to: 'me/profiles#show'
+
+    scope :me do
+      resources :avatars do
+        member do
+          post :use
+        end
+      end
+      resources :albums do
+        resources :photos
+      end
     end
+
+    namespace :me, as: '' do
+      resource :profile
+    end
+
+    root to: 'users#index'
+    
+    get '/search', to: 'users#search'
   end
+
   get '/about', to: 'pages#about'
 end

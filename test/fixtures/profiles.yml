@@ -1,0 +1,44 @@
+pauls:
+  user: paul
+
+johns:
+  user: john
+
+martins:
+  user: martin
+  general_info:
+    city: Miami
+    state: Florida
+    tagline: Testing new waters.
+    zip_code: '33144'
+    description: Fun, educated, intelligent but very busy schedule, so no time for games.
+    address_line_1: 21 SW 59th Ave
+    address_line_2: ''
+  personal_preferences:
+    sex: M
+    partners_sex: F
+    relationship: M
+    want_relationship: D
+  date_preferences:
+    smoker: D
+    drinker: DC
+    description: Something that would surprise both people involved. I am a very busy
+      man and time is go out and meet new friends is not as much as I would like.
+      I am interested in a fun person that I can share some private time with.
+    accepted_distance_do_care: 'false'
+  optional_info:
+    age: '39'
+    height: '191'
+    smoker: O
+    address: ''
+    drinker: N
+    children: N
+    religion: C
+    body_type: Av
+    education: G
+    ethnicity: W
+    eye_color: brown
+    net_worth: ''
+    hair_color: LBro
+    occupation: International trade
+    annual_income: ''

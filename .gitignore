@@ -21,6 +21,10 @@ doc/
 .project
 .DS_Store
 .idea
+
 config/database.yml
-public/uploads
+
 vendor/ruby
+
+public/uploads
+public/assets

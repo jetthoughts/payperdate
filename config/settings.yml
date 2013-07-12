@@ -21,22 +21,17 @@ common:
 
   mailer:
     delivery_method: :test
+    smtp_settings:
+      user_name: 'payperdate-staging'
+      password:  '90e60916630bd963'
+      address: mailtrap.io
+      port: 2525
+      authentication: :plain
 
-  twilio:
-    account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
-    auth_token: 3b18fea775dbad1720212f11fffe53ab
-    sms_application_sid: AP4ac1d80b640a005a81d660d59d2bed13
-    from: '+15005550006'
+  redis:
+    url: <%= ENV["REDISTOGO_URL"] || 'redis://localhost:6379' %>
 
 test:
-  s3_bucket: 'playjoiner-development'
-
-  #NOTE: I need setup Sandbox API keys to do not spend real money in tests.
-  twilio:
-    account_sid: AC3ba3aa95e96484be85de0a54d158c8c1
-    auth_token: 3b18fea775dbad1720212f11fffe53ab
-    sms_application_sid: AP4ac1d80b640a005a81d660d59d2bed13
-    from: '+15005550006'
 
 staging:
   s3_bucket: 'payperdate-staging'
@@ -44,12 +39,6 @@ staging:
   host: payperdate-staging.herokuapp.com
   mailer:
     delivery_method: :smtp
-    smtp_settings:
-      user_name: 'payperdate-e2628fe3aea4a5d8'
-      password:  '7a0189049f61178d'
-      address: mailtrap.io
-      port: 2525
-      authentication: :plain
 
   facebook:
     app_id: 465140673576329

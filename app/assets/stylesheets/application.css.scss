@@ -9,6 +9,12 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require bootstrap_and_overrides
+ *= require fancybox
+ *= require ./bootstrap_and_overrides
+ *= require ./photos
+ *= require ./landing_page
  */
-@charset "UTF-8";
+
+@import "fancybox";
+@import "profile";
+@import "search";

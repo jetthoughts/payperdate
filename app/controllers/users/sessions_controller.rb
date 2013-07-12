@@ -5,14 +5,14 @@ class Users::SessionsController < Devise::SessionsController
 
   def log_failed_login
     if failed_login?
-      login = request.filtered_parameters["user"]["email"]
-      user = User.find_for_database_authentication(email: login)
+      login = request.filtered_parameters['user']['email']
+      user = User.find_by_login(login)
       user.failed_login! if user
     end
   end
 
   def failed_login?
-    (options = env["warden.options"]) && options[:action] == "unauthenticated"
+    (options = env['warden.options']) && options[:action] == 'unauthenticated'
   end
 
   def after_sign_in_path_for(resource)

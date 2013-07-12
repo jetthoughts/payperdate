@@ -24,3 +24,23 @@ en:
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
+  users:
+    errors:
+      current_user_has_no_profile: 'You have no profile, create it now.'
+      foreign_user_has_no_profile: 'Sorry, but this user has no profile yet.'
+  profiles:
+    errors:
+      required_field: 'Field is required'
+  activerecord:
+    errors:
+      models:
+        photo:
+          attributes:
+            image:
+              size_too_big: 'Size too big'
+  profile:
+    address:
+      full: "%{address_line_1}, %{city}, %{state} %{zip_code}"
+  tools:
+    gmap:
+      uri: "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=%{latitude}%2C%{longitude}"

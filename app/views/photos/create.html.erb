@@ -1,0 +1,5 @@
+<%- if @photo.persisted? -%>
+  <%= render @photo %>
+<%- else -%>
+  <%= @photo.errors.messages.first -%>
+<%- end -%>

@@ -17,9 +17,9 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: playjoiner_development
+  database: payperdate_development
   pool: 5
-  username: playjoiner
+  username: payperdate
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -46,15 +46,15 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: playjoiner_test
+  database: payperdate_test
   pool: 5
-  username: playjoiner
+  username: payperdate
   password:
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: playjoiner_production
+  database: payperdate_production
   pool: 5
-  username: playjoiner
+  username: payperdate
   password:

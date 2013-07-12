@@ -2,13 +2,15 @@
 <html>
 <head>
   <title>Payperdate</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag 'application', media: "all", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-<%= render 'layouts/nav' -%>
-<%= render 'layouts/flash' -%>
-<%= yield %>
+<body rails-controller='<%= params[:controller] %>' rails-action='<%= params[:action] %>'>
+<%= render 'layouts/nav' %>
+<div class="container-fluid">
+	<%= render 'layouts/flash' %>
+	<%= yield %>
+</div>
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 </body>
 </html>

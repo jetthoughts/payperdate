@@ -5,26 +5,28 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
+  has_one :profile
+  has_many :albums, dependent: :destroy
 
   validates :nickname, :name, presence: true
   validates :nickname, uniqueness: true
   validates :phone, uniqueness: true, allow_nil: true
 
+  after_create { build_profile.save! }
+
   include UserAuthMethods
   extend UserOauth
 
-  def self.find_for_database_authentication(conditions={})
-    login = conditions[:email]
-    self.where(nickname: login).limit(1).first || self.where(email: login).limit(1).first
+  def self.find_for_database_authentication(conditions = {})
+    find_by_login(conditions[:email])
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
-    if (login = conditions.delete(:email))
-      self.where(email: login).limit(1).first || self.where(nickname: login).limit(1).first
-    else
-      self.where(conditions).first
-    end
+    (login = conditions.delete(:email)) ? find_by_login(login) : self.where(conditions).first
+  end
 
+  def self.find_by_login(login)
+    self.where(email: login).limit(1).first || self.where(nickname: login).limit(1).first
   end
 end

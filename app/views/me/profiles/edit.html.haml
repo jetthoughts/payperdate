@@ -1,0 +1,133 @@
+= form_for @profile do |f|
+  .row-fluid
+    .span9
+      %h2 Edit profile
+    .span2
+      - if @profile.filled?
+        %button.btn.btn-success.span12{ href: '#' }
+          Save profile
+
+  %hr
+
+  .row-fluid
+    .span12
+      - @profile.errors.full_messages.each do |msg|
+        %p= msg.html_safe
+      .accordion#profile_master_accordion
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_general_info' }
+              General info (required)
+          .accordion-body.collapse.in#collapse_general_info
+            .accordion-inner
+              = f.label :location
+              %div
+                = f.text_field 'general_info[address_line_1]', placeholder: 'Address Line 1'
+                = f.text_field 'general_info[address_line_2]', placeholder: 'Address Line 2 (not required)'
+                = f.text_field 'general_info[city]', placeholder: 'City'
+                = f.text_field 'general_info[state]', placeholder: 'State'
+                = f.text_field 'general_info[zip_code]', placeholder: 'Zip Code'
+              = f.label :about_yourself
+              %div
+                = f.text_field 'general_info[tagline]', placeholder: 'Tagline', 'class' => 'span11'
+                %br
+                = f.text_area 'general_info[description]', placeholder: 'Overall Description', 'class' => 'span11', rows: 5
+              .row
+                %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_personal_pref' }
+                  Next
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_personal_pref' }
+              Personal preferences (required)
+          .accordion-body.collapse#collapse_personal_pref
+            .accordion-inner
+              = f.label 'Who are you?'
+              %div= f.select 'personal_preferences[sex]', select_options('sex')
+              = f.label 'Looking for?'
+              %div= f.select 'personal_preferences[partners_sex]', select_options('sex')
+              = f.label 'Relationship status'
+              %div= f.select 'personal_preferences[relationship]', select_options('relationship')
+              = f.label 'What are you looking for'
+              %div= f.select 'personal_preferences[want_relationship]', select_options('want_relationship')
+              .row
+                %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_date_pref' }
+                  Next
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_date_pref' }
+              Date preferences (required)
+          .accordion-body.collapse#collapse_date_pref
+            .accordion-inner
+              %label
+                :textile
+                  Accepted distance up to
+                  _(in kilometers)_
+              .form-vertical-padded
+                .form-horizontal
+                  = f.hidden_field 'date_preferences[accepted_distance_do_care]', id: 'date_preferences_accepted_distance_do_care'
+                  / ko if: datePreferences.acceptedDistance.care()
+                  = f.hidden_field 'date_preferences[accepted_distance_do_care]', value: true
+                  = f.number_field 'date_preferences[accepted_distance]'
+                  %a.btn{ href: '#', 'data-bind' => '{ click: datePreferences.acceptedDistance.dontCare }' } Don't care
+                  / /ko
+                  / ko ifnot: datePreferences.acceptedDistance.care()
+                  = f.hidden_field 'date_preferences[accepted_distance_do_care]', value: false
+                  I don't care
+                  %a.btn{ href: '#', 'data-bind' => '{ click: datePreferences.acceptedDistance.doCare }' } Do care
+                  / /ko
+              = f.label 'Smoking and drinking habits of partner'
+              %div
+                = f.select 'date_preferences[smoker]', select_options('smoker')
+                = f.select 'date_preferences[drinker]', select_options('drinker')
+              %div= f.text_area 'date_preferences[description]', placeholder: 'Description for the date', rows: 5, class: :span11
+              .row
+                %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_optional_info' }
+                  Next
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_optional_info' }
+              Optional info about yourself
+          .accordion-body.collapse#collapse_optional_info
+            .accordion-inner
+              = f.label :age
+              %div= f.number_field 'optional_info[age]'
+              = f.label :education
+              %div
+                = f.select 'optional_info[education]', select_options('education')
+              %label
+                Wealth in $
+                %a{ 'data-toggle' => 'tooltip', 'title' => '<strong>Annual income</strong> - your yearly income with applied taxes<br/><strong>Net worth</strong> - the amount by which your assets exceed your liabilities', rel: :tooltip, href: '#', 'data-html' => 'true', 'data-placement' => 'right' }
+                  %i.icon-question-sign= ' '
+              %div
+                = f.text_field 'optional_info[occupation]', placeholder: 'Occupation'
+                = f.number_field 'optional_info[annual_income]', placeholder: 'Annual income', 'data-toggle' => 'tooltip', 'title' => 'Your yearly income with applied taxes', rel: :tooltip
+                = f.number_field 'optional_info[net_worth]', placeholder: 'Net worth', 'data-toggle' => 'tooltip', 'title' => 'The amount by which your assets exceed your liabilities', rel: :tooltip
+              = f.label :physique
+              %div
+                = f.number_field 'optional_info[height]', placeholder: 'Height in cm'
+                = f.select 'optional_info[body_type]', select_options('body_type')
+              = f.label :religion
+              %div= f.select 'optional_info[religion]', select_options('religion')
+              = f.label :ethnicity
+              %div= f.select 'optional_info[ethnicity]', select_options('ethnicity')
+              = f.label 'Appearance (eye and hair color)'
+              %div
+                = f.select 'optional_info[eye_color]', select_options('eye_color')
+                = f.select 'optional_info[hair_color]', select_options('hair_color')
+              = f.label :address
+              %div= f.text_field 'optional_info[address]'
+              = f.label :children
+              %div= f.select 'optional_info[children]', select_options('children')
+              = f.label 'Smoking and drinking habits'
+              %div
+                = f.select 'optional_info[smoker]', select_options('me_smoker')
+                = f.select 'optional_info[drinker]', select_options('me_drinker')
+              .row
+                %button.btn.btn-success.span2.offset9{ href: '#' }
+                  - if @profile.filled?
+                    Save profile
+                  - else
+                    Create profile
+
+
+

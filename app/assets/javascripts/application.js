@@ -12,6 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require fancybox
 //= require twitter/bootstrap
+//= require knockout
+//= require jquery-fileupload/basic
 
+// from assets, but should load first
+//= require turbo-events
+
+// everything else from assets
+//= require parallax
 //= require_tree .
