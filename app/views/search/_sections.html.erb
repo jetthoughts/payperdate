@@ -1,37 +1,9 @@
-<% params.each do |param| param.each do |key, value| %>
-	<div class="span5">
-		<label><strong><%= t key %></strong></label>
-		<% value.each do |type, subtype| %>
-			<% if type == 'criteriaString' %>
-				<div class="row-fluid">
-					<div><%= f.text_field "#{section}_hstore[#{key}_cont]", class: 'span5' %></div>
-				</div>
-			<% elsif type == 'criteriaRange' %>
-				<div class="row-fluid">
-					<div class="span5">
-						<div class="row-fluid">
-							<label><em>from</em></label>
-							<div><%= f.number_field "#{section}_hstore[#{key}_gteg]", class: 'span12' %></div>
-						</div>
-					</div>
-					<div class="span5 offset1">
-						<div class="row-fluid">
-							<label><em>to</em></label>
-							<div><%= f.number_field "#{section}_hstore[#{key}_lteg]", class: 'span12' %></div>
-						</div>
-					</div>
-				</div>
-			<% elsif type == 'criteriaSelect' %>
-				<% selects[subtype].each do |select| %>
-					<label class="checkbox">
-						<% checked = false %>
-						<% checked = true if @search && @search["#{section}_hstore"] && @search["#{section}_hstore"]["#{key}_in"] && @search["#{section}_hstore"]["#{key}_in"]["#{select[:key]}"] == 'on' %>
-						<input type="checkbox" name='<%= "search[#{section}_hstore[#{key}_in[#{select[:key]}]]]" %>' <% if checked %>checked=checked<% end %>></input>
-						<span><%= select[:title] %></span>
-					</label>
-				<% end %>
-			<% end %>
-		<% end %>
-		<br/>
-	</div>
-<% end end %>
+<% section = criteria[:section] %>
+<% key = criteria[:key] %>
+<% type = criteria[:type] %>
+<% subtype = criteria[:subtype] %>
+<div class="span5">
+	<label><strong><%= t key %></strong></label>
+	<%= render partial: "search/criterias/#{type}", locals: { section: section, key: key, subtype: subtype, f: f } %>
+	<br/>
+</div>

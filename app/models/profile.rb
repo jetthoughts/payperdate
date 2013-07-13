@@ -9,15 +9,50 @@ class Profile < ActiveRecord::Base
 
   belongs_to :avatar
 
-  @@config_params = YAML.load_file 'config/profile_params.yml'
-
-  def self.editable_params 
-    @@config_params[:editable]
+  def self.editable_params
+    {
+      general_info: [:address_line_1, :address_line_2, :city, :state, :zip_code,
+                     :tagline, :description],
+      personal_preferences: [:sex, :partners_sex, :relationship, :want_relationship],
+      date_preferences: [:accepted_distance, :accepted_distance_do_care, :smoker,
+                         :drinker, :description],
+      optional_info: [:age, :education, :occupation, :annual_income, :net_worth,
+                      :height, :body_type, :religion, :ethnicity, :eye_color,
+                      :hair_color, :address, :children, :smoker, :drinker]
+    }
   end
 
   def self.searchable_params
-    @@config_params[:searchable]
+    {
+      primary: [
+        { section: 'personal_preferences', key: 'sex', type: :select, subtype: 'sex' },
+        { section: 'optional_info', key: 'age', type: :range },
+        { section: 'general_info', key: 'city', type: :string },
+        { section: 'general_info', key: 'state', type: :string }
+      ],
+      hidden: [
+        { section: 'personal_preferences', key: 'partners_sex', type: :select, subtype: 'sex' },
+        { section: 'personal_preferences', key: 'relationship', type: :select, subtype: 'relationship' },
+        { section: 'personal_preferences', key: 'want_relationship', type: :select, subtype: 'want_relationship' },
+        { section: 'date_preferences', key: 'accepted_distance', type: :range },
+        { section: 'optional_info', key: 'education', type: :select, subtype: 'education' },
+        { section: 'optional_info', key: 'occupation', type: :string },
+        { section: 'optional_info', key: 'annual_income', type: :range },
+        { section: 'optional_info', key: 'net_worth', type: :range },
+        { section: 'optional_info', key: 'height', type: :range },
+        { section: 'optional_info', key: 'body_type', type: :select, subtype: 'body_type' },
+        { section: 'optional_info', key: 'religion', type: :select, subtype: 'religion' },
+        { section: 'optional_info', key: 'ethnicity', type: :select, subtype: 'ethnicity' },
+        { section: 'optional_info', key: 'eye_color', type: :select, subtype: 'eye_color' },
+        { section: 'optional_info', key: 'hair_color', type: :select, subtype: 'hair_color' },
+        { section: 'optional_info', key: 'children', type: :select, subtype: 'children' },
+        { section: 'optional_info', key: 'smoker', type: :select, subtype: 'me_smoker' },
+        { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
+      ]
+    }
   end
+
+  before_validation { filled = filled? }
 
   # general_info validations
   hstore_validates_presence_of 'general_info.address_line_1',
@@ -39,19 +74,29 @@ class Profile < ActiveRecord::Base
     p.filled?
   end
 
+  validate :valid_address?, if: :filled?
+
   hstore_validates_presence_of 'date_preferences.accepted_distance' do |p|
     p.date_preferences &&
       p.date_preferences['accepted_distance_do_care'] == 'true'
   end
 
   geocoded_by :full_address   # can also be an IP address
-  after_validation :geocode          # auto-fetch coordinates
+  # before_validation :geocode          # auto-fetch coordinates
 
   def full_address
     return nil unless general_info
 
     attrs = general_info.slice('address_line_1', 'city', 'state', 'zip_code').symbolize_keys
     I18n.t 'profile.address.full', attrs
+  end
+
+  def valid_address?
+    geocode
+    unless latitude && longitude
+      errors['address'] = I18n.t('profiles.errors.invalid_address')
+    end
+    latitude && longitude
   end
 
   # optional info validations
