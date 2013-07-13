@@ -1,6 +1,10 @@
 begin
   ActiveAdmin.setup do |config|
 
+    # Cancan integration
+    config.authorization_adapter = ActiveAdmin::CanCanAdapter
+    config.cancan_ability_class = 'AdminAbility'
+
     # == Site Title
     #
     # Set the title that is displayed on the main layout
