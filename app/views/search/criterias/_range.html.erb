@@ -1,0 +1,14 @@
+<div class="row-fluid">
+	<div class="span5">
+		<div class="row-fluid">
+			<label><em>from</em></label>
+			<div><%= f.number_field "#{section}_hstore[#{key}_gteg]", class: 'span12' %></div>
+		</div>
+	</div>
+	<div class="span5 offset1">
+		<div class="row-fluid">
+			<label><em>to</em></label>
+			<div><%= f.number_field "#{section}_hstore[#{key}_lteg]", class: 'span12' %></div>
+		</div>
+	</div>
+</div>

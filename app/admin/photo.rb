@@ -6,6 +6,7 @@ ActiveAdmin.register Photo do
   scope :declined
 
   batch_action :approve  do |selection|
+    authorize! :approve, Photo
     Photo.find(selection).each do |photo|
       photo.approve!
     end
@@ -13,6 +14,7 @@ ActiveAdmin.register Photo do
   end
 
   batch_action :decline  do |selection|
+    authorize! :decline, Photo
     Photo.find(selection).each do |photo|
       photo.decline!
     end

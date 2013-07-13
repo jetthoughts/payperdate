@@ -8,7 +8,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should be able to view all users' do
+  test 'should not be able to view all users when profile is not filled' do
     sign_in users(:paul)
 
     get :index
@@ -16,7 +16,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'should be able to see search form' do
-    sign_in users(:paul)
+    sign_in users(:martin)
 
     get :index
     assert_response :success
@@ -24,9 +24,9 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'should be able to search' do
-    sign_in users(:paul)
+    sign_in users(:martin)
 
-    get :search, { search: {} }
+    get :search, search: {}
     assert_response :success
   end
 end
