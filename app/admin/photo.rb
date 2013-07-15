@@ -5,24 +5,27 @@ ActiveAdmin.register Photo do
   scope :approved
   scope :declined
 
-  batch_action :approve  do |selection|
+  batch_action :approve do |selection|
     authorize! :approve, Photo
+
     Photo.find(selection).each do |photo|
       photo.approve!
     end
-    redirect_to [:admin, :photos]
+    redirect_to admin_photos_path
   end
 
-  batch_action :decline  do |selection|
+  batch_action :decline do |selection|
     authorize! :decline, Photo
+
     Photo.find(selection).each do |photo|
       photo.decline!
     end
-    redirect_to [:admin, :photos]
+    redirect_to admin_photos_path
   end
 
   index title: 'Photos', download_links: false do
     selectable_column
+
     column :user do |r|
       link_to r.user.name, [:admin, r.user]
     end
@@ -32,6 +35,11 @@ ActiveAdmin.register Photo do
         image_tag r.image.url(:medium)
       end
     end
+
+    column :photo_nudity_status do |photo|
+      photo.nudity
+    end
+
     default_actions
   end
 

@@ -8,7 +8,7 @@ class Photo < ActiveRecord::Base
   validates :image,
             presence:  true,
             file_size: {
-                maximum: 5.megabytes.to_i
+              maximum: 5.megabytes.to_i
             }
 
   delegate :user_id, :user, to: :album, allow_nil: true
@@ -27,6 +27,8 @@ class Photo < ActiveRecord::Base
 
   validates :album, presence: true
 
+  after_create :schedule_nudity_validation
+
   def approve!
     self.verified_status = VerifiedStatus.approved
     save!
@@ -38,5 +40,26 @@ class Photo < ActiveRecord::Base
     NotificationMailer.delay.photo_was_declined(user_id, image.url(:medium))
   end
 
+  def validate_nudity!
+    self.image.cache!
+    raise 'image should be cached before testing nudity' unless self.image.cached?
+    nude_status = nudity_detector_service.nude?(self.image.path)
+    self.update! nude: nude_status, nudity: nude_status ? 1 : 0
+  end
+
+  def self.validate_nudity!
+    where(nudity: nil).find_each(lock: true) do |photo|
+      photo.validate_nudity!
+    end
+  end
+
+  def nudity_detector_service
+    NudityDetectorService.instance
+  end
+
+  private
+  def schedule_nudity_validation
+    Delayed::Job.enqueue ValidateNudityJob.new(self.id)
+  end
 end
 
