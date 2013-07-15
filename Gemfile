@@ -30,21 +30,24 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog', '~> 1.3.1'
 
-# Use jquery as the JavaScript library
+
+# Assets
+
+## Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
+gem 'jquery-fileupload-rails'
 gem 'knockoutjs-rails', '~> 2.2.1'
 gem 'fancybox-rails'
 gem 'therubyracer'
 
-# Assets
+gem 'coffee-rails', '~> 4.0.0'
+
 gem 'sass-rails', '~> 4.0.0'
 gem 'sprockets-rails'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
 
-gem 'sprockets-rails'
-
+# View
 gem 'RedCloth', '~> 4.2.9'
 gem 'haml', '~> 4.0.0'
 gem 'haml-rails', '~> 0.4'
@@ -63,16 +66,15 @@ gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
 
 gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+gem 'state_machine'
 
-gem 'jquery-fileupload-rails'
 
 # Background jobs
-gem 'redis'
-gem 'slim', '>= 1.1.0'
-gem 'sinatra', '>= 1.3.0', :require => nil
-gem 'sidekiq'
+gem 'delayed_job_active_record', '>= 4.0.0.beta1'
+gem 'delayed_job_web'
 
 gem 'geocoder'
+gem 'nude'
 # Search (already added in admin panel)
 # gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 
