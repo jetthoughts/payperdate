@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130711145731) do
+ActiveRecord::Schema.define(version: 20130713223115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 20130711145731) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.hstore   "permissions"
+    t.boolean  "master"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -79,6 +81,7 @@ ActiveRecord::Schema.define(version: 20130711145731) do
     t.integer  "avatar_id"
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "filled"
   end
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree

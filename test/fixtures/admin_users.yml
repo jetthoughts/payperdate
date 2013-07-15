@@ -1,0 +1,13 @@
+# Master admin user
+admin:
+  email: admin@example.com
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  master: true
+  permissions: {}
+
+# Non master admin user
+john:
+  email: john.black@example.com
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  master: false
+  permissions: {}
