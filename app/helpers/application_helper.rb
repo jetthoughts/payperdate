@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def spinner
+  def spinner_tag
     image_tag 'spinner.gif'
   end
 end
