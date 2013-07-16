@@ -48,21 +48,27 @@ module HstoreSearch
 
   private
 
-    def search_cont(hstore, key, value)
-      { where: " lower(#{hstore} -> ?) like ? ", params: [key, "%#{value.downcase}%"] }
-    end
+  def search_cont(hstore, key, value)
+    { where: " lower(#{hstore} -> ?) like ? ", params: [key, "%#{value.downcase}%"] }
+  end
 
-    def search_gteg(hstore, key, value)
-      { where: " #{hstore} -> ? != '' and cast(#{hstore} -> ? as integer) >= ? ", params: [key, key, value.to_i] }
-    end
+  def search_gteg(hstore, key, value)
+    {
+      where: " #{hstore} -> ? != '' and cast(#{hstore} -> ? as integer) >= ? ",
+      params: [key, key, value.to_i]
+    }
+  end
 
-    def search_lteg(hstore, key, value)
-      { where: " #{hstore} -> ? != '' and cast(#{hstore} -> ? as integer) <= ? ", params: [key, key, value.to_i] }
-    end
+  def search_lteg(hstore, key, value)
+    {
+      where: " #{hstore} -> ? != '' and cast(#{hstore} -> ? as integer) <= ? ",
+      params: [key, key, value.to_i]
+    }
+  end
 
-    def search_in(hstore, key, values)
-      { where: " #{hstore} -> ? in (?) ", params: [key, values] }
-    end
+  def search_in(hstore, key, values)
+    { where: " #{hstore} -> ? in (?) ", params: [key, values] }
+  end
 end
 
 module HstoreProperties
@@ -72,13 +78,22 @@ module HstoreProperties
 
   private
 
-    def parse_hstore_property(string)
-      # example of matched string: 'general_info[:address_line_1]'
-      /^([a-z0-9_]*)\[([a-z0-9_]*)\]$/.match string
-    end
+  def parse_hstore_property(string)
+    # example of matched string: 'general_info[address_line_1]' 
+    # or 'personal_preferences_hstore[sex_in[F]]'
+    /^([a-z0-9_]*)\[([a-z0-9_\[\]]*)\]$/.match string
+  end
 
-    def hstore_property(string)
-      property = parse_hstore_property(string)
-      property && send(property[1]) && send(property[1])[property[2]]
+  def hstore_property(string)
+    property = parse_hstore_property(string)
+    if property
+      obj = self.send(property[1])
+      while property && obj
+        string = property[2]
+        property = parse_hstore_property(string)
+        obj = obj[property[1]] if property
+      end
     end
+    string && obj && obj[string]
+  end
 end
