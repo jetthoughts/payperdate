@@ -11,15 +11,15 @@ class UsersController < BaseController
 
   private
 
-    def user_param_name
-      :id
-    end
+  def user_param_name
+    :id
+  end
 
-    def setup_profiles_and_users
-      @search = params[:search] || {}
-      @profiles = Profile.preload(:user).search_hstore(@search)
-      @users = @profiles.map { |profile| profile.user }
-      @users = @users.select { |user| not user.nil? }
-      @profile_sections = Profile.searchable_params
-    end
+  def setup_profiles_and_users
+    @search = Search.new(params[:search] || {})
+    @profiles = Profile.preload(:user).search_hstore(@search.query)
+    @users = @profiles.map { |profile| profile.user }
+    @users.compact!
+    @profile_sections = Profile.searchable_params
+  end
 end

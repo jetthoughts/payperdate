@@ -49,17 +49,10 @@ module SelectHelper
   end
 
   def selects
-    res = {}
-    select_config.each do |key, value|
-      if key != 'empty'
-        res[key] = value['items'].map do |x|
-          ret = nil
-          x.each do |k, v|
-            ret = { key: k, title: v }
-          end
-          ret
-        end
-      end
+    res = select_config.clone
+    res.delete 'empty'
+    res.map do |key, value|
+      res[key] = value['items'].map { |x| { key: x.first[0], title: x.first[1] } }
     end
     res
   end
