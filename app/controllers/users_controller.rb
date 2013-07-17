@@ -31,7 +31,8 @@ class UsersController < BaseController
   end
 
   def setup_profiles
-    @profiles = @profile.near_me(@search.location, @search.max_distance)
+    @profiles = @profile
+        .near_me(@search.location, @search.max_distance)
         .preload(:user).search_hstore(@search.query)
     @profile_sections = Profile.searchable_params
   end
