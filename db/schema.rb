@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130716093738) do
+ActiveRecord::Schema.define(version: 20130721081703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20130716093738) do
     t.datetime "updated_at"
     t.boolean  "nude",            default: false
     t.float    "nudity"
+    t.integer  "declined_reason"
   end
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
