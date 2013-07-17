@@ -1,22 +1,37 @@
 require 'carrierwave/orm/activerecord'
 
+module Cloudinary::CarrierWave
+  alias old_cache! cache!
+
+  def cache!(new_file = sanitized_file)
+    old_cache!(new_file)
+  end
+end
+
 case Rails.env
   when 'test'
+
     CarrierWave.configure do |config|
       config.storage           = :file
       config.enable_processing = false
     end
+
   when 'development'
+
     CarrierWave.configure do |config|
       config.permissions           = 0666
       config.directory_permissions = 0777
       config.storage               = :file
     end
+
   when 'staging'
+
     class ImageUploader < CarrierWave::Uploader::Base
       include Cloudinary::CarrierWave
     end
+
   else
+
     CarrierWave.configure do |config|
       config.fog_credentials = {
         provider:              'AWS', # required
@@ -29,4 +44,5 @@ case Rails.env
       config.fog_attributes  = { 'Cache-Control' => 'max-age=315576000' } # optional, defaults to {}
       config.storage         = :fog
     end
+
 end
