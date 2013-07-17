@@ -1,0 +1,1 @@
+require Rails.root.join('lib/payperdate/nudity/nudity_detector_service')

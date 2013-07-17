@@ -1,5 +1,5 @@
 class Avatar < Photo
-  PREFERED_ALBUM = 'Avatars'
+  PREFERRED_ALBUM = 'Avatars'
 
   before_validation :find_album
 
@@ -8,6 +8,6 @@ class Avatar < Photo
   def find_album
     return if album.present?
 
-    self.album = profile.user.albums.where(name: PREFERED_ALBUM).first_or_create(system: true)
+    self.album = profile.user.albums.where(name: PREFERRED_ALBUM).first_or_create(system: true)
   end
 end
