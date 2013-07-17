@@ -41,9 +41,7 @@ class Photo < ActiveRecord::Base
   end
 
   def validate_nudity!
-    self.image.cache!
-    raise 'image should be cached before testing nudity' unless self.image.cached?
-    nude_status = nudity_detector_service.nude?(self.image.path)
+    nude_status = nudity_detector_service.nude?(self.image.url)
     self.update! nude: nude_status, nudity: nude_status ? 1 : 0
   end
 
