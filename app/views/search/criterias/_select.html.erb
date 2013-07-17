@@ -1,11 +1,15 @@
-<% selects[subtype].each do |select| %>
-	<label class="checkbox">
-		<input  type="checkbox"
-				name='<%= "search[#{section}_hstore[#{key}_in[#{select[:key]}]]]" %>'
-				<% if @search.checked?(section, key, select[:key]) %>
-					checked=checked
-				<% end %>>
-		</input>
-		<span><%= select[:title] %></span>
-	</label>
-<% end %>
+<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+  <% selects[subtype].each do |select| %>
+      <li>
+        <label class="checkbox">
+          <input type="checkbox"
+                 name='<%= "search[#{section}_hstore[#{key}_in[#{select[:key]}]]]" %>'
+                 <% if @search.checked?(section, key, select[:key]) %>
+                 checked=checked
+                 <% end %>>
+          </input>
+          <span><%= select[:title] %></span>
+        </label>
+      </li>
+  <% end %>
+</ul>
