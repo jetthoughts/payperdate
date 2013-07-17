@@ -13,14 +13,6 @@ case Rails.env
       config.storage               = :file
     end
   when 'staging'
-    module Cloudinary::CarrierWave
-      alias old_cache! cache!
-
-      def cache!(new_file = sanitized_file)
-        old_cache!(new_file)
-      end
-    end
-
     class ImageUploader < CarrierWave::Uploader::Base
       include Cloudinary::CarrierWave
     end
