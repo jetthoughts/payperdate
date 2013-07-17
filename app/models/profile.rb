@@ -43,6 +43,8 @@ class Profile < ActiveRecord::Base
       { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
     ]
   }
+  
+  MAX_DISTANCE = 9999999
 
   belongs_to :user
 
@@ -81,8 +83,7 @@ class Profile < ActiveRecord::Base
   validate :valid_address?, if: :filled?
 
   hstore_validates_presence_of 'date_preferences.accepted_distance' do |p|
-    p.date_preferences &&
-      p.date_preferences['accepted_distance_do_care'] == 'true'
+    p.distance_do_care?
   end
 
   geocoded_by :full_address   # can also be an IP address
@@ -125,6 +126,23 @@ class Profile < ActiveRecord::Base
     self.longitude = nil
   end
 
+  def near_me(location, max_distance)
+    distance = MAX_DISTANCE
+    distance = max_distance unless max_distance.blank?
+    res = Profile.where.not(id: id)
+    if location.blank?
+      res
+    else
+      res.geocoded.near(location, distance).order('distance')
+    end
+  end
+
+  def default_search
+    res = { 'location' => full_address }
+    res['max_distance'] = date_preferences['accepted_distance'] if distance_do_care?
+    res
+  end
+
   def filled?
     general_info && personal_preferences &&
       date_preferences && optional_info
@@ -132,5 +150,9 @@ class Profile < ActiveRecord::Base
 
   def avatar_url(version=:avatar)
     (avatar || Avatar.new).image_url(version)
+  end
+
+  def distance_do_care?
+    date_preferences && date_preferences['accepted_distance_do_care'] == 'true'
   end
 end
