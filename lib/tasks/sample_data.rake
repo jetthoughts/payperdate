@@ -10,7 +10,10 @@ end
 
 desc 'Setup sample data'
 task setup_sample_data: :environment do
-  #raise 'do not run this task in production' if Rails.env.production?
+  raise 'do not run this task in production' if Rails.env.production?
+
+  Delayed::Job.delete_all
+
   User.delete_all
   AdminUser.delete_all
   Authentitication.delete_all
@@ -18,11 +21,12 @@ task setup_sample_data: :environment do
 
   puts 'Setting up admin'
 
-  # magic 'create! not passed values to model, perhaps problem with hstore helper' do
   a = AdminUser.new
   2.times do
-    a.update_attributes email: 'admin@example.com', password: 'welcome',
-                        password_confirmation: 'welcome', master: true
+    a.update_attributes email:                 'admin@example.com',
+                        password:              'welcome',
+                        password_confirmation: 'welcome',
+                        master:                true
   end
   # end
 

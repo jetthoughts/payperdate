@@ -6,6 +6,8 @@ require 'rails/test_help'
 
 MiniTest::Reporters.use!
 
+NudityDetectorService.instance = :test
+
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 
