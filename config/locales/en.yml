@@ -21,6 +21,8 @@
 
 en:
   hello: "Hello world"
+  where_are_you: "Where Are You Now?"
+  max_distance: "Maximum Distance"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
@@ -51,3 +53,9 @@ en:
       denied: 'Denied'
       no_permissions: 'No permissions'
       permission_approve_photos_avatars: 'Approve photos/avatars'
+  number:
+    format:
+      precision: 2
+  distance: "%{distance} miles"
+
+
