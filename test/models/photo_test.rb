@@ -9,7 +9,6 @@ class PhotoTest < ActiveSupport::TestCase
     photo = create_sample_photo
 
     refute_predicate photo, :nude?
-    assert_equal nil, photo.nudity
   end
 
   def test_validate_nudity
@@ -17,10 +16,9 @@ class PhotoTest < ActiveSupport::TestCase
 
     photo = create_sample_photo
 
-    photo.validate_nudity!
+    photo.validate_image!
 
     assert_predicate photo, :nude?
-    assert_equal 1, photo.nudity
   end
 
   def test_schedule_nudity_validation
