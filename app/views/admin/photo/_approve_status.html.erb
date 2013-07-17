@@ -1,0 +1,7 @@
+<% if photo.approved? %>
+  <strong>Approved</strong>
+<% elsif photo.declined? %>
+  <strong>Declined</strong>
+<% else %>
+  <strong>Pending</strong>
+<% end %>
