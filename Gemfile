@@ -73,10 +73,14 @@ gem 'state_machine'
 gem 'delayed_job_active_record', '>= 4.0.0.beta1'
 gem 'delayed_job_web'
 
+# External API
 gem 'geocoder'
 gem 'nude'
+gem 'face'
+
 # Search (already added in admin panel)
 # gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
+
 
 group :development do
   gem 'quiet_assets'

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class NudityDetectorServiceTest < ActiveSupport::TestCase
-  def test_nude_should_accept_image_path
+  def test_respond_to_nude
     NudityDetectorService.nude?('test')
   end
 end

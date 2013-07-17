@@ -13,10 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20130721081703) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "hstore"
-
   create_table "admin_users", force: true do |t|
     t.string   "email",                             default: "", null: false
     t.string   "encrypted_password",                default: "", null: false
@@ -77,13 +73,14 @@ ActiveRecord::Schema.define(version: 20130721081703) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "photos", force: true do |t|
-    t.integer  "album_id",                        null: false
-    t.string   "image",                           null: false
-    t.integer  "verified_status", default: 0,     null: false
+    t.integer  "album_id",                          null: false
+    t.string   "image",                             null: false
+    t.integer  "verified_status", default: 0,       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "nude",            default: false
-    t.float    "nudity"
+    t.boolean  "face"
+    t.boolean  "nude"
+    t.string   "type",            default: "Photo"
     t.integer  "declined_reason"
   end
 

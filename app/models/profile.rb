@@ -43,7 +43,7 @@ class Profile < ActiveRecord::Base
       { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
     ]
   }
-
+  
   MAX_DISTANCE = 9999999
 
   belongs_to :user
@@ -148,7 +148,7 @@ class Profile < ActiveRecord::Base
       date_preferences && optional_info
   end
 
-  def avatar_url(version=:avatar, public_avatar=true)
+  def avatar_url(version=:avatar, public_avatar = true)
     if public_avatar
       (avatar && avatar.public_photo || Avatar.new).image_url(version)
     else
