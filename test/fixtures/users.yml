@@ -21,3 +21,11 @@ martin:
   nickname: 'martin'
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
+
+# Another user with completed profile filled
+mia:
+  email: 'mia@example.com'
+  name: 'Mia Mitchell'
+  nickname: 'mia'
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  confirmed_at: <%= Time.current %>
