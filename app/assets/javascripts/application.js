@@ -23,3 +23,4 @@
 // everything else from assets
 //= require search
 //= require parallax
+//= require_tree .
