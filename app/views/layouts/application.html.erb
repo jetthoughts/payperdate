@@ -8,8 +8,8 @@
 <body rails-controller='<%= params[:controller] %>' rails-action='<%= params[:action] %>'>
 <%= render 'layouts/nav' %>
 <div class="container-fluid">
-	<%= render 'layouts/flash' %>
-	<%= yield %>
+  <%= render 'layouts/flash' %>
+  <%= yield %>
 </div>
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 </body>
