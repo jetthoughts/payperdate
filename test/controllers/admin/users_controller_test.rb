@@ -84,4 +84,36 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_equal users(:mia).email, blocked_notification.to[0]
     assert_match /your account was blocked/, blocked_notification.body.to_s
   end
+
+  test 'non master admin should not be able delete users' do
+    sign_in admin_users(:james)
+
+    delete :delete, id: users(:martin).id
+    assert_redirected_to admin_root_path
+    assert_equal 'You are not authorized to perform this action.', flash[:error]
+  end
+
+  test 'customer care should be able to delete user' do
+    sign_in admin_users(:bill)
+
+    delete :delete, id: users(:martin).id
+    assert_redirected_to admin_users_path
+
+    assert_equal [], User.where(id: users(:martin).id)
+  end
+
+  test 'deleted user should receive notification' do
+    sign_in admin_users(:bill)
+
+    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+      delete :delete, id: users(:mia).id
+      assert_redirected_to admin_users_path
+    end
+
+    deleted_notification = ActionMailer::Base.deliveries.last
+
+    assert_equal 'Your account has been deleted', deleted_notification.subject
+    assert_equal users(:mia).email, deleted_notification.to[0]
+    assert_match /your account was deleted/, deleted_notification.body.to_s
+  end
 end

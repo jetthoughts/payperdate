@@ -196,7 +196,7 @@ rias:
   personal_preferences_partners_sex: M
   personal_preferences_relationship: D
   personal_preferences_want_relationship: D
-  date_preferences_accepted_distance: 
+  date_preferences_accepted_distance:
   date_preferences_accepted_distance_do_care: 'false'
   date_preferences_smoker: N
   date_preferences_drinker: N
@@ -205,7 +205,7 @@ rias:
   optional_info_education: B
   optional_info_occupation: Work and study
   optional_info_annual_income: ''
-  optional_info_net_worth: 
+  optional_info_net_worth:
   optional_info_height: 165
   optional_info_body_type: S
   optional_info_religion: O
