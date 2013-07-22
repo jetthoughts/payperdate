@@ -42,3 +42,48 @@ martins:
     hair_color: LBro
     occupation: International trade
     annual_income: ''
+
+mias:
+  user: mia
+  general_info:
+    city: Miami
+    state: Florida
+    tagline: «Beauty comes from within»
+    zip_code: '33144'
+    description: "I like to enjoy all the good things in life and I'm not just talking
+      about traveling, dining, or shopping. I love to laugh, joke around, and bring
+      a smile to those around me, especially my loved ones. I'm a big believer that
+      it doesn't matter where I am or what I'm doing as long as I have that genuine
+      smile on my face that’s all that really matters.\r\n\r\nI love to practice aerobics
+      such as: Zumba, Power Sculpt, and Cardio Kickboxing. I also enjoy Cooking, Dining
+      out, Movies/Videos, Exploring new areas, going to the beach, Travel/Sightseeing,
+      Volunteering, and Wine tasting.\r\n"
+    address_line_1: 940 Sylvania Blvd
+    address_line_2: ''
+  personal_preferences:
+    sex: F
+    partners_sex: M
+    relationship: D
+    want_relationship: D
+  date_preferences:
+    smoker: N
+    drinker: N
+    description: I'm not picky as long as we are able to have some time to talk and
+      connect with each other.
+    accepted_distance_do_care: 'false'
+  optional_info:
+    age: '25'
+    height: '173'
+    smoker: N
+    address: ''
+    drinker: N
+    children: C1
+    religion: C
+    body_type: At
+    education: S
+    ethnicity: L
+    eye_color: brown
+    net_worth: ''
+    hair_color: DBro
+    occupation: Sales
+    annual_income: ''
