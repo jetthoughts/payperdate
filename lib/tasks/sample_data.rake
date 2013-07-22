@@ -23,6 +23,8 @@ task setup_sample_data: :environment do
   Authentitication.delete_all
   puts 'Cleaning albums..'
   Album.delete_all
+  puts 'Cleaning photos..'
+  Photo.delete_all
 
   puts 'Setting up master admin..'
 
