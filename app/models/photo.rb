@@ -5,7 +5,6 @@ class Photo < ActiveRecord::Base
   belongs_to :album
   has_one :profile, foreign_key: :avatar_id
 
-
   mount_uploader :image, ImageUploader
   validates :image,
             presence:  true,
@@ -15,12 +14,12 @@ class Photo < ActiveRecord::Base
 
   delegate :user_id, :user, to: :album, allow_nil: true
 
-  STATUSES = { pending: 0, approved: 1, declined: 2 }
+  VERIFIED_STATUSES = { pending: 0, approved: 1, declined: 2 }
   DECLINED_REASONS = { by_unknown: nil, by_face: 1, by_nudity: 2 }
 
   class VerifiedStatus
     extend ActAsEnumeration
-    act_as_enumeration(STATUSES)
+    act_as_enumeration(VERIFIED_STATUSES)
   end
   VerifiedStatus.labels.each { |k, v| define_method "#{v}?", -> { verified_status == k } }
 
@@ -34,60 +33,38 @@ class Photo < ActiveRecord::Base
   scope :approved, -> { where(verified_status: VerifiedStatus.approved) }
   scope :declined, -> { where(verified_status: VerifiedStatus.declined) }
 
-  has_one :public_photo, conditions: { verified_status: VerifiedStatus.approved },
-          foreign_key: :id, class_name: Photo
-
   validates :album, presence: true
 
-  after_find :schedule_nudity_validation
-  after_commit :schedule_nudity_validation, if: :just_created_and_commited_record?
+  after_commit :schedule_image_validation, on: :create
 
   def approve!
-    self.verified_status = VerifiedStatus.approved
-    save!
+    self.update! verified_status: VerifiedStatus.approved
   end
 
-  def decline!(by_reason=:by_unknown)
-    self.verified_status = VerifiedStatus.declined
-    self.declined_reason = DeclinedReason.send(by_reason.to_sym)
-    save!
+  def decline!(by_reason = :by_unknown)
+    self.update! verified_status: VerifiedStatus.declined, declined_reason: DECLINED_REASONS[by_reason.to_sym]
     notify_photo_was_declined
   end
 
-  def nudity_detector_service
-    NudityDetectorService.instance
+  def validate_image!
+    validate_nudity
+    save!
   end
 
-  def unapprove!
-    return_to_pending
-  end
-
-  def undecline!
-    return_to_pending
-  end
-
-  def validate_nudity!
-    nude_status = nudity_detector_service.nude?(self.image.url)
-    self.update! nude: nude_status, nudity: nude_status ? 1 : 0
-  end
-
-  def self.validate_nudity!
-    where(nudity: nil).find_each(lock: true) do |photo|
-      photo.validate_nudity!
+  def self.validate_images!
+    Photo.find_each do |photo|
+      photo.validate_image!
     end
   end
 
   private
 
-  def schedule_nudity_validation
-    if nudity.blank?
-      Photo.reset_callbacks :find
-      ValidateNudityJob.create_delayed_job(self.id)
-    end
+  def validate_nudity
+    self.nude = NudityDetectorService.nude?(image) if self.nude.nil?
   end
 
-  def just_created_and_commited_record?
-    created_at == updated_at
+  def schedule_image_validation
+    ValidateImageJob.enqueue(self.id)
   end
 
   def return_to_pending
