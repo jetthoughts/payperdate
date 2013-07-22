@@ -5,10 +5,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
-  # has_one :profile
   has_many :albums, dependent: :destroy
 
-  belongs_to :profile
+  belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
 
   validates :nickname, :name, presence: true
@@ -17,6 +16,10 @@ class User < ActiveRecord::Base
 
   before_create { create_profile }
   before_create { create_published_profile }
+
+  scope :active, -> { where('not blocked or blocked is null') }
+  scope :blocked, -> { where(blocked: true) }
+  scope :abuse, -> { where(abuse: true) }
 
   scope :active, -> { where('not blocked or blocked is null') }
   scope :blocked, -> { where(blocked: true) }
@@ -53,9 +56,18 @@ class User < ActiveRecord::Base
     update! blocked: false
   end
 
+  def delete_account!
+    destroy!
+    notify_account_was_deleted
+  end
+
   private
 
   def notify_account_was_blocked
     NotificationMailer.user_was_blocked(id)
+  end
+
+  def notify_account_was_deleted
+    NotificationMailer.user_was_deleted(email, name)
   end
 end

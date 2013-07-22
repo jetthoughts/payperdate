@@ -33,6 +33,19 @@ ActiveAdmin.register User do
     redirect_to [:admin, :users]
   end
 
+  member_action :delete, method: :delete do
+    user = User.find(params[:id])
+    authorize! :delete, User
+    user.delete_account!
+    redirect_to [:admin, :users]
+  end
+
+  batch_action :delete_account do |selection|
+    authorize! :delete, User
+    User.find(selection).each { |user| user.delete_account! }
+    redirect_to [:admin, :users]
+  end
+
   index do
     selectable_column
     column :name
