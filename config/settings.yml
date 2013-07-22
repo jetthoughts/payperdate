@@ -15,6 +15,10 @@ common:
     app_id: 187477277963833
     app_secret: 18e0f6e229a06b15a2c047c990f44dc5
 
+  skybiometry:
+    api_key: <%= ENV['SKYBIOMETRY_API_KEY'] || '1f97eb5d12c942c896cd3fe7e2efd2fd' %>
+    api_secret: <%= ENV['SKYBIOMETRY_API_SECRET'] || '03a2412a61f24ae8805bc659282063bd' %>
+
   twitter:
     app_id: MSn1xUVKKSEyLpLcSQoGBQ
     app_secret: Zl9folFaGWHKep6cV6ouD1MJ0uCMBNOjpeqXNmPuPM

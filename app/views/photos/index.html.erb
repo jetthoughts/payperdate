@@ -1,5 +1,5 @@
 <div id="photos_container">
-  <%= render @photos %>
+  <%= render partial: 'photos/photo', collection: @photos %>
 </div>
 <%- if page_owner? -%>
   <%= render 'form' -%>

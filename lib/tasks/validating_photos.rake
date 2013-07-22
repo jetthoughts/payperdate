@@ -1,6 +1,13 @@
+task validate: 'validate:photos'
+
 namespace :validate do
-  desc 'Validate Photos for Nudity'
-  task nudity: :environment do
-    Photo.validate_nudity!
+  desc 'validate all Photos'
+  task photos: :environment do
+    Photo.validate_images!
+  end
+
+  desc 'validate only Avatars'
+  task avatars: :environment do
+    Avatar.validate_images!
   end
 end
