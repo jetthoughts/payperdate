@@ -1,12 +1,12 @@
 class ProfileLoader
   def self.create_user(name)
-    u = User.create! nickname:     name.split(' ').first.downcase, # => john
+    user = User.create! nickname:     name.split(' ').first.downcase, # => john
                      name:         name,
                      email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
                      password:     'welcome',
                      confirmed_at: Time.current
-    puts u.email
-    u
+    puts user.email
+    user
   end
 
   def self.load(path_to_data_file)

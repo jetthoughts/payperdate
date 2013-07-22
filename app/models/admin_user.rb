@@ -1,5 +1,5 @@
 class AdminUser < ActiveRecord::Base
-  PERMISSIONS = [ :permission_approve_photos_avatars ]
+  PERMISSIONS = [:permission_approver, :permission_customer_care]
 
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable

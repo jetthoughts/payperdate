@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   before_create { create_profile }
   before_create { create_published_profile }
 
+  scope :active, -> { where('not blocked or blocked is null') }
+  scope :blocked, -> { where(blocked: true) }
+  scope :abuse, -> { where(abuse: true) }
+
   attr_accessor :distance
 
   include UserAuthMethods
@@ -34,5 +38,24 @@ class User < ActiveRecord::Base
 
   def self.find_by_login(login)
     self.where(email: login).limit(1).first || self.where(nickname: login).limit(1).first
+  end
+
+  def blocked?
+    blocked
+  end
+
+  def block!
+    update! blocked: true
+    notify_account_was_blocked
+  end
+
+  def unblock!
+    update! blocked: false
+  end
+
+  private
+
+  def notify_account_was_blocked
+    NotificationMailer.user_was_blocked(id)
   end
 end
