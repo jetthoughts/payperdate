@@ -1,6 +1,5 @@
-ActiveAdmin.register Photo do
-  filter :created_at
-  scope :all, default: true
+ActiveAdmin.register Avatar do
+  scope :all, :avatars, default: true
   scope :pending
   scope :approved
   scope :declined
@@ -8,36 +7,36 @@ ActiveAdmin.register Photo do
   batch_action :approve do |selection|
     authorize! :approve, Photo
 
-    Photo.find(selection).each do |photo|
+    Avatar.find(selection).each do |photo|
       photo.approve!
     end
-    redirect_to admin_photos_path
+    redirect_to [:admin, :avatars]
   end
 
   batch_action :decline do |selection|
     authorize! :decline, Photo
 
-    Photo.find(selection).each do |photo|
+    Avatar.find(selection).each do |photo|
       photo.decline!
     end
-    redirect_to admin_photos_path
+    redirect_to [:admin, :avatars]
   end
 
   member_action :approve, method: :put do
-    photo = Photo.find params[:id]
+    photo = Avatar.find params[:id]
     authorize! :approve, Photo
     photo.approve!
-    redirect_to [:admin, :photos]
+    redirect_to [:admin, :avatars]
   end
 
   member_action :decline, method: :put do
-    photo = Photo.find params[:id]
+    photo = Avatar.find params[:id]
     authorize! :decline, Photo
     photo.decline!(params[:reason] || :by_unknown)
-    redirect_to [:admin, :photos]
+    redirect_to [:admin, :avatars]
   end
 
-  index title: 'Photos', download_links: false do
+  index title: 'Avatars', download_links: false do
     selectable_column
 
     column :user do |photo|
@@ -54,15 +53,24 @@ ActiveAdmin.register Photo do
       photo.nude?
     end
 
+    column :photo_face_status do |photo|
+      # TODO: remove this condition when #27 is merged
+      if photo.respond_to? :face
+        photo.is_a?(Avatar) && (photo.face.nil? ? 'Have not been validated' : photo.face?)
+      else
+        'Should be implemented in <a href="https://github.com/jetthoughts/payperdate/issues/27">#27</a>'
+            .html_safe
+      end
+    end
+
     column 'Approve Status' do |photo|
-      render 'admin/photo/approve_status', photo: photo, resource: :photo
+      render 'admin/photo/approve_status', photo: photo, resource: :avatar
     end
 
     column 'Approve' do |photo|
-      render 'admin/photo/approve_actions', photo: photo, resource: :photo
+      render 'admin/photo/approve_actions', photo: photo, resource: :avatar
     end
 
     default_actions
   end
-
 end

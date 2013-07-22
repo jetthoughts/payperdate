@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PhotoTest < ActiveSupport::TestCase
+  self.use_transactional_fixtures = false
+
   fixtures :albums, :users
 
   def test_create
@@ -23,12 +25,12 @@ class PhotoTest < ActiveSupport::TestCase
 
   def test_schedule_nudity_validation
     assert_difference -> { Delayed::Job.count }, +1 do
-      Photo.create! image: create_tmp_image, album: albums(:favorites)
+      create_sample_photo
     end
-
   end
 
   private
+
   def create_sample_photo
     Photo.create! image: create_tmp_image, album: albums(:favorites)
   end

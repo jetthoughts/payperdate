@@ -16,12 +16,19 @@ class Photo < ActiveRecord::Base
   delegate :user_id, :user, to: :album, allow_nil: true
 
   STATUSES = { pending: 0, approved: 1, declined: 2 }
+  DECLINED_REASONS = { by_unknown: nil, by_face: 1, by_nudity: 2 }
 
   class VerifiedStatus
     extend ActAsEnumeration
     act_as_enumeration(STATUSES)
   end
-  VerifiedStatus.labels.each { |k, v| define_method "#{v}?", -> { status == k } }
+  VerifiedStatus.labels.each { |k, v| define_method "#{v}?", -> { verified_status == k } }
+
+  class DeclinedReason
+    extend ActAsEnumeration
+    act_as_enumeration(DECLINED_REASONS)
+  end
+  DeclinedReason.labels.each { |k, v| define_method "#{v}?", -> { status == k } }
 
   scope :pending, -> { where(verified_status: VerifiedStatus.pending) }
   scope :approved, -> { where(verified_status: VerifiedStatus.approved) }
@@ -40,8 +47,9 @@ class Photo < ActiveRecord::Base
     save!
   end
 
-  def decline!
+  def decline!(by_reason=:by_unknown)
     self.verified_status = VerifiedStatus.declined
+    self.declined_reason = DeclinedReason.send(by_reason.to_sym)
     save!
     notify_photo_was_declined
   end
@@ -56,14 +64,6 @@ class Photo < ActiveRecord::Base
 
   def undecline!
     return_to_pending
-  end
-
-  def approved?
-    verified_status == VerifiedStatus.approved
-  end
-
-  def declined?
-    verified_status == VerifiedStatus.declined
   end
 
   def validate_nudity!
