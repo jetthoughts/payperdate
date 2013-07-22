@@ -2,3 +2,7 @@ staging:
   cloud_name: "dmmi3epfh"
   api_key: "758231177189738"
   api_secret: "EtI_O-51mOjgoiZiuMeL2PlvibY"
+development:
+  cloud_name: "dmmi3epfh"
+  api_key: "758231177189738"
+  api_secret: "EtI_O-51mOjgoiZiuMeL2PlvibY"

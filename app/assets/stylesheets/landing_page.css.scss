@@ -6,7 +6,7 @@ body {
 
 #layer1 {
   height: 800px;
-  background: asset_url("layer1_bg_02.jpg") no-repeat;
+  background: asset-url('layer1_bg_02.jpg') no-repeat;
   background-size: cover;
 }
 

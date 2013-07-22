@@ -54,13 +54,7 @@ ActiveAdmin.register Avatar do
     end
 
     column :photo_face_status do |photo|
-      # TODO: remove this condition when #27 is merged
-      if photo.respond_to? :face
-        photo.is_a?(Avatar) && (photo.face.nil? ? 'Have not been validated' : photo.face?)
-      else
-        'Should be implemented in <a href="https://github.com/jetthoughts/payperdate/issues/27">#27</a>'
-            .html_safe
-      end
+      photo.face.nil? ? 'Have not been validated' : photo.face?
     end
 
     column 'Approve Status' do |photo|

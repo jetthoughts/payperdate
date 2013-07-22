@@ -8,6 +8,16 @@
 
 Now you can open the url: http://localhost:3000.
 
+== Background Jobs
+
+  To run baclground jobs, which needed to detect nudity and faces on the photos and avatars need:
+
+  $ rake jobs:work
+
+  To run jobs on Heroku need to run:
+
+  $ heroku run rake jobs:work --app <heroku app name>
+
 
 == Sample Data
 
