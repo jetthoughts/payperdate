@@ -1,0 +1,6 @@
+<% unless photo.approved? %>	
+	<%= link_to 'Approve', approve_admin_photo_path(photo), method: :put, class: 'button' %>
+<% end %>
+<% unless photo.declined? %>
+	<%= link_to 'Decline', decline_admin_photo_path(photo), method: :put, class: 'button' %>
+<% end %>
