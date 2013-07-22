@@ -29,3 +29,19 @@ mia:
   nickname: 'mia'
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
+
+# Another user
+lily:
+  email: 'lily@example.com'
+  name: 'Lily Axel'
+  nickname: 'lily'
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  confirmed_at: <%= Time.current %>
+
+# User with blocked profile
+lola:
+  email: 'lola@example.com'
+  name: 'Lola Cota'
+  nickname: 'lola'
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  confirmed_at: <%= Time.current %>

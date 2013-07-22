@@ -43,7 +43,7 @@ class Profile < ActiveRecord::Base
       { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
     ]
   }
-  
+
   MAX_DISTANCE = 9999999
 
   belongs_to :user

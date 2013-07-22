@@ -30,6 +30,8 @@ en:
     errors:
       current_user_has_no_profile: 'You have no profile, create it now.'
       foreign_user_has_no_profile: 'Sorry, but this user has no profile yet.'
+      user_blocked: 'Sorry, but this user was suspended.'
+      account_blocked: 'Your account was suspended.'
   profiles:
     errors:
       required_field: 'Field is required'
@@ -52,7 +54,8 @@ en:
       allowed: 'Allowed'
       denied: 'Denied'
       no_permissions: 'No permissions'
-      permission_approve_photos_avatars: 'Approve photos/avatars'
+      permission_approver: 'Approver (access only to Picture and Profile approval/rejection)'
+      permission_customer_care: 'Customer Care (delete users, respond to user questions, etc)'
     photo:
       declined:
         reason:

@@ -3,18 +3,29 @@ admin:
   email: admin@example.com
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   master: true
-  permission_approve_photos_avatars: false
+  permission_approver: false
+  permission_customer_care: false
 
 # Non master admin user
 john:
   email: john.black@example.com
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   master: false
-  permission_approve_photos_avatars: false
+  permission_approver: false
+  permission_customer_care: false
 
-# Non master admin user with photos approve/decline pemission
+# Approver
 james:
   email: james.white@example.com
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   master: false
-  permission_approve_photos_avatars: true
+  permission_approver: true
+  permission_customer_care: false
+
+# Customer Care
+bill:
+  email: bill.davis@example.com
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  master: false
+  permission_approver: false
+  permission_customer_care: true

@@ -1,0 +1,3 @@
+<% unless user.blocked? %>
+	<%= link_to 'Block', send("block_admin_#{resource}_path", user), method: :put, class: :button %>
+<% end %>
