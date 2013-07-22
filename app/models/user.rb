@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
-  has_one :profile
+  has_one :profile, dependent: :destroy
   has_many :albums, dependent: :destroy
 
   validates :nickname, :name, presence: true
@@ -45,9 +45,18 @@ class User < ActiveRecord::Base
     notify_account_was_blocked
   end
 
+  def delete_account!
+    destroy!
+    notify_account_was_deleted
+  end
+
   private
 
   def notify_account_was_blocked
     NotificationMailer.user_was_blocked(id)
+  end
+
+  def notify_account_was_deleted
+    NotificationMailer.user_was_deleted(email, name)
   end
 end

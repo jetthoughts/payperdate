@@ -15,6 +15,13 @@ ActiveAdmin.register User do
     redirect_to [:admin, :users]
   end
 
+  member_action :delete, method: :delete do
+    user = User.find(params[:id])
+    authorize! :delete, User
+    user.delete_account!
+    redirect_to [:admin, :users]
+  end
+
   index do
     column :name
     column :email
