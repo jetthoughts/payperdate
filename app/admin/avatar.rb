@@ -1,5 +1,5 @@
 ActiveAdmin.register Avatar do
-  scope :all, :avatars, default: true
+  scope :all, default: true
   scope :pending
   scope :approved
   scope :declined
@@ -50,7 +50,7 @@ ActiveAdmin.register Avatar do
     end
 
     column :photo_nudity_status do |photo|
-      photo.nude?
+      photo.nude.nil? ? 'Have not been validated' : photo.nude?
     end
 
     column :photo_face_status do |photo|

@@ -18,7 +18,9 @@ class AvatarTest < ActiveSupport::TestCase
 
   def test_schedule_nudity_validation
     assert_difference -> { Delayed::Job.count }, +1 do
-      create_sample_avatar
+      avatar = create_sample_avatar
+      #after_commit callback dont works
+      avatar.send :schedule_image_validation
     end
   end
 

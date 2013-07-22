@@ -15,7 +15,8 @@ class AvatarsController < BaseController
   end
 
   def use
-    @avatar = Avatar.find(params[:id])
+    photo = Photo.find(params[:id])
+    @avatar = photo.make_avatar
     current_profile.avatar = @avatar
     current_profile.save
     render nothing: true
