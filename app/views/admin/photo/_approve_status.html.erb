@@ -1,0 +1,9 @@
+<% if photo.approved? %>
+  <strong>Approved</strong>
+<% elsif photo.declined? %>
+  <strong>Declined</strong>
+  <br>
+  <em>Reason: <%= t "admin.photo.declined.reason.r#{photo.declined_reason}" %></em>
+<% else %>
+  <strong>Pending</strong>
+<% end %>

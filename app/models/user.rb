@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   after_create { build_profile.save! }
 
+  attr_accessor :distance
+
   include UserAuthMethods
   extend UserOauth
 

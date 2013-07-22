@@ -1,0 +1,13 @@
+<% unless photo.approved? %>	
+	<%= link_to 'Approve', send("approve_admin_#{resource}_path", photo), method: :put, class: :button %>
+	<br/>
+<% end %>
+<% unless photo.declined? %>
+	<%= link_to 'Decline', send("decline_admin_#{resource}_path", photo), method: :put, class: :button %>
+	<br/>
+	<%= link_to 'Decline by nudity', send("decline_admin_#{resource}_path", photo) + '?reason=by_nudity', method: :put, class: :button %>
+	<% if resource == :avatar %>
+		<br/>
+		<%= link_to 'Decline by face', send("decline_admin_#{resource}_path", photo) + '?reason=by_face', method: :put, class: :button %>
+	<% end %>
+<% end %>

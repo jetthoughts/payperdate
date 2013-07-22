@@ -1,6 +1,7 @@
 class Photo < ActiveRecord::Base
   require 'payperdate/act_as_enumeration'
   require 'payperdate/file_size_validator'
+
   belongs_to :album
   has_one :profile, foreign_key: :avatar_id
 
@@ -8,18 +9,25 @@ class Photo < ActiveRecord::Base
   validates :image,
             presence:  true,
             file_size: {
-                maximum: 5.megabytes.to_i
+              maximum: 5.megabytes.to_i
             }
 
   delegate :user_id, :user, to: :album, allow_nil: true
 
-  STATUSES = { pending: 0, approved: 1, declined: 2 }
+  VERIFIED_STATUSES = { pending: 0, approved: 1, declined: 2 }
+  DECLINED_REASONS = { by_unknown: nil, by_face: 1, by_nudity: 2 }
 
   class VerifiedStatus
     extend ActAsEnumeration
-    act_as_enumeration(STATUSES)
+    act_as_enumeration(VERIFIED_STATUSES)
   end
-  VerifiedStatus.labels.each { |k, v| define_method "#{v}?", -> { status == k } }
+  VerifiedStatus.labels.each { |k, v| define_method "#{v}?", -> { verified_status == k } }
+
+  class DeclinedReason
+    extend ActAsEnumeration
+    act_as_enumeration(DECLINED_REASONS)
+  end
+  DeclinedReason.labels.each { |k, v| define_method "#{v}?", -> { status == k } }
 
   scope :pending, -> { where(verified_status: VerifiedStatus.pending) }
   scope :approved, -> { where(verified_status: VerifiedStatus.approved) }
@@ -27,15 +35,45 @@ class Photo < ActiveRecord::Base
 
   validates :album, presence: true
 
+  after_commit :schedule_image_validation, on: :create
+
   def approve!
-    self.verified_status = VerifiedStatus.approved
+    self.update! verified_status: VerifiedStatus.approved
+  end
+
+  def decline!(by_reason = :by_unknown)
+    self.update! verified_status: VerifiedStatus.declined, declined_reason: DECLINED_REASONS[by_reason.to_sym]
+    notify_photo_was_declined
+  end
+
+  def validate_image!
+    validate_nudity
     save!
   end
 
-  def decline!
-    self.verified_status = VerifiedStatus.declined
+  def self.validate_images!
+    Photo.find_each do |photo|
+      photo.validate_image!
+    end
+  end
+
+  private
+
+  def validate_nudity
+    self.nude = NudityDetectorService.nude?(image) if self.nude.nil?
+  end
+
+  def schedule_image_validation
+    ValidateImageJob.enqueue(self.id)
+  end
+
+  def return_to_pending
+    self.verified_status = VerifiedStatus.pending
     save!
-    NotificationMailer.delay.photo_was_declined(user_id, image.url(:medium))
+  end
+
+  def notify_photo_was_declined
+    NotificationMailer.photo_was_declined(user_id, image.url(:medium))
   end
 
 end

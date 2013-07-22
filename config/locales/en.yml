@@ -21,6 +21,8 @@
 
 en:
   hello: "Hello world"
+  where_are_you: "Where Are You Now?"
+  max_distance: "Maximum Distance"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
@@ -31,6 +33,7 @@ en:
   profiles:
     errors:
       required_field: 'Field is required'
+      invalid_address: 'Address is invalid'
   activerecord:
     errors:
       models:
@@ -44,3 +47,21 @@ en:
   tools:
     gmap:
       uri: "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=%{latitude}%2C%{longitude}"
+  admin:
+    permissions:
+      allowed: 'Allowed'
+      denied: 'Denied'
+      no_permissions: 'No permissions'
+      permission_approve_photos_avatars: 'Approve photos/avatars'
+    photo:
+      declined:
+        reason:
+          r: Unknown
+          r1: By face
+          r2: By nudity
+  number:
+    format:
+      precision: 2
+  distance: "%{distance} miles"
+
+

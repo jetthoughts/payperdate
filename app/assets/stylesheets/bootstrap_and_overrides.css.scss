@@ -5,3 +5,15 @@
 
 @import "twitter-bootstrap-static/bootstrap";
 @import "twitter-bootstrap-static/fontawesome";
+.collapse {
+  &.shown {
+    overflow: visible; //TODO: need to found other solution or set delay for visibility
+  }
+}
+
+.dropdown {
+  .dropdown-menu {
+    padding: 5px;
+    //min-width: 180px;
+  }
+}

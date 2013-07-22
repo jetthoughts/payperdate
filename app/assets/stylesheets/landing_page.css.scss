@@ -1,16 +1,12 @@
 @import "variables";
 
-:link {
-  color: $pink;
-}
-
 body {
   padding-top: 40px;
 }
 
 #layer1 {
   height: 800px;
-  background: asset-url("layer1_bg_02.jpg", image) no-repeat;
+  background: asset-url('layer1_bg_02.jpg') no-repeat;
   background-size: cover;
 }
 

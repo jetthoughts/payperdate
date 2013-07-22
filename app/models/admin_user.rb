@@ -1,4 +1,32 @@
+require 'hstore'
+
 class AdminUser < ActiveRecord::Base
-  devise :database_authenticatable, 
+  PERMISSIONS = [ :permission_approve_photos_avatars ]
+
+  devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  before_validation :ensure_not_master
+
+  def ensure_not_master
+    if master && AdminUser.where('id != ? and master = true', [id]).count > 0
+      master = false
+    end
+  end
+
+  def get_permissions
+    permissions = {}
+    PERMISSIONS.each do |permission|
+      permissions[permission] = send(permission)
+    end
+    permissions
+  end
+
+  def self.available_permissions
+    PERMISSIONS
+  end
+
+  def master?
+    master
+  end
 end

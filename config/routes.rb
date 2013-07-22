@@ -4,8 +4,7 @@ Payperdate::Application.routes.draw do
     devise_for :admin_users, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
     authenticate :admin_user do
-      require 'sidekiq/web'
-      mount Sidekiq::Web => '/sidekiq'
+      match '/delayed_job' => DelayedJobWeb, anchor: false, via: [:get, :post, :delete, :patch]
     end
   rescue => ex
     p ex

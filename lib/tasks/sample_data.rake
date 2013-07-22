@@ -10,13 +10,32 @@ end
 
 desc 'Setup sample data'
 task setup_sample_data: :environment do
-  #raise 'do not run this task in production' if Rails.env.production?
-  User.delete_all
-  AdminUser.delete_all
-  Authentitication.delete_all
-  Album.destroy_all
+  raise 'do not run this task in production' if Rails.env.production?
 
-  AdminUser.create!(email: 'admin@example.com', password: 'welcome', password_confirmation: 'welcome')
+  puts 'Cleaning delayed jobs..'
+  Delayed::Job.delete_all
+
+  puts 'Cleaning users..'
+  User.delete_all
+  puts 'Cleaning admin users..'
+  AdminUser.delete_all
+  puts 'Cleaning authentitications..'
+  Authentitication.delete_all
+  puts 'Cleaning albums..'
+  Album.delete_all
+
+  puts 'Setting up master admin..'
+
+  a = AdminUser.new
+  2.times do
+    a.update_attributes email:                 'admin@example.com',
+                        password:              'welcome',
+                        password_confirmation: 'welcome',
+                        master:                true
+  end
+  # end
+
+  puts 'Setting up users..'
 
   create_users
 
@@ -30,15 +49,17 @@ end
 
 
 def create_user(name)
-  User.create! nickname:     name.split(' ').first.downcase, # => john
-               name:         name,
-               email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
-               password:     'welcome',
-               confirmed_at: Time.current
+  u = User.create! nickname:     name.split(' ').first.downcase, # => john
+                   name:         name,
+                   email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
+                   password:     'welcome',
+                   confirmed_at: Time.current
+  puts u.email
+  u
 end
 
 def load_profiles
-  config = YAML::load File::read 'config/sample_data.yml'
+  config = YAML::load_file 'config/sample_data.yml'
   config.each do |user|
     create_user(user['name']).profile.update!(user['profile'])
   end
