@@ -53,6 +53,12 @@ en:
       denied: 'Denied'
       no_permissions: 'No permissions'
       permission_approve_photos_avatars: 'Approve photos/avatars'
+    photo:
+      declined:
+        reason:
+          r: Unknown
+          r1: By face
+          r2: By nudity
   number:
     format:
       precision: 2
