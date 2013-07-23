@@ -3,14 +3,6 @@ class Avatar < Photo
 
   before_validation :find_album
 
-  scope :avatars, -> {
-    joins(:profile).where('profiles.avatar_id = photos.id')
-  }
-
-  scope :pending, -> { Photo.pending.avatars }
-  scope :approved, -> { Photo.approved.avatars }
-  scope :declined, -> { Photo.declined.avatars }
-
   def validate_image!
     validate_face if face.nil?
     super

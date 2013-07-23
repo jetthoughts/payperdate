@@ -65,4 +65,10 @@ ActiveAdmin.register Photo do
     default_actions
   end
 
+  controller do
+    def scoped_collection
+      Photo.not_avatars
+    end
+  end
+
 end
