@@ -34,6 +34,7 @@ class UsersController < BaseController
     @profiles = @profile
         .near_me(@search.location, @search.max_distance)
         .preload(:user).search_hstore(@search.query)
+    @profiles = @profiles.select { |profile| !profile.user.blocked? }
     @profile_sections = Profile.searchable_params
   end
 

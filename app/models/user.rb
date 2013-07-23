@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
-  has_one :profile
+  has_one :profile, dependent: :destroy
   has_many :albums, dependent: :destroy
 
   validates :nickname, :name, presence: true
@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
   validates :phone, uniqueness: true, allow_nil: true
 
   after_create { build_profile.save! }
+
+  scope :active, -> { where('not blocked or blocked is null') }
+  scope :blocked, -> { where(blocked: true) }
+  scope :abuse, -> { where(abuse: true) }
 
   attr_accessor :distance
 
@@ -30,5 +34,29 @@ class User < ActiveRecord::Base
 
   def self.find_by_login(login)
     self.where(email: login).limit(1).first || self.where(nickname: login).limit(1).first
+  end
+
+  def blocked?
+    blocked
+  end
+
+  def block!
+    update! blocked: true
+    notify_account_was_blocked
+  end
+
+  def delete_account!
+    destroy!
+    notify_account_was_deleted
+  end
+
+  private
+
+  def notify_account_was_blocked
+    NotificationMailer.user_was_blocked(id)
+  end
+
+  def notify_account_was_deleted
+    NotificationMailer.user_was_deleted(email, name)
   end
 end
