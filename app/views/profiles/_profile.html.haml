@@ -6,56 +6,56 @@
     %p
       :textile
         *Age:*
-        #{profile.optional_info['age']}
+        #{profile.optional_info_age}
 
         ---
 
         *Body Type:*
-        #{select_title 'body_type', profile.optional_info['body_type']}
+        #{select_title 'body_type', profile.optional_info_body_type}
 
         ---
 
         *Hair / Eyes:*
-        #{select_title 'hair_color', profile.optional_info['hair_color']} / #{select_title 'eye_color', profile.optional_info['eye_color']}
+        #{select_title 'hair_color', profile.optional_info_hair_color} / #{select_title 'eye_color', profile.optional_info_eye_color}
 
         ---
 
         *Education*
-        #{select_title 'education', profile.optional_info['education']}
+        #{select_title 'education', profile.optional_info_education}
 
         ---
 
         *Children*
-        #{select_title 'children', profile.optional_info['children']}
+        #{select_title 'children', profile.optional_info_children}
 
         ---
 
         *Ethnicity*
-        #{select_title 'ethnicity', profile.optional_info['ethnicity']}
+        #{select_title 'ethnicity', profile.optional_info_ethnicity}
 
         ---
 
         *Religion*
-        #{select_title 'religion', profile.optional_info['religion']}
+        #{select_title 'religion', profile.optional_info_religion}
 
         ---
 
         *Smoking / Drinking*
-        #{select_title 'me_smoker', profile.optional_info['smoker']} / #{select_title 'me_drinker', profile.optional_info['drinker']}
+        #{select_title 'me_smoker', profile.optional_info_smoker} / #{select_title 'me_drinker', profile.optional_info_drinker}
 
         ---
 
   .span10.profile-column
     :textile
-      h3. #{profile.user.name} <small>(#{select_title 'sex', profile.personal_preferences['sex']})</small>
+      h3. #{profile.user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
 
       ---
 
-      **#{profile.optional_info['age']} / #{profile.general_info['address_line_1']}, #{profile.general_info['address_line_2']} / #{profile.general_info['city']}, #{profile.general_info['state']}**
+      **#{profile.optional_info_age} / #{profile.general_info_address_line_1}, #{profile.general_info_address_line_2} / #{profile.general_info_city}, #{profile.general_info_state}**
 
       !#{gmap_for(profile)}!
 
-      __#{profile.general_info['tagline']}__
+      __#{profile.general_info_tagline}__
 
     - if can? :manage, profile
       .row-fluid
@@ -87,40 +87,40 @@
 
       h4. About me:
 
-      #{profile.general_info['description']}
+      #{profile.general_info_description}
 
       h4. My First Date Expectations:
 
-      #{profile.date_preferences['description']}
+      #{profile.date_preferences_description}
 
       <br>
 
       *Occupation:*
-      #{profile.optional_info['occupation']}
+      #{profile.optional_info_occupation}
 
       ---
 
       *Annual Income:*
-      #{profile.optional_info['annual_income']}$ per year
+      #{profile.optional_info_annual_income}$ per year
 
       ---
 
       *Net Worth:*
-      #{profile.optional_info['net_worth']}$
+      #{profile.optional_info_net_worth}$
 
       ---
 
       *Relationship Status:*
-      #{select_title 'relationship', profile.personal_preferences['relationship']}
+      #{select_title 'relationship', profile.personal_preferences_relationship}
 
       ---
 
       *Looking To Meet:*
-      #{select_title 'sex', profile.personal_preferences['partners_sex']}
+      #{select_title 'sex', profile.personal_preferences_partners_sex}
 
       ---
 
       *Interested In:*
-      #{select_title 'want_relationship', profile.personal_preferences['want_relationship']}
+      #{select_title 'want_relationship', profile.personal_preferences_want_relationship}
 
       ---

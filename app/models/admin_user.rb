@@ -1,5 +1,3 @@
-require 'hstore'
-
 class AdminUser < ActiveRecord::Base
   PERMISSIONS = [ :permission_approve_photos_avatars ]
 

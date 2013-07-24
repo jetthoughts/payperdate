@@ -5,14 +5,18 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
-  has_one :profile
+  # has_one :profile
   has_many :albums, dependent: :destroy
+
+  belongs_to :profile
+  belongs_to :published_profile, class_name: 'Profile'
 
   validates :nickname, :name, presence: true
   validates :nickname, uniqueness: true
   validates :phone, uniqueness: true, allow_nil: true
 
-  after_create { build_profile.save! }
+  before_create { create_profile }
+  before_create { create_published_profile }
 
   attr_accessor :distance
 

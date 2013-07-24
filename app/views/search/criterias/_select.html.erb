@@ -2,12 +2,8 @@
   <% selects[subtype].each do |select| %>
       <li>
         <label class="checkbox">
-          <input type="checkbox"
-                 name='<%= "search[#{section}_hstore[#{key}_in[#{select[:key]}]]]" %>'
-                 <% if @search.checked?(section, key, select[:key]) %>
-                 checked=checked
-                 <% end %>>
-          </input>
+          <% checked = params[:q][:"#{section}_#{key}_in"] && params[:q][:"#{section}_#{key}_in"].include?(select[:key]) %>
+          <%= check_box_tag("q[#{section}_#{key}_in][]", select[:key], checked) %>
           <span><%= select[:title] %></span>
         </label>
       </li>
