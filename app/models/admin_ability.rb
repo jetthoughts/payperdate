@@ -23,6 +23,8 @@ class AdminAbility
 
           can :manage, Profile
           can :read, Profile
+          can :approve, Profile
+          can :update, Profile
         end
         if admin.get_permissions[:permission_login_as_user]
           can :read, User
