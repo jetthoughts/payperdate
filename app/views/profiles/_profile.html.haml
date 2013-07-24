@@ -64,6 +64,7 @@
     = render 'profiles/invite_link', user: profile.user
 
     = render 'profiles/send_gift_link', user: profile.user
+
     - if can? :manage, profile
       .row-fluid
         .span12

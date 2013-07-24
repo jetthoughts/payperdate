@@ -6,4 +6,4 @@ $ ->
 $ ->
   $('.profile-inline-edit-activate').click ->
     $('.profile-inline-edit').toggleClass('profile-hide')
-    false
+    true
