@@ -1,0 +1,6 @@
+martin_logged_in:
+  user: martin
+  subject: martin
+  action: sign_in
+  details:
+    time: <%= Time.current %>

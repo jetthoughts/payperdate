@@ -23,5 +23,4 @@ class Avatar < Photo
 
     self.album = profile.user.albums.where(name: PREFERRED_ALBUM).first_or_create(system: true)
   end
-
 end

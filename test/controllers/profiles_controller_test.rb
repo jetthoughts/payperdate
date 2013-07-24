@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class ProfilesControllerTest < ActionController::TestCase
+  fixtures :users
+
   def setup
     sign_in users(:martin)
   end
