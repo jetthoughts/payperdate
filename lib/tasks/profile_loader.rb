@@ -14,7 +14,9 @@ class ProfileLoader
     loaded_users = {}
     config.each do |user|
       u = create_user(user['name'])
+      u.profile.inner_dont_care_about_review_notifications = true
       u.profile.update!(user['profile'])
+      u.profile.approve!
       loaded_users[u.nickname] = u
     end
     loaded_users

@@ -46,8 +46,13 @@
         ---
 
   .span10.profile-column
+    - unless profile.reviewed?
+      .pull-right.muted
+        %small= link_to 'Public profile here', user_profile_path(profile.auto_user)
+        %br
+        %strong= t 'profile.review.under_review'
     :textile
-      h3. #{profile.user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
+      h3. #{profile.auto_user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
 
       ---
 
@@ -69,13 +74,13 @@
                 .accordion-inner
                   %div
                     last_sign_in_ip:
-                    = profile.user.last_sign_in_ip
+                    = profile.auto_user.last_sign_in_ip
                   %div
                     sign_in_count:
-                    = profile.user.sign_in_count
+                    = profile.auto_user.sign_in_count
                   %div
                     failed login counts:
-                    = profile.user.failed_sign_in_count
+                    = profile.auto_user.failed_sign_in_count
 
     - if can? :manage, profile
       = link_to 'Edit profile', edit_profile_path, class: 'btn'
