@@ -83,7 +83,9 @@ gem 'geocoder'
 gem 'nude'
 gem 'face'
 
-gem 'airbrake'
+group :staging, :production do
+  gem 'airbrake'
+end
 
 group :development, :test do
   gem 'capybara'
@@ -91,8 +93,8 @@ end
 
 group :development do
   gem 'quiet_assets'
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'better_errors', require: false
+  gem 'binding_of_caller', require: false
   gem 'pry-rails'
   gem 'awesome_print'
   gem 'push2heroku', github: "XsErG/push2heroku"

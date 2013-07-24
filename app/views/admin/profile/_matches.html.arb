@@ -1,15 +1,62 @@
 extend ProfilesHelper
 
-editable_form do |f|
-  edit_link '#matches'
+form_for profile, url: admin_profile_path(profile) do |f|
+  span do
+    link_to 'Edit', '#matches', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
-    editable_row :date_preferences_accepted_distance_do_care, profile: profile, f: f, &editable_checkbox
-    editable_row :date_preferences_accepted_distance, profile: profile, f: f, with: :miles, &editable_text
-    editable_row :date_preferences_smoker, profile: profile, f: f, with: :select,
-                 type: 'smoker', &(editable_select 'smoker')
-    editable_row :date_preferences_drinker, profile: profile, f: f, with: :select,
-                 type: 'drinker', &(editable_select 'drinker')
-    edit_submit f
+    row :date_preferences_accepted_distance_do_care, class: 'profile-inline-edit'
+    row :date_preferences_accepted_distance_do_care_edit, class: 'profile-hide profile-inline-edit' do
+      f.check_box :date_preferences_accepted_distance_do_care,
+                  { class: 'profile-hide profile-inline-edit' }, 'true', 'false'
+    end
+
+    row :date_preferences_accepted_distance, class: 'profile-inline-edit' do
+      "#{profile.date_preferences_accepted_distance} miles"
+    end
+    row :date_preferences_accepted_distance_edit, class: 'profile-hide profile-inline-edit' do
+      f.number_field :date_preferences_accepted_distance, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :date_preferences_smoker, class: 'profile-inline-edit' do
+      type = profile.date_preferences_smoker_multiselect.first.select_type
+      profile.date_preferences_smoker_multiselect.where(checked: true).pluck(:value)
+          .map { |e| select_title(type, e) }.join(" / ")
+    end
+    row :date_preferences_smoker_edit, class: 'profile-hide profile-inline-edit' do
+      profile.date_preferences_smoker_multiselect.each do |select|
+        div do
+          span do
+            check_box_tag("profile[date_preferences_smoker_multiselect][]", select.value, select.checked)
+          end
+          span do
+            select_title(select.select_type, select.value)
+          end
+        end
+      end
+    end
+
+    row :date_preferences_drinker, class: 'profile-inline-edit' do
+      type = profile.date_preferences_drinker_multiselect.first.select_type
+      profile.date_preferences_drinker_multiselect.where(checked: true).pluck(:value)
+          .map { |e| select_title(type, e) }.join(" / ")
+    end
+    row :date_preferences_drinker_edit, class: 'profile-hide profile-inline-edit' do
+      profile.date_preferences_drinker_multiselect.each do |select|
+        div do
+          span do
+            check_box_tag("profile[date_preferences_drinker_multiselect][]", select.value, select.checked)
+          end
+          span do
+            select_title(select.select_type, select.value)
+          end
+        end
+      end
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end
-

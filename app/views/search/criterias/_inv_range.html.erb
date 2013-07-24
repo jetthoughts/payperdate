@@ -1,0 +1,8 @@
+<div class="dropdown-menu clearfix" role="menu" aria-labelledby="dLabel">
+  <div class="pull-left"><label><em>from</em></label>
+    <div><%= f.number_field :"#{section}_#{key}_lteq", class: 'input-mini', min: 0 %> – </div>
+  </div>
+  <div class="pull-right"><label><em>to</em></label>
+    <div><%= f.number_field :"#{section}_#{key}_gteq", class: 'input-mini', min: 0 %></div>
+  </div>
+</div>

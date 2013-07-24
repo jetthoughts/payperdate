@@ -1,0 +1,6 @@
+<% value.each do |select| %>
+	<label class="checkbox">
+		<%= check_box_tag("profile[#{select.name}_multiselect][]", select.value, select.checked) %>
+		<span><%= select_title(select.select_type, select.value) %></span>
+	</label>
+<% end %>

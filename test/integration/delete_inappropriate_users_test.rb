@@ -4,7 +4,7 @@ require 'capybara/rails'
 class LoginIfNotDeletedTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
 
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_multiselects
 
   def setup
     reset_session!
@@ -24,7 +24,7 @@ end
 class LoginIfDeletedTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
 
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_multiselects
 
   def setup
     reset_session!

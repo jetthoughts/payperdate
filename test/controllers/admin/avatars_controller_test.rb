@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Admin::AvatarsControllerTest < ActionController::TestCase
-  fixtures :admin_users, :users, :profiles, :albums
+  fixtures :admin_users, :users, :profiles, :profile_multiselects, :albums
 
   def setup
     users(:martin).update(avatar: create_sample_avatar)
