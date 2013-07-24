@@ -1,7 +1,11 @@
 require 'test_helper'
 
 
+#TODO: Move authorization tests from all controllers to one test unit
+#TODO: Extract to separate file
 class UsersControllerAuthorizationTest < ActionController::TestCase
+  fixtures :users
+
   tests UsersController
 
   test 'should be redirected to sign in page' do
@@ -18,6 +22,8 @@ class UsersControllerAuthorizationTest < ActionController::TestCase
 end
 
 class UsersControllerTest < ActionController::TestCase
+  fixtures :users
+
   def setup
     sign_in users(:martin)
   end
@@ -46,8 +52,10 @@ class UsersControllerTest < ActionController::TestCase
   end
 end
 
+# TODO: Extract to separate file
 class UsersControllerSearchTest < ActionController::TestCase
   tests UsersController
+  fixtures :users
 
   def setup
     @user = users(:robert)

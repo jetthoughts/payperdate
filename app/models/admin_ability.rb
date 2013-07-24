@@ -19,7 +19,8 @@ class AdminAbility
           can :delete, User
         end
       end
-      can :read, ActiveAdmin::Page, :name => "Dashboard"
+
+      can :read, ActiveAdmin::Page, name: 'Dashboard'
     end
   end
 end

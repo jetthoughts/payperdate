@@ -40,7 +40,7 @@ class Profile < ActiveRecord::Base
       { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
     ]
   }
-
+  
   MAX_DISTANCE = 9999999
 
   # belongs_to :user
@@ -103,10 +103,6 @@ class Profile < ActiveRecord::Base
   validate :valid_address?, if: :filled?
 
   scope :active, -> { joins(:user).where('users.blocked == false') }
-
-  # hstore_validates_presence_of 'date_preferences.accepted_distance' do |p|
-  #   p.distance_do_care?
-  # end
 
   geocoded_by :full_address   # can also be an IP address
   before_validation :regeocode          # auto-fetch coordinates
@@ -205,5 +201,9 @@ class Profile < ActiveRecord::Base
     attributes = {}
     column_names.each { |name| attributes[name.to_sym] = send(name.to_sym) }
     attributes
+  end
+
+  def name
+    "#{user.name}'s Profile"
   end
 end

@@ -1,8 +1,7 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
+         :recoverable, :rememberable, :trackable,
+         :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
   has_many :albums, dependent: :destroy
@@ -30,6 +29,8 @@ class User < ActiveRecord::Base
   include UserAuthMethods
   extend UserOauth
 
+  include ActivityTracker
+
   def self.find_for_database_authentication(conditions = {})
     find_by_login(conditions[:email])
   end
@@ -40,7 +41,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_login(login)
-    self.where(email: login).limit(1).first || self.where(nickname: login).limit(1).first
+    self.find_by(email: login) || self.find_by(nickname: login)
   end
 
   def blocked?

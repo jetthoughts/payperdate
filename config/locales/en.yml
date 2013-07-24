@@ -70,3 +70,19 @@ en:
   distance: "%{distance} miles"
 
 
+  admin:
+    user:
+      activities:
+        action:
+          create_avatar: 'set new avatar'
+          destroy_avatar: 'removed avatar'
+          sign_in: 'logged in'
+          sign_out: 'logged out'
+        sign_in:
+          details: "from: %{ip}"
+        sign_out:
+          details: ""
+        create_avatar:
+          details: ""
+        destroy_avatar:
+          details: ""
