@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(version: 20130802101254) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
-    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
+    t.boolean  "permission_mass_mailing"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree

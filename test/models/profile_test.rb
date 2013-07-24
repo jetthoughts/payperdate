@@ -52,8 +52,8 @@ class ProfileTest < ActiveSupport::TestCase
 
   test 'should be invalid if distance lesser or equal 0' do
     profile = profiles(:martins)
-    profile.date_preferences_accepted_distance = 0
     profile.date_preferences_accepted_distance_do_care = true
+    profile.date_preferences_accepted_distance = 0
     refute profile.valid?
   end
 
