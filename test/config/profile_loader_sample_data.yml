@@ -10,17 +10,22 @@
     general_info_address_line_1: 21 SW 59th Ave
     general_info_address_line_2: ''
     personal_preferences_sex: M
-    personal_preferences_partners_sex: F
-    personal_preferences_relationship: M
-    personal_preferences_want_relationship: D
-    date_preferences_smoker: D
-    date_preferences_drinker: DC
+    personal_preferences_partners_sex_multiselect: 
+      - F
+    personal_preferences_relationship_multiselect:
+      - M
+    personal_preferences_want_relationship_multiselect:
+      - D
+    date_preferences_smoker_multiselect:
+      - D
+    date_preferences_drinker_multiselect:
+      - DC
     date_preferences_description: Something that would surprise both people involved. I am a very busy
       man and time is go out and meet new friends is not as much as I would like.
       I am interested in a fun person that I can share some private time with.
     date_preferences_accepted_distance_do_care: 'false'
-    optional_info_age: '39'
-    optional_info_height: '191'
+    optional_info_birthday: 17.02.1974
+    optional_info_height: L9
     optional_info_smoker: O
     optional_info_drinker: N
     optional_info_children: N

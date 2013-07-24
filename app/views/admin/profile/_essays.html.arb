@@ -1,12 +1,36 @@
 extend ProfilesHelper
 
-editable_form do |f|
+form_for profile, url: admin_profile_path(profile) do |f|
   strong 'Marked words are possible profane' if profile.profane?
-  edit_link '#essays'
+
+  span do
+    link_to 'Edit', '#essays', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
-    editable_row :general_info_tagline, profile: profile, f: f, with: :profanity, &editable_text
-    editable_row :general_info_description, profile: profile, f: f, with: :profanity, &editable_area
-    editable_row :date_preferences_description, profile: profile, f: f, with: :profanity, &editable_area
-    edit_submit f
+    row :general_info_tagline, class: 'profile-inline-edit' do
+      highlight(profile.general_info_tagline, Obscenity.offensive(profile.general_info_tagline))
+    end
+    row :general_info_tagline_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :general_info_tagline, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :general_info_description, class: 'profile-inline-edit' do
+      highlight(profile.general_info_description, Obscenity.offensive(profile.general_info_description))
+    end
+    row :general_info_description_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_area :general_info_description, class: 'profile-hide profile-inline-edit', rows: 5
+    end
+
+    row :date_preferences_description, class: 'profile-inline-edit' do
+      highlight(profile.date_preferences_description, Obscenity.offensive(profile.date_preferences_description))
+    end
+    row :date_preferences_description_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_area :date_preferences_description, class: 'profile-hide profile-inline-edit', rows: 5
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end

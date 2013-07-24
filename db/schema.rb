@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130808083702) do
+ActiveRecord::Schema.define(version: 20130809063849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,16 @@ ActiveRecord::Schema.define(version: 20130808083702) do
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
+  create_table "profile_multiselects", force: true do |t|
+    t.integer  "profile_id"
+    t.string   "name"
+    t.string   "select_type"
+    t.string   "value"
+    t.boolean  "checked"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "profile_notes", force: true do |t|
     t.string   "text",          null: false
     t.integer  "profile_id",    null: false
@@ -228,20 +238,14 @@ ActiveRecord::Schema.define(version: 20130808083702) do
     t.string   "general_info_tagline"
     t.text     "general_info_description"
     t.string   "personal_preferences_sex"
-    t.string   "personal_preferences_partners_sex"
-    t.string   "personal_preferences_relationship"
-    t.string   "personal_preferences_want_relationship"
     t.string   "date_preferences_accepted_distance"
     t.string   "date_preferences_accepted_distance_do_care"
-    t.string   "date_preferences_smoker"
-    t.string   "date_preferences_drinker"
     t.text     "date_preferences_description"
-    t.integer  "optional_info_age"
     t.string   "optional_info_education"
     t.string   "optional_info_occupation"
     t.string   "optional_info_annual_income"
-    t.integer  "optional_info_net_worth"
-    t.integer  "optional_info_height"
+    t.string   "optional_info_net_worth"
+    t.string   "optional_info_height"
     t.string   "optional_info_body_type"
     t.string   "optional_info_religion"
     t.string   "optional_info_ethnicity"
@@ -250,6 +254,9 @@ ActiveRecord::Schema.define(version: 20130808083702) do
     t.string   "optional_info_children"
     t.string   "optional_info_smoker"
     t.string   "optional_info_drinker"
+    t.date     "optional_info_birthday"
+    t.string   "nickname_cache"
+    t.string   "name_cache"
   end
 
   create_table "services", force: true do |t|

@@ -1,14 +1,40 @@
 extend ProfilesHelper
 
-editable_form do |f|
-  edit_link '#social'
+form_for profile, url: admin_profile_path(profile) do |f|
+  span do
+    link_to 'Edit', '#social', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
-    editable_row :optional_info_education, profile: profile, f: f, with: :select,
-                 type: 'education', &(editable_select 'education')
-    editable_row :optional_info_occupation, profile: profile, f: f, with: :profanity, &editable_text
-    editable_row :optional_info_annual_income, profile: profile, f: f, with: '$ per year', &(editable_number 0)
-    editable_row :optional_info_net_worth, profile: profile, f: f, with: '$', &(editable_number 0)
-    edit_submit f
+    row :optional_info_education, class: 'profile-inline-edit' do
+      select_title('education', profile.optional_info_education)
+    end
+    row :optional_info_education_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_education, select_options('education'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_occupation, class: 'profile-inline-edit'
+    row :optional_info_occupation_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :optional_info_occupation, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_annual_income, class: 'profile-inline-edit' do
+      select_title('income', profile.optional_info_annual_income)
+    end
+    row :optional_info_annual_income_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_annual_income, select_options('income'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_net_worth, class: 'profile-inline-edit' do
+      select_title('net_worth', profile.optional_info_net_worth)
+    end
+    row :optional_info_net_worth_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_net_worth, select_options('net_worth'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end
 

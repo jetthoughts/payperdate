@@ -8,7 +8,7 @@
 		  		<% end %>
 			</div>
 			<div class="span9">
-				<p><strong><%= user.nickname %></strong></p>
+				<p><strong><%= user.published_profile.nickname_cache %></strong></p>
 				<p><em><%= user.published_profile.general_info_tagline %></em></p>
 				<p><%= truncate user.published_profile.general_info_description, length: 200 %></p>
 				<div><%= link_to 'Show profile', user_profile_path(user), class: 'btn' -%></div>

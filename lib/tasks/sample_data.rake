@@ -69,7 +69,6 @@ task setup_sample_data: :environment do
     CreditsPackage.create package
   end
 
-
   puts 'Setting up users..'
 
   create_users
