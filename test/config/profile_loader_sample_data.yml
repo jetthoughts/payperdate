@@ -1,0 +1,36 @@
+-
+  name: 'Joe Black'
+  profile:
+    general_info_city: Miami
+    general_info_state: Florida
+    general_info_tagline: Testing new waters.
+    general_info_zip_code: '33144'
+    general_info_description: Fun, educated, intelligent but very busy schedule, so no time for
+      games.
+    general_info_address_line_1: 21 SW 59th Ave
+    general_info_address_line_2: ''
+    personal_preferences_sex: M
+    personal_preferences_partners_sex: F
+    personal_preferences_relationship: M
+    personal_preferences_want_relationship: D
+    date_preferences_smoker: D
+    date_preferences_drinker: DC
+    date_preferences_description: Something that would surprise both people involved. I am a very busy
+      man and time is go out and meet new friends is not as much as I would like.
+      I am interested in a fun person that I can share some private time with.
+    date_preferences_accepted_distance_do_care: 'false'
+    optional_info_age: '39'
+    optional_info_height: '191'
+    optional_info_smoker: O
+    optional_info_address: ''
+    optional_info_drinker: N
+    optional_info_children: N
+    optional_info_religion: C
+    optional_info_body_type: Av
+    optional_info_education: G
+    optional_info_ethnicity: W
+    optional_info_eye_color: brown
+    optional_info_net_worth: ''
+    optional_info_hair_color: LBro
+    optional_info_occupation: International trade
+    optional_info_annual_income: ''

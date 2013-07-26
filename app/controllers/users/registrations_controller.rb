@@ -26,7 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def captcha_valid?
-    Rails.env.development? || verify_recaptcha
+    Rails.env.development? || Rails.env.test? || verify_recaptcha
   end
 
 end
