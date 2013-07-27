@@ -40,15 +40,15 @@ class Profile < ActiveRecord::Base
       { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
     ]
   }
-  
+
   MAX_DISTANCE = 9999999
 
   # belongs_to :user
   has_one :user
   has_one :published_user, foreign_key: :published_profile_id, class_name: 'User'
 
-  has_one :current_version, through: :published_user, class_name: 'Profile', foreign_key: :profile_id
-  has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
+  # has_one :current_version, through: :published_user, class_name: 'Profile', foreign_key: :profile_id
+  # has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
 
   belongs_to :avatar
 

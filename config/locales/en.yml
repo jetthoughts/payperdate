@@ -64,13 +64,6 @@ en:
           r: Unknown
           r1: By face
           r2: By nudity
-  number:
-    format:
-      precision: 2
-  distance: "%{distance} miles"
-
-
-  admin:
     user:
       activities:
         action:
@@ -86,3 +79,7 @@ en:
           details: ""
         destroy_avatar:
           details: ""
+  number:
+    format:
+      precision: 2
+  distance: "%{distance} miles"
