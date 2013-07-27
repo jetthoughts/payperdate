@@ -81,6 +81,9 @@ gem 'face'
 # Search (already added in admin panel)
 # gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 
+group :development, :test do
+  gem 'capybara'
+end
 
 group :development do
   gem 'quiet_assets'

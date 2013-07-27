@@ -16,7 +16,14 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    root_path
+    if resource.blocked?
+      sign_out resource
+      flash[:notice] = nil
+      flash[:alert] = I18n.t 'users.errors.account_blocked'
+      new_user_session_path
+    else
+      root_path
+    end
   end
 
   def resource_params

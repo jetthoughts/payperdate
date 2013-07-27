@@ -15,22 +15,26 @@ class Users::OmniauthCallbacksController < ApplicationController
   private
 
   def process_oauth_login
-    user = User.find_from_oauth request.env["omniauth.auth"]
+    user = User.find_from_oauth request.env['omniauth.auth']
     if user && user.persisted?
-      flash[:notice] = t "devise.omniauth_callbacks.success", kind: provider
-      sign_in_and_redirect user, event: :authentication
+      if user.blocked?
+        process_failure t('devise.failure.blocked')
+      else
+        flash[:notice] = t('devise.omniauth_callbacks.success', kind: provider)
+        sign_in_and_redirect user, event: :authentication
+      end
     else
       process_failure
     end
   end
 
-  def process_failure
-    flash[:alert] = t "devise.omniauth_callbacks.failure", kind: provider
+  def process_failure(message = t('devise.omniauth_callbacks.failure',  kind: provider))
+    flash[:alert] = message
     redirect_to root_path
   end
 
   def provider
-    request.env["omniauth.strategy"].name
+    request.env['omniauth.strategy'].name
   end
 
 end
