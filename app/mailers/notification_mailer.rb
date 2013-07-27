@@ -12,6 +12,11 @@ class NotificationMailer < ActionMailer::Base
     deliver_mail mail(to: @user.email, subject: 'Your account has been blocked')
   end
 
+  def user_was_deleted(email, name)
+    @name = name
+    deliver_mail mail(to: email, subject: 'Your account has been deleted')
+  end
+
   private
 
   def deliver_mail(mail)

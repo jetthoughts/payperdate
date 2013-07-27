@@ -23,6 +23,13 @@ class ProfilesController < BaseController
     end
   end
 
+  def check_if_user_is_blocked
+    if @profile.user.blocked?
+      flash[:alert] = t 'users.errors.user_blocked'
+      redirect_to root_path
+    end
+  end
+
   def require_filled_profile
     unless @profile.filled?
       flash[:alert] = t 'users.errors.foreign_user_has_no_profile'
