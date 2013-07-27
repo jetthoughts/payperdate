@@ -102,6 +102,8 @@ class Profile < ActiveRecord::Base
 
   validate :valid_address?, if: :filled?
 
+  scope :active, -> { joins(:user).where('users.blocked == false') }
+
   # hstore_validates_presence_of 'date_preferences.accepted_distance' do |p|
   #   p.distance_do_care?
   # end

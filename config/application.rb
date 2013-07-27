@@ -22,5 +22,7 @@ module Payperdate
 
     config.assets.precompile += %w(rails_admin/rails_admin.css rails_admin/rails_admin.js)
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    config.background_workers_envs = [:production, :test]
   end
 end
