@@ -6,16 +6,12 @@ class Photo < ActiveRecord::Base
   has_one :profile, foreign_key: :avatar_id
 
   mount_uploader :image, ImageUploader
-  validates :image,
-            presence: true,
-            file_size: {
-                maximum: 5.megabytes.to_i
-            }
+  validates :image, presence: true, file_size: { maximum: 5.megabytes.to_i }
 
   delegate :user_id, :user, to: :album, allow_nil: true
 
   VERIFIED_STATUSES = { pending: 0, approved: 1, declined: 2 }
-  DECLINED_REASONS = { by_unknown: nil, by_face: 1, by_nudity: 2 }
+  DECLINED_REASONS  = { by_unknown: nil, by_face: 1, by_nudity: 2 }
 
   class VerifiedStatus
     extend ActAsEnumeration
@@ -43,7 +39,8 @@ class Photo < ActiveRecord::Base
   end
 
   def decline!(by_reason = :by_unknown)
-    self.update! verified_status: VerifiedStatus.declined, declined_reason: DECLINED_REASONS[by_reason.to_sym]
+    self.update! verified_status: VerifiedStatus.declined,
+                 declined_reason: DECLINED_REASONS[by_reason.to_sym]
     notify_photo_was_declined
   end
 
@@ -71,6 +68,7 @@ class Photo < ActiveRecord::Base
     else
       params[:image] = image
     end
+
     Avatar.create!(params)
   end
 
@@ -91,8 +89,7 @@ class Photo < ActiveRecord::Base
   end
 
   def return_to_pending
-    self.verified_status = VerifiedStatus.pending
-    save!
+    update! verified_status: VerifiedStatus.pending
   end
 
   def notify_photo_was_declined

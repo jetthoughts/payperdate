@@ -1,7 +1,8 @@
-pauls: {}
+pauls:
+  filled: false
 
-johns: {}
-
+johns:
+  filled: false
 
 martins:
   filled: true
@@ -215,3 +216,9 @@ rias:
   optional_info_children: C1
   optional_info_smoker: N
   optional_info_drinker: N
+
+lilys:
+  filled: false
+
+lolas:
+  filled: false

@@ -8,10 +8,14 @@ class AdminAbility
       if admin.master?
         can :manage, :all
       else
-        if admin.get_permissions[:permission_approve_photos_avatars]
+        if admin.get_permissions[:permission_approver]
           can :read, Photo
           can :approve, Photo
           can :decline, Photo
+        end
+        if admin.get_permissions[:permission_customer_care]
+          can :read, User
+          can :block, User
         end
       end
       can :read, ActiveAdmin::Page, :name => "Dashboard"

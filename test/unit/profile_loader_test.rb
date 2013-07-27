@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'tasks/profile_loader'
 
 class ProfileLoaderTest < ActiveSupport::TestCase
   def setup

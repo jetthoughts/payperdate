@@ -1,5 +1,6 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+require 'devise/database_authentiticatable_with_blocked'
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -206,8 +207,9 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
-  #   manager.intercept_401 = false
-  #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
-  # end
+   config.warden do |manager|
+     manager.intercept_401 = false
+     manager.default_strategies(:scope => :user).delete(:database_authenticatable)
+     manager.default_strategies(:scope => :user).unshift :database_authenticatable_with_blocked
+   end
 end

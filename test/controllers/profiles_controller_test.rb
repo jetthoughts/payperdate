@@ -31,4 +31,9 @@ class ProfilesControllerTest < ActionController::TestCase
     get :show, user_id: users(:john)
     assert_redirected_to root_path
   end
+
+  test 'should not be able to see blocked user profile' do
+    get :show, user_id: users(:lola)
+    assert_redirected_to root_path
+  end
 end
