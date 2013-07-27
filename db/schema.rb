@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130721081703) do
+ActiveRecord::Schema.define(version: 20130724165534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,11 +91,6 @@ ActiveRecord::Schema.define(version: 20130721081703) do
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
   create_table "profiles", force: true do |t|
-    t.integer  "user_id",              null: false
-    t.hstore   "general_info"
-    t.hstore   "personal_preferences"
-    t.hstore   "date_preferences"
-    t.hstore   "optional_info"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "avatar_id"
@@ -103,9 +98,39 @@ ActiveRecord::Schema.define(version: 20130721081703) do
     t.float    "longitude"
     t.boolean  "filled"
     t.string   "full_address_saved"
+    t.boolean  "reviewed"
+    t.string   "general_info_address_line_1"
+    t.string   "general_info_address_line_2"
+    t.string   "general_info_city"
+    t.string   "general_info_state"
+    t.string   "general_info_zip_code"
+    t.string   "general_info_tagline"
+    t.text     "general_info_description"
+    t.string   "personal_preferences_sex"
+    t.string   "personal_preferences_partners_sex"
+    t.string   "personal_preferences_relationship"
+    t.string   "personal_preferences_want_relationship"
+    t.string   "date_preferences_accepted_distance"
+    t.string   "date_preferences_accepted_distance_do_care"
+    t.string   "date_preferences_smoker"
+    t.string   "date_preferences_drinker"
+    t.text     "date_preferences_description"
+    t.integer  "optional_info_age"
+    t.string   "optional_info_education"
+    t.string   "optional_info_occupation"
+    t.string   "optional_info_annual_income"
+    t.integer  "optional_info_net_worth"
+    t.integer  "optional_info_height"
+    t.string   "optional_info_body_type"
+    t.string   "optional_info_religion"
+    t.string   "optional_info_ethnicity"
+    t.string   "optional_info_eye_color"
+    t.string   "optional_info_hair_color"
+    t.string   "optional_info_address"
+    t.string   "optional_info_children"
+    t.string   "optional_info_smoker"
+    t.string   "optional_info_drinker"
   end
-
-  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -129,6 +154,8 @@ ActiveRecord::Schema.define(version: 20130721081703) do
     t.boolean  "no_password",                       default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "published_profile_id"
+    t.integer  "profile_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

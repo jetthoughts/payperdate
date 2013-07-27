@@ -12,7 +12,7 @@ class ProfilesController < BaseController
   def load_profile
     @user = User.find(params[:user_id])
     @profile = @user.profile
-    @profile.safe_for_user = current_user
+    # @profile.safe_for_user = current_user
   end
 
   def require_filled_profile
