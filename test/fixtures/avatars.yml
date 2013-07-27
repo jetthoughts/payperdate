@@ -1,0 +1,4 @@
+martins:
+  album: martins_avatars
+  image: 'tmp/image.jpeg'
+  type: 'Avatar'

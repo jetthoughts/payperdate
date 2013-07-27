@@ -69,4 +69,10 @@ ActiveAdmin.register User do
     end
     f.actions
   end
+
+  sidebar 'User Details', only: [:show] do
+    ul do
+      li link_to('Activities', admin_user_activities_path(resource))
+    end
+  end
 end

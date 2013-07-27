@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class Admin::PhotosControllerTest < ActionController::TestCase
+  fixtures :admin_users
+
   def setup
     @controller = ::Admin::PhotosController.new
   end
-
-  fixtures :admin_users
 
   test 'master admin should have access to photos' do
     sign_in admin_users(:admin)
