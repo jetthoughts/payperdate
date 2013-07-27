@@ -1,9 +1,10 @@
-
 <div class="span3">
   <div class="dropdown">
-    <label class="dropdown-toggle label_drpd" data-toggle="dropdown"><strong><%= t criteria[:key] %></strong></label>
-    <%= render partial: "search/criterias/#{criteria[:type]}",
-               locals: { section: criteria[:section], key: criteria[:key],
-                         subtype: criteria[:subtype], f: f } %>
+    <label class="dropdown-toggle label_drpd" data-toggle="dropdown">
+    	<strong><%= t criteria[:key] %></strong>
+    </label>
+    <%= render "search/criterias/#{criteria[:type]}",
+               section: criteria[:section], key: criteria[:key],
+               subtype: criteria[:subtype], f: f %>
   </div>
 </div>

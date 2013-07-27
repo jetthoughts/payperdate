@@ -2,20 +2,20 @@
 <p>
   <strong>Basic criterias</strong>
 <hr/>
-<%= form_for @search, as: :search, url: search_path, method: :get do |f| %>
+<%= search_form_for @q, url: search_path, method: :get, id: :new_search do |f| %>
     <div class="row-fluid">
       <div class="span3">
         <label><strong><%= t :where_are_you %></strong></label>
 
         <div class="row-fluid">
-          <div><%= f.text_field :location, class: 'span5' %></div>
+          <div><%= text_field_tag :location, params[:location], class: 'span5' %></div>
         </div>
       </div>
       <div class="span3">
         <label><strong><%= t :max_distance %></strong></label>
 
         <div class="row-fluid">
-          <div><%= f.number_field :max_distance, class: 'span5', min: 0 %></div>
+          <div><%= number_field_tag :max_distance, params[:max_distance], class: 'span5', min: 0 %></div>
         </div>
       </div>
       <div class="span3">
