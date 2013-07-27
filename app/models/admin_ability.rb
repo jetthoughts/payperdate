@@ -16,6 +16,7 @@ class AdminAbility
         if admin.get_permissions[:permission_customer_care]
           can :read, User
           can :block, User
+          can :delete, User
         end
       end
       can :read, ActiveAdmin::Page, :name => "Dashboard"
