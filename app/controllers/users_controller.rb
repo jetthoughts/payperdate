@@ -41,8 +41,10 @@ class UsersController < BaseController
 
   def setup_users
     @users = @profiles.map do |profile|
-      profile.user.distance = profile['distance'] unless profile.user.nil?
-      profile.user
+      unless profile.user.nil? || profile.user.blocked?
+        profile.user.distance = profile['distance']
+        profile.user
+      end
     end
     @users.compact!
   end
