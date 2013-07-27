@@ -3,14 +3,14 @@ begin
 
     # Cancan integration
     config.authorization_adapter = ActiveAdmin::CanCanAdapter
-    config.cancan_ability_class = 'AdminAbility'
+    config.cancan_ability_class  = 'AdminAbility'
 
     # == Site Title
     #
     # Set the title that is displayed on the main layout
     # for each of the active admin pages.
     #
-    config.site_title            = 'Payperdate'
+    config.site_title            = 'PayPerDate'
 
     # Set the link url for the title. For example, to take
     # users to your main site. Defaults to no link.
@@ -215,8 +215,8 @@ begin
   ActiveAdmin::ResourceController.class_eval do
     # Allow ActiveAdmin admins to freely mass-assign when using strong_parameters
     def resource_params
-      [(params[resource_request_name] || params[resource_instance_name]).try(:permit!) || { }]
+      [(params[resource_request_name] || params[resource_instance_name]).try(:permit!) || {}]
     end
   end
-rescue => ex
+rescue
 end

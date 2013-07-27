@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Admin::DashboardControllerTest < ActionController::TestCase
+  fixtures :admin_users
+
   def setup
     @controller = ::Admin::DashboardController.new
   end
