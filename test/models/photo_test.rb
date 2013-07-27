@@ -32,8 +32,4 @@ class PhotoTest < ActiveSupport::TestCase
   def create_sample_photo
     Photo.create! image: create_tmp_image, album: albums(:favorites)
   end
-
-  def create_tmp_image
-    Tempfile.new(%w(example .jpg)).tap { |f| f.puts('stub image file body') }
-  end
 end

@@ -3,3 +3,8 @@ favorites:
   name: 'Favorites'
   system: false
   user: martin
+
+martins_avatars:
+  name: 'Avatars'
+  system: false
+  user: martin

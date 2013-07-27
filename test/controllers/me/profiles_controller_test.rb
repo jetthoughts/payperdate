@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Me::ProfilesControllerTest < ActionController::TestCase
+  fixtures :users, :profiles
+
   def setup
     sign_in users(:paul)
   end
@@ -19,5 +21,17 @@ class Me::ProfilesControllerTest < ActionController::TestCase
     sign_in users(:martin)
     get :show
     assert_response :success
+  end
+
+  def test_update_tracks_activity
+    sign_in users(:martin)
+
+    assert_difference -> { Activity.count }, +1 do
+      patch :update, profile: { personal_preferences: { sex: 'M' } }
+    end
+
+    change_profile_activity = users(:martin).activities.last
+    assert_equal profiles(:martins), change_profile_activity.subject
+    assert_equal 'update', change_profile_activity.action
   end
 end

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class AlbumsControllerTest < ActionController::TestCase
+  fixtures :users
+
   def setup
     sign_in users(:paul)
   end

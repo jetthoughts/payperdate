@@ -2,6 +2,8 @@ class Me::ProfilesController < ApplicationController
   before_filter :setup_user_and_profile
   before_filter :ensure_user_has_filled_profile, only: [:show]
 
+  after_filter :track_activity, only: [:update]
+
   def show
   end
 
@@ -26,5 +28,9 @@ class Me::ProfilesController < ApplicationController
   def setup_user_and_profile
     @user    = current_user
     @profile = @user.profile
+  end
+
+  def track_activity
+    current_user.track_profile_changed
   end
 end

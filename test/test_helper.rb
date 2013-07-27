@@ -1,18 +1,18 @@
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] = 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 
 require 'rails/test_help'
 
-MiniTest::Reporters.use!
+Dir['./test/support/**/*.rb'].sort.each { |f| require f }
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 
+  include Payperdate::TestHelpers
+
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
-
-  fixtures :all
 end
 
 class ActionController::TestCase

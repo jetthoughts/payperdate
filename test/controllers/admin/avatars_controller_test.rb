@@ -1,15 +1,14 @@
 require 'test_helper'
 
 class Admin::AvatarsControllerTest < ActionController::TestCase
+  fixtures :admin_users, :users, :profiles, :albums
+
   def setup
     profiles(:martins).update(avatar: create_sample_avatar)
     profiles(:mias).update(avatar: create_sample_avatar)
     @controller = ::Admin::AvatarsController.new
   end
 
-  fixtures :admin_users
-  fixtures :users
-  fixtures :profiles
 
   test 'master admin should have access to avatars' do
     sign_in admin_users(:admin)
