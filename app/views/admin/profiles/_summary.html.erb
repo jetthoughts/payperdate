@@ -1,0 +1,25 @@
+<div>
+<p>
+  <%= render 'avatar', { profile: profile } -%>
+</p>
+  <p>
+    Nickname: <%= profile.nickname %>
+  </p>
+  <p>
+   Details info: <%= link_to profile.user.name, admin_user_path(profile.user) -%>
+  </p>
+</div>
+<div>
+  <div>
+    <%= link_to 'View photos', admin_photos_path(scope: :pending, q: { album_user_id_eq: profile.user_id }) %>
+  </div>
+  <div>
+    <%= link_to 'View avatars', admin_avatars_path(scope: :pending, q: { album_user_id_eq: profile.user_id }) %>
+  </div>
+  <div>
+    <%= link_to 'View Mailbox', '#' %>
+  </div>
+  <div>
+    <%= link_to 'Login as user', login_admin_user_path(profile.user) %>
+  </div>
+</div>

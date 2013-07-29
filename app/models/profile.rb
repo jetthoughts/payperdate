@@ -46,8 +46,9 @@ class Profile < ActiveRecord::Base
   # belongs_to :user
   has_one :user
   has_one :published_user, foreign_key: :published_profile_id, class_name: 'User'
-  has_many :profile_notes
 
+  has_many :profile_notes
+  delegate :nickname, to: :user, allow_nil: true
   # has_one :current_version, through: :published_user, class_name: 'Profile', foreign_key: :profile_id
                                # has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
 
@@ -183,7 +184,7 @@ class Profile < ActiveRecord::Base
 
   # hotfix
   def user_id
-    user.id
+    user.id if user
   end
 
   private

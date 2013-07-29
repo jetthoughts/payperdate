@@ -4,6 +4,9 @@ ActiveAdmin.register Avatar do
   scope :approved
   scope :declined
 
+  filter :created_at
+  filter :album_user_id, as: :select, label: 'User', collection: -> { User.all.map { |u| ["#{u.name}(#{u.email})", u.id] } }.call
+
   batch_action :approve do |selection|
     authorize! :approve, Photo
 
