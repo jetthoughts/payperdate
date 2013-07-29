@@ -49,4 +49,18 @@ class Users::SessionsControllerTest < ActionController::TestCase
 
     assert sign_out_activity.details['time']
   end
+
+  test 'log out for not signed in user must not raise' do
+    assert_nothing_raised do
+      delete :destroy
+    end
+  end
+
+  test 'log out for signed in user must not raise' do
+    sign_in users(:martin)
+
+    assert_nothing_raised do
+      delete :destroy
+    end
+  end
 end
