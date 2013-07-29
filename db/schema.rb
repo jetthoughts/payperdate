@@ -106,9 +106,9 @@ ActiveRecord::Schema.define(version: 20130731090749) do
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
   create_table "profile_notes", force: true do |t|
-    t.string   "text",       null: false
-    t.integer  "profile_id", null: false
-    t.integer  "admin_id",   null: false
+    t.string   "text",          null: false
+    t.integer  "profile_id",    null: false
+    t.integer  "admin_user_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,3 +1,11 @@
-<div>
-  <%= profile_note.text -%>
-</div>
+<li>
+  <div>
+    <%= profile_note.text -%>
+  </div>
+  <div class="note_info">
+    <b>by</b> <i><%= profile_note.admin_user.email %></i>
+  <span class="date">
+    (<%= format_date(profile_note.created_at) -%>)
+  </span>
+  </div>
+</li>
