@@ -1,8 +1,13 @@
 ActiveAdmin.register Profile do
-  show title: -> p { "#{p.user.name}'s Profile" } do
+
+  sidebar :notes, only: [:edit] do
+    render 'admin/profile_notes/list', profile: resource
   end
 
-  sidebar :notes, only: [:edit, :show] do
-    render 'admin/profile_notes/list', profile: resource
+  controller do
+    def show
+
+      redirect_to edit_admin_profile_path(resource)
+    end
   end
 end
