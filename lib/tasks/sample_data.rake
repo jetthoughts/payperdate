@@ -1,3 +1,5 @@
+require 'tasks/profile_loader'
+
 desc 'setups up db and data'
 task setup: :environment do
   raise 'do not run this task in production' if Rails.env.production?
@@ -23,6 +25,8 @@ task setup_sample_data: :environment do
   Authentitication.delete_all
   puts 'Cleaning albums..'
   Album.delete_all
+  puts 'Cleaning photos..'
+  Photo.delete_all
 
   puts 'Setting up master admin..'
 
@@ -44,23 +48,6 @@ end
 
 
 def create_users
-  load_profiles
+  ProfileLoader.load 'config/sample_data.yml'
 end
 
-
-def create_user(name)
-  u = User.create! nickname:     name.split(' ').first.downcase, # => john
-                   name:         name,
-                   email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
-                   password:     'welcome',
-                   confirmed_at: Time.current
-  puts u.email
-  u
-end
-
-def load_profiles
-  config = YAML::load_file 'config/sample_data.yml'
-  config.each do |user|
-    create_user(user['name']).profile.update!(user['profile'])
-  end
-end

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class ProfilesControllerTest < ActionController::TestCase
+  fixtures :users
+
   def setup
     sign_in users(:martin)
   end
@@ -29,6 +31,11 @@ class ProfilesControllerTest < ActionController::TestCase
 
   test 'should be able see others user with filled profile' do
     get :show, user_id: users(:john)
+    assert_redirected_to root_path
+  end
+
+  test 'should not be able to see blocked user profile' do
+    get :show, user_id: users(:lola)
     assert_redirected_to root_path
   end
 end

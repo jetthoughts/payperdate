@@ -66,6 +66,7 @@ gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
 
 gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+gem 'draper', '>= 1.0.0'
 gem 'state_machine'
 
 
@@ -81,6 +82,9 @@ gem 'face'
 # Search (already added in admin panel)
 # gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 
+group :development, :test do
+  gem 'capybara'
+end
 
 group :development do
   gem 'quiet_assets'
@@ -102,6 +106,7 @@ group :test do
   gem 'simplecov'
   gem 'minitest-reporters', '>= 0.5.0'
   gem 'mocha', require: false
+  gem 'zeus'
 end
 
 group :utils do

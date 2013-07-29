@@ -6,16 +6,12 @@ class Photo < ActiveRecord::Base
   has_one :profile, foreign_key: :avatar_id
 
   mount_uploader :image, ImageUploader
-  validates :image,
-            presence:  true,
-            file_size: {
-              maximum: 5.megabytes.to_i
-            }
+  validates :image, presence: true, file_size: { maximum: 5.megabytes.to_i }
 
   delegate :user_id, :user, to: :album, allow_nil: true
 
   VERIFIED_STATUSES = { pending: 0, approved: 1, declined: 2 }
-  DECLINED_REASONS = { by_unknown: nil, by_face: 1, by_nudity: 2 }
+  DECLINED_REASONS  = { by_unknown: nil, by_face: 1, by_nudity: 2 }
 
   class VerifiedStatus
     extend ActAsEnumeration
@@ -32,6 +28,7 @@ class Photo < ActiveRecord::Base
   scope :pending, -> { where(verified_status: VerifiedStatus.pending) }
   scope :approved, -> { where(verified_status: VerifiedStatus.approved) }
   scope :declined, -> { where(verified_status: VerifiedStatus.declined) }
+  scope :not_avatars, -> { where(type: 'Photo') }
 
   validates :album, presence: true
 
@@ -42,7 +39,8 @@ class Photo < ActiveRecord::Base
   end
 
   def decline!(by_reason = :by_unknown)
-    self.update! verified_status: VerifiedStatus.declined, declined_reason: DECLINED_REASONS[by_reason.to_sym]
+    self.update! verified_status: VerifiedStatus.declined,
+                 declined_reason: DECLINED_REASONS[by_reason.to_sym]
     notify_photo_was_declined
   end
 
@@ -57,6 +55,29 @@ class Photo < ActiveRecord::Base
     end
   end
 
+  def avatar?
+    type == 'Avatar'
+  end
+
+  def make_avatar
+    return self if avatar?
+
+    params = { profile: user.profile }
+    if image.url =~ /^http/
+      params[:remote_image_url] = image.url
+    else
+      params[:image] = image
+    end
+
+    Avatar.create!(params)
+  end
+
+  def could_used_as_avatar?
+    if user && (profile = user.profile)
+      profile.avatar != self
+    end
+  end
+
   private
 
   def validate_nudity
@@ -64,16 +85,15 @@ class Photo < ActiveRecord::Base
   end
 
   def schedule_image_validation
-    ValidateImageJob.enqueue(self.id)
+    Delayed::Job.enqueue ValidateImageJob.new(self.id)
   end
 
   def return_to_pending
-    self.verified_status = VerifiedStatus.pending
-    save!
+    update! verified_status: VerifiedStatus.pending
   end
 
   def notify_photo_was_declined
-    NotificationMailer.photo_was_declined(user_id, image.url(:medium))
+    NotificationMailer.delay.photo_was_declined(user_id, image.url(:medium))
   end
 
 end

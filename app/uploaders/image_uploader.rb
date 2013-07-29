@@ -16,11 +16,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
 
-  version :avatar do
+  version :avatar, if: :is_avatar? do
     process resize_to_fit: [200, 300]
   end
 
-  version :thumb do
+  version :thumb, if: :is_avatar? do
     process resize_to_fill: [50, 50]
   end
 
@@ -35,8 +35,14 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
-   def extension_white_list
-     %w(jpg jpeg gif png)
-   end
+  def extension_white_list
+    %w(jpg jpeg gif png)
+  end
+
+  protected
+
+  def is_avatar?(new_file)
+    model.avatar?
+  end
 
 end

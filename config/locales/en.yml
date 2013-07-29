@@ -30,10 +30,15 @@ en:
     errors:
       current_user_has_no_profile: 'You have no profile, create it now.'
       foreign_user_has_no_profile: 'Sorry, but this user has no profile yet.'
+      user_blocked: 'Sorry, but this user was suspended.'
+      account_blocked: 'Your account was suspended.'
+    notices:
+      signed_up_confirmation_sent: 'A message with a confirmation link has been sent to your email address. Please open the link to activate your account.'
   profiles:
     errors:
       required_field: 'Field is required'
       invalid_address: 'Address is invalid'
+      invalid_zipcode: 'Invalid zipcode. We expected %{zipcode}'
   activerecord:
     errors:
       models:
@@ -43,7 +48,7 @@ en:
               size_too_big: 'Size too big'
   profile:
     address:
-      full: "%{address_line_1}, %{city}, %{state} %{zip_code}"
+      full: "%{general_info_address_line_1}, %{general_info_city}, %{general_info_state} %{general_info_zip_code}"
   tools:
     gmap:
       uri: "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=%{latitude}%2C%{longitude}"
@@ -52,16 +57,30 @@ en:
       allowed: 'Allowed'
       denied: 'Denied'
       no_permissions: 'No permissions'
-      permission_approve_photos_avatars: 'Approve photos/avatars'
+      permission_approver: 'Approver (access only to Picture and Profile approval/rejection)'
+      permission_customer_care: 'Customer Care (delete users, respond to user questions, etc)'
     photo:
       declined:
         reason:
           r: Unknown
           r1: By face
           r2: By nudity
+    user:
+      activities:
+        action:
+          create_avatar: 'set new avatar'
+          destroy_avatar: 'removed avatar'
+          sign_in: 'logged in'
+          sign_out: 'logged out'
+        sign_in:
+          details: "from: %{ip}"
+        sign_out:
+          details: ""
+        create_avatar:
+          details: ""
+        destroy_avatar:
+          details: ""
   number:
     format:
       precision: 2
   distance: "%{distance} miles"
-
-
