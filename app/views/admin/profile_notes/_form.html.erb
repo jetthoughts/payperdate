@@ -1,0 +1,4 @@
+<%= form_for [:admin, profile, profile.profile_notes.build(admin_id: current_admin_user.id)] do |f| %>
+  <%= f.text_field :text  -%>
+  <%= f.hidden_field :admin_id  -%>
+<%- end -%>
