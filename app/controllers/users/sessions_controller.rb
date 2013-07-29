@@ -15,17 +15,6 @@ class Users::SessionsController < Devise::SessionsController
     (options = env['warden.options']) && options[:action] == 'unauthenticated'
   end
 
-  def after_sign_in_path_for(resource)
-    if resource.blocked?
-      sign_out resource
-      flash[:notice] = nil
-      flash[:alert] = I18n.t 'users.errors.account_blocked'
-      new_user_session_path
-    else
-      root_path
-    end
-  end
-
   def resource_params
     params.require(:user).permit(:email, :password, :login, :remember_me)
   end

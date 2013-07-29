@@ -67,7 +67,7 @@
                   = f.hidden_field :date_preferences_accepted_distance_do_care, id: 'date_preferences_accepted_distance_do_care'
                   / ko if: datePreferences.acceptedDistance.care()
                   = f.hidden_field :date_preferences_accepted_distance_do_care, value: true
-                  = f.number_field :date_preferences_accepted_distance
+                  = f.number_field :date_preferences_accepted_distance, min: 0
                   %a.btn{ href: '#', 'data-bind' => '{ click: datePreferences.acceptedDistance.dontCare }' } Don't care
                   / /ko
                   / ko ifnot: datePreferences.acceptedDistance.care()
@@ -90,7 +90,7 @@
           .accordion-body.collapse#collapse_optional_info
             .accordion-inner
               = f.label :age
-              %div= f.number_field :optional_info_age
+              %div= f.number_field :optional_info_age, min: 16, max: 100
               = f.label :education
               %div
                 = f.select :optional_info_education, select_options('education')
@@ -100,11 +100,11 @@
                   %i.icon-question-sign= ' '
               %div
                 = f.text_field :optional_info_occupation, placeholder: 'Occupation'
-                = f.number_field :optional_info_annual_income, placeholder: 'Annual income', 'data-toggle' => 'tooltip', 'title' => 'Your yearly income with applied taxes', rel: :tooltip
-                = f.number_field :optional_info_net_worth, placeholder: 'Net worth', 'data-toggle' => 'tooltip', 'title' => 'The amount by which your assets exceed your liabilities', rel: :tooltip
+                = f.number_field :optional_info_annual_income, placeholder: 'Annual income', 'data-toggle' => 'tooltip', title: 'Your yearly income with applied taxes', rel: :tooltip, min: 0
+                = f.number_field :optional_info_net_worth, placeholder: 'Net worth', 'data-toggle' => 'tooltip', title: 'The amount by which your assets exceed your liabilities', rel: :tooltip, min: 0
               = f.label :physique
               %div
-                = f.number_field :optional_info_height, placeholder: 'Height in cm'
+                = f.number_field :optional_info_height, placeholder: 'Height in cm', min: 0
                 = f.select :optional_info_body_type, select_options('body_type')
               = f.label :religion
               %div= f.select :optional_info_religion, select_options('religion')
