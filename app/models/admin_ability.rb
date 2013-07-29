@@ -17,6 +17,12 @@ class AdminAbility
           can :read, User
           can :block, User
           can :delete, User
+          can :manage, Profile
+        end
+        if admin.get_permissions[:permission_login_as_user]
+          can :read, User
+          can :manage, Profile
+          can :login, User
         end
         if admin.get_permissions[:permission_gifts_and_winks]
           can :manage, Gift

@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20130731090749) do
   end
 
   create_table "admin_users", force: true do |t|
-    t.string   "email",                      default: "", null: false
-    t.string   "encrypted_password",         default: "", null: false
+    t.string   "email",                      default: "",    null: false
+    t.string   "encrypted_password",         default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20130731090749) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
+    t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
   end
 

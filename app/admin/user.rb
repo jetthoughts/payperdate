@@ -44,6 +44,12 @@ ActiveAdmin.register User do
     redirect_to [:admin, :users]
   end
 
+  member_action :login, title: 'Login As' do
+    authorize! :login, resource
+    sign_in('user', resource)
+    redirect_to user_profile_path(resource)
+  end
+
   index do
     selectable_column
     column :name
@@ -52,6 +58,9 @@ ActiveAdmin.register User do
     column :blocked
     column :actions do |user|
       render 'admin/user/customer_care_actions', user: user, resource: :user
+    end
+    column do |user|
+      link_to 'Profile', edit_admin_profile_path(user.profile)
     end
     default_actions
   end
