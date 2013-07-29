@@ -9,14 +9,12 @@ ActiveAdmin.register User do
 
   member_action :block, method: :put do
     user = User.find(params[:id])
-    authorize! :block, User
-    user.block!
+    block_user user
     redirect_to [:admin, :users]
   end
 
   batch_action :block do |selection|
-    authorize! :block, User
-    User.find(selection).each { |user| user.block! }
+    User.find(selection).each { |user| block_user(user) }
     redirect_to [:admin, :users]
   end
 
@@ -75,4 +73,16 @@ ActiveAdmin.register User do
       li link_to('Activities', admin_user_activities_path(resource))
     end
   end
+
+  controller do
+
+    private
+
+    def block_user user
+      authorize! :block, User
+      user.block!
+      sign_out(user)
+    end
+  end
+
 end

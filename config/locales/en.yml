@@ -38,6 +38,7 @@ en:
     errors:
       required_field: 'Field is required'
       invalid_address: 'Address is invalid'
+      invalid_zipcode: 'Invalid zipcode. We expected %{zipcode}'
   activerecord:
     errors:
       models:
