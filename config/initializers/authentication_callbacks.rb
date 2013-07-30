@@ -6,6 +6,6 @@ end
 
 Warden::Manager.before_logout do |user, _, opts|
   if opts[:scope] == :user
-    user.activities.track_sign_out
+    user.activities.track_sign_out if user
   end
 end
