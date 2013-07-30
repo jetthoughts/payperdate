@@ -12,10 +12,16 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require vendor/foundation
+//= require vendor/foundation.forms
+//= require foundation_init
 //= require fancybox
 //= require twitter/bootstrap
 //= require knockout
 //= require jquery-fileupload/basic
+//= require vendor/froogaloop.min
+//= require vimeo_play
+//= require scroll_down
 
 // from assets, but should load first
 //= require turbo-events
@@ -23,4 +29,5 @@
 // everything else from assets
 //= require search
 //= require parallax
+//= require custom_spinner
 //= require_tree .
