@@ -79,6 +79,8 @@ gem 'geocoder'
 gem 'nude'
 gem 'face'
 
+gem 'airbrake'
+
 # Search (already added in admin panel)
 # gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 

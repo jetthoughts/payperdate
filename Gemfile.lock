@@ -86,6 +86,10 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
+    airbrake (3.1.12)
+      activesupport
+      builder
+      json
     ansi (1.4.3)
     arbre (1.0.1)
       activesupport (>= 3.0.0)
@@ -382,6 +386,7 @@ PLATFORMS
 DEPENDENCIES
   RedCloth (~> 4.2.9)
   activeadmin!
+  airbrake
   better_errors
   binding_of_caller
   cancan
