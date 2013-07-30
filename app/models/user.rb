@@ -16,10 +16,65 @@ class User < ActiveRecord::Base
 
   before_create { create_profile }
   before_create { create_published_profile }
+  after_save :update_subscription, if: :subscribed_changed?
 
-  scope :active, -> { where('not blocked or blocked is null') }
-  scope :blocked, -> { where(blocked: true) }
+  scope :active, -> { where(state: 'active') }
+  scope :blocked, -> { where(state: 'blocked') }
   scope :abuse, -> { where(abuse: true) }
+
+  scope :subscribed,    -> { where(subscribed: true) }
+  scope :unsubscribed,  -> { where(subscribed: false) }
+
+  scope :by_sex,        ->(sex) {
+    joins(:profile).where(Profile.arel_table[:personal_preferences_sex].in(sex))
+  }
+
+  scope :reviewed,      -> {
+    joins(:profile).where(Profile.arel_table[:reviewed].eq(true))
+  }
+  scope :not_reviewed,  -> {
+    joins(:profile).where(Profile.arel_table[:reviewed].eq(false))
+  }
+
+  scope :confirmed,     -> { where("confirmed_at IS NOT NULL") }
+  scope :not_confirmed, -> { where("confirmed_at IS NULL") }
+
+  scope :have_avatar,   -> {
+    joins(:profile).where(Profile.arel_table[:avatar_id].not_eq(nil))
+  }
+
+  scope :not_have_avatar,   -> {
+    joins(:profile).where(Profile.arel_table[:avatar_id].eq(nil))
+  }
+
+  scope :activity_more_than, ->(days) {
+    where(arel_table[:last_sign_in_at].lt(Time.now - days.to_i.days))
+  }
+
+  def self.by_age_ranging(start_age, end_age)
+    if start_age or end_age
+      conditions = Profile.arel_table[:optional_info_age].eq(nil)
+      conditions = conditions.or(Profile.arel_table[:optional_info_age].gteq(start_age)) if start_age
+      conditions = conditions.or(Profile.arel_table[:optional_info_age].lteq(end_age)) if end_age
+    end
+
+    joins(:profile).where(conditions)
+  end
+
+  state_machine :state, initial: :active do
+    after_transition any => :blocked, do: :notify_account_was_blocked
+
+    event :block! do
+      transition all => :blocked
+    end
+
+    event :unblock! do
+      transition all => :active
+    end
+
+    state :active
+    state :blocked
+  end
 
   attr_accessor :distance
 
@@ -42,17 +97,12 @@ class User < ActiveRecord::Base
     self.find_by(email: login) || self.find_by(nickname: login)
   end
 
-  def blocked?
-    blocked
+  def unsubscribe!
+    update! subscribed: true
   end
 
-  def block!
-    update! blocked: true
-    notify_account_was_blocked
-  end
-
-  def unblock!
-    update! blocked: false
+  def subscribe!
+    update! subscribed: false
   end
 
   def delete_account!
@@ -61,6 +111,14 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def update_subscription
+    if subscribed
+      MassMailer.add_subscribe self.email
+    else
+      MassMailer.remove_subscribe self.email
+    end
+  end
 
   def notify_account_was_blocked
     NotificationMailer.user_was_blocked(id)

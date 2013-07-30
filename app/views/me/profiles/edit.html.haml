@@ -123,11 +123,24 @@
                 = f.select :optional_info_smoker, select_options('me_smoker')
                 = f.select :optional_info_drinker, select_options('me_drinker')
               .row
+                %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_subscribe_options' }
+                  Next
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_subscribe_options' }
+              Subscribe options
+          .accordion-body.collapse#collapse_subscribe_options
+            .accordion-inner
+              = f.fields_for :user do |user_form|
+                = user_form.label :subscribed, 'Subscribe'
+                %div= user_form.check_box :subscribed
+
+
+              .row
                 %button.btn.btn-success.span2.offset9{ href: '#' }
                   - if @profile.filled?
                     Save profile
                   - else
                     Create profile
-
 
 

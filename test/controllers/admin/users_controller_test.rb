@@ -59,7 +59,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     put :block, id: users(:martin).id
     assert_redirected_to admin_users_path
 
-    assert_equal true, User.find(users(:martin).id).blocked
+    assert_equal true, User.find(users(:martin).id).blocked?
   end
 
   test 'non master admin should not be able to block user' do
