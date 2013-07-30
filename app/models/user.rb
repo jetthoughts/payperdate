@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   has_many :authentitications, dependent: :destroy
   has_many :albums, dependent: :destroy
+  has_many :own_invitations, class_name: 'Invitation'
 
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
@@ -20,13 +21,10 @@ class User < ActiveRecord::Base
   scope :blocked, -> { where(blocked: true) }
   scope :abuse, -> { where(abuse: true) }
 
-  scope :active, -> { where('not blocked or blocked is null') }
-  scope :blocked, -> { where(blocked: true) }
-  scope :abuse, -> { where(abuse: true) }
-
   attr_accessor :distance
 
   include UserAuthMethods
+  include InvitationsMethods
   extend UserOauth
 
   include ActivityTracker

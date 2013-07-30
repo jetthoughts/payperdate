@@ -346,6 +346,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    squeel (1.1.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      polyamorous (~> 0.6.0)
     state_machine (1.2.0)
     subexec (0.2.3)
     therubyracer (0.11.4)
@@ -434,6 +438,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   simplecov
   sprockets-rails
+  squeel
   state_machine
   therubyracer
   turbolinks

@@ -92,6 +92,21 @@ ActiveRecord::Schema.define(version: 20130731090749) do
     t.datetime "updated_at"
   end
 
+  create_table "invitations", force: true do |t|
+    t.string   "message"
+    t.integer  "amount",          default: 0,         null: false
+    t.integer  "user_id",                             null: false
+    t.integer  "invited_user_id",                     null: false
+    t.boolean  "counter",         default: false,     null: false
+    t.string   "state",           default: "pending", null: false
+    t.string   "reject_reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitations", ["invited_user_id", "counter"], name: "index_invitations_on_invited_user_id_and_counter", using: :btree
+  add_index "invitations", ["user_id", "counter"], name: "index_invitations_on_user_id_and_counter", using: :btree
+
   create_table "photos", force: true do |t|
     t.integer  "album_id",                          null: false
     t.string   "image",                             null: false

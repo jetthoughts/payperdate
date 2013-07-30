@@ -1,0 +1,13 @@
+<%- if can? :invite, user %>
+  <button href="#invite_popup" data-toggle="modal" id="invite_user_btn" class="btn btn-small" type="button">Invite</button>
+  <div class="modal hide" id="invite_popup" role="dialog">
+    <div class="">
+      <%= image_tag user.profile.avatar_url(:thumb) %>
+      New Invitation
+      <%= link_to_dismiss -%>
+    </div>
+    <div class="modal-body">
+      <%= render 'invitations/form', invitation: Invitation.new(invited_user_id: user.id) -%>
+    </div>
+  </div>
+<%- end -%>

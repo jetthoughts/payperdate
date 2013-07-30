@@ -1,0 +1,7 @@
+<%= form_for invitation, remote: true do |f| -%>
+  <p><%= f.number_field :amount, min: 0, value: '', required: true -%></p>
+  <p><%= f.text_area :message, placeholder: 'Add message' %></p>
+  <p>
+    <%= f.submit 'Invite', data: { disable_with: '...' } -%></p>
+  <%= f.hidden_field :invited_user_id -%>
+<%- end -%>

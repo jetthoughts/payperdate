@@ -1,0 +1,27 @@
+<%- popup_id = dom_id(invitation, 'reject_popup') -%>
+<%= link_to t('invitations.reject'), '#' + popup_id, data: { toggle: :modal } %>
+
+<div class="modal hide" id="<%= popup_id -%>" role="dialog">
+  <div>
+    <%= t('invitations.reject') %>
+    <%= link_to_dismiss -%>
+  </div>
+  <div>
+    <% inviter = invitation.inviter %>
+
+    <%= inviter.name -%>
+
+    <%= number_to_currency(invitation.amount) -%>
+  </div>
+  <div class="modal-body">
+    <%= form_tag reject_invitation_path(invitation), class: :reject_form, remote: true do -%>
+      <div>
+        <%= select_tag :reason, options_for_select(t('invitations.reject_reasons')), { prompt: t('invitations.reject_reason') } -%>
+      </div>
+      <div>
+        <%= submit_tag t('invitations.reject'), class: :btn -%>
+      </div>
+    <%- end -%>
+  </div>
+
+</div>
