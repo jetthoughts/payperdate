@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130731090749) do
+ActiveRecord::Schema.define(version: 20130802101254) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "activities", force: true do |t|
     t.integer  "user_id"
@@ -39,6 +43,7 @@ ActiveRecord::Schema.define(version: 20130731090749) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
+    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
   end
@@ -174,8 +179,8 @@ ActiveRecord::Schema.define(version: 20130731090749) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",       null: false
+    t.string   "encrypted_password",                default: "",       null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -189,15 +194,16 @@ ActiveRecord::Schema.define(version: 20130731090749) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "nickname",                                          null: false
-    t.string   "name",                                              null: false
+    t.string   "nickname",                                             null: false
+    t.string   "name",                                                 null: false
     t.string   "phone",                  limit: 20
-    t.boolean  "no_password",                       default: false, null: false
+    t.boolean  "no_password",                       default: false,    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "blocked"
     t.integer  "published_profile_id"
     t.integer  "profile_id"
+    t.boolean  "subscribed",                        default: true
+    t.string   "state",                             default: "active"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
