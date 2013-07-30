@@ -30,6 +30,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog', '~> 1.3.1'
 
+gem 'state_machine'
 
 # Assets
 
