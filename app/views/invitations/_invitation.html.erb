@@ -1,0 +1,33 @@
+<div class="invitation">
+  <% inviter = invitation.friend(current_user) %>
+
+  <%= link_to inviter.name, user_profile_path(inviter) -%>
+  <%= invitation.message -%>
+  <%= number_to_currency(invitation.amount) -%>
+  <%- if invitation.reject_reason.present? -%>
+    (<%= invitation.reject_reason -%>)
+  <%- end -%>
+
+
+  <%- if can? :accept, invitation -%>
+    <%= link_to t('invitations.accept'),
+                accept_invitation_path(invitation),
+                remote: true,
+                data:   { disable_with: '...', confirm: t('are_you_sure'), method: :post } %>
+  <% end %>
+
+  <%- if can? :reject, invitation -%>
+    <%= render 'reject_link', { invitation: invitation } -%>
+  <%- end -%>
+
+  <%- if can? :counter, invitation -%>
+    <%= render 'counter_link', { invitation: invitation } -%>
+  <%- end -%>
+
+  <%- if can? :destroy, invitation -%>
+    <%= link_to t('invitations.delete'),
+                invitation_path(invitation),
+                remote: true,
+                data:   { disable_with: '...', confirm: t('are_you_sure'), method: :delete } %>
+  <%- end -%>
+</div>

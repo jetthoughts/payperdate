@@ -24,5 +24,6 @@ module Payperdate
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
     config.background_workers_envs = [:production, :test]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
   end
 end

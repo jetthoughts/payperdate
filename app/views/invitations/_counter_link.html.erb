@@ -1,0 +1,27 @@
+<%- popup_id = dom_id(invitation, 'counter_popup') -%>
+<%= link_to t('invitations.counter_offer'), '#' + popup_id, data: { toggle: :modal } %>
+
+<div class="modal hide" id="<%= popup_id -%>" role="dialog">
+  <div>
+    <%= t('invitations.counter_offer') %>
+    <%= link_to_dismiss -%>
+  </div>
+  <div>
+    <% inviter = invitation.inviter %>
+
+    <%= inviter.name -%>
+
+    <%= number_to_currency(invitation.amount) -%>
+  </div>
+  <div class="modal-body">
+    <%= form_for invitation, url: counter_invitation_path(invitation), remote: true do |f| -%>
+      <div>
+        <%= f.number_field :amount, min: 0, value: '', placeholder: t('invitations.counter_price'), required: true -%>
+      </div>
+      <div>
+        <%= f.submit t('invitations.counter_offer'), class: :btn -%>
+      </div>
+    <%- end -%>
+  </div>
+
+</div>
