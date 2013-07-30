@@ -18,10 +18,10 @@ class User < ActiveRecord::Base
   before_create { create_published_profile }
   after_save :update_subscription, if: :subscribed_changed?
 
+  scope :reverse_order, -> { order('users.created_at DESC, users.id DESC') }
   scope :active, -> { where(state: 'active') }
   scope :blocked, -> { where(state: 'blocked') }
   scope :abuse, -> { where(abuse: true) }
-
   scope :subscribed,    -> { where(subscribed: true) }
   scope :unsubscribed,  -> { where(subscribed: false) }
 
@@ -108,6 +108,18 @@ class User < ActiveRecord::Base
   def delete_account!
     destroy!
     notify_account_was_deleted
+  end
+
+  def female?
+    profile.personal_preferences_sex == 'F'
+  end
+
+  def first_name
+    name.split(/[\s,]+/)[0]
+  end
+
+  def age
+    22
   end
 
   private
