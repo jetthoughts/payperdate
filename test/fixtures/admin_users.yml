@@ -5,6 +5,7 @@ admin:
   master: true
   permission_approver: false
   permission_customer_care: false
+  permission_gifts_and_winks: false
 
 # Non master admin user
 john:
@@ -13,6 +14,7 @@ john:
   master: false
   permission_approver: false
   permission_customer_care: false
+  permission_gifts_and_winks: false
 
 # Approver
 james:
@@ -21,6 +23,7 @@ james:
   master: false
   permission_approver: true
   permission_customer_care: false
+  permission_gifts_and_winks: false
 
 # Customer Care
 bill:
@@ -29,3 +32,13 @@ bill:
   master: false
   permission_approver: false
   permission_customer_care: true
+  permission_gifts_and_winks: false
+
+# Gifts and Winks
+anthony:
+  email: anthony.stone@example.com
+  encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
+  master: false
+  permission_approver: false
+  permission_customer_care: false
+  permission_gifts_and_winks: true
