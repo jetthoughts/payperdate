@@ -18,6 +18,9 @@ class AdminAbility
           can :block, User
           can :delete, User
         end
+        if admin.get_permissions[:permission_gifts_and_winks]
+          can :manage, Gift
+        end
       end
 
       can :read, ActiveAdmin::Page, name: 'Dashboard'
