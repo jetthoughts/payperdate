@@ -1,0 +1,4 @@
+<%= form_for [:admin, profile, profile.profile_notes.build(admin_user_id: current_admin_user.id)], remote: true do |f| %>
+  <%= f.text_field :text, required: true  -%>
+  <%= f.hidden_field :admin_user_id  -%>
+<%- end -%>
