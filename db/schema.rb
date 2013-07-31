@@ -13,10 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20130731090749) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "hstore"
-
   create_table "activities", force: true do |t|
     t.integer  "user_id"
     t.integer  "subject_id"
@@ -108,6 +104,16 @@ ActiveRecord::Schema.define(version: 20130731090749) do
   end
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
+
+  create_table "profile_notes", force: true do |t|
+    t.string   "text",          null: false
+    t.integer  "profile_id",    null: false
+    t.integer  "admin_user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "profile_notes", ["profile_id"], name: "index_profile_notes_on_profile_id", using: :btree
 
   create_table "profiles", force: true do |t|
     t.datetime "created_at"
