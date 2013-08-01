@@ -60,6 +60,7 @@ en:
       permission_approver: 'Approver (access only to Picture and Profile approval/rejection)'
       permission_customer_care: 'Customer Care (delete users, respond to user questions, etc)'
       permission_gifts_and_winks: 'Gifts and Winks (manage gifts and winks)'
+      permission_login_as_user: 'Ability to login as user'
     photo:
       declined:
         reason:
