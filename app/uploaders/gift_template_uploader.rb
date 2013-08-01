@@ -1,6 +1,4 @@
-# encoding: utf-8
-
-class GiftUploader < CarrierWave::Uploader::Base
+class GiftTemplateUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick

@@ -1,0 +1,20 @@
+en:
+  gifts:
+    form:
+      gifts: Select gift
+      comment: Comment
+      private: Send as private
+      private_hint: Only recipient will show this gift
+      back: Back
+      submit: Send gift
+    messages:
+      was_sent: 'Gift was sent'
+      was_not_sent: "Gift wasn't sent"
+  activerecord:
+    errors:
+      models:
+        gift:
+          attributes:
+            base:
+              cant_send_gift_to_self: "It's not possible to send gift to self"
+              cant_send_disabled_gifts: "This gift is disabled. You couldn't send it to anybody"

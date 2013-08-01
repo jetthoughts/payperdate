@@ -90,12 +90,26 @@ ActiveRecord::Schema.define(version: 20130802101254) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "gifts", force: true do |t|
-    t.string   "image",      null: false
-    t.string   "state"
+  create_table "gift_templates", force: true do |t|
+    t.string   "image",                          null: false
+    t.string   "state",      default: "enabled", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "gifts", force: true do |t|
+    t.integer  "gift_template_id"
+    t.integer  "user_id"
+    t.integer  "recipient_id"
+    t.string   "comment"
+    t.boolean  "private",          default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "gifts", ["gift_template_id"], name: "index_gifts_on_gift_template_id", using: :btree
+  add_index "gifts", ["recipient_id"], name: "index_gifts_on_recipient_id", using: :btree
+  add_index "gifts", ["user_id"], name: "index_gifts_on_user_id", using: :btree
 
   create_table "invitations", force: true do |t|
     t.string   "message"

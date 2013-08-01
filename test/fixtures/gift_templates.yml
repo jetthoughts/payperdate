@@ -1,0 +1,7 @@
+kitten:
+  image: 'tmp/img/image.jpeg'
+  state: enabled
+
+dark_kitten:
+  image: 'tmp/img/image.jpeg'
+  state: disabled
