@@ -10,4 +10,9 @@ ActiveAdmin.register Profile do
       redirect_to edit_admin_profile_path(resource)
     end
   end
+
+  sidebar :summary, only: [:edit] do
+    render 'admin/profiles/summary', profile: resource
+  end
+
 end
