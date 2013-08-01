@@ -1,5 +1,6 @@
 ActiveAdmin.register Photo do
   filter :created_at
+  filter :album_user_id, as: :select, label: 'User', collection: -> { User.all.map { |u| ["#{u.name}(#{u.email})", u.id] } }.call
   scope :all, default: true
   scope :pending
   scope :approved
