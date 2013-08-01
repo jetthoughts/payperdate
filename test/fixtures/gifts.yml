@@ -1,0 +1,13 @@
+john_to_mia:
+  gift_template: kitten
+  user: john
+  recipient: mia
+  comment: it's like you
+  private: false
+
+two:
+  gift_template: kitten
+  user: paul
+  recipient: mia
+  comment: ''
+  private: true
