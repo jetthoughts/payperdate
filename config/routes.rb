@@ -42,6 +42,18 @@ Payperdate::Application.routes.draw do
       resources :albums do
         resources :photos
       end
+      resources :invitations do
+        collection do
+          get :accepted
+          get :rejected
+          get :sent
+        end
+        member do
+          post :accept
+          post :reject
+          patch :counter
+        end
+      end
     end
 
     namespace :me, as: '' do
@@ -49,7 +61,7 @@ Payperdate::Application.routes.draw do
     end
 
     root to: 'users#index'
-    
+
     get '/search', to: 'users#search'
   end
 
