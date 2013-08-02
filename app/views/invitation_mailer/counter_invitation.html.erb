@@ -1,0 +1,7 @@
+<p>
+  Hi, <%= @invited_user.name -%>!
+</p>
+<p>
+ <%= @inviter.name -%> changed proposed amount to <%= number_to_currency(@invitation.amount) -%>. Do you agree with it?
+</p>
+<%= link_to invitations_url, invitations_url -%>
