@@ -22,6 +22,8 @@ Payperdate::Application.routes.draw do
     match '*missing' => 'pages#landing', via: [:get, :post]
   end
 
+  get :unsubscribe, to: "users#unsubscribe"
+
   authenticated :user do
     resources :users do
       resource :profile

@@ -27,6 +27,9 @@ class AdminAbility
         if admin.get_permissions[:permission_gifts_and_winks]
           can :manage, Gift
         end
+        if admin.get_permissions[:permission_mass_mailing]
+          can [:send_message, :read], ActiveAdmin::Page, name: "Mass Mailing"
+        end
       end
 
       can :read, ActiveAdmin::Page, name: 'Dashboard'
