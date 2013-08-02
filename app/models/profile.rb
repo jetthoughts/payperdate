@@ -61,7 +61,7 @@ class Profile < ActiveRecord::Base
     joins('INNER JOIN "users" on "users"."published_profile_id" = "profiles"."id"')
         .where(filled: true)
   }
-  scope :published_and_active, -> { published.where('users.blocked is null or users.blocked = false') }
+  scope :published_and_active, -> { published.where("users.state = 'active'") }
 
   attr_accessor :obtained_zipcode
 
@@ -93,7 +93,7 @@ class Profile < ActiveRecord::Base
   validates :optional_info_annual_income, :optional_info_net_worth, :optional_info_height, numericality: { greater_than: 0 }, allow_blank: true
   validate :validate_address, if: :filled?
 
-  scope :active, -> { joins(:user).where("users.state == 'blocked'") }
+  scope :active, -> { joins(:user).where("users.state = 'active'") }
   after_save :enqueue_for_approval, if: :free_form_fields_changed?
 
   geocoded_by :full_address do |obj, results|
@@ -124,16 +124,15 @@ class Profile < ActiveRecord::Base
 
   def regeocode
     if location_changed?
+      raise 'Geocoding should not be run when testing' if Rails.env.test?
       reset_geocoding!
       geocode
-      if valid_address?
-        cache_full_address!
-      end
     end
   end
 
   def location_changed?
-    full_address != full_address_saved
+    [:general_info_state, :general_info_city, :general_info_zip_code, :general_info_address_line_1,
+         :general_info_address_line_2].any? { |e| changes.keys.include? e.to_s }
   end
 
   def cache_full_address!
@@ -243,13 +242,21 @@ class Profile < ActiveRecord::Base
     user || published_user
   end
 
-  private
-
   def cache_filled
     if filled != filled?
       update! filled: filled?
     end
   end
+
+  def next_queued_for_approval
+    Profile.approve_queue.where('id > ?', id).order('id ASC').first
+  end
+
+  def prev_queued_for_approval
+    Profile.approve_queue.where('id < ?', id).order('id DESC').first
+  end
+
+  private
 
   def validate_address
     errors.add(:address, I18n.t('profiles.errors.invalid_address')) if !valid_address?
