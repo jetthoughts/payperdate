@@ -1,0 +1,7 @@
+<% if gift_template.disabled? %>
+    <%= link_to 'Enable', send('enable_admin_gift_template_path', gift_template), method: :put, class: :button %>
+    <br/>
+<% else %>
+    <%= link_to 'Disable', send('disable_admin_gift_template_path', gift_template), method: :put, class: :button %>
+    <br/>
+<% end %>

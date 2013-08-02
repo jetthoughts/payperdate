@@ -1,24 +1,21 @@
 class Gift < ActiveRecord::Base
   require 'payperdate/file_size_validator'
-  validates :image, presence: true, file_size: { maximum: 5.megabytes.to_i }
 
-  mount_uploader :image, GiftUploader
+  belongs_to :gift_template
+  belongs_to :user
+  belongs_to :recipient, class_name: 'User'
 
-  state_machine :state, initial: :enabled do
-    event :enable do
-      transition all => :enabled
-    end
+  validates :gift_template, :user, :recipient, presence: true
+  validate :validate_user_can_send_for_self
+  validate :validate_user_can_send_disabled_gift
 
-    event :disable do
-      transition all => :disabled
-    end
+  private
+
+  def validate_user_can_send_for_self
+    self.errors.add(:base, :cant_send_gift_to_self) if user == recipient
   end
 
-  def self.all_states
-    state_machines[:state].states
-  end
-
-  all_states.each do |state|
-    scope state.name, -> { where(state: state.name) }
+  def validate_user_can_send_disabled_gift
+    self.errors.add(:base, :cant_send_disabled_gifts) if gift_template and gift_template.disabled?
   end
 end

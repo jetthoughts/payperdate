@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class Admin::GiftsControllerTest < ActionController::TestCase
+class Admin::GiftTemplatesControllerTest < ActionController::TestCase
   fixtures :admin_users
 
   def setup
-    @controller = ::Admin::GiftsController.new
+    @controller = ::Admin::GiftTemplatesController.new
   end
 
   test 'master admin should have access to gifts' do
