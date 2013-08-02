@@ -56,6 +56,11 @@ en:
   profile:
     address:
       full: "%{general_info_address_line_1}, %{general_info_city}, %{general_info_state} %{general_info_zip_code}"
+    review:
+      status_change:
+        queued: 'Your profile has been enqueued for approval. Please, patiently wait.'
+        approved: 'Congratulations, your profile has been approved. It is published now.'
+      under_review: 'UNDER REVIEW'
   tools:
     gmap:
       uri: "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=%{latitude}%2C%{longitude}"

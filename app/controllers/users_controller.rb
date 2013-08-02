@@ -37,8 +37,8 @@ class UsersController < BaseController
     params[:q] ||= {}
     params[:location] ||= @profile.default_search['location']
     params[:max_distance] ||= @profile.default_search['max_distance']
-    @q = @profile.near_me(params[:location], params[:max_distance])
-    @q = @q.preload(:user).search(params[:q])
+    @q = @profile.near_me(params[:location], params[:max_distance]).not_mine(@profile)
+    @q = @q.preload(:user).published_and_active.search(params[:q])
   end
 
   def setup_profiles
@@ -48,10 +48,8 @@ class UsersController < BaseController
 
   def setup_users
     @users = @profiles.map do |profile|
-      unless profile.user.nil? || profile.user.blocked?
-        profile.user.distance = profile['distance']
-        profile.user
-      end
+      profile.auto_user.distance = profile['distance'] unless profile.auto_user.nil?
+      profile.auto_user
     end
     @users.compact!
   end
