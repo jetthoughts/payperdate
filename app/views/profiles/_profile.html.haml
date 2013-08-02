@@ -11,7 +11,7 @@
         ---
 
         *Body Type:*
-        #{select_title 'body_type', profile.optional_info_body_type}
+        #{profile.optional_info_height && "#{profile.optional_info_height} cm – "}#{select_title 'body_type', profile.optional_info_body_type}
 
         ---
 
@@ -92,11 +92,14 @@
 
       h4. About me:
 
-      #{profile.general_info_description}
+    = profile.general_info_description
+    :textile
 
       h4. My First Date Expectations:
 
-      #{profile.date_preferences_description}
+    = profile.date_preferences_description
+
+    :textile
 
       <br>
 
