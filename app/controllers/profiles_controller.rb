@@ -3,6 +3,7 @@ class ProfilesController < BaseController
   before_filter :load_profile
   before_filter :ensure_user_has_filled_profile
   before_filter :require_filled_profile
+  before_filter :check_if_user_is_blocked
 
   def show
   end
@@ -10,12 +11,19 @@ class ProfilesController < BaseController
   private
 
   def load_profile
-    @profile = selected_user.profile
-    # @profile.safe_for_user = current_user
+    @user = User.find(params[:user_id])
+    @profile = @user.published_profile
+  end
+
+  def check_if_user_is_blocked
+    if @user.blocked?
+      flash[:alert] = t 'users.errors.user_blocked'
+      redirect_to root_path
+    end
   end
 
   def require_filled_profile
-    unless @profile.filled?
+    unless @profile && @profile.filled?
       flash[:alert] = t 'users.errors.foreign_user_has_no_profile'
       redirect_to root_path
     end

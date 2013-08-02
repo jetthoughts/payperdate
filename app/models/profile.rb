@@ -44,19 +44,32 @@ class Profile < ActiveRecord::Base
 
   MAX_DISTANCE = 9999999
 
-  # belongs_to :user
   has_one :user
   has_one :published_user, foreign_key: :published_profile_id, class_name: 'User'
   accepts_nested_attributes_for :user
 
   has_many :profile_notes
-  delegate :nickname, to: :user, allow_nil: true
-  # has_one :current_version, through: :published_user, class_name: 'Profile', foreign_key: :profile_id
-  # has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
+
+  def nickname
+    auto_user && auto_user.nickname
+  end
 
   belongs_to :avatar
 
+  scope :approve_queue, -> { where reviewed: false }
+  scope :published, -> {
+    joins('INNER JOIN "users" on "users"."published_profile_id" = "profiles"."id"')
+        .where(filled: true)
+  }
+  scope :published_and_active, -> { published.where('users.blocked is null or users.blocked = false') }
+
   attr_accessor :obtained_zipcode
+
+  attr_accessor :inner_dont_care_about_review_notifications
+
+  def self.not_mine(profile)
+    where('users.id != ?', profile.auto_user.id)
+  end
 
   def self.editable_params
     EDITABLE_PARMAS
@@ -66,21 +79,14 @@ class Profile < ActiveRecord::Base
     SEARCHABLE_PARAMS
   end
 
-  before_validation { self.filled = filled? }
+  after_save :cache_filled
 
-  validates_presence_of :general_info_address_line_1,
-                        :general_info_city,
-                        :general_info_state,
-                        :general_info_zip_code,
-                        :general_info_tagline,
-                        :general_info_description,
-                        :personal_preferences_sex,
-                        :personal_preferences_partners_sex,
-                        :personal_preferences_relationship,
-                        :personal_preferences_want_relationship,
-                        :date_preferences_accepted_distance_do_care,
-                        :date_preferences_description,
-                        if: :filled?
+  validates_presence_of :general_info_address_line_1, :general_info_city, :general_info_state,
+                        :general_info_zip_code, :general_info_tagline, :general_info_description,
+                        :personal_preferences_sex, :personal_preferences_partners_sex,
+                        :personal_preferences_relationship, :personal_preferences_want_relationship,
+                        :date_preferences_accepted_distance_do_care, :date_preferences_smoker,
+                        :date_preferences_drinker, :date_preferences_description, if: :filled?
 
   validates :date_preferences_accepted_distance, presence: true, numericality: { greater_than: 0 }, if: :distance_do_care?
   validates :optional_info_age, presence: true, numericality: { greater_than: 16 }, if: :filled?
@@ -88,6 +94,7 @@ class Profile < ActiveRecord::Base
   validate :validate_address, if: :filled?
 
   scope :active, -> { joins(:user).where("users.state == 'blocked'") }
+  after_save :enqueue_for_approval, if: :free_form_fields_changed?
 
   geocoded_by :full_address do |obj, results|
     if (geo = results.first)
@@ -156,7 +163,11 @@ class Profile < ActiveRecord::Base
   end
 
   def filled?
-    general_info_address_line_1 && personal_preferences_sex && date_preferences_accepted_distance_do_care
+    if general_info_address_line_1 && personal_preferences_sex && date_preferences_accepted_distance_do_care
+      true
+    else
+      false
+    end
   end
 
   def avatar_url(version=:avatar, public_avatar = true)
@@ -176,20 +187,30 @@ class Profile < ActiveRecord::Base
   end
 
   def approve!
-    update! reviewed = true
+    update! reviewed: true
     published_version.update! get_attributes
+    notify_user_about_review_status :approved unless inner_dont_care_about_review_notifications
   end
 
   def enqueue_for_approval
-    reviewed = false
+    if current_version? && filled?
+      if reviewed || reviewed.nil?
+        self.reviewed = false
+        update! reviewed: false
+        notify_user_about_review_status :queued unless inner_dont_care_about_review_notifications
+      end
+    end
   end
 
   # hotfix
   def user_id
-    user.id if user
+    auto_user && auto_user.id
   end
 
-  private
+  def profane?
+    [general_info_description, general_info_tagline, date_preferences_description]
+        .any? { |free_field| Obscenity.profane? free_field }
+  end
 
   def get_attributes
     column_names = Profile.column_names - ['id', 'created_at', 'updated_at']
@@ -199,7 +220,35 @@ class Profile < ActiveRecord::Base
   end
 
   def name
-    "#{user.name}'s Profile"
+    auto_user && "#{auto_user.name}'s Profile" || "Somebody's profile"
+  end
+
+  def current_version
+    auto_user && auto_user.profile
+  end
+
+  def published_version
+    auto_user && auto_user.published_profile
+  end
+
+  def current_version?
+    current_version && current_version.id == id
+  end
+
+  def published_version?
+    published_version && published_version.id == id
+  end
+
+  def auto_user
+    user || published_user
+  end
+
+  private
+
+  def cache_filled
+    if filled != filled?
+      update! filled: filled?
+    end
   end
 
   def validate_address
@@ -207,4 +256,12 @@ class Profile < ActiveRecord::Base
     errors.add(:address, I18n.t('profiles.errors.invalid_zipcode', zipcode: obtained_zipcode)) if !valid_zipcode?
   end
 
+  def notify_user_about_review_status(status)
+    NotificationMailer.review_status_changed(user_id, status)
+  end
+
+  def free_form_fields_changed?
+    [general_info_description_changed?, general_info_tagline_changed?,
+        date_preferences_description_changed?, personal_preferences_sex_changed?].any?
+  end
 end

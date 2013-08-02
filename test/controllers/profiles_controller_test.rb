@@ -4,6 +4,7 @@ class ProfilesControllerTest < ActionController::TestCase
   fixtures :users
 
   def setup
+    initial_setup
     sign_in users(:martin)
   end
 
