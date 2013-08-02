@@ -1,0 +1,3 @@
+Geocoder.configure(:lookup => :test)
+
+
