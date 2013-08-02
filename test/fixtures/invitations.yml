@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+martin_mia_pending:
+  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  amount: 5
+  user: martin
+  invited_user: mia
+
+

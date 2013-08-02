@@ -23,6 +23,7 @@ en:
   hello: "Hello world"
   where_are_you: "Where Are You Now?"
   max_distance: "Maximum Distance"
+  are_you_sure: 'Are you sure?'
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
@@ -46,6 +47,11 @@ en:
           attributes:
             image:
               size_too_big: 'Size too big'
+        invitation:
+          attributes:
+            invited_user_id:
+              cant_invite_himself: 'You cant invite yourself'
+              already_sent: 'Invitation already sent'
   profile:
     address:
       full: "%{general_info_address_line_1}, %{general_info_city}, %{general_info_state} %{general_info_zip_code}"

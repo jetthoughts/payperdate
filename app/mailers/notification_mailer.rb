@@ -1,6 +1,4 @@
-class NotificationMailer < ActionMailer::Base
-  default from: 'support@payperdate.com'
-
+class NotificationMailer < BaseMailer
   def photo_was_declined(user_id, photo_url)
     @user = User.find(user_id)
     @photo_url = photo_url

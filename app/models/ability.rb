@@ -15,6 +15,23 @@ class Ability
       can :manage, Photo, user_id: user.id
       can :manage, Avatar, user_id: user.id
       can :manage, Profile, user_id: user.id
+      can :invite, User do |u|
+        user.can_invite?(u)
+      end
+
+      can :destroy, Invitation do |invitation|
+        invitation.can_be_deleted_by?(user)
+      end
+      can :reject, Invitation do |invitation|
+        invitation.can_be_rejected_by?(user)
+      end
+      can :accept, Invitation do |invitation|
+        invitation.can_be_accepted_by?(user)
+      end
+      can :counter, Invitation do |invitation|
+        invitation.can_be_countered_by?(user)
+      end
+
     end
   end
 end
