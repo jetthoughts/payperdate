@@ -5,6 +5,12 @@ class NotificationMailer < BaseMailer
     deliver_mail mail(to: @user.email, subject: 'Your photo has been declined')
   end
 
+  def review_status_changed(user_id, status)
+    @user = User.find(user_id)
+    @status = status
+    deliver_mail mail(to: @user.email, subject: 'Review status of your profile has been changed')
+  end
+
   def user_was_blocked(user_id)
     @user = User.find(user_id)
     deliver_mail mail(to: @user.email, subject: 'Your account has been blocked')

@@ -6,7 +6,7 @@
     Nickname: <%= profile.nickname %>
   </p>
   <p>
-   Details info: <%= link_to profile.user.name, admin_user_path(profile.user) -%>
+   Details info: <%= link_to profile.auto_user.name, admin_user_path(profile.auto_user) -%>
   </p>
 </div>
 <div>
@@ -20,6 +20,6 @@
     <%= link_to 'View Mailbox', '#' %>
   </div>
   <div>
-    <%= link_to 'Login as user', login_admin_user_path(profile.user) %>
+    <%= link_to 'Login as user', login_admin_user_path(profile.auto_user) %>
   </div>
 </div>

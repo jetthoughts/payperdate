@@ -12,17 +12,23 @@ class AdminAbility
           can :read, Photo
           can :approve, Photo
           can :decline, Photo
+
+          can :read, Profile
+          can :approve, Profile
         end
         if admin.get_permissions[:permission_customer_care]
           can :read, User
           can :block, User
           can :delete, User
+
           can :manage, Profile
+          can :read, Profile
         end
         if admin.get_permissions[:permission_login_as_user]
           can :read, User
-          can :manage, Profile
           can :login, User
+
+          can :manage, Profile
         end
         if admin.get_permissions[:permission_gifts_and_winks]
           can :manage, Gift

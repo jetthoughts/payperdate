@@ -73,6 +73,8 @@ gem 'draper', '>= 1.0.0'
 gem 'state_machine'
 gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
 
+gem 'obscenity' # profanity filter, used only to help approver
+
 
 # Background jobs
 gem 'delayed_job_active_record', '>= 4.0.0.beta1'

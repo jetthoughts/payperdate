@@ -19,6 +19,8 @@ task setup_sample_data: :environment do
 
   puts 'Cleaning users..'
   User.delete_all
+  puts 'Cleaning profiles'
+  Profile.delete_all
   puts 'Cleaning admin users..'
   AdminUser.delete_all
   puts 'Cleaning authentitications..'
