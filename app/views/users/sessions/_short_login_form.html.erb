@@ -1,0 +1,29 @@
+<%- resource_name = :user -%>
+
+<%= form_for(User.new, as: resource_name, url: session_path(resource_name), html: {id: :login, class: 'pull-left header_login_form' }) do |f| %>
+  <div class="pull-left input_set">
+  <%= f.label :email, t('users.login'), class: :outer_label %>
+  <%= f.text_field :email %>
+  </div>
+
+  <div class="pull-left input_set">
+    <%= f.label :password, t('users.password'), class: :outer_label %>
+    <%= f.password_field :password %>
+  </div>
+
+  <% if Devise.mappings[resource_name].rememberable? -%>
+    <%= f.hidden_field :remember_me, value: '1' %>
+  <% end -%>
+
+  <button class="btn btn-warning btn-large pull-left" type="submit">GO</button>
+<% end %>
+<ul class="inline pull-left social_links">
+  <%- if Devise.mappings[resource_name].omniauthable? %>
+    <%- User.omniauth_providers.each do |provider| %>
+      <li><%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: provider.to_s  %>
+      </li>
+    <% end -%>
+  <% end -%>
+  <!-- <li><a class="gp" href="#gp">google plus</a></li>
+<li><a class="pt" href="#pt">pinterest</a></li>-->
+</ul>

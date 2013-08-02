@@ -1,29 +1,79 @@
 @import "variables";
 
 body {
-  padding-top: 40px;
+  //padding-top: 40px;
+  //background: asset-url('calca.jpg') no-repeat 50% 0px;
+}
+
+.pr {
+  position: relative;
 }
 
 #layer1 {
   height: 800px;
-  background: asset-url('layer1_bg_02.jpg') no-repeat;
-  background-size: cover;
+  margin-left: -40px;
+  //background: asset-url('bg_0.jpg') no-repeat 0 -67px;
+  //background-size: cover;
+  position: relative;
+}
+
+
+$carousel_nav_width: 200px;
+$carousel_nav_height: 40px;
+$carousel_bullet_width: 13px;
+.main_slider {
+  .carousel_nav {
+    position: absolute;
+    top: 400px;
+    right: 400px;
+    width: $carousel_nav_width;
+    height: $carousel_nav_height;
+    .carousel-indicators {
+      float: left;
+      position: relative;
+      li {
+        width: $carousel_bullet_width;
+        height: $carousel_bullet_width;
+        margin-right: 20px;
+        background: $gray_lightest;
+        border-radius: $carousel_bullet_width/2 + 2;
+        &:hover {
+          cursor: pointer;
+        }
+        &.active {
+          background: $pink;
+        }
+      }
+    }
+    .carousel_right_arr {
+      text-indent: -99999px;
+      position: relative;
+      float: left;
+      width: 22px;
+      height: 40px;
+      background: asset-url('ui/right_arrow.png') no-repeat 50%;
+    }
+  }
 }
 
 #layer2 {
-  padding-top: 200px;
+  position: absolute;
+  right: 0px;
+  top: 10px;
+  z-index: 10;
+  //padding-top: 200px;
 }
 
 #layer3 {
   position: relative;
   z-index: 2;
-  background: $white;
 }
 
 #layer4 {
   //height: 600px;
   position: relative;
-  background: $black;
+  background: $white;
+  box-shadow: inset 0 0 70px 0 transparentize($gray, 0.3);
   .video-main {
     width: 94%;
     margin: 0 auto;
@@ -37,17 +87,72 @@ body {
 
   }
   .play {
-    background: $white;
-    position: absolute;
-    left: 50%;
-    top: 50%;
     z-index: 1;
   }
 }
 
 #layer6 {
-  background: darken($white,10%);
+  background: $white;
 }
+
+.footer {
+  padding: 40px 0;
+  .app_link {
+    display: block;
+    margin-bottom: 3px;
+  }
+  .footer_heading {
+    font: {
+      size: 11px;
+      weight: 500;
+    }
+    line-height: 12px;
+    color: $pink;
+    margin-bottom: 14px;
+  }
+  .footer_links {
+    font: {
+      size: 10px;
+    }
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      line-height: 12px;
+      a {
+        color: $gray_light;
+        strong {
+          color: $gray;
+        }
+      }
+    }
+  }
+  .footer_primary_heading {
+    font: {
+      size: 36px;
+      weight: 100;
+    }
+    text-transform: uppercase;
+  }
+  .partners_list {
+    padding: 0;
+    margin: 0 0 30px 0;
+    list-style: none;
+    li {
+      float: left;
+      >a {
+        display: block;
+      }
+    }
+  }
+  .sex_ratio {
+    width: 243px;
+    height: 49px;
+    margin-top: 10px;
+    background: asset-url('sex_ratio.png') no-repeat 50%;
+  }
+}
+
 .videoWrapper {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
@@ -68,5 +173,401 @@ body {
     border-radius: 20px;
     padding: 20px 0;
     margin-bottom: 40px;
+  }
+}
+
+.attractive_message {
+  margin-bottom: 5px;
+  border-bottom: 2px solid $white;
+  >span {
+    display: block;
+    text-transform: uppercase;
+    color: $white;
+  }
+  .row1 {
+    font: {
+      size: 28px;
+      weight: 100;
+    }
+    letter-spacing: 2px;
+    line-height: 24px;
+  }
+  .row2 {
+    font: {
+      size: 36px;
+      weight: 700;
+    }
+    line-height: 32px;
+    text-indent: -5px;
+  }
+  .row3 {
+    font: {
+      size: 54px;
+      weight: 300;
+    }
+    line-height: 46px;
+    text-indent: -4px;
+  }
+
+}
+
+//TODO: Move to custom forms (zurb's foundation select)
+$heart_form_width: 330px;
+$heart_form_height: 473px;
+$heart_form_padding_top: 84px;
+$heart_form_padding_left: 38px;
+$heart_form_signup_button_height: 60px;
+.attractive_form {
+  position: relative;
+  width: $heart_form_width - $heart_form_padding_left;
+  padding-left: $heart_form_padding_left;
+  height: $heart_form_height - $heart_form_padding_top;
+  padding-top: $heart_form_padding_top;
+  margin-right: -30px;
+  background: asset-url('half_heart.png') no-repeat 0 0;
+  z-index: 9;
+  .label_text {
+    text-transform: uppercase;
+    color: $white;
+  }
+  label {
+    &:hover {
+      cursor: default;
+    }
+  }
+  .btn_signup {
+    position: relative;
+    background: none;
+    padding: 0 10px;
+    margin-top: 20px;
+    height: $heart_form_signup_button_height;
+    border: none;
+    text-transform: uppercase;
+    text-shadow: 0 1px 1px transparentize($white, 0.15);
+    border-radius: 2px;
+    box-shadow: 4px 6px 10px transparentize($gray, 0.5);
+    .btn_label_primary {
+      font: {
+        size: 24px;
+        weight: 400;
+      }
+      color: $black;
+      display: block;
+      padding-top: 10px;
+    }
+    .btn_label_secondary {
+      font: {
+        size: 18px;
+        weight: 400;
+      }
+      color: $pink;
+      display: block;
+    }
+    .br_left,
+    .br_right {
+      position: absolute;
+      height: 100%;
+      width: 10px;
+      left: 0;
+      top: 0;
+      background: asset-url('ui/button_left_part.png') no-repeat;
+    }
+    .br_right {
+      left: auto;
+      right: 0;
+      background: asset-url('ui/button_right_part.png') no-repeat;
+    }
+    .btn_bg {
+      display: block;
+      height: 100%;
+      padding-right: 10px;
+      padding-left: 10px;
+      background: asset-url('ui/button_center_part.png') repeat-x;
+    }
+  }
+}
+
+.hidden-field {
+  display: none !important;
+}
+
+$custom_select_width: 140px;
+$custom_select_height: 30px;
+$custom_select_padding_right: 30px;
+$custom_select_padding_left: 20px;
+$dropdown_border_radius: 2px;
+.dropdown {
+  &.custom {
+    font-size: 13px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: $gray;
+    background: $white;
+    padding-right: $custom_select_padding_right;
+    padding-left: $custom_select_padding_left;
+    height: $custom_select_height;
+    width: $custom_select_width - $custom_select_padding_left - $custom_select_padding_right;
+    border-radius: $dropdown_border_radius;
+    &.open {
+      ul {
+        display: block;
+      }
+    }
+    ul {
+      position: relative;
+      display: none;
+      width: $custom_select_width - $dropdown_border_radius*2;
+      margin-top: 0;
+      margin-left: -#{$custom_select_padding_left - $dropdown_border_radius};
+      background: $white;
+      list-style: none;
+      z-index: 9;
+      border-radius: 0 0 $dropdown_border_radius $dropdown_border_radius;
+      box-shadow: 0 1px 1px;
+    }
+    li {
+      margin: 0 2px 2px;
+      &:hover,
+      &.selected {
+        background: $gray_lightest;
+      }
+    }
+    .current {
+      color: $gray;
+      display: block;
+      line-height: $custom_select_height;
+      height: $custom_select_height;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .selector {
+      position: absolute;
+      width: $custom_select_padding_right;
+      height: $custom_select_height;
+      right: 0;
+      top: 0;
+      background: asset-url('ui/dropdown_arrow.png') no-repeat 50%;
+    }
+  }
+}
+
+$range_input_width: 54px;
+$range_middle_width: 25px;
+.range_input {
+  width: $range_input_width;
+  float: left;
+  position: relative;
+  >input {
+    width: $range_input_width - 10;
+    height: $custom_select_height - 2;
+    padding: 0 5px;
+    text-align: center;
+    box-shadow: none;
+  }
+  .decrease_button {
+    background: asset-url('ui/form_arrow_left.png') no-repeat 50%;
+  }
+  .decrease_button,
+  .increase_button {
+    text-indent: -99999px;
+    width: 6px;
+    height: 12px;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+  }
+
+  .increase_button {
+    background: asset-url('ui/form_arrow_right.png') no-repeat 50%;
+    left: auto;
+    right: 5px;
+  }
+}
+
+.range_middle {
+  font: {
+    size: 10px;
+  }
+  vertical-align: middle;
+  color: $white;
+  line-height: $custom_select_height - ($dropdown_border_radius*2);
+  text-transform: uppercase;
+  text-align: center;
+  display: block;
+  margin-top: $dropdown_border_radius;
+  width: $range_middle_width;
+  float: left;
+  height: $custom_select_height - ($dropdown_border_radius*2);
+  background: $gray;
+  >label {
+    font-size: 12px;
+    line-height: $custom_select_height - ($dropdown_border_radius*2);
+    margin: 0;
+  }
+}
+
+
+.scrolldown_button {
+  text-indent: -99999px;
+  position: absolute;
+  left: -50px;
+  top: 20px;
+  width: 40px;
+  height: 36px;
+  background: asset-url('ui/down_dbl_arrow.png') no-repeat 50%;
+}
+$user_item_width: 130px;
+$user_item_heighth: 122px;
+$user_item_right_margin: 10px;
+$user_list_width: ($user_item_width + $user_item_right_margin) * 5;
+$user_name_placeholder_height: 22px;
+$user_name_placeholder_width: 115px;
+.new_users_wrap {
+  position: relative;
+  width: $user_list_width;
+  background: $white;
+  box-shadow: 0 2px 77px 42px $white;
+  .heading {
+    font: {
+      size: 20px;
+      weight: 400;
+    }
+    line-height: 20px;
+    margin-top: 0;
+
+    color: $pink;
+    text-transform: uppercase;
+    text-align: right;
+    padding: 0 $user_item_right_margin/2;
+  }
+}
+
+//TODO: Grid can bu used on other pages, probably move to layouts
+
+.users_grid5 {
+  position: relative;
+  width: $user_list_width;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  .user_item {
+    width: $user_item_width;
+    height: $user_item_heighth;
+    position: relative;
+    float: left;
+    margin: $user_item_right_margin / 2;
+    overflow: hidden;
+    >a {
+      display: block;
+    }
+    .name_placeholder {
+      font: {
+        size: 12px;
+        weight: 400;
+      }
+      line-height: $user_name_placeholder_height;
+      color: $white;
+      text-transform: uppercase;
+      text-indent: 10px;
+      vertical-align: middle;
+      display: block;
+      overflow: hidden;
+      width: $user_name_placeholder_width;
+      height: $user_name_placeholder_height;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background: asset-url('ui/name_placeholder_black.png') no-repeat 50%;
+      .point {
+        text-indent: -99999px;
+        display: inline-block;
+        vertical-align: middle;
+        background: $white;
+        width: 4px;
+        height: 4px;
+        margin: 8px 3px 10px;
+        border-radius: 6px;
+      }
+    }
+    &.female {
+      .name_placeholder {
+        background: asset-url('ui/name_placeholder_pink.png') no-repeat 50%;
+      }
+    }
+  }
+}
+
+.attractive_quote {
+  text-shadow: 0 1px 10px $white;
+  >span {
+    display: block;
+  }
+  .row1 {
+    font: {
+      family: 'Coustard', serif;
+      size: 50px;
+      weight: 400;
+    }
+    line-height: 40px;
+    color: $pink;
+  }
+  .row2 {
+    font: {
+      family: 'Helvetica', sans-serif;
+      size: 27px;
+      weight: 100;
+    }
+    line-height: 28px;
+    color: $black;
+    text-transform: uppercase;
+  }
+  .row3 {
+    font: {
+      family: 'Helvetica', sans-serif;
+      size: 35px;
+      weight: 600;
+    }
+    line-height: 32px;
+    color: $black;
+    text-transform: uppercase;
+  }
+}
+
+// TODO: probably move to ui elements
+$play_button_width: 370px;
+$play_button_height: 60px;
+$play_icon_wrap_width: 126px;
+.play_button {
+  font: {
+    size: 28px;
+  }
+  text-transform: uppercase;
+  text-align: center;
+  color: $white;
+  display: block;
+  position: absolute;
+  left: 30%;
+  margin-left: -($play_button_width/2);
+  top: 50%;
+  margin-top: -($play_button_height/2);
+  background: transparentize($gray_light, 0.4);
+  width: $play_button_width;
+  height: $play_button_height;
+  line-height: $play_button_height;
+  &:hover {
+    color: $white;
+  }
+  .play_icon {
+    display: block;
+    width: $play_icon_wrap_width;
+    height: $play_icon_wrap_width;
+    position: absolute;
+    right: -($play_icon_wrap_width - 5);
+    top: 50%;
+    margin-top: -($play_icon_wrap_width/2);
+    border: 2px solid $white;
+    background: transparentize($gray_light, 0.4) asset-url('ui/play_ico.png') no-repeat 40px 36px;
+    border-radius: $play_icon_wrap_width/2 + 2;
+    box-shadow: 3px 4px 10px transparentize($black, 0.8);
   }
 }
