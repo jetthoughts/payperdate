@@ -32,6 +32,13 @@ common:
       port: 2525
       authentication: :plain
 
+  mass_mailing:
+    from_email: 'no-reply@payperdate.com'
+    from_name: ''
+
+  mandrill:
+    api_key: PvcKrapa5FOpc2eXhiMAGQ
+
   redis:
     url: <%= ENV["REDISTOGO_URL"] || 'redis://localhost:6379' %>
 

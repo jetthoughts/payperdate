@@ -30,7 +30,7 @@ gem 'phony_rails'
 # Upload photo
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'fog', '~> 1.3.1'
+gem 'fog', '~>1.14'
 
 gem 'state_machine'
 
@@ -71,6 +71,7 @@ gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'draper', '>= 1.0.0'
 gem 'state_machine'
+gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
 
 
 # Background jobs
@@ -95,7 +96,8 @@ group :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'heroku', require: false
+  gem 'pry-rails'
+  gem 'awesome_print'
 end
 
 group :staging do

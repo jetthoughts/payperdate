@@ -1,16 +1,17 @@
 class Profile < ActiveRecord::Base
   EDITABLE_PARMAS = [
-      :general_info_address_line_1, :general_info_address_line_2, :general_info_city,
-      :general_info_state, :general_info_zip_code, :general_info_tagline,
-      :general_info_description, :personal_preferences_sex, :personal_preferences_partners_sex,
-      :personal_preferences_relationship, :personal_preferences_want_relationship,
-      :date_preferences_accepted_distance, :date_preferences_accepted_distance_do_care,
-      :date_preferences_smoker, :date_preferences_drinker, :date_preferences_description,
-      :optional_info_age, :optional_info_education, :optional_info_occupation,
-      :optional_info_annual_income, :optional_info_net_worth, :optional_info_height,
-      :optional_info_body_type, :optional_info_religion, :optional_info_ethnicity,
-      :optional_info_eye_color, :optional_info_hair_color, :optional_info_address,
-      :optional_info_children, :optional_info_smoker, :optional_info_drinker
+    :general_info_address_line_1, :general_info_address_line_2, :general_info_city,
+    :general_info_state, :general_info_zip_code, :general_info_tagline,
+    :general_info_description, :personal_preferences_sex, :personal_preferences_partners_sex,
+    :personal_preferences_relationship, :personal_preferences_want_relationship,
+    :date_preferences_accepted_distance, :date_preferences_accepted_distance_do_care,
+    :date_preferences_smoker, :date_preferences_drinker, :date_preferences_description,
+    :optional_info_age, :optional_info_education, :optional_info_occupation,
+    :optional_info_annual_income, :optional_info_net_worth, :optional_info_height,
+    :optional_info_body_type, :optional_info_religion, :optional_info_ethnicity,
+    :optional_info_eye_color, :optional_info_hair_color, :optional_info_address,
+    :optional_info_children, :optional_info_smoker, :optional_info_drinker,
+    user_attributes: [:subscribed, :id]
   ]
 
   SEARCHABLE_PARAMS = {
@@ -46,11 +47,12 @@ class Profile < ActiveRecord::Base
   # belongs_to :user
   has_one :user
   has_one :published_user, foreign_key: :published_profile_id, class_name: 'User'
+  accepts_nested_attributes_for :user
 
   has_many :profile_notes
   delegate :nickname, to: :user, allow_nil: true
   # has_one :current_version, through: :published_user, class_name: 'Profile', foreign_key: :profile_id
-                               # has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
+  # has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
 
   belongs_to :avatar
 
@@ -85,7 +87,7 @@ class Profile < ActiveRecord::Base
   validates :optional_info_annual_income, :optional_info_net_worth, :optional_info_height, numericality: { greater_than: 0 }, allow_blank: true
   validate :validate_address, if: :filled?
 
-  scope :active, -> { joins(:user).where('users.blocked == false') }
+  scope :active, -> { joins(:user).where("users.state == 'blocked'") }
 
   geocoded_by :full_address do |obj, results|
     if (geo = results.first)
