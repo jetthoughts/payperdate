@@ -1,0 +1,8 @@
+<% if member_report.active? %>
+  <%= link_to 'Dismiss', send('dismiss_admin_member_report_path', member_report), method: :put, class: :button %>
+  <br/>
+  <%- if member_report.reported_user.active? %>
+    <%= link_to 'Block user', send('block_admin_member_report_path', member_report), method: :put, class: :button %>
+    <br/>
+  <% end %>
+<% end %>

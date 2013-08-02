@@ -1,0 +1,18 @@
+.row-fluid
+  .span4.offset4.well
+    .row-fluid
+      %h4
+        = t :'.title', { content: @member_report.reported_user.name }
+      = form_for [@member_report.reported_user, @member_report] do |f|
+        - if @member_report.errors.full_messages.any?
+          .alert.alert-error
+            - @member_report.errors.full_messages.each do |error_message|
+              = error_message
+              %br/
+        .control-group
+          = f.label :message, t(:'.message'), class: 'control-label'
+          .controls
+            = f.text_area :message, rows: 3, class: 'span12'
+        = f.hidden_field :content_type
+        = f.hidden_field :content_id
+        = f.submit t(:'.submit'), class: 'btn btn-primary'
