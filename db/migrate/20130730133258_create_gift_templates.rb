@@ -1,4 +1,4 @@
-class CreateGifts < ActiveRecord::Migration
+class CreateGiftTemplates < ActiveRecord::Migration
   def change
     create_table :gifts do |t|
       t.string :image, null: false
