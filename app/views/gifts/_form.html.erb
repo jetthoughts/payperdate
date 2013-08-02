@@ -1,0 +1,38 @@
+<%= form_for [@gift.recipient, @gift] do |f| %>
+    <% if @gift.errors.full_messages.any? %>
+        <div class='alert alert-error'>
+          <% @gift.errors.full_messages.each do |error_message| %>
+              <%= error_message if @gift.errors.full_messages.first == error_message %> <br/>
+          <% end %>
+        </div>
+    <% end %>
+    <% GiftTemplate.enabled.in_groups_of(4, false) do |group| %>
+        <div class='row-fluid'>
+          <% group.each do |gift| %>
+              <div class='gift span3'>
+                <%= f.radio_button :gift_template_id, gift.id %>
+                <%= f.label "gift_template_id_#{gift.id}" do %>
+                    <%= image_tag gift.image.url(:medium) %>
+                <% end %>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+    <div class='control-group'>
+      <%= f.label :comment, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :comment, rows: 3, class: 'span12' %>
+      </div>
+    </div>
+    <div class='control-group'>
+      <div class="controls">
+        <%= f.label :private, class: 'checkbox' do %>
+            <%= f.check_box :private %>
+            <%= t :'.private' %>
+        <% end %>
+        <span class="help-block"><%= t :'.private_hint' %></span>
+      </div>
+    </div>
+    <%= f.submit t(:'.submit'), class: 'btn btn-primary' %>
+    <%= link_to t(:'.back'), user_profile_path(@gift.recipient) %>
+<% end %>
