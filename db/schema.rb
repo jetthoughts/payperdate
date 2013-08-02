@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130724165534) do
+ActiveRecord::Schema.define(version: 20130802101254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,12 +28,12 @@ ActiveRecord::Schema.define(version: 20130724165534) do
   end
 
   create_table "admin_users", force: true do |t|
-    t.string   "email",                    default: "", null: false
-    t.string   "encrypted_password",       default: "", null: false
+    t.string   "email",                      default: "",    null: false
+    t.string   "encrypted_password",         default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",            default: 0
+    t.integer  "sign_in_count",              default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -43,6 +43,9 @@ ActiveRecord::Schema.define(version: 20130724165534) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
+    t.boolean  "permission_login_as_user",   default: false, null: false
+    t.boolean  "permission_gifts_and_winks"
+    t.boolean  "permission_mass_mailing"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -87,6 +90,28 @@ ActiveRecord::Schema.define(version: 20130724165534) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "gifts", force: true do |t|
+    t.string   "image",      null: false
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invitations", force: true do |t|
+    t.string   "message"
+    t.integer  "amount",          default: 0,         null: false
+    t.integer  "user_id",                             null: false
+    t.integer  "invited_user_id",                     null: false
+    t.boolean  "counter",         default: false,     null: false
+    t.string   "state",           default: "pending", null: false
+    t.string   "reject_reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitations", ["invited_user_id", "counter"], name: "index_invitations_on_invited_user_id_and_counter", using: :btree
+  add_index "invitations", ["user_id", "counter"], name: "index_invitations_on_user_id_and_counter", using: :btree
+
   create_table "photos", force: true do |t|
     t.integer  "album_id",                          null: false
     t.string   "image",                             null: false
@@ -100,6 +125,16 @@ ActiveRecord::Schema.define(version: 20130724165534) do
   end
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
+
+  create_table "profile_notes", force: true do |t|
+    t.string   "text",          null: false
+    t.integer  "profile_id",    null: false
+    t.integer  "admin_user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "profile_notes", ["profile_id"], name: "index_profile_notes_on_profile_id", using: :btree
 
   create_table "profiles", force: true do |t|
     t.datetime "created_at"
@@ -144,8 +179,8 @@ ActiveRecord::Schema.define(version: 20130724165534) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",       null: false
+    t.string   "encrypted_password",                default: "",       null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -159,15 +194,16 @@ ActiveRecord::Schema.define(version: 20130724165534) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "nickname",                                          null: false
-    t.string   "name",                                              null: false
+    t.string   "nickname",                                             null: false
+    t.string   "name",                                                 null: false
     t.string   "phone",                  limit: 20
-    t.boolean  "no_password",                       default: false, null: false
+    t.boolean  "no_password",                       default: false,    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "blocked"
     t.integer  "published_profile_id"
     t.integer  "profile_id"
+    t.boolean  "subscribed",                        default: true
+    t.string   "state",                             default: "active"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

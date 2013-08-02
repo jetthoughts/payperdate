@@ -1,0 +1,61 @@
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+
+<%= semantic_form_for mailer, url: admin_mass_mailing_send_message_path, method: :post do |f| %>
+
+  <%= f.inputs name: t('.profile_selection') do %>
+    <%= f.input :sex, as: :check_boxes, collection: {"Male" => "M", "Female" => "F"} %>
+
+    <li class="select input optional">
+      <fieldset class="choices">
+        <legend class="label"><label><%= t('.age_range') %></label></legend>
+        <ol class="choices-group">
+          <li class="choice">
+            <%= f.input :birthdate_start, as: :select, collection: 18..100, label: "from" %>
+          </li>
+          <li class="choice">
+            <%= f.input :birthdate_end, as: :select, collection: 18..100, label: "to" %>
+          </li>
+        </ol>
+      </fieldset>
+    </li>
+
+    <%= f.input :reviewed, collection: [['Any',''], ['Yes', 1], ['No', 0]], include_blank: false %>
+
+    <%= f.input :confirmed, collection: [['Any',''], ['Yes', 1], ['No', 0]], include_blank: false %>
+
+    <%= f.input :activity_more_than %>
+
+    <%= f.input :have_photo, collection: [['Any',''], ['Yes', 1], ['No', 0]], include_blank: false %>
+  <% end %>
+
+  <%= f.inputs name: t('.compose_message') do %>
+    <%= f.input :subject %>
+    <%= f.input :text, as: :text %>
+    <li>
+      <fieldset>
+        <legend class="label"><label><%= t('.letter_vars') %></label></legend>
+        <ol class="choices-group">
+          <li> *|FNAME|* </li>
+          <li> *|LNAME|* </li>
+          <li> *|EMAIL|* </li>
+          <li> *|UNSUB|* </li>
+        </ol>
+      </fieldset>
+    </li>
+  <% end %>
+
+
+  <%= f.inputs name: t('.send_test_email') do %>
+    <%= f.input :test_profile_name %>
+    <%= f.input :test_email_address %>
+
+    <%= f.action :submit, label: t('.send_test_message'), button_html: { name: "mass_mailer[send_test_email]" } %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, label: t('.send_message') %>
+    <%= f.input :send_as_html, as: :boolean %>
+  <% end %>
+<% end %>

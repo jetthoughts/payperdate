@@ -23,6 +23,8 @@ en:
   hello: "Hello world"
   where_are_you: "Where Are You Now?"
   max_distance: "Maximum Distance"
+  are_you_sure: 'Are you sure?'
+  unsubscribed: "Your email removed from subscribe"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
@@ -46,9 +48,19 @@ en:
           attributes:
             image:
               size_too_big: 'Size too big'
+        invitation:
+          attributes:
+            invited_user_id:
+              cant_invite_himself: 'You cant invite yourself'
+              already_sent: 'Invitation already sent'
   profile:
     address:
       full: "%{general_info_address_line_1}, %{general_info_city}, %{general_info_state} %{general_info_zip_code}"
+    review:
+      status_change:
+        queued: 'Your profile has been enqueued for approval. Please, patiently wait.'
+        approved: 'Congratulations, your profile has been approved. It is published now.'
+      under_review: 'UNDER REVIEW'
   tools:
     gmap:
       uri: "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=%{latitude}%2C%{longitude}"
@@ -59,6 +71,9 @@ en:
       no_permissions: 'No permissions'
       permission_approver: 'Approver (access only to Picture and Profile approval/rejection)'
       permission_customer_care: 'Customer Care (delete users, respond to user questions, etc)'
+      permission_gifts_and_winks: 'Gifts and Winks (manage gifts and winks)'
+      permission_login_as_user: 'Ability to login as user'
+      permission_mass_mailing: "Mass Mailing (send mass mails to users)"
     photo:
       declined:
         reason:
@@ -80,6 +95,30 @@ en:
           details: ""
         destroy_avatar:
           details: ""
+    mass_mailing:
+      title: "Mass Mailing"
+      index:
+        profile_selection: "Profile selection"
+        sex: "Sex"
+        age_range: "Age range"
+        reviewed: "Reviewed"
+        confirmed: "Confirmed"
+        activity_more_than: "Activity more than"
+        have_photo: "Have photo"
+        send_message: "Send message"
+        external_message: "Send to external email"
+        internal_message: "Send to internal mailbox"
+        compose_message: "Compose message"
+        subject: "Subject"
+        text: "Text"
+        letter_vars: "Letter vars"
+        send_test_email: "Send test email"
+        test_profile: "Test profile"
+        test_email_address: "Test Email address"
+        send_test_message: "Send Test message"
+        send_as_html: "Send as HTML"
+        send_message: "Send message"
+
   number:
     format:
       precision: 2

@@ -1,11 +1,14 @@
 pauls:
   filled: false
+  reviewed: true
 
 johns:
   filled: false
+  reviewed: true
 
 martins:
   filled: true
+  reviewed: true
   latitude: 25.770168
   longitude: -80.291343
   general_info_city: Miami
@@ -36,13 +39,14 @@ martins:
   optional_info_education: G
   optional_info_ethnicity: W
   optional_info_eye_color: brown
-  optional_info_net_worth: ''
+  optional_info_net_worth:
   optional_info_hair_color: LBro
   optional_info_occupation: International trade
-  optional_info_annual_income: ''
+  optional_info_annual_income:
 
 mias:
   filled: true
+  reviewed: true
   latitude: 25.7621227
   longitude: -80.2916747
   general_info_city: Miami
@@ -79,13 +83,14 @@ mias:
   optional_info_education: S
   optional_info_ethnicity: L
   optional_info_eye_color: brown
-  optional_info_net_worth: ''
+  optional_info_net_worth:
   optional_info_hair_color: DBro
   optional_info_occupation: Sales
-  optional_info_annual_income: ''
+  optional_info_annual_income:
 
 sophias:
   filled: true
+  reviewed: true
   latitude: 25.75593
   longitude: -80.2920819
   general_info_city: Miami
@@ -134,13 +139,14 @@ sophias:
   optional_info_education: S
   optional_info_ethnicity: O
   optional_info_eye_color: brown
-  optional_info_net_worth: ''
+  optional_info_net_worth:
   optional_info_hair_color: DBro
   optional_info_occupation: Transportation
-  optional_info_annual_income: ''
+  optional_info_annual_income:
 
 roberts:
   filled: true
+  reviewed: true
   latitude: 25.7607207
   longitude: -80.3009813
   general_info_city: Miami
@@ -176,13 +182,14 @@ roberts:
   optional_info_education: G
   optional_info_ethnicity: L
   optional_info_eye_color: other
-  optional_info_net_worth: ''
+  optional_info_net_worth:
   optional_info_hair_color: DBro
   optional_info_occupation: Investment Banking
   optional_info_annual_income: '120000'
 
 rias:
   filled: true
+  reviewed: true
   latitude: 47.911601
   longitude: 33.386577
   general_info_address_line_1: ulitsa Otto Brozovskogo, 9
@@ -204,7 +211,7 @@ rias:
   optional_info_age: 23
   optional_info_education: B
   optional_info_occupation: Work and study
-  optional_info_annual_income: ''
+  optional_info_annual_income:
   optional_info_net_worth:
   optional_info_height: 165
   optional_info_body_type: S
@@ -219,6 +226,8 @@ rias:
 
 lilys:
   filled: false
+  reviewed: true
 
 lolas:
   filled: false
+  reviewed: true

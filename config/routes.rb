@@ -17,20 +17,22 @@ Payperdate::Application.routes.draw do
                             omniauth_callbacks: 'users/omniauth_callbacks' }
 
 
+  resources :users do
+    resource :profile
+
+    resources :albums, only: :index do
+      resources :photos, only: :index
+    end
+  end
+
   unauthenticated :user do
     root to: 'pages#landing', as: :guest_root
     match '*missing' => 'pages#landing', via: [:get, :post]
   end
 
+  get :unsubscribe, to: "users#unsubscribe"
+
   authenticated :user do
-    resources :users do
-      resource :profile
-
-      resources :albums, only: :index do
-        resources :photos, only: :index
-      end
-    end
-
     get '/me', to: 'me/profiles#show'
 
     scope :me do
@@ -42,6 +44,18 @@ Payperdate::Application.routes.draw do
       resources :albums do
         resources :photos
       end
+      resources :invitations do
+        collection do
+          get :accepted
+          get :rejected
+          get :sent
+        end
+        member do
+          post :accept
+          post :reject
+          patch :counter
+        end
+      end
     end
 
     namespace :me, as: '' do
@@ -49,9 +63,8 @@ Payperdate::Application.routes.draw do
     end
 
     root to: 'users#index'
-    
+
     get '/search', to: 'users#search'
   end
-
   get '/about', to: 'pages#about'
 end

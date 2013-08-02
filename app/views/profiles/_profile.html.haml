@@ -11,7 +11,7 @@
         ---
 
         *Body Type:*
-        #{select_title 'body_type', profile.optional_info_body_type}
+        #{profile.optional_info_height && "#{profile.optional_info_height} cm – "}#{select_title 'body_type', profile.optional_info_body_type}
 
         ---
 
@@ -46,8 +46,13 @@
         ---
 
   .span10.profile-column
+    - unless profile.reviewed?
+      .pull-right.muted
+        %small= link_to 'Public profile here', user_profile_path(profile.auto_user)
+        %br
+        %strong= t 'profile.review.under_review'
     :textile
-      h3. #{profile.user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
+      h3. #{profile.auto_user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
 
       ---
 
@@ -56,7 +61,7 @@
       !#{gmap_for(profile)}!
 
       __#{profile.general_info_tagline}__
-
+    = render 'profiles/invite_link', user: profile.user
     - if can? :manage, profile
       .row-fluid
         .span12
@@ -69,13 +74,13 @@
                 .accordion-inner
                   %div
                     last_sign_in_ip:
-                    = profile.user.last_sign_in_ip
+                    = profile.auto_user.last_sign_in_ip
                   %div
                     sign_in_count:
-                    = profile.user.sign_in_count
+                    = profile.auto_user.sign_in_count
                   %div
                     failed login counts:
-                    = profile.user.failed_sign_in_count
+                    = profile.auto_user.failed_sign_in_count
 
     - if can? :manage, profile
       = link_to 'Edit profile', edit_profile_path, class: 'btn'
@@ -87,11 +92,14 @@
 
       h4. About me:
 
-      #{profile.general_info_description}
+    = profile.general_info_description
+    :textile
 
       h4. My First Date Expectations:
 
-      #{profile.date_preferences_description}
+    = profile.date_preferences_description
+
+    :textile
 
       <br>
 

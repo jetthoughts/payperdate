@@ -1,0 +1,11 @@
+<p>
+  Hi, <%= @inviter.name -%>!
+</p>
+<p>
+  We are sorry, but <%= @invited_user.name %> rejected your invitation
+</p>
+<p>
+  <%- if @invitation.reject_reason.present? -%>
+    Reject reason: <%= @invitation.reject_reason -%>
+  <%- end -%>
+</p>

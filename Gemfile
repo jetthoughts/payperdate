@@ -6,6 +6,8 @@ gem 'rails', '4.0.0'
 
 # Use sqlite3 as the database for Active Record
 gem 'pg'
+gem 'squeel'
+gem 'state_machine'
 
 gem 'unicorn'
 
@@ -28,8 +30,9 @@ gem 'phony_rails'
 # Upload photo
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'fog', '~> 1.3.1'
+gem 'fog', '~>1.14'
 
+gem 'state_machine'
 
 # Assets
 
@@ -68,6 +71,9 @@ gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'draper', '>= 1.0.0'
 gem 'state_machine'
+gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
+
+gem 'obscenity' # profanity filter, used only to help approver
 
 
 # Background jobs
@@ -78,6 +84,8 @@ gem 'delayed_job_web'
 gem 'geocoder'
 gem 'nude'
 gem 'face'
+
+gem 'airbrake'
 
 # Search (already added in admin panel)
 # gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
@@ -90,7 +98,8 @@ group :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'heroku', require: false
+  gem 'pry-rails'
+  gem 'awesome_print'
 end
 
 group :staging do

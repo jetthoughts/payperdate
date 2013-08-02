@@ -1,0 +1,13 @@
+<p>
+  Hi, <%= @invited_user.name -%>!
+</p>
+<p>
+  <%= @inviter.name -%> invites you to go with him for <%= number_to_currency(@invitation.amount) -%>
+</p>
+<p>
+  <%- if @invitation.message.present? -%>
+    He say:
+    "<%= @invitation.message -%>"
+  <%- end -%>
+</p>
+<%= link_to invitations_url, invitations_url -%>

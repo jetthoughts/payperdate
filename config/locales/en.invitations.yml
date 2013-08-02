@@ -1,0 +1,27 @@
+en:
+  invitations:
+    accept: 'Accept'
+    reject: 'Reject'
+    delete: 'Delete'
+    counter_offer: 'Counter offer'
+    counter_price: 'You price'
+    reject_reason: 'Select reject reason'
+    links:
+      invitations: 'My invitations'
+      rejected: 'Rejected'
+      accepted: 'Accepted'
+      pending: 'Pending'
+      sent: 'Sent'
+    messages:
+      was_sent: 'Invitation was sent'
+      was_not_sent: 'Invitation wasnt sent'
+    mailer:
+      your_invitation_was_rejected: 'Your invitation was rejected'
+      your_invitation_was_accepted: 'Your invitation was accepted'
+      new_invitation: 'New invitation'
+      new_counter_invitations: 'New counter invitation'
+    reject_reasons:
+      - You are not my type
+      - You are so good for me
+      - It's not money, but just joke)
+      - You are ugly

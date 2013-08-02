@@ -35,12 +35,13 @@ $ ->
   updateElements = ->
     relativeY = lastScrollY / 3000
     prefix(layer1, "transform", "translate3d(0px," + pos(0, 100, relativeY, 0) + 'px, 0)')
-    prefix(layer2, "transform", "translate3d(0px," + pos(0, 1900, relativeY, 0) + 'px, 0)')
-    prefix(layer3, "transform", "translate3d(0px," + pos(-100, -1000, relativeY, 0) + 'px, 0)')
+    prefix(layer2, "transform", "translate3d(0px," + pos(0, 2600, relativeY, 0) + 'px, 0)')
+    prefix(layer3, "transform", "translate3d(0px," + pos(-200, -1300, relativeY, 0) + 'px, 0)')
     prefix(layer4, "transform", "translate3d(0px," + pos(-500, 300, relativeY, 0) + 'px, 0)')
-    prefix(layer5, "transform", "translate3d(0px," + pos(100, -600, relativeY, 0) + 'px, 0)')
-    prefix(layer6, "transform", "translate3d(0px," + pos(0, -1000, relativeY, 0) + 'px, 0)')
+    prefix(layer5, "transform", "translate3d(0px," + pos(100, -100, relativeY, 0) + 'px, 0)')
+    prefix(layer6, "transform", "translate3d(0px," + pos(400, -1400, relativeY, 0) + 'px, 0)')
     layer6.css("margin-bottom", pos(0, -1000, relativeY, 0) + "px")
+#    layer6.css("margin-bottom", "-1200px")
     ticking = false
 
   pos = (base, range, relY, offset) ->

@@ -1,16 +1,17 @@
 class Profile < ActiveRecord::Base
   EDITABLE_PARMAS = [
-      :general_info_address_line_1, :general_info_address_line_2, :general_info_city,
-      :general_info_state, :general_info_zip_code, :general_info_tagline,
-      :general_info_description, :personal_preferences_sex, :personal_preferences_partners_sex,
-      :personal_preferences_relationship, :personal_preferences_want_relationship,
-      :date_preferences_accepted_distance, :date_preferences_accepted_distance_do_care,
-      :date_preferences_smoker, :date_preferences_drinker, :date_preferences_description,
-      :optional_info_age, :optional_info_education, :optional_info_occupation,
-      :optional_info_annual_income, :optional_info_net_worth, :optional_info_height,
-      :optional_info_body_type, :optional_info_religion, :optional_info_ethnicity,
-      :optional_info_eye_color, :optional_info_hair_color, :optional_info_address,
-      :optional_info_children, :optional_info_smoker, :optional_info_drinker
+    :general_info_address_line_1, :general_info_address_line_2, :general_info_city,
+    :general_info_state, :general_info_zip_code, :general_info_tagline,
+    :general_info_description, :personal_preferences_sex, :personal_preferences_partners_sex,
+    :personal_preferences_relationship, :personal_preferences_want_relationship,
+    :date_preferences_accepted_distance, :date_preferences_accepted_distance_do_care,
+    :date_preferences_smoker, :date_preferences_drinker, :date_preferences_description,
+    :optional_info_age, :optional_info_education, :optional_info_occupation,
+    :optional_info_annual_income, :optional_info_net_worth, :optional_info_height,
+    :optional_info_body_type, :optional_info_religion, :optional_info_ethnicity,
+    :optional_info_eye_color, :optional_info_hair_color, :optional_info_address,
+    :optional_info_children, :optional_info_smoker, :optional_info_drinker,
+    user_attributes: [:subscribed, :id]
   ]
 
   SEARCHABLE_PARAMS = {
@@ -43,16 +44,36 @@ class Profile < ActiveRecord::Base
 
   MAX_DISTANCE = 9999999
 
-  # belongs_to :user
   has_one :user
   has_one :published_user, foreign_key: :published_profile_id, class_name: 'User'
-
-  # has_one :current_version, through: :published_user, class_name: 'Profile', foreign_key: :profile_id
-                               # has_one :published_version, through: :user, class_name: 'Profile', foreign_key: :published_profile_id
+  accepts_nested_attributes_for :user
 
   belongs_to :avatar
 
   attr_accessor :obtained_zipcode
+
+  has_many :profile_notes
+
+  def nickname
+    auto_user && auto_user.nickname
+  end
+
+  belongs_to :avatar
+
+  scope :approve_queue, -> { where reviewed: false }
+  scope :published, -> {
+    joins('INNER JOIN "users" on "users"."published_profile_id" = "profiles"."id"')
+        .where(filled: true)
+  }
+  scope :published_and_active, -> { published.where("users.state = 'active'") }
+
+  attr_accessor :obtained_zipcode
+
+  attr_accessor :inner_dont_care_about_review_notifications
+
+  def self.not_mine(profile)
+    where('users.id != ?', profile.auto_user.id)
+  end
 
   def self.editable_params
     EDITABLE_PARMAS
@@ -62,28 +83,22 @@ class Profile < ActiveRecord::Base
     SEARCHABLE_PARAMS
   end
 
-  before_validation { self.filled = filled? }
+  after_save :cache_filled
 
-  validates_presence_of :general_info_address_line_1,
-                        :general_info_city,
-                        :general_info_state,
-                        :general_info_zip_code,
-                        :general_info_tagline,
-                        :general_info_description,
-                        :personal_preferences_sex,
-                        :personal_preferences_partners_sex,
-                        :personal_preferences_relationship,
-                        :personal_preferences_want_relationship,
-                        :date_preferences_accepted_distance_do_care,
-                        :date_preferences_description,
-                        if: :filled?
+  validates_presence_of :general_info_address_line_1, :general_info_city, :general_info_state,
+                        :general_info_zip_code, :general_info_tagline, :general_info_description,
+                        :personal_preferences_sex, :personal_preferences_partners_sex,
+                        :personal_preferences_relationship, :personal_preferences_want_relationship,
+                        :date_preferences_accepted_distance_do_care, :date_preferences_smoker,
+                        :date_preferences_drinker, :date_preferences_description, if: :filled?
 
   validates :date_preferences_accepted_distance, presence: true, numericality: { greater_than: 0 }, if: :distance_do_care?
   validates :optional_info_age, presence: true, numericality: { greater_than: 16 }, if: :filled?
-  validates :optional_info_annual_income, :optional_info_net_worth, numericality: { greater_than: 0 }, allow_blank: true
+  validates :optional_info_annual_income, :optional_info_net_worth, :optional_info_height, numericality: { greater_than: 0 }, allow_blank: true
   validate :validate_address, if: :filled?
 
-  scope :active, -> { joins(:user).where('users.blocked == false') }
+  scope :active, -> { joins(:user).where("users.state = 'active'") }
+  after_save :enqueue_for_approval, if: :free_form_fields_changed?
 
   geocoded_by :full_address do |obj, results|
     if (geo = results.first)
@@ -113,16 +128,15 @@ class Profile < ActiveRecord::Base
 
   def regeocode
     if location_changed?
+      raise 'Geocoding should not be run when testing' if Rails.env.test?
       reset_geocoding!
       geocode
-      if valid_address?
-        cache_full_address!
-      end
     end
   end
 
   def location_changed?
-    full_address != full_address_saved
+    [:general_info_state, :general_info_city, :general_info_zip_code, :general_info_address_line_1,
+         :general_info_address_line_2].any? { |e| changes.keys.include? e.to_s }
   end
 
   def cache_full_address!
@@ -152,7 +166,11 @@ class Profile < ActiveRecord::Base
   end
 
   def filled?
-    general_info_address_line_1 && personal_preferences_sex && date_preferences_accepted_distance_do_care
+    if general_info_address_line_1 && personal_preferences_sex && date_preferences_accepted_distance_do_care
+      true
+    else
+      false
+    end
   end
 
   def avatar_url(version=:avatar, public_avatar = true)
@@ -172,20 +190,30 @@ class Profile < ActiveRecord::Base
   end
 
   def approve!
-    update! reviewed = true
+    update! reviewed: true
     published_version.update! get_attributes
+    notify_user_about_review_status :approved unless inner_dont_care_about_review_notifications
   end
 
   def enqueue_for_approval
-    reviewed = false
+    if current_version? && filled?
+      if reviewed || reviewed.nil?
+        self.reviewed = false
+        update! reviewed: false
+        notify_user_about_review_status :queued unless inner_dont_care_about_review_notifications
+      end
+    end
   end
 
   # hotfix
   def user_id
-    user.id
+    auto_user && auto_user.id
   end
 
-  private
+  def profane?
+    [general_info_description, general_info_tagline, date_preferences_description]
+        .any? { |free_field| Obscenity.profane? free_field }
+  end
 
   def get_attributes
     column_names = Profile.column_names - ['id', 'created_at', 'updated_at']
@@ -195,7 +223,52 @@ class Profile < ActiveRecord::Base
   end
 
   def name
-    "#{user.name}'s Profile"
+    auto_user && "#{auto_user.name}'s Profile" || "Somebody's profile"
+  end
+
+  def current_version
+    auto_user && auto_user.profile
+  end
+
+  def published_version
+    auto_user && auto_user.published_profile
+  end
+
+  def current_version?
+    current_version && current_version.id == id
+  end
+
+  def published_version?
+    published_version && published_version.id == id
+  end
+
+  def auto_user
+    user || published_user
+  end
+
+  def cache_filled
+    if filled != filled?
+      update! filled: filled?
+    end
+  end
+
+  def next_queued_for_approval
+    Profile.approve_queue.where('id > ?', id).order('id ASC').first
+  end
+
+  def prev_queued_for_approval
+    Profile.approve_queue.where('id < ?', id).order('id DESC').first
+  end
+
+  private
+
+  def notify_user_about_review_status(status)
+    NotificationMailer.review_status_changed(user_id, status)
+  end
+
+  def free_form_fields_changed?
+    [general_info_description_changed?, general_info_tagline_changed?,
+        date_preferences_description_changed?, personal_preferences_sex_changed?].any?
   end
 
   def validate_address

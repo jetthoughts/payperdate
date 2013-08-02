@@ -1,10 +1,14 @@
-class NotificationMailer < ActionMailer::Base
-  default from: 'support@payperdate.com'
-
+class NotificationMailer < BaseMailer
   def photo_was_declined(user_id, photo_url)
     @user = User.find(user_id)
     @photo_url = photo_url
     deliver_mail mail(to: @user.email, subject: 'Your photo has been declined')
+  end
+
+  def review_status_changed(user_id, status)
+    @user = User.find(user_id)
+    @status = status
+    deliver_mail mail(to: @user.email, subject: 'Review status of your profile has been changed')
   end
 
   def user_was_blocked(user_id)
