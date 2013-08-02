@@ -1,6 +1,5 @@
 class AdminUser < ActiveRecord::Base
-
-  PERMISSIONS = [:permission_approver, :permission_customer_care, :permission_gifts_and_winks, :permission_login_as_user]
+  PERMISSIONS = [:permission_approver, :permission_customer_care, :permission_gifts_and_winks, :permission_login_as_user, :permission_mass_mailing]
 
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable

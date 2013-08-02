@@ -9,6 +9,13 @@ class UsersController < BaseController
     render :index
   end
 
+  def unsubscribe
+    user = User.where(email: params[:md_email]).first    
+    user.unsubscribe!
+
+    redirect_to root_path, notice: t("unsubscribed")
+  end
+
   private
 
   def user_param_name

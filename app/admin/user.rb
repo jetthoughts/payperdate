@@ -55,7 +55,7 @@ ActiveAdmin.register User do
     column :name
     column :email
     column :nickname
-    column :blocked
+    column :state
     column :actions do |user|
       render 'admin/user/customer_care_actions', user: user, resource: :user
     end
@@ -72,7 +72,7 @@ ActiveAdmin.register User do
       f.input :nickname
       f.input :password
       f.input :password_confirmation
-      f.input :blocked
+      f.input :state, as: :select, collection: f.object.class.state_machines[:state].states.keys, include_blank: false
     end
     f.actions
   end
