@@ -33,6 +33,16 @@ Payperdate::Application.routes.draw do
   get :unsubscribe, to: "users#unsubscribe"
 
   authenticated :user do
+    resources :users do
+      resource :profile
+
+      resource :gifts, only: [:new, :create]
+
+      resources :albums, only: :index do
+        resources :photos, only: :index
+      end
+    end
+
     get '/me', to: 'me/profiles#show'
 
     scope :me do

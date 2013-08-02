@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable,
-         :validatable, :confirmable, :omniauthable
+    :recoverable, :rememberable, :trackable,
+    :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
+  has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
 
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
