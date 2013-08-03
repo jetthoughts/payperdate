@@ -7,6 +7,8 @@ class Gift < ActiveRecord::Base
   validate :validate_user_can_send_for_self
   validate :validate_user_can_send_disabled_gift
 
+  delegate :image_url, :name, to: :gift_template
+
   private
 
   def validate_user_can_send_for_self

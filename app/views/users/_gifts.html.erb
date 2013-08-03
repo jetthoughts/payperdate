@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <h3>Gifts</h3>
+  <div class="row-fluid">
+    <div id="gifts" class="carousel slide" data-interval="false">
+      <div class="carousel-inner">
+        <% gifts_groups_with_index(6) do |gifts_group, index| %>
+          <div class="item<%= " active" if index == 0 %>">
+            <ul class="thumbnails">
+              <%= render gifts_group %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+
+      <a href="#gifts" class="carousel-control left" data-slide="prev">&lsaquo;</a>
+      <a href="#gifts" class="carousel-control right" data-slide="next">&rsaquo;</a>
+    </div>
+  </div>
+</div>
