@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(version: 20130806072339) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
+
   create_table "activities", force: true do |t|
     t.integer  "user_id"
     t.integer  "subject_id"
@@ -39,9 +43,9 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
+    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
-    t.boolean  "permission_mass_mailing"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -91,6 +95,7 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.string   "state",      default: "enabled", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "gifts", force: true do |t|
