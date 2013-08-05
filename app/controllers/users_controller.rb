@@ -34,15 +34,19 @@ class UsersController < BaseController
   end
 
   def setup_search
+    #FIXME: do not change params
     params[:q] ||= {}
     params[:location] ||= @profile.default_search['location']
     params[:max_distance] ||= @profile.default_search['max_distance']
+
+    #FIXME: Rename `q` to more readable
     @q = @profile.near_me(params[:location], params[:max_distance]).not_mine(@profile)
     @q = @q.preload(:user).published_and_active.search(params[:q])
   end
 
   def setup_profiles
     @profiles = @q.result
+    #FIXME: Convert to helper, too many shared instances
     @profile_sections = Profile.searchable_params
   end
 
