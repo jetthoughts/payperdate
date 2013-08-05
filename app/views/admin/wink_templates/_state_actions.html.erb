@@ -1,0 +1,5 @@
+<% if wink_template.disabled? %>
+    <%= link_to 'Enable', enable_admin_wink_template_path(wink_template), method: :put, class: :button %>
+<% else %>
+    <%= link_to 'Disable', disable_admin_wink_template_path(wink_template), method: :put, class: :button %>
+<% end %>

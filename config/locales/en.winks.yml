@@ -1,0 +1,23 @@
+en:
+  winks:
+    wink: 'Wink'
+    winks: 'Winks'
+    send_wink: 'Send wink'
+    cant_wink_twice_for_day: "You cant wink to the same user twice for day"
+    messages:
+      was_sent: 'Wink was sent'
+      was_not_sent: "Wink wasn't sent"
+    mailer:
+      new_wink: 'You have a new wink'
+      you_have_new_wink: 'You have a new wink'
+  activerecord:
+    errors:
+      models:
+        wink:
+          attributes:
+            recipient_id:
+              cant_wink_twice_for_day: 'winked second time for day'
+        wink_template:
+          attributes:
+            image:
+              size_too_big: 'Size too big'

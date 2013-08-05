@@ -81,6 +81,7 @@ class User < ActiveRecord::Base
 
   include UserAuthMethods
   include InvitationsMethods
+  include WinksMethods
   extend UserOauth
 
   include ActivityTracker
@@ -121,6 +122,10 @@ class User < ActiveRecord::Base
 
   def age
     22
+  end
+
+  def operate_with_himself?(user)
+    id == user.id
   end
 
   private
