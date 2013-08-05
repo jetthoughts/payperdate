@@ -54,6 +54,7 @@ Payperdate::Application.routes.draw do
       resources :albums do
         resources :photos
       end
+      resources :winks, only: [:create, :index]
       resources :invitations do
         collection do
           get :accepted

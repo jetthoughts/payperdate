@@ -1,0 +1,18 @@
+<%= form_for wink, remote: true do |f| -%>
+  <ul>
+    <%- WinkTemplate.enabled.each do |wt| -%>
+      <li>
+        <%= f.radio_button :wink_template_id, wt.id, required: true, 'data-bind' => 'checked: wink' %>
+        <%= f.label "wink_template_id_#{wt.id}" do %>
+          <%= image_tag wt.image.url(:thumb) %>
+        <% end %>
+      </li>
+    <%- end -%>
+  </ul>
+
+  <div class='row-fluid'>
+    <%= f.submit t('winks.send_wink'), data: { disable_with: '...' }, 'data-bind' => 'visible: readyToSubmit' -%>
+  </div>
+
+  <%= f.hidden_field :recipient_id -%>
+<%- end -%>
