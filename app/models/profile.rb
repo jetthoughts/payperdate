@@ -65,8 +65,6 @@ class Profile < ActiveRecord::Base
     auto_user && auto_user.nickname
   end
 
-  belongs_to :avatar
-
   scope :approve_queue, -> { where reviewed: false }
   scope :published, -> {
     joins('INNER JOIN "users" on "users"."published_profile_id" = "profiles"."id"')
@@ -185,14 +183,6 @@ class Profile < ActiveRecord::Base
       true
     else
       false
-    end
-  end
-
-  def avatar_url(version=:avatar, public_avatar = true)
-    if public_avatar
-      (avatar && avatar.public_photo || Avatar.new).image_url(version)
-    else
-      (avatar || Avatar.new).image_url(version)
     end
   end
 

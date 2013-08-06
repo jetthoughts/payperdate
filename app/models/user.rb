@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
 
+  belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
 
@@ -127,6 +128,11 @@ class User < ActiveRecord::Base
 
   def operate_with_himself?(user)
     id == user.id
+  end
+
+  def avatar_url(version=:avatar, public_avatar = true)
+    av = public_avatar ? avatar && avatar.public_photo : avatar
+    (av || Avatar.new).image_url(version)
   end
 
   private
