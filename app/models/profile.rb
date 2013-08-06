@@ -9,9 +9,8 @@ class Profile < ActiveRecord::Base
     :optional_info_age, :optional_info_education, :optional_info_occupation,
     :optional_info_annual_income, :optional_info_net_worth, :optional_info_height,
     :optional_info_body_type, :optional_info_religion, :optional_info_ethnicity,
-    :optional_info_eye_color, :optional_info_hair_color, :optional_info_address,
-    :optional_info_children, :optional_info_smoker, :optional_info_drinker,
-    user_attributes: [:subscribed, :id]
+    :optional_info_eye_color, :optional_info_hair_color, :optional_info_children,
+    :optional_info_smoker, :optional_info_drinker, user_attributes: [:subscribed, :id]
   ]
 
   SEARCHABLE_PARAMS = {
@@ -41,6 +40,18 @@ class Profile < ActiveRecord::Base
                    { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
                ]
   }
+
+  PROFANITY_CHECKED_PARAMS = [
+      :general_info_address_line_1, :general_info_address_line_2, :general_info_city,
+      :general_info_state, :general_info_zip_code, :general_info_tagline, :general_info_description,
+      :date_preferences_description, :optional_info_occupation
+  ]
+
+  MODERATED_PARAMS = [
+      :general_info_address_line_1, :general_info_address_line_2, :general_info_city,
+      :general_info_state, :general_info_zip_code, :general_info_tagline, :general_info_description,
+      :personal_preferences_sex, :date_preferences_description, :optional_info_occupation
+  ]
 
   MAX_DISTANCE = 9999999
 
@@ -77,6 +88,14 @@ class Profile < ActiveRecord::Base
 
   def self.searchable_params
     SEARCHABLE_PARAMS
+  end
+
+  def self.profanity_checked_params
+    PROFANITY_CHECKED_PARAMS
+  end
+
+  def self.moderated_params
+    MODERATED_PARAMS
   end
 
   after_save :cache_filled
@@ -207,8 +226,7 @@ class Profile < ActiveRecord::Base
   end
 
   def profane?
-    [general_info_description, general_info_tagline, date_preferences_description]
-        .any? { |free_field| Obscenity.profane? free_field }
+    Profile.profanity_checked_params.any? { |e| Obscenity.profane? send e }
   end
 
   def get_attributes
@@ -220,6 +238,12 @@ class Profile < ActiveRecord::Base
 
   def name
     auto_user && "#{auto_user.name}'s Profile" || "Somebody's profile"
+  end
+
+  def cache_filled
+    if filled != filled?
+      update! filled: filled?
+    end
   end
 
   def current_version
@@ -268,7 +292,6 @@ class Profile < ActiveRecord::Base
   end
 
   def free_form_fields_changed?
-    [general_info_description_changed?, general_info_tagline_changed?,
-        date_preferences_description_changed?, personal_preferences_sex_changed?].any?
+    Profile.moderated_params.any? { |e| changes.keys.include? e.to_s }
   end
 end

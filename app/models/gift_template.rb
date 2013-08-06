@@ -1,4 +1,5 @@
 class GiftTemplate < ActiveRecord::Base
+  require 'payperdate/file_size_validator'
   validates :image, presence: true, file_size: { maximum: 5.megabytes.to_i }
 
   mount_uploader :image, GiftTemplateUploader

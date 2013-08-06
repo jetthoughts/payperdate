@@ -1,0 +1,6 @@
+div do
+  link_to 'View photos', admin_photos_path(scope: :pending, q: { album_user_id_eq: profile.user_id })
+end
+div do
+  link_to 'View avatars', admin_avatars_path(scope: :pending, q: { album_user_id_eq: profile.user_id })
+end

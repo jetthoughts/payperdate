@@ -26,4 +26,6 @@ class LandingPageModel
     @min_age = new CustomSpinnerModel(22)
     @max_age = new CustomSpinnerModel(25)
 
-ko.applyBindings new LandingPageModel
+$ ->
+  if railsAction == 'landing'
+    ko.applyBindings new LandingPageModel

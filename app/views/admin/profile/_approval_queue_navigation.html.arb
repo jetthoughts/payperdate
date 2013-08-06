@@ -1,0 +1,20 @@
+extend ProfilesHelper
+unless profile.reviewed?
+  div class: 'profile-grid' do
+    div class: 'profile-col-1-3' do
+      prev_profile = profile.prev_queued_for_approval
+      prev_title = profile.prev_queued_for_approval.nil? ? 'List' : 'Next'
+      next_profile = profile.next_queued_for_approval
+      next_title = profile.next_queued_for_approval.nil? ? 'List' : 'Prev'
+      span do
+        link_to next_title, admin_profile_path(next_profile), class: :button
+      end
+      unless prev_profile.nil? && next_profile.nil?
+        span do
+          link_to prev_title, admin_profile_path(prev_profile), class: :button
+        end
+      end
+    end
+  end
+  br
+end

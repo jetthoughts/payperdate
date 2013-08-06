@@ -1,0 +1,6 @@
+div do
+  link_to 'Login as user', login_admin_user_path(profile.auto_user)
+end
+div do
+  link_to 'View Mailbox', '#'
+end

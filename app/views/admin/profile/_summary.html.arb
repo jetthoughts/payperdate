@@ -1,0 +1,27 @@
+extend ProfilesHelper
+div class: 'profile-grid' do
+  div class: 'profile-col-2-3' do
+    strong profile.auto_user.name
+    span "#{profile.optional_info_age || '??'} y/o"
+    br
+    div 'from'
+    strong profile.full_address
+    br
+    div 'Status:'
+    strong 'Active' unless profile.auto_user.blocked?
+    strong 'Suspended' if profile.auto_user.blocked?
+    br
+    div 'Last activity:'
+    activity = profile.auto_user.activities.last
+    if activity
+      strong "#{distance_of_time_in_words activity.created_at, Time.now} ago"
+    else
+      span '-'
+    end
+    br
+    span "Join date: #{profile.created_at.to_date}"
+  end
+  div class: 'profile-col-1-3' do
+    render 'profile/avatar', profile: profile
+  end
+end

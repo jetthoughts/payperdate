@@ -1,0 +1,15 @@
+extend ProfilesHelper
+
+editable_form do |f|
+  edit_link '#physical_features'
+  attributes_table_for profile do
+    editable_row :optional_info_height, profile: profile, f: f, with: :cm, &(editable_number 130, 300)
+    editable_row :optional_info_body_type, profile: profile, f: f, with: :select,
+                 type: 'body_type', &(editable_select 'body_type')
+    editable_row :optional_info_hair_color, profile: profile, f: f, with: :select,
+                 type: 'hair_color', &(editable_select 'hair_color')
+    editable_row :optional_info_eye_color, profile: profile, f: f, with: :select,
+                 type: 'eye_color', &(editable_select 'eye_color')
+    edit_submit f
+  end
+end

@@ -61,9 +61,10 @@
       !#{gmap_for(profile)}!
 
       __#{profile.general_info_tagline}__
-    = render 'profiles/invite_link', user: profile.user
+    = render 'profiles/invite_link', user: @user
+    = render 'profiles/send_wink_link', user: @user
 
-    = render 'profiles/send_gift_link', user: profile.user
+    = render 'profiles/send_gift_link', user: @user
     - if can? :manage, profile
       .row-fluid
         .span12
