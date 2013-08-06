@@ -3,7 +3,7 @@ class Photo < ActiveRecord::Base
   require 'payperdate/file_size_validator'
 
   belongs_to :album
-  has_one :profile, foreign_key: :avatar_id
+  has_one :owner, foreign_key: :avatar_id, class_name: 'User', inverse_of: :avatar
 
   mount_uploader :image, ImageUploader
   validates :image, presence: true, file_size: { maximum: 5.megabytes.to_i }
@@ -62,19 +62,17 @@ class Photo < ActiveRecord::Base
   def make_avatar
     return self if avatar?
 
-    params = { profile: user.profile }
-    if image.url =~ /^http/
-      params[:remote_image_url] = image.url
-    else
-      params[:image] = image
-    end
-
-    Avatar.create!(params)
+    params = if image.url =~ /^http/
+               { remote_image_url: image.url }
+             else
+               { image: image }
+             end
+    user.create_avatar!(params)
   end
 
-  def could_used_as_avatar?
-    if user && (profile = user.profile)
-      profile.avatar != self
+  def can_be_used_as_avatar?
+    if user
+      user.avatar != self
     end
   end
 

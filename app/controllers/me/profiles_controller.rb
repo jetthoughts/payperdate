@@ -1,4 +1,4 @@
-class Me::ProfilesController < ApplicationController
+class Me::ProfilesController < BaseController
   before_filter :setup_user_and_profile
   before_filter :ensure_user_has_filled_profile, only: [:show]
 
