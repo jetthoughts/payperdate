@@ -102,6 +102,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'pry-rails'
   gem 'awesome_print'
+  gem 'push2heroku', github: "XsErG/push2heroku"
 end
 
 group :staging do
