@@ -1,4 +1,4 @@
 #avatar
-  = image_tag  profile.avatar_url(:avatar, !can?(:manage, profile.avatar))
-  - if profile.avatar && can?(:manage, profile.avatar)
-    = link_to 'Remove avatar', profile.avatar, method: :delete, data: {confirm: 'Sure?'}, remote: true
+  = image_tag  user.avatar_url(:avatar, !page_owner?)
+  - if user.avatar && can?(:manage, user.avatar)
+    = link_to 'Remove avatar', user.avatar, method: :delete, data: {confirm: 'Sure?'}, remote: true
