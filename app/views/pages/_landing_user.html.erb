@@ -1,6 +1,6 @@
 <li class="user_item <%= user.female? ? 'female' : 'male' %>">
   <%= link_to user_profile_path(user) do -%>
-    <img src="<%= user.profile.avatar_url(:thumb) %>" width="130" height="123" alt=""/>
+    <img src="<%= user.avatar_url(:thumb) %>" width="130" height="123" alt=""/>
     <span class="name_placeholder"><span class="name"><%= user.first_name %></span><span class="point">.</span><span class="age"><%= user.age %></span></span>
   <%- end -%>
 </li>

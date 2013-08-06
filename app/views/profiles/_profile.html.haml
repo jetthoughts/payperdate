@@ -1,8 +1,7 @@
 .row-fluid
   .span2.profile-column
     %div
-      / need to render photo here
-      = render 'profile/avatar', profile: profile
+      = render 'profile/avatar', user: @user
     %p
       :textile
         *Age:*

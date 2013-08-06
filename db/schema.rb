@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130806072339) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "hstore"
+ActiveRecord::Schema.define(version: 20130806113736) do
 
   create_table "activities", force: true do |t|
     t.integer  "user_id"
@@ -43,9 +39,9 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
-    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
+    t.boolean  "permission_mass_mailing"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -169,7 +165,6 @@ ActiveRecord::Schema.define(version: 20130806072339) do
   create_table "profiles", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "avatar_id"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "filled"
@@ -233,6 +228,7 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.integer  "profile_id"
     t.boolean  "subscribed",                        default: true
     t.string   "state",                             default: "active"
+    t.integer  "avatar_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
