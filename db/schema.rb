@@ -127,6 +127,21 @@ ActiveRecord::Schema.define(version: 20130806072339) do
   add_index "invitations", ["invited_user_id", "counter"], name: "index_invitations_on_invited_user_id_and_counter", using: :btree
   add_index "invitations", ["user_id", "counter"], name: "index_invitations_on_user_id_and_counter", using: :btree
 
+  create_table "member_reports", force: true do |t|
+    t.integer  "user_id",                             null: false
+    t.integer  "reported_user_id",                    null: false
+    t.integer  "content_id",                          null: false
+    t.string   "content_type",                        null: false
+    t.string   "message",                             null: false
+    t.string   "state",            default: "active", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "member_reports", ["content_id", "content_type"], name: "index_member_reports_on_content_id_and_content_type", using: :btree
+  add_index "member_reports", ["reported_user_id"], name: "index_member_reports_on_reported_user_id", using: :btree
+  add_index "member_reports", ["user_id"], name: "index_member_reports_on_user_id", using: :btree
+
   create_table "photos", force: true do |t|
     t.integer  "album_id",                          null: false
     t.string   "image",                             null: false
