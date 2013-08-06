@@ -15,10 +15,10 @@ class Ability
       can :manage, Photo, user_id: user.id
       can :manage, Avatar, user_id: user.id
       can :manage, Profile, user_id: user.id
+
       can :invite, User do |u|
         user.can_invite?(u)
       end
-
       can :destroy, Invitation do |invitation|
         invitation.can_be_deleted_by?(user)
       end
@@ -30,6 +30,10 @@ class Ability
       end
       can :counter, Invitation do |invitation|
         invitation.can_be_countered_by?(user)
+      end
+
+      can :send_wink, User do |u|
+        user.can_wink?(u)
       end
 
     end

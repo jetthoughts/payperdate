@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130802101254) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "hstore"
+ActiveRecord::Schema.define(version: 20130806072339) do
 
   create_table "activities", force: true do |t|
     t.integer  "user_id"
@@ -186,7 +182,6 @@ ActiveRecord::Schema.define(version: 20130802101254) do
     t.string   "optional_info_ethnicity"
     t.string   "optional_info_eye_color"
     t.string   "optional_info_hair_color"
-    t.string   "optional_info_address"
     t.string   "optional_info_children"
     t.string   "optional_info_smoker"
     t.string   "optional_info_drinker"
@@ -225,5 +220,27 @@ ActiveRecord::Schema.define(version: 20130802101254) do
   add_index "users", ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "wink_templates", force: true do |t|
+    t.string   "name",                       null: false
+    t.string   "image",                      null: false
+    t.boolean  "disabled",   default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "wink_templates", ["name"], name: "index_wink_templates_on_name", unique: true, using: :btree
+
+  create_table "winks", force: true do |t|
+    t.integer  "wink_template_id", null: false
+    t.integer  "user_id",          null: false
+    t.integer  "recipient_id",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "winks", ["recipient_id"], name: "index_winks_on_recipient_id", using: :btree
+  add_index "winks", ["user_id"], name: "index_winks_on_user_id", using: :btree
+  add_index "winks", ["wink_template_id"], name: "index_winks_on_wink_template_id", using: :btree
 
 end

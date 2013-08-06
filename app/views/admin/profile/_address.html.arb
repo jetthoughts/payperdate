@@ -1,0 +1,13 @@
+extend ProfilesHelper
+
+editable_form do |f|
+  edit_link '#address'
+  attributes_table_for profile do
+    editable_row :general_info_address_line_1, profile: profile, f: f, with: :profanity, &editable_text
+    editable_row :general_info_address_line_2, profile: profile, f: f, with: :profanity, &editable_text
+    editable_row :general_info_city, profile: profile, f: f, with: :profanity, &editable_text
+    editable_row :general_info_state, profile: profile, f: f, with: :profanity, &editable_text
+    editable_row :general_info_zip_code, profile: profile, f: f, with: :profanity, &editable_text
+    edit_submit f
+  end
+end

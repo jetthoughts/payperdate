@@ -13,7 +13,7 @@ case Rails.env
       config.storage               = :file
     end
   when 'staging'
-    class ImageUploader < CarrierWave::Uploader::Base
+    class BaseUploader < CarrierWave::Uploader::Base
       include Cloudinary::CarrierWave
     end
   else

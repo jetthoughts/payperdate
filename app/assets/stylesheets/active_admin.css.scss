@@ -81,9 +81,21 @@
 }
 
 .profile-hide {
-  display: none;
+  display: none !important;
 }
 
 textarea.profile-inline-edit {
-  width: 76%;
+  width: 100% !important;
+}
+
+input.profile-inline-edit {
+  width: 100% !important;
+}
+
+select.profile-inline-edit {
+  width: 100% !important;
+}
+
+tr.profile-inline-edit, tr.profile-inline-edit > td:nth-child(2) {
+  width: 65%
 }
