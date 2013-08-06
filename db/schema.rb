@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(version: 20130806113736) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
+
   create_table "activities", force: true do |t|
     t.integer  "user_id"
     t.integer  "subject_id"
@@ -137,6 +141,18 @@ ActiveRecord::Schema.define(version: 20130806113736) do
   add_index "member_reports", ["content_id", "content_type"], name: "index_member_reports_on_content_id_and_content_type", using: :btree
   add_index "member_reports", ["reported_user_id"], name: "index_member_reports_on_reported_user_id", using: :btree
   add_index "member_reports", ["user_id"], name: "index_member_reports_on_user_id", using: :btree
+
+  create_table "messages", force: true do |t|
+    t.integer  "sender_id",    null: false
+    t.integer  "recipient_id", null: false
+    t.text     "content",      null: false
+    t.string   "state",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
+  add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
 
   create_table "photos", force: true do |t|
     t.integer  "album_id",                          null: false

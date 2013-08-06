@@ -39,6 +39,8 @@ task setup_sample_data: :environment do
   Gift.delete_all
   puts 'Cleaning member reports...'
   MemberReport.delete_all
+  puts 'Cleaning messages...'
+  Message.delete_all
 
   puts 'Setting up master admin..'
 
