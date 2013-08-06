@@ -63,6 +63,7 @@
       __#{profile.general_info_tagline}__
     = render 'profiles/invite_link', user: @user
     = render 'profiles/send_wink_link', user: @user
+    = link_to 'Albums', user_albums_path(@user), class: :btn
 
     - unless @user == current_user
       = render 'profiles/send_gift_link', user: @user
