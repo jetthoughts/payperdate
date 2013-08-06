@@ -20,6 +20,7 @@ branch:
     after_every_install:
       - heroku run rake db:migrate --app <%=ENV['HEROKU_APP_NAME']%> --trace
       - heroku run rake setup_sample_data --app <%=ENV['HEROKU_APP_NAME']%> --trace
+      - heroku run rake db:seed --app <%=ENV['HEROKU_APP_NAME']%> --trace
 
 
 staging:

@@ -41,6 +41,9 @@ class AdminAbility
         if admin.get_permissions[:permission_mass_mailing]
           can [:send_message, :read], ActiveAdmin::Page, name: "Mass Mailing"
         end
+        if admin.get_permissions[:permission_accounting]
+          can :manage, CreditsPackage
+        end
       end
 
       can :read, ActiveAdmin::Page, name: 'Dashboard'
