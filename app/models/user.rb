@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
   has_many :messages_sent, class_name: 'Message', inverse_of: :sender, foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
+  has_many :credits
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
@@ -139,6 +140,11 @@ class User < ActiveRecord::Base
   def avatar_url(version=:avatar, public_avatar = true)
     av = public_avatar ? avatar && avatar.public_photo : avatar
     (av || Avatar.new).image_url(version)
+  end
+
+  def add_credits(credits_count)
+    self.credits_amount += credits_count
+    save!
   end
 
   private
