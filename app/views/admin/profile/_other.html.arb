@@ -1,0 +1,23 @@
+extend ProfilesHelper
+
+editable_form do |f|
+  edit_link '#other'
+  attributes_table_for profile do
+    # select_row :optional_info_religion, 'religion'
+    editable_row :optional_info_religion, profile: profile, f: f, with: :select,
+                 type: 'religion', &(editable_select 'religion')
+    # select_row :optional_info_ethnicity, 'ethnicity'
+    editable_row :optional_info_ethnicity, profile: profile, f: f, with: :select,
+                 type: 'ethnicity', &(editable_select 'ethnicity')
+    # select_row :optional_info_children, 'children'
+    editable_row :optional_info_children, profile: profile, f: f, with: :select,
+                 type: 'children', &(editable_select 'children')
+    # select_row :optional_info_smoker, 'me_smoker'
+    editable_row :optional_info_smoker, profile: profile, f: f, with: :select,
+                 type: 'me_smoker', &(editable_select 'me_smoker')
+    # select_row :optional_info_drinker, 'me_drinker'
+    editable_row :optional_info_drinker, profile: profile, f: f, with: :select,
+                 type: 'me_drinker', &(editable_select 'me_drinker')
+    edit_submit f
+  end
+end
