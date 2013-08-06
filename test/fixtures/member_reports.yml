@@ -1,0 +1,6 @@
+mias_report_on_martins_profile:
+  user: mia
+  reported_user: martin
+  content: martins
+  content_type: Profile
+  message: spammer!

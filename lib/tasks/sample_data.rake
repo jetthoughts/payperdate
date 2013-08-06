@@ -29,12 +29,17 @@ task setup_sample_data: :environment do
   Album.delete_all
   puts 'Cleaning photos..'
   Photo.delete_all
-
+  puts 'Cleaning wink templates...'
   WinkTemplate.delete_all
+  puts 'Cleaning winks...'
   Wink.delete_all
-
+  puts 'Cleaning gift templates...'
   GiftTemplate.delete_all
+  puts 'Cleaning gifts...'
   Gift.delete_all
+  puts 'Cleaning member reports...'
+  MemberReport.delete_all
+
   puts 'Setting up master admin..'
 
   AdminUser.create email:                 'admin@example.com',
