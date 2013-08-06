@@ -42,6 +42,12 @@ common:
   redis:
     url: <%= ENV["REDISTOGO_URL"] || 'redis://localhost:6379' %>
 
+  paypal:
+    login: 'aki-facilitator_api1.jetthoughts.com'
+    password: '1375795641'
+    signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31ASrXmXErWaGi6ENb-GwkwOcspJnJ'
+    mode: :test
+
 test:
 
 staging:
