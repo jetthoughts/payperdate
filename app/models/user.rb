@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
+  has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
 
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'

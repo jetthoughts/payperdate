@@ -37,6 +37,7 @@ Payperdate::Application.routes.draw do
       resource :profile
 
       resource :gifts, only: [:new, :create]
+      resource :member_reports, only: [:new, :create]
 
       resources :albums, only: :index do
         resources :photos, only: :index
