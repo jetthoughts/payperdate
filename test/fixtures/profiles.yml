@@ -31,7 +31,6 @@ martins:
   optional_info_age: '39'
   optional_info_height: '191'
   optional_info_smoker: O
-  optional_info_address: ''
   optional_info_drinker: N
   optional_info_children: N
   optional_info_religion: C
@@ -75,7 +74,6 @@ mias:
   optional_info_age: '25'
   optional_info_height: '173'
   optional_info_smoker: N
-  optional_info_address: ''
   optional_info_drinker: N
   optional_info_children: C1
   optional_info_religion: C
@@ -131,7 +129,6 @@ sophias:
   optional_info_age: '39'
   optional_info_height: '163'
   optional_info_smoker: N
-  optional_info_address: ''
   optional_info_drinker: N
   optional_info_children: N
   optional_info_religion: C
@@ -174,7 +171,6 @@ roberts:
   optional_info_age: '29'
   optional_info_height: '168'
   optional_info_smoker: N
-  optional_info_address: ''
   optional_info_drinker: N
   optional_info_children: N
   optional_info_religion: J
@@ -219,7 +215,6 @@ rias:
   optional_info_ethnicity: W
   optional_info_eye_color: blue
   optional_info_hair_color: Blo
-  optional_info_address: ''
   optional_info_children: C1
   optional_info_smoker: N
   optional_info_drinker: N

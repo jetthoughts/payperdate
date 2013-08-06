@@ -81,7 +81,7 @@ class Invitation < ActiveRecord::Base
   private
 
   def validate_user_can_invite_himself
-    self.errors.add(:invited_user_id, :cant_invite_himself) if user.inviting_himself?(invited_user)
+    self.errors.add(:invited_user_id, :cant_invite_himself) if user.operate_with_himself?(invited_user)
   end
 
   def validate_already_sent

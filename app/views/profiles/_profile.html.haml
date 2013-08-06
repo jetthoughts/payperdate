@@ -61,9 +61,13 @@
       !#{gmap_for(profile)}!
 
       __#{profile.general_info_tagline}__
-    = render 'profiles/invite_link', user: profile.user
+    = render 'profiles/invite_link', user: @user
+    = render 'profiles/send_wink_link', user: @user
 
-    = render 'profiles/send_gift_link', user: profile.user
+    - unless @user == current_user
+      = render 'profiles/send_gift_link', user: @user
+      = render 'profiles/report_violation_link', profile: profile
+
     - if can? :manage, profile
       .row-fluid
         .span12
@@ -86,6 +90,7 @@
 
     - if can? :manage, profile
       = link_to 'Edit profile', edit_profile_path, class: 'btn'
+
 
     :textile
       h3. About

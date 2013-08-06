@@ -20,11 +20,7 @@ module InvitationsMethods
   end
 
   def can_invite?(user)
-    !inviting_himself?(user) && !already_invited?(user)
-  end
-
-  def inviting_himself?(user)
-    id == user.id
+    !operate_with_himself?(user) && !already_invited?(user)
   end
 
   def already_invited?(invited_user)

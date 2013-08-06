@@ -29,21 +29,37 @@ task setup_sample_data: :environment do
   Album.delete_all
   puts 'Cleaning photos..'
   Photo.delete_all
+  puts 'Cleaning wink templates...'
+  WinkTemplate.delete_all
+  puts 'Cleaning winks...'
+  Wink.delete_all
+  puts 'Cleaning gift templates...'
+  GiftTemplate.delete_all
+  puts 'Cleaning gifts...'
+  Gift.delete_all
+  puts 'Cleaning member reports...'
+  MemberReport.delete_all
 
   puts 'Setting up master admin..'
 
-  a = AdminUser.new
-  2.times do
-    a.update_attributes email:                 'admin@example.com',
-                        password:              'welcome',
-                        password_confirmation: 'welcome',
-                        master:                true
+  AdminUser.create email:                 'admin@example.com',
+                   password:              'welcome',
+                   password_confirmation: 'welcome',
+                   master:                true
+
+  %w(kiss wink hug hello).each do |wink_name|
+    WinkTemplate.create name: wink_name, image: File.open(Rails.root.join('db', 'sample_data', 'wink_templates', "#{wink_name}.gif"))
   end
-  # end
+
+  %w(camomile rose roses).each do |gift_name|
+    GiftTemplate.create name: gift_name, image: File.open(Rails.root.join('db', 'sample_data', 'gift_templates', "#{gift_name}.jpg"))
+  end
 
   puts 'Setting up users..'
 
   create_users
+
+  User.first.gifts.create gift_template: GiftTemplate.first, user: User.last
 
   puts 'setup_sample_data done'
 end

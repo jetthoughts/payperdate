@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
+  has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
 
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
@@ -81,6 +82,7 @@ class User < ActiveRecord::Base
 
   include UserAuthMethods
   include InvitationsMethods
+  include WinksMethods
   extend UserOauth
 
   include ActivityTracker
@@ -121,6 +123,10 @@ class User < ActiveRecord::Base
 
   def age
     22
+  end
+
+  def operate_with_himself?(user)
+    id == user.id
   end
 
   private

@@ -1,5 +1,4 @@
 <%- if current_user -%>
-  <div>
     <%= link_to invitation_link_title, invitations_path, class: :btn -%>
-  </div>
+    <%= link_to t('winks.winks'), winks_path, class: :btn -%>
 <%- end -%>

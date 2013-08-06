@@ -1,4 +1,4 @@
-class GiftTemplateUploader < CarrierWave::Uploader::Base
+class GiftTemplateUploader < BaseUploader
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
@@ -21,14 +21,4 @@ class GiftTemplateUploader < CarrierWave::Uploader::Base
     '/images/fallback/' + [version_name, 'default.png'].compact.join('_')
   end
 
-  # Process files as they are uploaded:
-  # process :scale => [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
-
-  def extension_white_list
-    %w(jpg jpeg gif png)
-  end
 end
