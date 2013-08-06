@@ -12,6 +12,7 @@
               <div class='gift span3'>
                 <%= f.radio_button :gift_template_id, gift.id %>
                 <%= f.label "gift_template_id_#{gift.id}" do %>
+                    <span><%= gift.name %></span>
                     <%= image_tag gift.image.url(:medium) %>
                 <% end %>
               </div>
