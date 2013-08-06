@@ -38,7 +38,7 @@ Payperdate::Application.routes.draw do
 
       resource :gifts, only: [:new, :create]
       resource :member_reports, only: [:new, :create]
-
+      resource :message, only: [:new, :create]
       resources :albums, only: :index do
         resources :photos, only: :index
       end
@@ -72,6 +72,13 @@ Payperdate::Application.routes.draw do
 
     namespace :me, as: '' do
       resource :profile
+      resources :messages, only: :index do
+        collection do
+          get :unread
+          get :sent
+          get :received
+        end
+      end
     end
 
     root to: 'users#index'

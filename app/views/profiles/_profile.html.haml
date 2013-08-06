@@ -67,6 +67,7 @@
     - unless @user == current_user
       = render 'profiles/send_gift_link', user: @user
       = render 'profiles/report_violation_link', profile: profile
+      = render 'profiles/send_message_link', user: @user
 
     - if can? :manage, profile
       .row-fluid

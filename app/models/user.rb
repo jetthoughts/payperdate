@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
+  has_many :messages_sent, class_name: 'Message', inverse_of: :sender, foreign_key: :sender_id
+  has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
