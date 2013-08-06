@@ -1,0 +1,13 @@
+<%- if can? :send_wink, user %>
+  <button href="#send_wink_popup" data-toggle="modal" id="send_wink_btn" class="btn btn-small" type="button">Wink</button>
+  <div class="modal hide" id="send_wink_popup" role="dialog">
+    <div class="">
+      <%= image_tag user.profile.avatar_url(:thumb) %>
+      Send Wink
+      <%= link_to_dismiss -%>
+    </div>
+    <div class="modal-body">
+      <%= render 'winks/form', wink: Wink.new(recipient_id: user.id) -%>
+    </div>
+  </div>
+<%- end -%>

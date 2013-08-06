@@ -1,6 +1,4 @@
 class Gift < ActiveRecord::Base
-  require 'payperdate/file_size_validator'
-
   belongs_to :gift_template
   belongs_to :user
   belongs_to :recipient, class_name: 'User'

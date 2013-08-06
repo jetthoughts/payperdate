@@ -30,6 +30,8 @@ task setup_sample_data: :environment do
   puts 'Cleaning photos..'
   Photo.delete_all
 
+  WinkTemplate.delete_all
+  Wink.delete_all
   puts 'Setting up master admin..'
 
   a = AdminUser.new
@@ -40,6 +42,10 @@ task setup_sample_data: :environment do
                         master:                true
   end
   # end
+
+  %w(kiss wink hug hello).each do |wink_name|
+    WinkTemplate.create name: wink_name, image: File.open(Rails.root.join('db', 'sample_data', 'wink_templates', "#{wink_name}.gif"))
+  end
 
   puts 'Setting up users..'
 

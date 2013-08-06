@@ -1,0 +1,15 @@
+extend ProfilesHelper
+
+editable_form do |f|
+  edit_link '#matches'
+  attributes_table_for profile do
+    editable_row :date_preferences_accepted_distance_do_care, profile: profile, f: f, &editable_checkbox
+    editable_row :date_preferences_accepted_distance, profile: profile, f: f, with: :miles, &editable_text
+    editable_row :date_preferences_smoker, profile: profile, f: f, with: :select,
+                 type: 'smoker', &(editable_select 'smoker')
+    editable_row :date_preferences_drinker, profile: profile, f: f, with: :select,
+                 type: 'drinker', &(editable_select 'drinker')
+    edit_submit f
+  end
+end
+
