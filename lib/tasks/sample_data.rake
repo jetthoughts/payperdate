@@ -41,6 +41,8 @@ task setup_sample_data: :environment do
   MemberReport.delete_all
   puts 'Cleaning messages...'
   Message.delete_all
+  puts 'Cleaning credits packages...'
+  CreditsPackage.delete_all
 
   puts 'Setting up master admin..'
 
@@ -56,6 +58,17 @@ task setup_sample_data: :environment do
   %w(camomile rose roses).each do |gift_name|
     GiftTemplate.create name: gift_name, image: File.open(Rails.root.join('db', 'sample_data', 'gift_templates', "#{gift_name}.jpg"))
   end
+
+  credits_packages = [
+    {price: 49,  credits: 100,  description: "Package #1" },
+    {price: 149, credits: 500,  description: "Package #2" },
+    {price: 249, credits: 1000, description: "Package #3"}
+  ]
+
+  credits_packages.each do |package|
+    CreditsPackage.create package
+  end
+
 
   puts 'Setting up users..'
 

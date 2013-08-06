@@ -26,6 +26,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
 gem 'phony_rails'
+gem 'money-rails'
 
 # Upload photo
 gem 'carrierwave'

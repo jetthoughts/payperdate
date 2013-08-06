@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130806113736) do
+ActiveRecord::Schema.define(version: 20130806140918) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +47,10 @@ ActiveRecord::Schema.define(version: 20130806113736) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
+    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
-    t.boolean  "permission_mass_mailing"
+    t.boolean  "permission_accounting"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -73,6 +78,15 @@ ActiveRecord::Schema.define(version: 20130806113736) do
 
   add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
+  create_table "credits_packages", force: true do |t|
+    t.integer  "price_cents",    default: 0,     null: false
+    t.string   "price_currency", default: "USD", null: false
+    t.integer  "credits"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -216,6 +230,16 @@ ActiveRecord::Schema.define(version: 20130806113736) do
     t.string   "optional_info_children"
     t.string   "optional_info_smoker"
     t.string   "optional_info_drinker"
+  end
+
+  create_table "services", force: true do |t|
+    t.string   "key"
+    t.string   "name"
+    t.integer  "cost_cents",    default: 0,     null: false
+    t.string   "cost_currency", default: "USD", null: false
+    t.boolean  "use_credits"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
