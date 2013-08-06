@@ -1,0 +1,14 @@
+extend ProfilesHelper
+
+editable_form do |f|
+  edit_link '#social'
+  attributes_table_for profile do
+    editable_row :optional_info_education, profile: profile, f: f, with: :select,
+                 type: 'education', &(editable_select 'education')
+    editable_row :optional_info_occupation, profile: profile, f: f, with: :profanity, &editable_text
+    editable_row :optional_info_annual_income, profile: profile, f: f, with: '$ per year', &(editable_number 0)
+    editable_row :optional_info_net_worth, profile: profile, f: f, with: '$', &(editable_number 0)
+    edit_submit f
+  end
+end
+

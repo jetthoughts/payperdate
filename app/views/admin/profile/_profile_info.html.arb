@@ -1,0 +1,17 @@
+extend ProfilesHelper
+editable_form do |f|
+  edit_link '#profile_info'
+  attributes_table_for profile do
+    row :auto_user
+    editable_row :personal_preferences_sex, profile: profile, f: f, with: :select,
+                 type: 'sex', &(editable_select 'sex')
+    editable_row :personal_preferences_partners_sex, profile: profile, f: f, with: :select,
+                 type: 'sex', &(editable_select 'sex')
+    editable_row :optional_info_age, profile: profile, f: f, &(editable_number 16, 100)
+    editable_row :personal_preferences_relationship, profile: profile, f: f, with: :select,
+                 type: 'relationship', &(editable_select 'relationship')
+    editable_row :personal_preferences_want_relationship, profile: profile, f: f, with: :select,
+                 type: 'want_relationship', &(editable_select 'want_relationship')
+    edit_submit f
+  end
+end

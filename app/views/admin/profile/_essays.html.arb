@@ -1,0 +1,12 @@
+extend ProfilesHelper
+
+editable_form do |f|
+  strong 'Marked words are possible profane' if profile.profane?
+  edit_link '#essays'
+  attributes_table_for profile do
+    editable_row :general_info_tagline, profile: profile, f: f, with: :profanity, &editable_text
+    editable_row :general_info_description, profile: profile, f: f, with: :profanity, &editable_area
+    editable_row :date_preferences_description, profile: profile, f: f, with: :profanity, &editable_area
+    edit_submit f
+  end
+end
