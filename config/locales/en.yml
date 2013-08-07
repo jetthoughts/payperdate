@@ -74,6 +74,7 @@ en:
       permission_gifts_and_winks: 'Gifts and Winks (manage gifts and winks)'
       permission_login_as_user: 'Ability to login as user'
       permission_mass_mailing: "Mass Mailing (send mass mails to users)"
+      permission_accounting: "Accounting (access to billing, credits, refunds)"
     photo:
       declined:
         reason:
@@ -95,6 +96,8 @@ en:
           details: ""
         destroy_avatar:
           details: ""
+    service:
+      title: "Spending credits"
     mass_mailing:
       title: "Mass Mailing"
       index:
