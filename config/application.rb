@@ -25,5 +25,11 @@ module Payperdate
 
     config.background_workers_envs = [:production, :test, :development]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
+    config.generators do |g|
+      g.template_engine :erb
+      g.view_specs false
+      g.helper_specs false
+    end
   end
 end

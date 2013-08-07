@@ -142,6 +142,18 @@ ActiveRecord::Schema.define(version: 20130806113736) do
   add_index "member_reports", ["reported_user_id"], name: "index_member_reports_on_reported_user_id", using: :btree
   add_index "member_reports", ["user_id"], name: "index_member_reports_on_user_id", using: :btree
 
+  create_table "messages", force: true do |t|
+    t.integer  "sender_id",    null: false
+    t.integer  "recipient_id", null: false
+    t.text     "content",      null: false
+    t.string   "state",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
+  add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
+
   create_table "photos", force: true do |t|
     t.integer  "album_id",                          null: false
     t.string   "image",                             null: false

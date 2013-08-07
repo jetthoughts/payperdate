@@ -1,0 +1,38 @@
+<%- model_class = Message -%>
+<div class="page-header">
+  <h1><%=t '.title', default: model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<%= render 'nav' %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t :'messages.index.user' %></th>
+      <th><%= model_class.human_attribute_name(:content) %></th>
+      <th><%= model_class.human_attribute_name(:state) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @messages.each do |message| %>
+      <tr>
+        <td>
+          <%- if message_sent_by_user? message, current_user %>
+            <i class="icon-arrow-right"></i>
+          <% else %>
+            <i class="icon-arrow-left"></i>
+          <% end %>
+        </td>
+        <td><%= other_user_of_message(message, current_user).name %></td>
+        <td><%= truncate(message.content, length: 80)  %></td>
+        <td>
+          <%- if message_unread_by_user?(message, current_user) %>
+            <i class="icon-envelope"></i>
+          <% end %>
+        </td>
+        <td><%=l message.created_at, format: :short %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
