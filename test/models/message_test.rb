@@ -7,9 +7,10 @@ class MessageTest < ActiveSupport::TestCase
     Message.create! sender: users(:john), recipient: users(:sophia), content: 'Hello!'
   end
 
-  def test_default_value_of_state
+  def test_default_state
     message = Message.new
     assert message.unread?
+    assert message.sent?
   end
 
   def test_change_state_to_read
@@ -76,6 +77,72 @@ class MessageTest < ActiveSupport::TestCase
     messages.each do |message|
       assert message.sender_id == user.id
     end
+  end
+
+  def test_change_state_to_deleted_by_sender
+    message = messages(:john_message_received_unread)
+    message.delete_by_sender!
+    assert message.deleted_by_sender?
+  end
+
+  def test_change_state_to_deleted_by_recipient
+    message = messages(:john_message_received_unread)
+    message.delete_by_recipient!
+    assert message.deleted_by_recipient?
+  end
+
+  def test_deleted_sent_messages_should_not_be_listed
+    user = users(:john)
+    messages = Message.sent_by(user)
+    messages.each do |message|
+      assert !message.deleted_by_sender?
+    end
+  end
+
+  def test_deleted_received_messages_should_not_be_listed
+    user = users(:john)
+    messages = Message.received_by(user)
+    messages.each do |message|
+      assert !message.deleted_by_recipient?
+    end
+  end
+
+  def test_received_by?
+    user = users(:john)
+    assert messages(:john_message_received_unread).received_by?(user)
+    assert !messages(:john_message_sent).received_by?(user)
+  end
+
+  def test_sent_by?
+    user = users(:john)
+    assert messages(:john_message_sent).sent_by?(user)
+    assert !messages(:john_message_received_unread).sent_by?(user)
+  end
+
+  def test_deleted_by?
+    user = users(:john)
+    assert messages(:john_message_sent_deleted).deleted_by?(user)
+    assert messages(:john_message_received_deleted).deleted_by?(user)
+  end
+
+  def test_deleted_messages_should_not_be_listed
+    user     = users(:john)
+    messages = Message.by(user)
+    messages.each do |message|
+      assert !message.deleted_by?(user)
+    end
+  end
+
+  def test_delete_by
+    message = messages(:john_message_sent)
+
+    assert !message.deleted_by?(message.sender)
+    message.delete_by(message.sender)
+    assert message.deleted_by?(message.sender)
+
+    assert !message.deleted_by?(message.recipient)
+    message.delete_by(message.recipient)
+    assert message.deleted_by?(message.recipient)
   end
 
 end
