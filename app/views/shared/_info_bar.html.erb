@@ -1,4 +1,12 @@
-<%- if current_user -%>
-    <%= link_to invitation_link_title, invitations_path, class: :btn -%>
-    <%= link_to t('winks.winks'), winks_path, class: :btn -%>
-<%- end -%>
+<% return unless current_user -%>
+
+<div class="span2">
+  <div class="well sidebar-nav">
+    <ul class="nav nav-list">
+      <li class="nav-header">Sidebar</li>
+      <%= nav_link_to(invitation_link_title, invitations_path) %>
+      <%= nav_link_to(t('winks.winks'), winks_path) %>
+      <%= nav_link_to(t('me.messages'), messages_path) %>
+    </ul>
+  </div><!--/.well -->
+</div>

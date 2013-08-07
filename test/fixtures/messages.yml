@@ -1,0 +1,18 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+john_message_received_unread:
+  sender: :mia
+  recipient: :john
+  content: Hello John, from Mia
+  state: unread
+
+john_message_sent:
+  sender: :john
+  recipient: :mia
+  content: Hello Mia, from John
+  state: unread
+
+john_message_received_read:
+  sender: :sophia
+  recipient: :john
+  content: Hello John, from Sophia
+  state: read
