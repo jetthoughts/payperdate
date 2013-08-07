@@ -1,6 +1,4 @@
 ActiveAdmin.register_page "Mass Mailing" do
-  menu label: I18n.t("admin.mass_mailing.title")
-
 
   page_action :send_message, method: :post do
     if mailer.send_messages

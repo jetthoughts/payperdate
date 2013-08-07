@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  price: 9.99
+  credits: 1
+  description: MyString
+
+two:
+  price: 9.99
+  credits: 1
+  description: MyString
