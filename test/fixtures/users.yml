@@ -17,6 +17,7 @@ john:
   confirmed_at: <%= Time.current %>
   profile: johns
   published_profile: johns
+  credits_amount: 10
 
 # User with completed profile filled
 martin:
@@ -37,6 +38,7 @@ mia:
   confirmed_at: <%= Time.current %>
   profile: mias
   published_profile: mias
+  credits_amount: 10
 
 # Another user
 lily:
@@ -75,6 +77,7 @@ robert:
   confirmed_at: <%= Time.current %>
   profile: roberts
   published_profile: roberts
+  credits_amount: 10
 
 ria:
   email: 'ria@example.com'

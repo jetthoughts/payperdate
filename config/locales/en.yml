@@ -25,6 +25,10 @@ en:
   max_distance: "Maximum Distance"
   are_you_sure: 'Are you sure?'
   unsubscribed: "Your email removed from subscribe"
+  credit_transaction:
+    keys:
+      send_gift: "Sended gift '%{name}' to %{username} with amount %{amount} credits."
+      purchased_credits: "Purchased %{name}"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'

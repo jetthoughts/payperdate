@@ -56,7 +56,7 @@ task setup_sample_data: :environment do
   end
 
   %w(camomile rose roses).each do |gift_name|
-    GiftTemplate.create name: gift_name, image: File.open(Rails.root.join('db', 'sample_data', 'gift_templates', "#{gift_name}.jpg"))
+    GiftTemplate.create name: gift_name, cost: 10, image: File.open(Rails.root.join('db', 'sample_data', 'gift_templates', "#{gift_name}.jpg"))
   end
 
   credits_packages = [
