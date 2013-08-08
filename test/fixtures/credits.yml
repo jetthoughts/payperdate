@@ -1,0 +1,5 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+martins_pending:
+  credits_package: standart
+  user: martin

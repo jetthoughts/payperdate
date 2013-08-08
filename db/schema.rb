@@ -13,10 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20130807123916) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "hstore"
-
   create_table "activities", force: true do |t|
     t.integer  "user_id"
     t.integer  "subject_id"
@@ -43,9 +39,9 @@ ActiveRecord::Schema.define(version: 20130807123916) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
-    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
+    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_accounting"
   end
 
@@ -74,6 +70,19 @@ ActiveRecord::Schema.define(version: 20130807123916) do
 
   add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
+  create_table "credits", force: true do |t|
+    t.integer  "credits_package_id",                     null: false
+    t.integer  "user_id",                                null: false
+    t.string   "state",              default: "pending", null: false
+    t.string   "error"
+    t.string   "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "credits", ["credits_package_id"], name: "index_credits_on_credits_package_id", using: :btree
+  add_index "credits", ["user_id"], name: "index_credits_on_user_id", using: :btree
 
   create_table "credits_packages", force: true do |t|
     t.integer  "price_cents",    default: 0,     null: false
@@ -153,13 +162,13 @@ ActiveRecord::Schema.define(version: 20130807123916) do
   add_index "member_reports", ["user_id"], name: "index_member_reports_on_user_id", using: :btree
 
   create_table "messages", force: true do |t|
-    t.integer  "sender_id",                       null: false
-    t.integer  "recipient_id",                    null: false
-    t.text     "content",                         null: false
-    t.string   "recipient_state",                 null: false
+    t.integer  "sender_id",                        null: false
+    t.integer  "recipient_id",                     null: false
+    t.text     "content",                          null: false
+    t.string   "recipient_state",                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "sender_state",    default: "new", null: false
+    t.string   "sender_state",    default: "sent", null: false
   end
 
   add_index "messages", ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
@@ -266,6 +275,7 @@ ActiveRecord::Schema.define(version: 20130807123916) do
     t.boolean  "subscribed",                        default: true
     t.string   "state",                             default: "active"
     t.integer  "avatar_id"
+    t.decimal  "credits_amount",                    default: 0.0,      null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
