@@ -2,11 +2,13 @@ require 'test_helper'
 
 class MessagesControllerTest < ActionController::TestCase
 
-  fixtures :users, :messages
+  fixtures :users, :messages, :block_relationships
 
   def setup
     @user = users(:mia)
     sign_in @user
+    @ria = users(:ria)
+    @robert = users(:robert)
   end
 
   def test_unauthenticated_redirect_to_login_page
@@ -42,6 +44,19 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     message = assigns(:message)
     assert_includes message.errors, :content
+  end
+
+  def test_render_new_when_sending_to_blocker
+    sign_in @ria
+    put :create, user_id: @robert, message: { content: 'Huhu!' }
+    assert_response :success
+    assert_includes assigns(:message).errors, :recipient_id
+  end
+
+  def test_redirect_when_sending_to_blocked
+    sign_in @robert
+    put :create, user_id: @ria, message: { content: 'Hello?' }
+    assert_redirected_to user_profile_path(@ria)
   end
 
 end

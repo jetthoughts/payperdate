@@ -29,4 +29,16 @@ module ActivityTracker
                       details: changes
   end
 
+  def track_user_block(target)
+    activities.create action:  :block,
+                      subject: target,
+                      details: { issuer: self }
+  end
+
+  def track_user_unblock(target)
+    activities.create action:  :unblock,
+                      subject: target,
+                      details: { issuer: self }
+  end
+
 end
