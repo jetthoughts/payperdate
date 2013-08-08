@@ -67,4 +67,34 @@ class Me::MessagesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_get_message_show_normal
+    get :show, id: messages(:john_message_sent)
+    assert_response :success
+  end
+
+  def test_message_state_changes_to_read_on_show
+    message = messages(:john_message_received_unread)
+    get :show, id: message
+    message.reload
+    assert message.read?
+  end
+
+  def test_get_message_show_deleted
+    assert_raise ActionController::RoutingError do
+      get :show, id: messages(:john_message_sent_deleted)
+    end
+  end
+
+  def test_delete_destroy_redirect_on_success
+    delete :destroy, id: messages(:john_message_received_unread)
+    assert_redirected_to messages_path
+    assert_not_nil flash[:notice]
+  end
+
+  def test_delete_destroy_not_found_on_error
+    delete :destroy, id: messages(:john_message_received_deleted)
+    assert_redirected_to messages_path
+    assert_not_nil flash[:alert]
+  end
+
 end

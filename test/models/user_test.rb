@@ -18,9 +18,12 @@ class UserTest < ActiveSupport::TestCase
     sender.messages_sent.create! recipient: recipient, content: 'Hello!'
   end
 
-  def test_user_can_recieve_message
+  def test_user_can_receive_message
     recipient = users(:john)
-    assert_equal 2, recipient.messages_received.count
+    sender = users(:mia)
+    assert_difference -> { recipient.messages_received.count }, +1 do
+      sender.messages_sent.create! recipient: recipient, content: 'Hello!'
+    end
   end
 
 end
