@@ -14,6 +14,7 @@ class Message < ActiveRecord::Base
     sift(:sent_and_not_deleted, user) | sift(:received_and_not_deleted, user)
   end
 
+  default_scope order('created_at DESC')
   scope :by, ->(user) { where { sift :sent_or_received_by, user } }
   scope :unread, -> { where recipient_state: 'unread' }
   scope :received_by, ->(user) { where { sift :received_and_not_deleted, user  } }
