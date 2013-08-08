@@ -93,6 +93,13 @@ $button_large_width: 90px;
   }
 }
 
+.nav-collapse {
+  .btn {
+    padding: 0 5px;
+    border-radius: 0;
+  }
+}
+
 .btn {
   padding: 0 5px;
   margin-top: 0;
