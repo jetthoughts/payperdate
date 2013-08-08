@@ -68,6 +68,11 @@ Payperdate::Application.routes.draw do
           patch :counter
         end
       end
+      resources :credits do
+        member do
+          get :complete_purchase
+        end
+      end
     end
 
     namespace :me, as: '' do

@@ -26,6 +26,6 @@ class AvatarTest < ActiveSupport::TestCase
 
   private
   def create_sample_avatar
-    Avatar.create! image: create_tmp_image, profile: profiles(:martins)
+    Avatar.create! image: create_tmp_image, owner: users(:martin)
   end
 end

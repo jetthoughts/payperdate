@@ -1,0 +1,9 @@
+<%= render "shared/error_messages", target: @credit %>
+<%= form_for @credit do |f| -%>
+  <p>
+    <%= f.select :credits_package_id, CreditsPackage.all.map { |cp| [cp.to_s, cp.id] } -%>
+  </p>
+  <p>
+    <%= f.submit t('credits.add') -%>
+  </p>
+<%- end -%>
