@@ -50,8 +50,6 @@ $ ->
     docHeight = doc.height()
     diff = parseInt(docHeight)  - parseInt(footerHeight)
     stopPoint = diff - parseInt(winHeight)
-    console.log($(document).scrollTop())
-    console.info("point " + stopPoint)
     if (docScroll >= stopPoint)
       signupForm.css({
         "position":"absolute",
