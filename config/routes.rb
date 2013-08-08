@@ -72,7 +72,7 @@ Payperdate::Application.routes.draw do
 
     namespace :me, as: '' do
       resource :profile
-      resources :messages, only: :index do
+      resources :messages, only: [:index, :show, :destroy] do
         collection do
           get :unread
           get :sent
