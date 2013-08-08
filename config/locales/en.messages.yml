@@ -1,10 +1,26 @@
 en:
   messages:
+    title: Messages
     messages:
       was_sent: Message was succesfully sent.
       was_deleted: Message was successfully deleted.
       was_not_deleted: Something went wrong.
+    links:
+      all: All mesages
+      unread: Unread
+      received: Received
+      sent: Sent
     index:
+      user: User
+      content: Message
+      state: State
+      sent_at: Sent
+      actions: Allowed actions
+      back: Back to unread
+      reply: Reply
       show: Show
       destroy: Delete
       confirm: Are you sure?
+    show:
+      from: 'Message from:'
+      to: 'Message to:'
