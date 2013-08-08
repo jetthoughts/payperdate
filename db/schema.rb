@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130807123916) do
+ActiveRecord::Schema.define(version: 20130808083702) do
 
   #These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(version: 20130807123916) do
 
   add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
+  create_table "block_relationships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "target_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "block_relationships", ["target_id"], name: "index_block_relationships_on_target_id", using: :btree
+  add_index "block_relationships", ["user_id"], name: "index_block_relationships_on_user_id", using: :btree
 
   create_table "credits", force: true do |t|
     t.integer  "credits_package_id",                     null: false
