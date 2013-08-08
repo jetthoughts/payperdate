@@ -1,0 +1,12 @@
+<h1>
+  <%= t('credits.credits') %>
+</h1>
+<div>
+  <%= t('credits.you_have_now') %> <%= current_user.credits_amount -%> <%= t('credits.credits') %>
+  <%= link_to t('credits.add'), new_credit_path -%>
+</div>
+<hr/>
+<div id="credits">
+  <%= render @credits -%>
+  <%= paginate @credits %>
+</div>
