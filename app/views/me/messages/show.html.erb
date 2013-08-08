@@ -1,24 +1,23 @@
-<%- model_class = Message -%>
 <div class="page-header">
-  <h1><%=t '.title', default: model_class.model_name.human.titleize %></h1>
+  <h3>
+    <% if @message.received_by?(current_user) -%>
+      <%= t :'messages.show.from' -%>
+    <% else -%>
+      <%= t :'messages.show.to' -%>
+    <% end -%>
+    <%= other_user_of_message(@message, current_user).name %>
+  </h3>
 </div>
 
-<h4>
-  <% if @message.received_by?(current_user) %>
-    <%= t :'messages.show.from' %>
-  <% else %>
-    <%= t :'messages.show.to' %>
-  <% end %>
-  <%= other_user_of_message(@message, current_user).name %>
-</h4>
 <blockquote>
-  <p><%= @message.content %></p>
+  <%= simple_format @message.content -%>
   <small><%= l @message.created_at, format: :short %></small>
 </blockquote>
 
 <div class="form-actions">
-  <%= link_to t('.back', default: t("helpers.links.back")),
+  <%= link_to t('messages.index.back', default: t("helpers.links.back")),
               messages_path, class: 'btn'  %>
+  <%= link_to t(:'messages.index.reply'), new_user_message_path(other_user_of_message(@message, current_user)), class: 'btn' %>
   <%= link_to t(:'messages.index.destroy'), message_path(@message),
               method: 'delete',
               data:   { confirm: t('messages.index.confirm') },

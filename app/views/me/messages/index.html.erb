@@ -1,6 +1,5 @@
-<%- model_class = Message -%>
 <div class="page-header">
-  <h1><%=t '.title', default: model_class.model_name.human.pluralize.titleize %></h1>
+  <h2><%=t 'messages.title' %></h2>
 </div>
 <%= render 'nav' %>
 <table class="table table-striped">
@@ -8,9 +7,9 @@
     <tr>
       <th></th>
       <th><%= t :'messages.index.user' %></th>
-      <th><%= model_class.human_attribute_name(:content) %></th>
-      <th><%= model_class.human_attribute_name(:state) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%= t :'messages.index.content' %></th>
+      <th><%= t :'messages.index.state' %></th>
+      <th><%= t :'messages.index.sent_at' %></th>
       <th><%= t :'messages.index.actions' %></th>
     </tr>
   </thead>
@@ -24,7 +23,7 @@
             <i class="icon-arrow-left"></i>
           <% end %>
         </td>
-        <td><%= other_user_of_message(message, current_user).name %></td>
+        <td><%= link_to(other_user_of_message(message, current_user).name, user_profile_path(other_user_of_message(message, current_user))) %></td>
         <td><%= truncate(message.content, length: 20, separator: ' ') %></td>
         <td>
           <%- if message_unread_by_user?(message, current_user) %>
@@ -34,6 +33,7 @@
         <td><%=l message.created_at, format: :short %></td>
         <td>
           <%= link_to t(:'messages.index.show'), message_path(message), class: 'btn' %>
+          <%= link_to t(:'messages.index.reply'), new_user_message_path(other_user_of_message(message, current_user)), class: 'btn' %>
           <%= link_to t(:'messages.index.destroy'), message_path(message),
                       method: 'delete',
                       data:   { confirm: t('messages.index.confirm') },
