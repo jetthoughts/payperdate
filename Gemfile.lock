@@ -21,32 +21,22 @@ GIT
       hashr
 
 GIT
-  remote: git://github.com/ernie/ransack.git
-  revision: 8db7a3c1f4242305488a541267dd87c5397f5707
-  branch: rails-4
-  specs:
-    ransack (0.7.3)
-      actionpack (~> 4.0.0)
-      activerecord (~> 4.0.0)
-      polyamorous (~> 0.6.0)
-
-GIT
   remote: git://github.com/gregbell/active_admin.git
-  revision: a9949c1524205928b18597f840e83478ba97c2ef
+  revision: 72a9c30cef47b3f38c38039de021aaa3194c188b
   branch: rails4
   specs:
     activeadmin (0.6.0)
       arbre (>= 1.0.1)
       bourbon (>= 1.0.0)
       coffee-rails (>= 3.2.0)
-      devise (>= 3.0.0.rc)
-      formtastic (>= 2.0.0)
-      inherited_resources (>= 1.3.1)
+      devise (>= 3.0.2)
+      formtastic (>= 2.3.0.rc2)
+      inherited_resources (>= 1.4.1)
       jquery-rails (>= 3.0.0)
       jquery-ui-rails (>= 4.0.0)
       kaminari (>= 0.13.0)
       rails (>= 3.2.0)
-      ransack (>= 0.7.0)
+      ransack (>= 1.0.0)
       sass-rails (>= 3.2.0)
 
 GIT
@@ -56,14 +46,6 @@ GIT
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
       responders (~> 1.0.0.rc)
-
-GIT
-  remote: git://github.com/justinfrench/formtastic.git
-  revision: 325282e64a897cd92c78d44d48726fe16486f84a
-  branch: rails4beta
-  specs:
-    formtastic (2.2.1)
-      actionpack (>= 3.0)
 
 GIT
   remote: git://github.com/plataformatec/responders.git
@@ -169,7 +151,7 @@ GEM
       haml (>= 3.1.3)
       rdoc
       sinatra (>= 0.9.2)
-    devise (3.0.1)
+    devise (3.0.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -200,6 +182,8 @@ GEM
       nokogiri (~> 1.5)
       ruby-hmac
     formatador (0.2.4)
+    formtastic (2.3.0.rc2)
+      actionpack (>= 3.0)
     geocoder (1.1.8)
     haml (4.0.3)
       tilt
@@ -267,7 +251,7 @@ GEM
       activesupport (>= 3.0)
       money (~> 5.1.0)
       railties (>= 3.0)
-    multi_json (1.7.8)
+    multi_json (1.7.9)
     multipart-post (1.2.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -344,6 +328,10 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.11.0)
     rake (10.1.0)
+    ransack (1.0.0)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      polyamorous (~> 0.6.0)
     rdoc (4.0.1)
       json (~> 1.4)
     recaptcha (0.3.5)
@@ -394,7 +382,7 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (1.3.0)
       coffee-rails
-    twitter-bootstrap-rails (2.2.7)
+    twitter-bootstrap-rails (2.2.8)
       actionpack (>= 3.1)
       execjs
       rails (>= 3.1)
@@ -437,7 +425,7 @@ DEPENDENCIES
   face
   fancybox-rails
   fog (~> 1.14)
-  formtastic!
+  formtastic
   geocoder
   haml (~> 4.0.0)
   haml-contrib (~> 1.0.0)
@@ -468,7 +456,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.0.0)
   rails_12factor
-  ransack!
+  ransack
   recaptcha
   responders!
   sass-rails (~> 4.0.0)

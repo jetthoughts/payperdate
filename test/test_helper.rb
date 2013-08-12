@@ -14,10 +14,20 @@ class ActiveSupport::TestCase
   include Payperdate::TestHelpers
 
   self.use_transactional_fixtures = true
-  self.use_instantiated_fixtures  = false
+  self.use_instantiated_fixtures = false
 end
 
 class ActionController::TestCase
   include Devise::TestHelpers
   include Payperdate::TestHelpers
+end
+
+if ENV['INTEGRATION_TESTS']
+  require 'capybara/rails'
+else
+  class ActionDispatch::IntegrationTest
+    setup do
+      skip 'because this test heavy, to activate run with INTEGRATION_TESTS = true'
+    end
+  end
 end
