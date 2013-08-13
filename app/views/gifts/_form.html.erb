@@ -10,9 +10,9 @@
         <div class='row-fluid'>
           <% group.each do |gift| %>
               <div class='gift span3'>
-                <%= f.radio_button :gift_template_id, gift.id %>
-                <%= f.label "gift_template_id_#{gift.id}" do %>
-                    <span><%= gift.name %></span>
+                <%= f.radio_button :gift_template_id, gift.id, class: 'radio' %>
+                <%= f.label "gift_template_id_#{gift.id}", class: 'gift_label' do %>
+                    <span class="gift_name"><%= gift.name %></span>
                     <%= image_tag gift.image.url(:medium) %>
                 <% end %>
               </div>
