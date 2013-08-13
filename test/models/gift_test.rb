@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class GiftTest < ActiveSupport::TestCase
-  fixtures :gift_templates, :users
+  fixtures :gift_templates, :users, :block_relationships
 
   def test_create
     gift = Gift.create! gift_template: gift_templates(:kitten),
@@ -41,6 +41,24 @@ class GiftTest < ActiveSupport::TestCase
     kitten = gift_templates(:kitten)
     assert_difference ->{ Gift.count }, 0 do
       Gift.create user: john, recipient: john, gift_template: kitten
+    end
+  end
+
+  def test_sending_gifts_to_blocker
+    ria = users(:ria)
+    robert = users(:robert)
+    kitten = gift_templates(:kitten)
+    assert_difference ->{ Gift.count }, 0 do
+      Gift.create user: ria, recipient: robert, gift_template: kitten
+    end
+  end
+
+  def test_sending_gifts_to_blocked
+    ria = users(:ria)
+    robert = users(:robert)
+    kitten = gift_templates(:kitten)
+    assert_difference ->{ Gift.count }, 1 do
+      Gift.create user: robert, recipient: ria, gift_template: kitten
     end
   end
 

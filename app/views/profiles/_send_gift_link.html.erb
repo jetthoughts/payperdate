@@ -1,1 +1,3 @@
-<%= link_to 'Send gift', new_user_gifts_path(user), class: 'btn' %>
+<% unless current_user.blocked_for?(user) %>
+	<%= link_to 'Send gift', new_user_gifts_path(user), class: 'btn' %>
+<% end %>

@@ -14,7 +14,7 @@ class Message < ActiveRecord::Base
     sift(:sent_and_not_deleted, user) | sift(:received_and_not_deleted, user)
   end
 
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
   scope :by, ->(user) { where { sift :sent_or_received_by, user } }
   scope :unread, -> { where recipient_state: 'unread' }
   scope :received_by, ->(user) { where { sift :received_and_not_deleted, user  } }
@@ -22,6 +22,8 @@ class Message < ActiveRecord::Base
 
   validates :sender, :recipient, presence: true
   validates :content, presence: true
+
+  validate :vaidate_can_send_to_blocker
 
   state_machine :recipient_state, initial: :unread do
     event :read do
@@ -65,6 +67,12 @@ class Message < ActiveRecord::Base
     else
       false
     end
+  end
+
+  private
+
+  def vaidate_can_send_to_blocker
+    self.errors.add(:recipient_id, :cant_send_message_to_blocker) if sender && sender.blocked_for?(recipient)
   end
 
 end

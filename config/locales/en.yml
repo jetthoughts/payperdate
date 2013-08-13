@@ -53,6 +53,10 @@ en:
             invited_user_id:
               cant_invite_himself: 'You cant invite yourself'
               already_sent: 'Invitation already sent'
+        message:
+          attributes:
+            recipient_id:
+              cant_send_message_to_blocker: 'You cant send message to your blocker'
   profile:
     address:
       full: "%{general_info_address_line_1}, %{general_info_city}, %{general_info_state} %{general_info_zip_code}"
@@ -122,7 +126,17 @@ en:
         send_as_html: "Send as HTML"
         send_message: "Send message"
 
+  flash:
+    users:
+      block:
+        notice: 'User has been successfully blocked'
+      unblock:
+        notice: 'User has been successfully unblocked'
+
   number:
     format:
       precision: 2
   distance: "%{distance} miles"
+
+  navigation:
+    blocked: 'Blocked users'

@@ -6,6 +6,7 @@ class Gift < ActiveRecord::Base
   validates :gift_template, :user, :recipient, presence: true
   validate :validate_user_can_send_for_self
   validate :validate_user_can_send_disabled_gift
+  validate :validate_user_can_send_to_blocker
 
   delegate :image_url, :name, to: :gift_template
 
@@ -17,5 +18,9 @@ class Gift < ActiveRecord::Base
 
   def validate_user_can_send_disabled_gift
     self.errors.add(:base, :cant_send_disabled_gifts) if gift_template and gift_template.disabled?
+  end
+
+  def validate_user_can_send_to_blocker
+    self.errors.add(:base, :cant_send_gift_to_blocker) if user.blocked_for?(recipient)
   end
 end

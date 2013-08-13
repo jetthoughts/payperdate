@@ -6,6 +6,8 @@ class Wink < ActiveRecord::Base
 
   validates :wink_template, :user, :recipient, presence: true
   validate :validate_user_wink_himself
+  validate :validate_user_wink_blocked_by_himself
+  validate :validate_user_wink_blocker
   validate :validate_user_wink_twice
   delegate :image, to: :wink_template
 
@@ -20,6 +22,15 @@ class Wink < ActiveRecord::Base
   def validate_user_wink_twice
     self.errors.add(:recipient_id, :cant_wink_twice_for_day) if user.already_winked?(recipient)
   end
+
+  def validate_user_wink_blocked_by_himself
+    self.errors.add(:recipient_id, :cant_wink_blocked) if recipient.blocked_for?(user)
+  end
+
+  def validate_user_wink_blocker
+    self.errors.add(:recipient_id, :cant_wink_blocker) if user.blocked_for?(recipient)
+  end
+
 
   def notify_recipient
     WinkMailer.delay.new_wink(self.id)

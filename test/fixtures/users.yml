@@ -6,6 +6,7 @@ paul:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: pauls
+  published_profile: pauls
 
 # User without completed profile filled
 john:
@@ -15,6 +16,7 @@ john:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: johns
+  published_profile: johns
 
 # User with completed profile filled
 martin:
@@ -24,6 +26,7 @@ martin:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: martins
+  published_profile: martins
 
 # Another user with completed profile filled
 mia:
@@ -33,6 +36,7 @@ mia:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: mias
+  published_profile: mias
 
 # Another user
 lily:
@@ -42,6 +46,7 @@ lily:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: lilys
+  published_profile: lilys
 
 # User with blocked profile
 lola:
@@ -51,6 +56,7 @@ lola:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: lolas
+  published_profile: lolas
 
 sophia:
   email: 'sophia@example.com'
@@ -59,6 +65,7 @@ sophia:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: sophias
+  published_profile: sophias
 
 robert:
   email: 'robert@example.com'
@@ -67,6 +74,7 @@ robert:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: roberts
+  published_profile: roberts
 
 ria:
   email: 'ria@example.com'
@@ -75,3 +83,4 @@ ria:
   encrypted_password: "$2a$10$C8mEde58Tg/X.n4XGqvTQOCV5/RM8NIjTAb3zZUbDS2Xn.7bZnuu2" #password
   confirmed_at: <%= Time.current %>
   profile: rias
+  published_profile: rias

@@ -1,6 +1,9 @@
 class UsersController < BaseController
   before_filter :ensure_user_has_filled_profile
   before_filter :setup_profiles_and_users
+  before_filter :setup_target_user, only: [:block, :unblock]
+  after_filter :track_block_activity, only: :block
+  after_filter :track_unblock_activity, only: :unblock
 
   def index
   end
@@ -10,10 +13,22 @@ class UsersController < BaseController
   end
 
   def unsubscribe
-    user = User.where(email: params[:md_email]).first    
+    user = User.where(email: params[:md_email]).first
     user.unsubscribe!
 
     redirect_to root_path, notice: t("unsubscribed")
+  end
+
+  def block
+    current_user.block_user @target
+    flash[:notice] = I18n.t('flash.users.block.notice')
+    redirect_to user_profile_path @target
+  end
+
+  def unblock
+    current_user.unblock_user @target
+    flash[:notice] = I18n.t('flash.users.unblock.notice')
+    redirect_to user_profile_path @target
   end
 
   private
@@ -56,5 +71,17 @@ class UsersController < BaseController
       profile.auto_user
     end
     @users.compact!
+  end
+
+  def setup_target_user
+    @target = User.find params[:id]
+  end
+
+  def track_block_activity
+    current_user.track_user_block(@target)
+  end
+
+  def track_unblock_activity
+    current_user.track_user_unblock(@target)
   end
 end
