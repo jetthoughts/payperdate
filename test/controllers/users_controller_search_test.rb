@@ -5,7 +5,6 @@ class UsersControllerSearchTest < ActionController::TestCase
   fixtures :users, :profiles
 
   def setup
-    initial_setup
     @user = users(:robert)
     sign_in @user
   end

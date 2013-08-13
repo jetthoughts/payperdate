@@ -9,9 +9,11 @@ class LoginIfNotBlockedTest < ActionDispatch::IntegrationTest
   def setup
     reset_session!
     visit '/users/login'
-    page.fill_in :user_email, with: users(:lily).email
-    page.fill_in :user_password, with: 'password'
-    page.click_button 'Sign in'
+    within '#new_user' do
+      page.fill_in :user_email, with: users(:lily).email
+      page.fill_in :user_password, with: 'password'
+      page.click_button 'Sign in'
+    end
   end
 
   test 'login should be ok' do
@@ -28,9 +30,11 @@ class LoginIfBlockedTest < ActionDispatch::IntegrationTest
     reset_session!
     users(:lily).block!
     visit '/users/login'
-    page.fill_in :user_email, with: users(:lily).email
-    page.fill_in :user_password, with: 'password'
-    page.click_button 'Sign in'
+    within '#new_user' do
+      page.fill_in :user_email, with: users(:lily).email
+      page.fill_in :user_password, with: 'password'
+      page.click_button 'Sign in'
+    end
   end
 
   test 'login should result in alert about being blocked' do

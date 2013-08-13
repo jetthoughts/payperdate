@@ -19,7 +19,7 @@ gem 'unicorn'
 gem 'turbolinks'
 
 # User registrattion
-gem 'devise'
+gem 'devise', '>= 3.0.2'
 gem 'cancan'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'omniauth'
@@ -85,9 +85,6 @@ gem 'face'
 
 gem 'airbrake'
 
-# Search (already added in admin panel)
-# gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
-
 group :development, :test do
   gem 'capybara'
 end
@@ -99,6 +96,7 @@ group :development do
   gem 'pry-rails'
   gem 'awesome_print'
   gem 'push2heroku', github: "XsErG/push2heroku"
+  gem 'heroku'
 end
 
 group :staging do

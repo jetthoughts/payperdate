@@ -8,5 +8,9 @@
       <%= nav_link_to(t('winks.winks'), winks_path) %>
       <%= nav_link_to(messages_link_title, unread_messages_path) %>
     </ul>
+    <ul class="nav nav-list">
+      <li class="nav-header">Lists</li>
+      <%= nav_link_to(t('navigation.blocked'), blocks_path) %>
+    </ul>
   </div><!--/.well -->
 </div>

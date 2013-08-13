@@ -5,6 +5,8 @@ class Invitation < ActiveRecord::Base
   validates :user, :invited_user, presence: true
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :validate_user_can_invite_himself
+  validate :validate_user_can_blocked_by_self
+  validate :validate_user_can_blocker
   validate :validate_already_sent, on: :create
 
   after_commit :notify_recipient, on: :create
@@ -83,6 +85,15 @@ class Invitation < ActiveRecord::Base
   def validate_user_can_invite_himself
     self.errors.add(:invited_user_id, :cant_invite_himself) if user.operate_with_himself?(invited_user)
   end
+
+  def validate_user_can_blocked_by_self
+    self.errors.add(:invited_user_id, :cant_invite_blocked) if invited_user.blocked_for?(user)
+  end
+
+  def validate_user_can_blocker
+    self.errors.add(:invited_user_id, :cant_invite_blocker) if user.blocked_for?(invited_user)
+  end
+
 
   def validate_already_sent
     self.errors.add(:invited_user_id, :already_sent) if user.already_invited?(invited_user)

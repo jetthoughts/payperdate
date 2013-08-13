@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class InvitationTest < ActiveSupport::TestCase
-  fixtures :users, :invitations
+  fixtures :users, :invitations, :block_relationships
 
   setup do
     Delayed::Worker.delay_jobs = false
@@ -103,5 +103,19 @@ class InvitationTest < ActiveSupport::TestCase
 
     assert_equal 1, mia.rejected_invitations.count
     assert_equal 1, martin.rejected_invitations.count
+  end
+
+  test 'cant invite blocked by self' do
+    robert = users(:robert)
+    ria = users(:ria)
+    invitation = robert.own_invitations.create(invited_user: ria, amount: 5, message: '?')
+    refute invitation.valid?
+  end
+
+  test 'cant invite blocker' do
+    robert = users(:robert)
+    ria = users(:ria)
+    invitation = ria.own_invitations.create(invited_user: robert, amount: 5, message: '?')
+    refute invitation.valid?
   end
 end

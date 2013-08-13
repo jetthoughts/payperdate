@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
   has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
   has_many :credits
 
+  # blocking
+  has_many :block_relationships
+  has_many :blocked_users, through: :block_relationships, source: :target
+
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
@@ -116,6 +120,18 @@ class User < ActiveRecord::Base
   def delete_account!
     destroy!
     notify_account_was_deleted
+  end
+
+  def block_user(user)
+    blocked_users << user
+  end
+
+  def unblock_user(user)
+    blocked_users.delete(user)
+  end
+
+  def blocked_for?(user)
+    user.blocked_users.include?(self)
   end
 
   def female?
