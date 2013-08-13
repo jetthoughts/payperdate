@@ -34,8 +34,6 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog', '~>1.14'
 
-gem 'state_machine'
-
 # Assets
 
 ## Use jquery as the JavaScript library
@@ -66,19 +64,15 @@ gem 'handy', github: 'bigbinary/handy'
 # Admin Panel
 gem 'responders', github: 'plataformatec/responders'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
-gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
-gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
+gem 'ransack'
+gem 'formtastic'
 
 gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'draper', '>= 1.0.0'
-gem 'state_machine'
 gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
 
 gem 'obscenity' # profanity filter, used only to help approver
-
-gem 'obscenity' # profanity filter, used only to help approver
-
 
 # Background jobs
 gem 'delayed_job_active_record', '>= 4.0.0.beta1'
