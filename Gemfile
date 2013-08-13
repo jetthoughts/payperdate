@@ -92,6 +92,10 @@ end
 group :development, :test do
   gem 'capybara'
   gem 'simplecov', require: false
+  gem 'poltergeist'
+  gem 'capybara-screenshot'
+  gem 'awesome_print'
+
 end
 
 group :development do
@@ -99,8 +103,6 @@ group :development do
   gem 'better_errors', require: false
   gem 'binding_of_caller', require: false
   gem 'pry-rails'
-  gem 'awesome_print'
-
   #FIXME: @XsErG please update to jetthoughts/push2heroku
   gem 'push2heroku', github: 'XsErG/push2heroku'
 end

@@ -3,6 +3,7 @@ en:
     accept: 'Accept'
     reject: 'Reject'
     delete: 'Delete'
+    unlock: 'Unlock'
     counter_offer: 'Counter offer'
     counter_price: 'You price'
     reject_reason: 'Select reject reason'

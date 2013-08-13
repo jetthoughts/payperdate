@@ -72,6 +72,7 @@ Payperdate::Application.routes.draw do
           post :accept
           post :reject
           patch :counter
+          post :unlock
         end
       end
       resources :credits do

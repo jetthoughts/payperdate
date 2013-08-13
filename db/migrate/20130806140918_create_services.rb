@@ -3,7 +3,7 @@ class CreateServices < ActiveRecord::Migration
     create_table :services do |t|
       t.string :key
       t.string :name
-      t.money :cost
+      t.integer :cost, null: false, default: 0
       t.boolean :use_credits
 
       t.timestamps

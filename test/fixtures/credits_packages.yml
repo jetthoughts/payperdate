@@ -2,10 +2,12 @@
 
 light:
   price_cents: 999
+  price_currency: "USD"
   credits: 1
   description: Light
 
 standart:
   price_cents: 9999
+  price_currency: "USD"
   credits: 10
   description: Standart

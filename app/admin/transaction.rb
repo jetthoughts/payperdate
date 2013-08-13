@@ -3,8 +3,8 @@ ActiveAdmin.register Transaction do
   config.clear_action_items!
 
   filter :trackable_type
-  filter :owner, collection: User.all
-  filter :recipient, collection: User.all
+  # filter :owner, collection: User.all
+  # filter :recipient, collection: User.all
   filter :amount_cents
   filter :key
   filter :created_at
@@ -17,14 +17,10 @@ ActiveAdmin.register Transaction do
     column :amount do |transaction|
       pluralize transaction.amount, "credit"
     end
-    column "Action" do |transaction|
-      I18n.t("credit_transaction.keys.#{transaction.key}",
-             name: transaction.trackable.to_s,
-             username: transaction.owner.name,
-             amount: transaction.amount)
-    end
+    column :action
     column :state
     column :created_at
   end
+
 
 end
