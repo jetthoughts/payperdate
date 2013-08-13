@@ -1,0 +1,11 @@
+<% if !target.blank? and target.errors.any? %>
+
+<div class="alert alert-error">
+  <%= t('general.errors') %>
+  <ul>
+  <% target.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>

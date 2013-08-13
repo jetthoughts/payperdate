@@ -23,4 +23,16 @@ module ApplicationHelper
     end
     res
   end
+
+  def messages_link_title
+    title = t(:'messages.title')
+    unread_count = Message.received_by(current_user).unread.count
+    return title if unread_count == 0
+    title << " (#{unread_count})"
+  end
+
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
 end

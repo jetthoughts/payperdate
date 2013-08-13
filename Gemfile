@@ -8,6 +8,7 @@ gem 'rails', '4.0.0'
 gem 'pg'
 gem 'squeel'
 gem 'state_machine'
+gem 'activemerchant'
 
 gem 'unicorn'
 
@@ -18,7 +19,7 @@ gem 'unicorn'
 gem 'turbolinks'
 
 # User registrattion
-gem 'devise'
+gem 'devise', '>= 3.0.2'
 gem 'cancan'
 gem 'recaptcha', require: 'recaptcha/rails'
 gem 'omniauth'
@@ -26,13 +27,12 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
 gem 'phony_rails'
+gem 'money-rails'
 
 # Upload photo
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog', '~>1.14'
-
-gem 'state_machine'
 
 # Assets
 
@@ -64,19 +64,15 @@ gem 'handy', github: 'bigbinary/handy'
 # Admin Panel
 gem 'responders', github: 'plataformatec/responders'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
-gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
-gem 'formtastic', github: 'justinfrench/formtastic', branch: 'rails4beta'
+gem 'ransack'
+gem 'formtastic'
 
 gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'draper', '>= 1.0.0'
-gem 'state_machine'
 gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
 
 gem 'obscenity' # profanity filter, used only to help approver
-
-gem 'obscenity' # profanity filter, used only to help approver
-
 
 # Background jobs
 gem 'delayed_job_active_record', '>= 4.0.0.beta1'
@@ -89,9 +85,6 @@ gem 'face'
 
 gem 'airbrake'
 
-# Search (already added in admin panel)
-# gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
-
 group :development, :test do
   gem 'capybara'
 end
@@ -102,6 +95,8 @@ group :development do
   gem 'binding_of_caller'
   gem 'pry-rails'
   gem 'awesome_print'
+  gem 'push2heroku', github: "XsErG/push2heroku"
+  gem 'heroku'
 end
 
 group :staging do

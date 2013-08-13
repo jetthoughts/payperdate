@@ -1,9 +1,10 @@
 $ ->
-  if $('#video_player').length
-    iframe = $('#video_player')[0]
-    player = $f(iframe)
+  $player_wrap = $("#video_player")
+  return unless $player_wrap.length
 
-    $('.play_button').on 'click', (event) ->
-      event.preventDefault()
-      $(@).hide()
-      player.api('play')
+  player = $f($player_wrap[0])
+  $play_button = $("#layer5")
+  $play_button.click ->
+    $play_button.removeClass("force-show").hide()
+    player.api('play')
+    false

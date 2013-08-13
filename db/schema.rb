@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130806072339) do
+ActiveRecord::Schema.define(version: 20130808083702) do
 
-  # These are extensions that must be enabled in order to support this database
+  #These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
@@ -43,9 +43,10 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.boolean  "master"
     t.boolean  "permission_approver"
     t.boolean  "permission_customer_care"
-    t.boolean  "permission_mass_mailing"
     t.boolean  "permission_login_as_user",   default: false, null: false
     t.boolean  "permission_gifts_and_winks"
+    t.boolean  "permission_mass_mailing"
+    t.boolean  "permission_accounting"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -73,6 +74,38 @@ ActiveRecord::Schema.define(version: 20130806072339) do
 
   add_index "authentitications", ["provider", "uid"], name: "index_authentitications_on_provider_and_uid", unique: true, using: :btree
   add_index "authentitications", ["user_id", "provider"], name: "index_authentitications_on_user_id_and_provider", unique: true, using: :btree
+
+  create_table "block_relationships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "target_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "block_relationships", ["target_id"], name: "index_block_relationships_on_target_id", using: :btree
+  add_index "block_relationships", ["user_id"], name: "index_block_relationships_on_user_id", using: :btree
+
+  create_table "credits", force: true do |t|
+    t.integer  "credits_package_id",                     null: false
+    t.integer  "user_id",                                null: false
+    t.string   "state",              default: "pending", null: false
+    t.string   "error"
+    t.string   "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "credits", ["credits_package_id"], name: "index_credits_on_credits_package_id", using: :btree
+  add_index "credits", ["user_id"], name: "index_credits_on_user_id", using: :btree
+
+  create_table "credits_packages", force: true do |t|
+    t.integer  "price_cents",    default: 0,     null: false
+    t.string   "price_currency", default: "USD", null: false
+    t.integer  "credits"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -142,6 +175,19 @@ ActiveRecord::Schema.define(version: 20130806072339) do
   add_index "member_reports", ["reported_user_id"], name: "index_member_reports_on_reported_user_id", using: :btree
   add_index "member_reports", ["user_id"], name: "index_member_reports_on_user_id", using: :btree
 
+  create_table "messages", force: true do |t|
+    t.integer  "sender_id",                        null: false
+    t.integer  "recipient_id",                     null: false
+    t.text     "content",                          null: false
+    t.string   "recipient_state",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sender_state",    default: "sent", null: false
+  end
+
+  add_index "messages", ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
+  add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
+
   create_table "photos", force: true do |t|
     t.integer  "album_id",                          null: false
     t.string   "image",                             null: false
@@ -169,7 +215,6 @@ ActiveRecord::Schema.define(version: 20130806072339) do
   create_table "profiles", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "avatar_id"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "filled"
@@ -207,6 +252,16 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.string   "optional_info_drinker"
   end
 
+  create_table "services", force: true do |t|
+    t.string   "key"
+    t.string   "name"
+    t.integer  "cost_cents",    default: 0,     null: false
+    t.string   "cost_currency", default: "USD", null: false
+    t.boolean  "use_credits"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                             default: "",       null: false
     t.string   "encrypted_password",                default: "",       null: false
@@ -233,6 +288,8 @@ ActiveRecord::Schema.define(version: 20130806072339) do
     t.integer  "profile_id"
     t.boolean  "subscribed",                        default: true
     t.string   "state",                             default: "active"
+    t.integer  "avatar_id"
+    t.decimal  "credits_amount",                    default: 0.0,      null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

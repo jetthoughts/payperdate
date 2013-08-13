@@ -1,8 +1,8 @@
-<%- if can? :invite, user %>
+<%- if can?(:invite, user) && !current_user.blocked_for?(user) && !user.blocked_for?(current_user) %>
   <button href="#invite_popup" data-toggle="modal" id="invite_user_btn" class="btn btn-small" type="button">Invite</button>
   <div class="modal hide" id="invite_popup" role="dialog">
     <div class="">
-      <%= image_tag user.profile.avatar_url(:thumb) %>
+      <%= image_tag user.avatar_url(:thumb) %>
       New Invitation
       <%= link_to_dismiss -%>
     </div>

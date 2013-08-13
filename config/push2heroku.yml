@@ -1,0 +1,35 @@
+common:
+  config:
+    rack_env: production
+    rails_env: production
+    log_level: production
+    db_pool: 10
+    redistogo_url: redis://redistogo:c0a1ef56d52a1b0eb04159d3bed4c4a3@jack.redistogo.com:9193
+  pre_config_commands:
+    - heroku create <%=ENV['HEROKU_APP_NAME']%> --remote h<%=ENV['BRANCH_NAME']%>
+    - git push h<%=ENV['BRANCH_NAME']%> <%=ENV['BRANCH_NAME']%>:master -f
+  post_config_commands:
+    after_every_install:
+      - heroku run rake db:migrate --app <%=ENV['HEROKU_APP_NAME']%> --trace
+
+branch:
+  config:
+    rack_env: staging
+    rails_env: staging
+  post_config_commands:
+    after_every_install:
+      - heroku run rake db:migrate --app <%=ENV['HEROKU_APP_NAME']%> --trace
+      - heroku run rake setup_sample_data --app <%=ENV['HEROKU_APP_NAME']%> --trace
+      - heroku run rake db:seed --app <%=ENV['HEROKU_APP_NAME']%> --trace
+
+
+staging:
+  config:
+    rack_env: staging
+    rails_env: staging
+
+production:
+  config:
+    rack_env: production
+    rails_env: production
+

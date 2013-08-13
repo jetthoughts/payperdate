@@ -1,10 +1,9 @@
 require 'test_helper'
 
 class ProfilesControllerTest < ActionController::TestCase
-  fixtures :users
+  fixtures :users, :profiles, :block_relationships
 
   def setup
-    initial_setup
     sign_in users(:martin)
   end
 
@@ -38,5 +37,85 @@ class ProfilesControllerTest < ActionController::TestCase
   test 'should not be able to see blocked user profile' do
     get :show, user_id: users(:lola)
     assert_redirected_to root_path
+  end
+
+  test 'should render block button when user is not blocked' do
+    get :show, user_id: users(:ria)
+    assert_select 'a', 'Block'
+  end
+
+  test 'should render unblock button when user is blocked' do
+    users(:martin).block_user users(:ria)
+    get :show, user_id: users(:ria)
+    assert_select 'a', 'Unblock'
+  end
+
+  test 'should hide follow action for blocked user from blocker profile page' do
+    sign_in users(:ria)
+    get :show, user_id: users(:robert)
+    assert_select 'a', { text: 'Follow', count: 0 }
+    assert_select 'button', { text: 'Follow', count: 0 }
+  end
+
+  test 'should hide bookmark action for blocked user from blocker profile page' do
+    sign_in users(:ria)
+    get :show, user_id: users(:robert)
+    assert_select 'a', { text: 'Bookmark', count: 0 }
+    assert_select 'button', { text: 'Bookmark', count: 0 }
+  end
+
+  test 'should hide send gift action for blocked user from blocker profile page' do
+    sign_in users(:ria)
+    get :show, user_id: users(:robert)
+    assert_select 'a', { text: 'Send gift', count: 0 }
+    assert_select 'button', { text: 'Send gift', count: 0 }
+  end
+
+  test 'should hide invite action for blocked user from blocker profile page' do
+    sign_in users(:ria)
+    get :show, user_id: users(:robert)
+    assert_select 'a', { text: 'Invite', count: 0 }
+    assert_select 'button', { text: 'Invite', count: 0 }
+  end
+
+  test 'should hide wink action for blocked user from blocker profile page' do
+    sign_in users(:ria)
+    get :show, user_id: users(:robert)
+    assert_select 'a', { text: 'Wink', count: 0 }
+    assert_select 'button', { text: 'Wink', count: 0 }
+  end
+
+  test 'should hide follow action for blocker user from blocked profile page' do
+    sign_in users(:robert)
+    get :show, user_id: users(:ria)
+    assert_select 'a', { text: 'Follow', count: 0 }
+    assert_select 'button', { text: 'Follow', count: 0 }
+  end
+
+  test 'should hide bookmark action for blocker user from blocked profile page' do
+    sign_in users(:robert)
+    get :show, user_id: users(:ria)
+    assert_select 'a', { text: 'Bookmark', count: 0 }
+    assert_select 'button', { text: 'Bookmark', count: 0 }
+  end
+
+  test 'should render send gift action for blocker user from blocked profile page' do
+    sign_in users(:robert)
+    get :show, user_id: users(:ria)
+    assert_select 'a', 'Send gift'
+  end
+
+  test 'should hide invite action for blocker user from blocked profile page' do
+    sign_in users(:robert)
+    get :show, user_id: users(:ria)
+    assert_select 'a', { text: 'Invite', count: 0 }
+    assert_select 'button', { text: 'Invite', count: 0 }
+  end
+
+  test 'should hide wink action for blocker user from blocked profile page' do
+    sign_in users(:robert)
+    get :show, user_id: users(:ria)
+    assert_select 'a', { text: 'Wink', count: 0 }
+    assert_select 'button', { text: 'Wink', count: 0 }
   end
 end

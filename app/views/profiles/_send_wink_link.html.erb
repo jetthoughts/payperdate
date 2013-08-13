@@ -1,8 +1,8 @@
-<%- if can? :send_wink, user %>
+<%- if can?(:send_wink, user) && !current_user.blocked_for?(user) && !user.blocked_for?(current_user) %>
   <button href="#send_wink_popup" data-toggle="modal" id="send_wink_btn" class="btn btn-small" type="button">Wink</button>
   <div class="modal hide" id="send_wink_popup" role="dialog">
     <div class="">
-      <%= image_tag user.profile.avatar_url(:thumb) %>
+      <%= image_tag user.avatar_url(:thumb) %>
       Send Wink
       <%= link_to_dismiss -%>
     </div>

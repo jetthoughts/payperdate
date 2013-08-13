@@ -27,6 +27,7 @@ class AlbumsController < BaseController
 
   def destroy
     album = current_user.albums.find(params[:id])
+    #FIXME: Remove this logic from controller
     @album_id = dom_id(album)
     album.destroy
     respond_with(@album_id)

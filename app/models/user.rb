@@ -1,14 +1,22 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable,
-    :validatable, :confirmable, :omniauthable
+         :recoverable, :rememberable, :trackable,
+         :validatable, :confirmable, :omniauthable
 
   has_many :authentitications, dependent: :destroy
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
+  has_many :messages_sent, class_name: 'Message', inverse_of: :sender, foreign_key: :sender_id
+  has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
+  has_many :credits
 
+  # blocking
+  has_many :block_relationships
+  has_many :blocked_users, through: :block_relationships, source: :target
+
+  belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
 
@@ -24,28 +32,28 @@ class User < ActiveRecord::Base
   scope :active, -> { where(state: 'active') }
   scope :blocked, -> { where(state: 'blocked') }
   scope :abuse, -> { where(abuse: true) }
-  scope :subscribed,    -> { where(subscribed: true) }
-  scope :unsubscribed,  -> { where(subscribed: false) }
+  scope :subscribed, -> { where(subscribed: true) }
+  scope :unsubscribed, -> { where(subscribed: false) }
 
-  scope :by_sex,        ->(sex) {
+  scope :by_sex, ->(sex) {
     joins(:profile).where(Profile.arel_table[:personal_preferences_sex].in(sex))
   }
 
-  scope :reviewed,      -> {
+  scope :reviewed, -> {
     joins(:profile).where(Profile.arel_table[:reviewed].eq(true))
   }
-  scope :not_reviewed,  -> {
+  scope :not_reviewed, -> {
     joins(:profile).where(Profile.arel_table[:reviewed].eq(false))
   }
 
-  scope :confirmed,     -> { where("confirmed_at IS NOT NULL") }
+  scope :confirmed, -> { where("confirmed_at IS NOT NULL") }
   scope :not_confirmed, -> { where("confirmed_at IS NULL") }
 
-  scope :have_avatar,   -> {
+  scope :have_avatar, -> {
     joins(:profile).where(Profile.arel_table[:avatar_id].not_eq(nil))
   }
 
-  scope :not_have_avatar,   -> {
+  scope :not_have_avatar, -> {
     joins(:profile).where(Profile.arel_table[:avatar_id].eq(nil))
   }
 
@@ -108,12 +116,26 @@ class User < ActiveRecord::Base
     update! subscribed: false
   end
 
+  #FIXME: We do not have accounts. Need to rename this.
   def delete_account!
     destroy!
     notify_account_was_deleted
   end
 
+  def block_user(user)
+    blocked_users << user
+  end
+
+  def unblock_user(user)
+    blocked_users.delete(user)
+  end
+
+  def blocked_for?(user)
+    user.blocked_users.include?(self)
+  end
+
   def female?
+    #FIXME: Using string is bad idea. Extract to constant
     profile.personal_preferences_sex == 'F'
   end
 
@@ -121,12 +143,24 @@ class User < ActiveRecord::Base
     name.split(/[\s,]+/)[0]
   end
 
+  #TODO: das ist fantastisch
   def age
     22
   end
 
   def operate_with_himself?(user)
     id == user.id
+  end
+
+  #TODO: Add tests
+  def avatar_url(version=:avatar, public_avatar = true)
+    av = public_avatar ? avatar && avatar.public_photo : avatar
+    (av || Avatar.new).image_url(version)
+  end
+
+  def add_credits(credits_count)
+    self.credits_amount += credits_count
+    save!
   end
 
   private

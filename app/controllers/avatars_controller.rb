@@ -4,26 +4,22 @@ class AvatarsController < BaseController
 
   #FIXME: What is it? Why we cannot use default solution?
   def create
-    @avatar         = Avatar.new(avatars_attributes)
-    @avatar.profile = current_profile
-    @avatar.save
-
-    current_profile.reload
+    @avatar = current_user.create_avatar(avatars_attributes)
     render layout: false
   end
 
   #FIXME: What is it? Why we cannot use default solution?
   def destroy
-    current_profile.avatar = nil
-    current_profile.save
+    current_user.avatar = nil
+    current_user.save
   end
 
   #TODO: Move to PhotosController
   def use
-    photo                  = Photo.find(params[:id])
-    @avatar                = photo.make_avatar
-    current_profile.avatar = @avatar
-    current_profile.save
+    photo               = Photo.find(params[:id])
+    @avatar             = photo.make_avatar
+    current_user.avatar = @avatar
+    current_user.save
     render nothing: true
   end
 

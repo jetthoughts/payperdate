@@ -5,7 +5,7 @@ class ProfileLoader
                      email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
                      password:     'welcome',
                      confirmed_at: Time.current
-    puts user.email
+    puts user.email if Rails.env.development?
     user
   end
 

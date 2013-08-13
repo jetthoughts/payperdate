@@ -1,8 +1,7 @@
 .row-fluid
   .span2.profile-column
     %div
-      / need to render photo here
-      = render 'profile/avatar', profile: profile
+      = render 'profile/avatar', user: @user
     %p
       :textile
         *Age:*
@@ -62,11 +61,14 @@
 
       __#{profile.general_info_tagline}__
     = render 'profiles/invite_link', user: @user
+    = render 'profiles/block_link', user: @user
     = render 'profiles/send_wink_link', user: @user
+    = link_to 'Albums', user_albums_path(@user), class: :btn
 
     - unless @user == current_user
       = render 'profiles/send_gift_link', user: @user
       = render 'profiles/report_violation_link', profile: profile
+      = render 'profiles/send_message_link', user: @user
 
     - if can? :manage, profile
       .row-fluid
