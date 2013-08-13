@@ -17,6 +17,7 @@ Payperdate::Application.routes.draw do
                             omniauth_callbacks: 'users/omniauth_callbacks' }
 
 
+  # FIXME: need to cut it.
   resources :users do
     resource :profile
 
@@ -41,6 +42,11 @@ Payperdate::Application.routes.draw do
       resource :message, only: [:new, :create]
       resources :albums, only: :index do
         resources :photos, only: :index
+      end
+
+      member do
+        post :block
+        post :unblock
       end
     end
 
@@ -73,6 +79,8 @@ Payperdate::Application.routes.draw do
           get :complete_purchase
         end
       end
+
+      resource :blocks, to: 'me/blocks#index'
     end
 
     namespace :me, as: '' do

@@ -115,10 +115,8 @@ class Profile < ActiveRecord::Base
 
   geocoded_by :full_address do |obj, results|
     if (geo = results.first)
-      if (location = geo.geometry['location'])
-        obj.latitude  = location['lat']
-        obj.longitude = location['lng']
-      end
+      obj.latitude  = geo.latitude
+      obj.longitude = geo.longitude
       obj.obtained_zipcode = geo.postal_code
     end
   end
@@ -141,7 +139,6 @@ class Profile < ActiveRecord::Base
 
   def regeocode
     if location_changed?
-      raise 'Geocoding should not be run when testing' if Rails.env.test?
       reset_geocoding!
       geocode
     end

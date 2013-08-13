@@ -4,8 +4,8 @@ class Admin::AvatarsControllerTest < ActionController::TestCase
   fixtures :admin_users, :users, :profiles, :albums
 
   def setup
-    profiles(:martins).update(avatar: create_sample_avatar)
-    profiles(:mias).update(avatar: create_sample_avatar)
+    users(:martin).update(avatar: create_sample_avatar)
+    users(:mia).update(avatar: create_sample_avatar)
     @controller = ::Admin::AvatarsController.new
   end
 

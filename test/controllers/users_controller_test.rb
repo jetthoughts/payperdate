@@ -4,7 +4,7 @@ require 'test_helper'
 #TODO: Move authorization tests from all controllers to one test unit
 #TODO: Extract to separate file
 class UsersControllerAuthorizationTest < ActionController::TestCase
-  fixtures :users
+  fixtures :users, :block_relationships
 
   tests UsersController
 
@@ -22,7 +22,7 @@ class UsersControllerAuthorizationTest < ActionController::TestCase
 end
 
 class UsersControllerTest < ActionController::TestCase
-  fixtures :users
+  fixtures :users, :profiles
 
   def setup
     sign_in users(:martin)
@@ -50,4 +50,74 @@ class UsersControllerTest < ActionController::TestCase
     get :search, q: {}
     assert_response :success
   end
+
+  test 'should be able to block another user' do
+    post :block, id: users(:ria)
+    assert_redirected_to user_profile_path users(:ria)
+    assert users(:ria).blocked_for? users(:martin)
+    assert_predicate flash[:notice], :present?
+  end
+
+  test 'should be able to unblock another user' do
+    sign_in users(:robert)
+    post :unblock, id: users(:ria)
+    assert_redirected_to user_profile_path users(:ria)
+    refute users(:ria).blocked_for? users(:robert)
+    assert_predicate flash[:notice], :present?
+  end
+
+  test 'should not be able to follow blocker' do
+    skip 'Should be tested when following will be implemented'
+  end
+
+  test 'should not be able to bookmark blocker' do
+    skip 'Should be tested when bookmarking will be implemented'
+  end
+
+  test 'should not be able to follow blocked by self' do
+    skip 'Should be tested when following will be implemented'
+  end
+
+  test 'should not be able to bookmark blocked by self' do
+    skip 'Should be tested when bookmarking will be implemented'
+  end
+
+  test 'block should track activity' do
+    assert_difference -> { Activity.count }, +1 do
+      post :block, id: users(:mia)
+    end
+
+    block_user_activity = users(:martin).activities.last
+    assert_equal users(:mia), block_user_activity.subject
+    assert_equal 'block', block_user_activity.action
+  end
+
+  test 'unblock should track activity' do
+    sign_in users(:robert)
+    assert_difference -> { Activity.count }, +1 do
+      post :unblock, id: users(:ria)
+    end
+
+    block_user_activity = users(:robert).activities.last
+    assert_equal users(:ria), block_user_activity.subject
+    assert_equal 'unblock', block_user_activity.action
+  end
+
+  test 'members of block relationship should not be able to leave comments to each other' do
+    skip 'Should be tested when comments will be implemented'
+  end
+
+  test 'blocker should be able to see comments on blocked page' do
+    skip 'Should be tested when comments will be implemented'
+  end
+
+  test 'blocked should not be able to see comments on blocker`s page' do
+    skip 'Should be tested when comments will be implemented'
+  end
+
+  test 'should have link to blocked user list' do
+    get :index
+    assert_select 'a', 'Blocked users'
+  end
+
 end

@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :messages, :users
+  fixtures :messages, :users, :block_relationships
+
+  setup do
+    @ria = users(:ria)
+    @robert = users(:robert)
+  end
 
   def test_create
     Message.create! sender: users(:john), recipient: users(:sophia), content: 'Hello!'
@@ -143,6 +148,16 @@ class MessageTest < ActiveSupport::TestCase
     assert !message.deleted_by?(message.recipient)
     message.delete_by(message.recipient)
     assert message.deleted_by?(message.recipient)
+  end
+
+  def test_cant_send_message_to_blocker
+    message = Message.create sender: @ria, recipient: @robert, content: 'Hello!'
+    refute message.valid?
+  end
+
+  def test_can_send_message_to_blocked_by_himself
+    message = Message.create sender: @robert, recipient: @ria, content: 'Hello!'
+    assert message.valid?
   end
 
 end
