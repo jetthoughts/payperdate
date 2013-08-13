@@ -2,7 +2,7 @@
   <%= image_tag gift.image_url(:medium), title: gift.name %>
   <div class="caption">
     <h5><%= link_to gift.user.name, user_profile_path(gift.user) %></h5>
-    <p><%= gift.comment %></p>
-    <p><%= gift.created_at.to_s(:short) %></p>
+    <p class="gift_message"><%= gift.comment %></p>
+    <span class="date muted"><%= gift.created_at.to_s(:short) %></span>
   </div>
 </li>
