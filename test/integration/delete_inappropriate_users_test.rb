@@ -34,6 +34,6 @@ class LoginIfDeletedTest < ActionDispatch::IntegrationTest
   end
 
   test 'login should result in error' do
-    assert page.has_content? 'Invalid email or password.'
+   assert page.has_content? 'Invalid email or password.'
   end
 end
