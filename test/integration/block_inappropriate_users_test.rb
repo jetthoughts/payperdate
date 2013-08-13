@@ -4,7 +4,7 @@ require 'capybara/rails'
 class LoginIfNotBlockedTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
 
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_multiselects
 
   def setup
     reset_session!
@@ -24,7 +24,7 @@ end
 class LoginIfBlockedTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
 
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_multiselects
 
   def setup
     reset_session!
@@ -38,6 +38,6 @@ class LoginIfBlockedTest < ActionDispatch::IntegrationTest
   end
 
   test 'login should result in alert about being blocked' do
-    assert page.has_content?('Your account is blocked.'), 'No alert about being blocked'
+    assert page.has_content?(I18n.t 'devise.failure.blocked'), 'No alert about being blocked'
   end
 end

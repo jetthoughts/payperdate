@@ -6,6 +6,11 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
+if Rails.env.development? && ENV['NO_BETTER_ERRORS'].nil?
+  require 'better_errors'
+  require 'binding_of_caller'
+end
+
 module Payperdate
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

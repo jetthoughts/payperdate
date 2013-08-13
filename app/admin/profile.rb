@@ -1,4 +1,6 @@
 ActiveAdmin.register Profile do
+  config.clear_action_items!
+
   scope :approve_queue, default: true
   scope :published
 
@@ -59,7 +61,9 @@ ActiveAdmin.register Profile do
         attributes_table_for profile do
           Profile.moderated_params.each do |param|
             if Profile.profanity_checked_params.include? param
-              row_with_profanity param, profile: profile
+              row param do
+                highlight(profile[param], Obscenity.offensive(profile[param]))
+              end
             else
               row param
             end

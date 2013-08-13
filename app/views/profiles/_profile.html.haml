@@ -10,7 +10,7 @@
         ---
 
         *Body Type:*
-        #{profile.optional_info_height && "#{profile.optional_info_height} cm – "}#{select_title 'body_type', profile.optional_info_body_type}
+        #{"#{select_title 'height', profile.optional_info_height} – "}#{select_title 'body_type', profile.optional_info_body_type}
 
         ---
 
@@ -51,7 +51,7 @@
         %br
         %strong= t 'profile.review.under_review'
     :textile
-      h3. #{profile.auto_user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
+      h3. #{profile.name_cache || profile.auto_user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
 
       ---
 
@@ -65,10 +65,13 @@
     = render 'profiles/send_wink_link', user: @user
     = link_to 'Albums', user_albums_path(@user), class: :btn
 
-    - unless @user == current_user
+    - if @user == current_user
+      = render 'profiles/send_gift_link', user: profile.auto_user
+    - else
       = render 'profiles/send_gift_link', user: @user
       = render 'profiles/report_violation_link', profile: profile
       = render 'profiles/send_message_link', user: @user
+
 
     - if can? :manage, profile
       .row-fluid
@@ -118,26 +121,39 @@
       ---
 
       *Annual Income:*
-      #{profile.optional_info_annual_income}$ per year
+      #{select_title 'income', profile.optional_info_annual_income}
 
       ---
 
       *Net Worth:*
-      #{profile.optional_info_net_worth}$
+      #{select_title 'net_worth', profile.optional_info_net_worth}
 
       ---
 
       *Relationship Status:*
-      #{select_title 'relationship', profile.personal_preferences_relationship}
+    - profile.personal_preferences_relationship_multiselect.each do |select|
+      - if select.checked
+        %span= select_title 'relationship', select.value
+        = '/'
+
+    :textile
 
       ---
 
       *Looking To Meet:*
-      #{select_title 'sex', profile.personal_preferences_partners_sex}
+    - profile.personal_preferences_partners_sex_multiselect.each do |select|
+      - if select.checked
+        %span= select_title 'sex', select.value
+        = '/'
 
+    :textile
       ---
 
       *Interested In:*
-      #{select_title 'want_relationship', profile.personal_preferences_want_relationship}
+    - profile.personal_preferences_want_relationship_multiselect.each do |select|
+      - if select.checked
+        %span= select_title 'want_relationship', select.value
+        = '/'
 
+    :textile
       ---

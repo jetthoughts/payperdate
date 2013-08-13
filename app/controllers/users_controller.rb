@@ -55,8 +55,11 @@ class UsersController < BaseController
     params[:max_distance] ||= @profile.default_search['max_distance']
 
     #FIXME: Rename `q` to more readable
+    query = params[:q].clone
     @q = @profile.near_me(params[:location], params[:max_distance]).not_mine(@profile)
-    @q = @q.preload(:user).published_and_active.search(params[:q])
+        .preload(:user).published_and_active
+        .multiselect_search(query.slice(*Profile.multiselect_params))
+        .search(query.slice!(*Profile.multiselect_params))
   end
 
   def setup_profiles
