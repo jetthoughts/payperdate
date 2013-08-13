@@ -1,25 +1,55 @@
 // Place all the styles related to the profile controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$gift_carousel_item_height: 260px
+$gift_message_height: 55px
 
 .form-vertical-padded
-	margin-bottom: 10px
+  margin-bottom: 10px
 
 .profile-column
-	padding-left: 20px
-	padding-right: 20px
-	font-size: 0.85em
+  padding-left: 20px
+  padding-right: 20px
+  font-size: 0.85em
 
 .profile-column hr
-	margin-left: -20px
-	margin-right: -20px
-	margin-top: -5px
-	margin-bottom: 6px
+  margin-left: -20px
+  margin-right: -20px
+  margin-top: -5px
+  margin-bottom: 6px
 
 .profile-column strong
-	font-weight: normal
-	font-size: 1.3em
+  font-weight: normal
+  font-size: 1.3em
 
 .search-padded
-	margin-left: 20px
+  margin-left: 20px
 
+.inner_wrap
+  padding-top: 80px
+
+#gifts
+  &.carousel
+    .caption
+      padding: 5px
+    .item
+      height: $gift_carousel_item_height
+
+.new_gift
+  .gift
+    >.radio
+      display: block
+      margin: 0 auto
+    .gift_label
+      text-align: center
+    .gift_name
+      display: block
+      text-align: center
+.gift
+  .gift_message
+    font-size: 11px
+    line-height: 14px
+    height: $gift_message_height
+    overflow: hidden
+  .date
+    font-size: 10px
