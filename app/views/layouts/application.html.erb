@@ -9,13 +9,20 @@
 <body rails-controller='<%= params[:controller] %>' rails-action='<%= params[:action] %>'>
 
 <%= render 'layouts/nav' %>
-<%= render 'shared/info_bar' %>
 
-<div class="container pr">
-  <%= render 'layouts/flash' %>
-  <%= yield %>
+<div class="inner_wrap">
+  <div class="container">
+    <div class="row">
+      <%= render 'shared/info_bar' %>
+      <div class="span10">
+        <%= render 'layouts/flash' %>
+        <%= yield %>
+      </div>
+
+    </div>
+
+  </div>
 </div>
-
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 
 </body>
