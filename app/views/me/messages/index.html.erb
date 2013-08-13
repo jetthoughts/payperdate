@@ -14,33 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @messages.each do |message| %>
-      <tr>
-        <td>
-          <%- if message_sent_by_user? message, current_user %>
-            <i class="icon-arrow-right"></i>
-          <% else %>
-            <i class="icon-arrow-left"></i>
-          <% end %>
-        </td>
-        <td><%= link_to(other_user_of_message(message, current_user).name, user_profile_path(other_user_of_message(message, current_user))) %></td>
-        <td><%= truncate(message.content, length: 20, separator: ' ') %></td>
-        <td>
-          <%- if message_unread_by_user?(message, current_user) %>
-            <i class="icon-envelope"></i>
-          <% end %>
-        </td>
-        <td><%=l message.created_at, format: :short %></td>
-        <td>
-          <%= link_to t(:'messages.index.show'), message_path(message), class: 'btn' %>
-          <%= link_to t(:'messages.index.reply'), new_user_message_path(other_user_of_message(message, current_user)), class: 'btn' %>
-          <%= link_to t(:'messages.index.destroy'), message_path(message),
-                      method: 'delete',
-                      data:   { confirm: t('messages.index.confirm') },
-                      class:  'btn btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
+    <%= render @messages %>
   </tbody>
 </table>
 

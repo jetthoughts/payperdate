@@ -1,6 +1,7 @@
 -
   name: 'John Smith'
   profile:
+  credits_amount: 10
 -
   name: 'User User'
   profile:

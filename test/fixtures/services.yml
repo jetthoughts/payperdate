@@ -1,13 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  key: MyString
-  name: MyString
-  cost: 1
-  use_service: false
+unlock_price:
+  key: unlock_communication
+  name: unlock
+  cost: 5
+  use_credits: true
 
-two:
-  key: MyString
-  name: MyString
-  cost: 1
-  use_service: false

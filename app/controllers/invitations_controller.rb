@@ -1,6 +1,6 @@
 class InvitationsController < BaseController
 
-  before_action :find_invitation, only: [:accept, :reject, :counter, :destroy]
+  before_action :find_invitation, only: [:accept, :reject, :counter, :destroy, :unlock]
 
   def create
     invitation = current_user.own_invitations.build(invitation_params)
@@ -34,8 +34,10 @@ class InvitationsController < BaseController
 
   def accept
     authorize! :accept, @invitation
+    @invitation.invited_user.messages_sent.create(recipient_id: @invitation.user_id, content: params[:message])
     @invitation.accept
-    render nothing: true
+    #TODO: AJAX
+    redirect_to accepted_invitations_path(@invitation)
   end
 
   def reject
@@ -53,6 +55,13 @@ class InvitationsController < BaseController
     authorize! :destroy, @invitation
     @invitation.destroy!
     render nothing: true
+  end
+
+  def unlock
+    authorize! :unlock, @invitation
+    @invitation.unlock
+    flash[:alert] = @invitation.errors.full_messages.join(" ") if @invitation.errors.any?
+    redirect_to accepted_invitations_path
   end
 
   private

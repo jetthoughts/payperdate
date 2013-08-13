@@ -19,17 +19,29 @@ class Ability
       can :invite, User do |u|
         user.can_invite?(u)
       end
+
       can :destroy, Invitation do |invitation|
         invitation.can_be_deleted_by?(user)
       end
+
       can :reject, Invitation do |invitation|
         invitation.can_be_rejected_by?(user)
       end
+
       can :accept, Invitation do |invitation|
         invitation.can_be_accepted_by?(user)
       end
+
       can :counter, Invitation do |invitation|
         invitation.can_be_countered_by?(user)
+      end
+
+      can :unlock, Invitation do |invitation|
+        invitation.can_be_unlocked_by?(user)
+      end
+
+      can :communicated, Invitation do |invitation|
+        invitation.can_be_communicated?
       end
 
       can :send_wink, User do |u|

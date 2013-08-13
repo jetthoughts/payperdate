@@ -45,6 +45,7 @@ class AdminAbility
           can :manage, CreditsPackage
           can :manage, Transaction
           can :manage, Service
+          can :manage, CommunicationCost
         end
       end
 

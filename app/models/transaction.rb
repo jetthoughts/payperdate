@@ -62,6 +62,25 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  def action
+    if trackable.is_a? CommunicationCost
+      I18n.t("credit_transaction.keys.#{key}",
+            owner_name: owner.name,
+            recipient_name: recipient.name,
+            amount: "#{amount} #{'credit'.pluralize(amount)}")
+    elsif trackable.is_a? CreditsPackage
+      I18n.t("credit_transaction.keys.#{key}",
+             name: trackable.to_s,
+             username: owner.name,
+             amount: amount)
+    else
+      I18n.t("credit_transaction.keys.#{key}",
+             name: trackable.to_s,
+             username: recipient.name,
+             amount: amount)
+    end
+  end
+
   private
 
   def setup_trackable
@@ -78,4 +97,5 @@ class Transaction < ActiveRecord::Base
   def description
     credits_package.to_s
   end
+
 end

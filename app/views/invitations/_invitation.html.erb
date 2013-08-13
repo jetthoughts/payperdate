@@ -10,10 +10,7 @@
 
 
   <%- if can? :accept, invitation -%>
-    <%= link_to t('invitations.accept'),
-                accept_invitation_path(invitation),
-                remote: true,
-                data:   { disable_with: '...', confirm: t('are_you_sure'), method: :post } %>
+      <%= render 'accept_link', { invitation: invitation } -%>
   <% end %>
 
   <%- if can? :reject, invitation -%>
@@ -29,5 +26,16 @@
                 invitation_path(invitation),
                 remote: true,
                 data:   { disable_with: '...', confirm: t('are_you_sure'), method: :delete } %>
+  <%- end -%>
+
+  <%- if can? :unlock, invitation -%>
+      <%= link_to t('.unlock'),
+                  unlock_invitation_path(invitation),
+                  data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: CommunicationCost.get(invitation.amount).cost), method: :post } %>
+  <%- end -%>
+
+  <%- if can? :communicated, invitation -%>
+      <%= link_to "Messages",
+                  new_user_message_path(invitation.invited_user) %>
   <%- end -%>
 </div>
