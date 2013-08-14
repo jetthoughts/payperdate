@@ -1,8 +1,6 @@
 <% if user.blocked? %>
-	<%= link_to 'Unblock', send("unblock_admin_#{resource}_path", user), method: :put, class: :button %>
-	<br/>
+	<%= link_to 'Unblock', send("unblock_admin_#{resource}_path", user), method: :put %>
 <% else %>
-	<%= link_to 'Block', send("block_admin_#{resource}_path", user), method: :put, class: :button %>
-	<br/>
+	<%= link_to 'Block', send("block_admin_#{resource}_path", user), method: :put %>
 <% end %>
-<%= link_to 'Delete', send("delete_admin_#{resource}_path", user), method: :delete, class: :button %>
+<%= link_to 'Delete', send("delete_admin_#{resource}_path", user), method: :delete %>

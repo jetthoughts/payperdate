@@ -19,17 +19,17 @@ martins:
   general_info_address_line_1: 21 SW 59th Ave
   general_info_address_line_2: ''
   personal_preferences_sex: M
-  personal_preferences_partners_sex: F
-  personal_preferences_relationship: M
-  personal_preferences_want_relationship: D
-  date_preferences_smoker: D
-  date_preferences_drinker: DC
+  # personal_preferences_partners_sex: F
+  # personal_preferences_relationship: M
+  # personal_preferences_want_relationship: D
+  # date_preferences_smoker: D
+  # date_preferences_drinker: DC
   date_preferences_description: Something that would surprise both people involved. I am a very busy
     man and time is go out and meet new friends is not as much as I would like.
     I am interested in a fun person that I can share some private time with.
   date_preferences_accepted_distance_do_care: 'false'
-  optional_info_age: '39'
-  optional_info_height: '191'
+  optional_info_birthday: 02.17.1974
+  optional_info_height: L9
   optional_info_smoker: O
   optional_info_drinker: N
   optional_info_children: N
@@ -63,16 +63,16 @@ mias:
   general_info_address_line_1: 940 Sylvania Blvd
   general_info_address_line_2: ''
   personal_preferences_sex: F
-  personal_preferences_partners_sex: M
-  personal_preferences_relationship: D
-  personal_preferences_want_relationship: D
-  date_preferences_smoker: N
-  date_preferences_drinker: N
+  # personal_preferences_partners_sex: M
+  # personal_preferences_relationship: D
+  # personal_preferences_want_relationship: D
+  # date_preferences_smoker: N
+  # date_preferences_drinker: N
   date_preferences_description: I'm not picky as long as we are able to have some time to talk and
     connect with each other.
   date_preferences_accepted_distance_do_care: 'false'
-  optional_info_age: '25'
-  optional_info_height: '173'
+  optional_info_birthday: 09.27.1984
+  optional_info_height: M7
   optional_info_smoker: N
   optional_info_drinker: N
   optional_info_children: C1
@@ -106,11 +106,11 @@ sophias:
   general_info_address_line_1: 5920 SW 16th St
   general_info_address_line_2: ''
   personal_preferences_sex: F
-  personal_preferences_partners_sex: M
-  personal_preferences_relationship: D
-  personal_preferences_want_relationship: D
-  date_preferences_smoker: D
-  date_preferences_drinker: DC
+  # personal_preferences_partners_sex: M
+  # personal_preferences_relationship: D
+  # personal_preferences_want_relationship: D
+  # date_preferences_smoker: D
+  # date_preferences_drinker: DC
   date_preferences_description: My ideal first date consists of inviting company, delectable food
     and an amazing atmosphere. Sexy music ( think Beres Hammond, Greggory Issac)
     and tropical drinks are a very welcome bonus (well maybe that should be the
@@ -126,8 +126,8 @@ sophias:
     you decide to spoil me madly I will not object (smile).
   date_preferences_accepted_distance: '50'
   date_preferences_accepted_distance_do_care: 'true'
-  optional_info_age: '39'
-  optional_info_height: '163'
+  optional_info_birthday: 11.19.1975
+  optional_info_height: M6
   optional_info_smoker: N
   optional_info_drinker: N
   optional_info_children: N
@@ -157,19 +157,19 @@ roberts:
   general_info_address_line_1: 6456 SW 10th Terrace
   general_info_address_line_2: ''
   personal_preferences_sex: M
-  personal_preferences_partners_sex: F
-  personal_preferences_relationship: S
-  personal_preferences_want_relationship: D
-  date_preferences_smoker: N
-  date_preferences_drinker: N
+  # personal_preferences_partners_sex: F
+  # personal_preferences_relationship: S
+  # personal_preferences_want_relationship: D
+  # date_preferences_smoker: N
+  # date_preferences_drinker: N
   date_preferences_description: This is a tough one, some dates have gone really well. Some not so
     much. Definitely depends on chemistry! Other than that I would say the perfect
     date would be a mix between a nice dinner somewhere (preferably somewhere outdoors
     or by the water) and a night out with some music in the background and upbeat
     vibe (Say the shoreclub on a Friday).
   date_preferences_accepted_distance_do_care: 'false'
-  optional_info_age: '29'
-  optional_info_height: '168'
+  optional_info_birthday: 04.03.1988
+  optional_info_height: M65
   optional_info_smoker: N
   optional_info_drinker: N
   optional_info_children: N
@@ -196,20 +196,20 @@ rias:
   general_info_tagline: Hi guys.
   general_info_description: I'm funny, smart, honest woman. With me you will not miss.
   personal_preferences_sex: F
-  personal_preferences_partners_sex: M
-  personal_preferences_relationship: D
-  personal_preferences_want_relationship: D
+  # personal_preferences_partners_sex: M
+  # personal_preferences_relationship: D
+  # personal_preferences_want_relationship: D
+  # date_preferences_smoker: N
+  # date_preferences_drinker: N
   date_preferences_accepted_distance:
   date_preferences_accepted_distance_do_care: 'false'
-  date_preferences_smoker: N
-  date_preferences_drinker: N
   date_preferences_description: First date should be romantic with flowers and candles.
-  optional_info_age: 23
+  optional_info_birthday: 06.05.1990
   optional_info_education: B
   optional_info_occupation: Work and study
   optional_info_annual_income:
   optional_info_net_worth:
-  optional_info_height: 165
+  optional_info_height: M65
   optional_info_body_type: S
   optional_info_religion: O
   optional_info_ethnicity: W

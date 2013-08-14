@@ -1,5 +1,7 @@
-<% if user.blocked_for? current_user %>
-	<%= link_to 'Unblock', unblock_user_path(user), class: 'btn', method: :post %>
-<% else %>
-	<%= link_to 'Block', block_user_path(user), class: 'btn', method: :post %>
+<% if user && current_user.id != user.id %>
+	<% if user.blocked_for? current_user %>
+		<%= link_to 'Unblock', unblock_user_path(user), class: 'btn', method: :post %>
+	<% else %>
+		<%= link_to 'Block', block_user_path(user), class: 'btn', method: :post %>
+	<% end %>
 <% end %>

@@ -1,13 +1,38 @@
 extend ProfilesHelper
 
-editable_form do |f|
-  edit_link '#address'
+form_for profile, url: admin_profile_path(profile) do |f|
+  span do
+    link_to 'Edit', '#address', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
-    editable_row :general_info_address_line_1, profile: profile, f: f, with: :profanity, &editable_text
-    editable_row :general_info_address_line_2, profile: profile, f: f, with: :profanity, &editable_text
-    editable_row :general_info_city, profile: profile, f: f, with: :profanity, &editable_text
-    editable_row :general_info_state, profile: profile, f: f, with: :profanity, &editable_text
-    editable_row :general_info_zip_code, profile: profile, f: f, with: :profanity, &editable_text
-    edit_submit f
+    row :general_info_address_line_1, class: 'profile-inline-edit'
+    row :general_info_address_line_1_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :general_info_address_line_1, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :general_info_address_line_2, class: 'profile-inline-edit'
+    row :general_info_address_line_2_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :general_info_address_line_2, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :general_info_city, class: 'profile-inline-edit'
+    row :general_info_city_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :general_info_city, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :general_info_state, class: 'profile-inline-edit'
+    row :general_info_state_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :general_info_state, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :general_info_zip_code, class: 'profile-inline-edit'
+    row :general_info_zip_code_edit, class: 'profile-hide profile-inline-edit' do
+      f.text_field :general_info_zip_code, class: 'profile-hide profile-inline-edit'
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end
