@@ -70,6 +70,8 @@ gem 'formtastic'
 gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'draper', '>= 1.0.0'
+
+#FIXME: @XsErG please update to jetthoughts/mandrill-api
 gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
 
 gem 'obscenity' # profanity filter, used only to help approver
@@ -97,7 +99,9 @@ group :development do
   gem 'binding_of_caller', require: false
   gem 'pry-rails'
   gem 'awesome_print'
-  gem 'push2heroku', github: "XsErG/push2heroku"
+
+  #FIXME: @XsErG please update to jetthoughts/push2heroku
+  gem 'push2heroku', github: 'XsErG/push2heroku'
   gem 'heroku'
 end
 
