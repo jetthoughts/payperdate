@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AvatarsControllerTest < ActionController::TestCase
-  fixtures :users, :profiles, :avatars
+  fixtures :users, :profiles, :profile_multiselects, :avatars
 
   def setup
     sign_in users(:martin)

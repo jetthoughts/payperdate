@@ -1,17 +1,81 @@
 extend ProfilesHelper
-editable_form do |f|
-  edit_link '#profile_info'
+
+form_for profile, url: admin_profile_path(profile) do |f|
+  span do
+    link_to 'Edit', '#profile_info', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
     row :auto_user
-    editable_row :personal_preferences_sex, profile: profile, f: f, with: :select,
-                 type: 'sex', &(editable_select 'sex')
-    editable_row :personal_preferences_partners_sex, profile: profile, f: f, with: :select,
-                 type: 'sex', &(editable_select 'sex')
-    editable_row :optional_info_age, profile: profile, f: f, &(editable_number 16, 100)
-    editable_row :personal_preferences_relationship, profile: profile, f: f, with: :select,
-                 type: 'relationship', &(editable_select 'relationship')
-    editable_row :personal_preferences_want_relationship, profile: profile, f: f, with: :select,
-                 type: 'want_relationship', &(editable_select 'want_relationship')
-    edit_submit f
+
+    row :personal_preferences_sex, class: 'profile-inline-edit' do
+      select_title('sex', profile.personal_preferences_sex)
+    end
+    row :personal_preferences_sex_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :personal_preferences_sex, select_options('sex'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :personal_preferences_partners_sex, class: 'profile-inline-edit' do
+      type = profile.personal_preferences_partners_sex_multiselect.first.select_type
+      profile.personal_preferences_partners_sex_multiselect.where(checked: true).pluck(:value)
+          .map { |e| select_title(type, e) }.join(" / ")
+    end
+    row :personal_preferences_partners_sex_edit, class: 'profile-hide profile-inline-edit' do
+      profile.personal_preferences_partners_sex_multiselect.each do |select|
+        div do
+          span do
+            check_box_tag("profile[personal_preferences_partners_sex_multiselect][]", select.value, select.checked)
+          end
+          span do
+            select_title(select.select_type, select.value)
+          end
+        end
+      end
+    end
+
+    row :optional_info_birthday, class: 'profile-inline-edit'
+    row :optional_info_birthday_edit, class: 'profile-hide profile-inline-edit' do
+      f.date_field :optional_info_birthday, class: 'profile-hide profile-inline-edit'
+    end
+
+    row :personal_preferences_relationship, class: 'profile-inline-edit' do
+      type = profile.personal_preferences_relationship_multiselect.first.select_type
+      profile.personal_preferences_relationship_multiselect.where(checked: true).pluck(:value)
+          .map { |e| select_title(type, e) }.join(" / ")
+    end
+    row :personal_preferences_relationship_edit, class: 'profile-hide profile-inline-edit' do
+      profile.personal_preferences_relationship_multiselect.each do |select|
+        div do
+          span do
+            check_box_tag("profile[personal_preferences_relationship_multiselect][]", select.value, select.checked)
+          end
+          span do
+            select_title(select.select_type, select.value)
+          end
+        end
+      end
+    end
+
+    row :personal_preferences_want_relationship, class: 'profile-inline-edit' do
+      type = profile.personal_preferences_want_relationship_multiselect.first.select_type
+      profile.personal_preferences_want_relationship_multiselect.where(checked: true).pluck(:value)
+          .map { |e| select_title(type, e) }.join(" / ")
+    end
+    row :personal_preferences_want_relationship_edit, class: 'profile-hide profile-inline-edit' do
+      profile.personal_preferences_want_relationship_multiselect.each do |select|
+        div do
+          span do
+            check_box_tag("profile[personal_preferences_want_relationship_multiselect][]", select.value, select.checked)
+          end
+          span do
+            select_title(select.select_type, select.value)
+          end
+        end
+      end
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end

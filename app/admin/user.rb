@@ -56,13 +56,21 @@ ActiveAdmin.register User do
     column :email
     column :nickname
     column :state
-    column :actions do |user|
-      render 'admin/user/customer_care_actions', user: user, resource: :user
+    column 'actions' do |user|
+      span do
+        link_to 'Profile', admin_profile_path(user.published_profile)
+      end
+      span do
+        link_to 'View', admin_user_path(user)
+      end
+      span do
+        link_to 'Edit', edit_admin_user_path(user)
+      end
+      span do
+        render 'admin/user/customer_care_actions', user: user, resource: :user
+      end
     end
-    column do |user|
-      link_to 'Profile', edit_admin_profile_path(user.profile)
-    end
-    default_actions
+    # default_actions
   end
 
   form do |f|

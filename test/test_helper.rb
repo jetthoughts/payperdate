@@ -15,11 +15,19 @@ class ActiveSupport::TestCase
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures = false
+
+  setup do
+    Delayed::Worker.delay_jobs = true
+  end
 end
 
 class ActionController::TestCase
   include Devise::TestHelpers
   include Payperdate::TestHelpers
+
+  setup do
+    Delayed::Worker.delay_jobs = true
+  end
 end
 
 if ENV['INTEGRATION_TESTS']

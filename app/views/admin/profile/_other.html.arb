@@ -1,23 +1,48 @@
 extend ProfilesHelper
 
-editable_form do |f|
-  edit_link '#other'
+form_for profile, url: admin_profile_path(profile) do |f|
+  span do
+    link_to 'Edit', '#other', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
-    # select_row :optional_info_religion, 'religion'
-    editable_row :optional_info_religion, profile: profile, f: f, with: :select,
-                 type: 'religion', &(editable_select 'religion')
-    # select_row :optional_info_ethnicity, 'ethnicity'
-    editable_row :optional_info_ethnicity, profile: profile, f: f, with: :select,
-                 type: 'ethnicity', &(editable_select 'ethnicity')
-    # select_row :optional_info_children, 'children'
-    editable_row :optional_info_children, profile: profile, f: f, with: :select,
-                 type: 'children', &(editable_select 'children')
-    # select_row :optional_info_smoker, 'me_smoker'
-    editable_row :optional_info_smoker, profile: profile, f: f, with: :select,
-                 type: 'me_smoker', &(editable_select 'me_smoker')
-    # select_row :optional_info_drinker, 'me_drinker'
-    editable_row :optional_info_drinker, profile: profile, f: f, with: :select,
-                 type: 'me_drinker', &(editable_select 'me_drinker')
-    edit_submit f
+    row :optional_info_religion, class: 'profile-inline-edit' do
+      select_title('religion', profile.optional_info_religion)
+    end
+    row :optional_info_religion_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_religion, select_options('religion'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_ethnicity, class: 'profile-inline-edit' do
+      select_title('ethnicity', profile.optional_info_ethnicity)
+    end
+    row :optional_info_ethnicity_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_ethnicity, select_options('ethnicity'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_children, class: 'profile-inline-edit' do
+      select_title('children', profile.optional_info_children)
+    end
+    row :optional_info_children_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_children, select_options('children'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_smoker, class: 'profile-inline-edit' do
+      select_title('me_smoker', profile.optional_info_smoker)
+    end
+    row :optional_info_smoker_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_smoker, select_options('me_smoker'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_drinker, class: 'profile-inline-edit' do
+      select_title('me_drinker', profile.optional_info_drinker)
+    end
+    row :optional_info_drinker_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_drinker, select_options('me_drinker'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end
