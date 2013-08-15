@@ -32,13 +32,31 @@ module ActivityTracker
   def track_user_block(target)
     activities.create action:  :block,
                       subject: target,
-                      details: { issuer: self }
+                      details: { issuer_id: self.id }
   end
 
   def track_user_unblock(target)
     activities.create action:  :unblock,
                       subject: target,
-                      details: { issuer: self }
+                      details: { issuer_id: self.id }
+  end
+
+  def track_user_delete(issuer = self)
+    activities.create action:  :delete,
+                      subject: self,
+                      details: { issuer_id: issuer.id }
+  end
+
+  def track_user_delete_by_admin(admin)
+    activities.create action:  :deleted_by_admin,
+                      subject: self,
+                      details: { admin_id: admin.id }
+  end
+
+  def track_user_restore(admin)
+    activities.create action:  :restore,
+                      subject: self,
+                      details: { admin_id: admin.id }
   end
 
 end

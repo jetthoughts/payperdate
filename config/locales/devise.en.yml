@@ -22,6 +22,7 @@ en:
       timeout: 'Your session expired, please sign in again to continue.'
       inactive: 'Your account was not activated yet.'
       blocked: 'Your account is blocked.'
+      deleted: 'This account was deleted'
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'
@@ -43,6 +44,9 @@ en:
         inactive: 'inactive'
         unconfirmed: 'unconfirmed'
         locked: 'locked'
+      edit:
+        confirm: 'Are you sure?'
+      deleted_contact_support: 'User with this email was deleted. Please contact support to restore your account'
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account was successfully unlocked. You are now signed in.'
