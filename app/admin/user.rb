@@ -1,7 +1,8 @@
 ActiveAdmin.register User do
-  scope :all
-  scope :active
+  scope :all, :non_deleted
+  scope :active, default: true
   scope :blocked
+  scope :deleted
 
   filter :email
   filter :name
@@ -32,15 +33,17 @@ ActiveAdmin.register User do
   end
 
   member_action :delete, method: :delete do
-    user = User.find(params[:id])
-    authorize! :delete, User
-    user.delete_account!
+    delete_user User.find(params[:id])
     redirect_to [:admin, :users]
   end
 
-  batch_action :delete_account do |selection|
-    authorize! :delete, User
-    User.find(selection).each { |user| user.delete_account! }
+  member_action :restore, method: :put do
+    restore_user User.find(params[:id])
+    redirect_to [:admin, :users]
+  end
+
+  batch_action :destroy do |selection|
+    User.find(selection).each { |user| delete_user(user) }
     redirect_to [:admin, :users]
   end
 
@@ -51,23 +54,25 @@ ActiveAdmin.register User do
   end
 
   index do
+    deleted_scope = params['scope'] == 'deleted'
     selectable_column
     column :name
     column :email
     column :nickname
     column :state
-    column 'actions' do |user|
+    column :deleted_state if deleted_scope
+    column :actions do |user|
       span do
         link_to 'Profile', admin_profile_path(user.published_profile)
       end
       span do
-        link_to 'View', admin_user_path(user)
+        link_to 'View', admin_user_path(user) unless deleted_scope
       end
       span do
-        link_to 'Edit', edit_admin_user_path(user)
+        link_to 'Edit', edit_admin_user_path(user) unless deleted_scope
       end
       span do
-        render 'admin/user/customer_care_actions', user: user, resource: :user
+        render 'admin/user/customer_care_actions', user: user, resource: :user, deleted_scope: deleted_scope
       end
     end
     # default_actions
@@ -80,7 +85,12 @@ ActiveAdmin.register User do
       f.input :nickname
       f.input :password
       f.input :password_confirmation
-      f.input :state, as: :select, collection: f.object.class.state_machines[:state].states.keys, include_blank: false
+      f.input :state, as: :select,
+              collection: f.object.class.state_machines[:state].states.keys,
+              include_blank: false
+      f.input :deleted_state, as: :select,
+              collection: f.object.class.state_machines[:deleted_state].states.keys,
+              include_blank: false
     end
     f.actions
   end
@@ -99,6 +109,27 @@ ActiveAdmin.register User do
       authorize! :block, User
       user.block!
       sign_out(user)
+    end
+
+    def delete_user user
+      authorize! :delete, User
+      user.delete_by_admin!
+      sign_out(user)
+      track_delete_activity(user)
+    end
+
+    def restore_user user
+      authorize! :restore, User
+      user.restore!
+      track_restore_activity(user)
+    end
+
+    def track_delete_activity(user)
+      user.track_user_delete_by_admin(current_admin_user)
+    end
+
+    def track_restore_activity(user)
+      user.track_user_restore(current_admin_user)
     end
   end
 

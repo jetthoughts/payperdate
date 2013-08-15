@@ -3,11 +3,13 @@ ActiveAdmin.register Profile do
 
   scope :approve_queue, default: true
   scope :published
+  scope :archived
 
   show title: -> p { p.name } do |profile|
+    editable = profile.auto_user.deleted_state == 'none'
     extend ProfilesHelper
     render 'admin/profile/approval_queue_navigation'
-    render 'admin/profile/profile'
+    render 'admin/profile/profile', editable: editable
   end
 
   member_action :approve, method: :put do
@@ -18,29 +20,31 @@ ActiveAdmin.register Profile do
   end
 
   action_item only: :show do
-    unless profile.reviewed?
-      span do
-        link_to 'Approve', approve_admin_profile_path(profile), method: :put, class: :button
-      end
-    end
-    # FIXME: it is ugly
-    begin
-      authorize! :block, User
-      authorized_to_block_user = true
-    rescue
-      authorized_to_block_user = false
-    end
-    # /FIXME
-    if authorized_to_block_user
-      span do
-        if profile.auto_user.blocked?
-          link_to 'Unblock', unblock_admin_user_path(profile.auto_user), method: :put, class: :button
-        else
-          link_to 'Block', block_admin_user_path(profile.auto_user), method: :put, class: :button
+    if profile.auto_user.deleted_state == 'none'
+      unless profile.reviewed?
+        span do
+          link_to 'Approve', approve_admin_profile_path(profile), method: :put, class: :button
         end
       end
-      span do
-        link_to 'Delete', delete_admin_user_path(profile.auto_user), method: :delete, class: :button
+      # FIXME: it is ugly
+      begin
+        authorize! :block, User
+        authorized_to_block_user = true
+      rescue
+        authorized_to_block_user = false
+      end
+      # /FIXME
+      if authorized_to_block_user
+        span do
+          if profile.auto_user.blocked?
+            link_to 'Unblock', unblock_admin_user_path(profile.auto_user), method: :put, class: :button
+          else
+            link_to 'Block', block_admin_user_path(profile.auto_user), method: :put, class: :button
+          end
+        end
+        span do
+          link_to 'Delete', delete_admin_user_path(profile.auto_user), method: :delete, class: :button
+        end
       end
     end
   end
@@ -78,13 +82,10 @@ ActiveAdmin.register Profile do
         span do
           link_to 'View', admin_profile_path(profile), class: :button
         end
-        unless profile.reviewed?
+        unless profile.reviewed? || profile.auto_user.deleted_state != 'none'
           span do
             link_to 'Approve', approve_admin_profile_path(profile), method: :put, class: :button
           end
-        end
-        span do
-          link_to 'Edit', edit_admin_profile_path(profile), class: :button
         end
       end
     end

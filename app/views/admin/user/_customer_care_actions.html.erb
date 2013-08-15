@@ -1,6 +1,12 @@
-<% if user.blocked? %>
-	<%= link_to 'Unblock', send("unblock_admin_#{resource}_path", user), method: :put %>
-<% else %>
-	<%= link_to 'Block', send("block_admin_#{resource}_path", user), method: :put %>
+<% unless deleted_scope %>
+	<% if user.blocked? %>
+		<%= link_to 'Unblock', send("unblock_admin_#{resource}_path", user), method: :put %>
+	<% else %>
+		<%= link_to 'Block', send("block_admin_#{resource}_path", user), method: :put %>
+	<% end %>
 <% end %>
-<%= link_to 'Delete', send("delete_admin_#{resource}_path", user), method: :delete %>
+<% if user.deleted? %>
+	<%= link_to 'Restore', send("restore_admin_#{resource}_path", user), method: :put %>
+<% else %>
+	<%= link_to 'Delete', send("delete_admin_#{resource}_path", user), method: :delete %>
+<% end %>

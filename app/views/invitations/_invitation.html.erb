@@ -2,6 +2,9 @@
   <% inviter = invitation.friend(current_user) %>
 
   <%= link_to inviter.name, user_profile_path(inviter) -%>
+  <% if inviter.deleted? %>
+    <span class="label">Deleted</span>
+  <% end %>
   <%= invitation.message -%>
   <%= number_to_currency(invitation.amount) -%>
   <%- if invitation.reject_reason.present? -%>

@@ -6,6 +6,9 @@
       <%= t :'messages.show.to' -%>
     <% end -%>
     <%= other_user_of_message(@message, current_user).name %>
+    <% if other_user_of_message(@message, current_user).deleted? %>
+      <span class="label">Deleted</span>
+    <% end %>
   </h3>
 </div>
 
