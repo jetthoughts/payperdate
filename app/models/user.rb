@@ -7,14 +7,18 @@ class User < ActiveRecord::Base
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
+  has_many :sended_gifts, class_name: "Gift", dependent: :destroy
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
   has_many :messages_sent, class_name: 'Message', inverse_of: :sender, foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
-  has_many :credits
 
-  # blocking
+  has_many :credits, ->{ where(trackable_type: "CreditsPackage") }, as: :owner, class_name: "Transaction"
+
   has_many :block_relationships
   has_many :blocked_users, through: :block_relationships, source: :target
+
+  has_many :transactions, as: :owner
+  has_many :recivied_transactions, class_name: "Transaction", as: :recipient
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy

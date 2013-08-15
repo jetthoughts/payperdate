@@ -91,6 +91,7 @@ end
 
 group :development, :test do
   gem 'capybara'
+  gem 'simplecov', require: false
 end
 
 group :development do
@@ -102,7 +103,6 @@ group :development do
 
   #FIXME: @XsErG please update to jetthoughts/push2heroku
   gem 'push2heroku', github: 'XsErG/push2heroku'
-  gem 'heroku'
 end
 
 group :staging do
