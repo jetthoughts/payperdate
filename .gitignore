@@ -29,3 +29,4 @@ vendor/ruby
 
 public/uploads
 public/assets
+coverage/

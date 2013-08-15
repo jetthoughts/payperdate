@@ -85,19 +85,6 @@ ActiveRecord::Schema.define(version: 20130809063849) do
   add_index "block_relationships", ["target_id"], name: "index_block_relationships_on_target_id", using: :btree
   add_index "block_relationships", ["user_id"], name: "index_block_relationships_on_user_id", using: :btree
 
-  create_table "credits", force: true do |t|
-    t.integer  "credits_package_id",                     null: false
-    t.integer  "user_id",                                null: false
-    t.string   "state",              default: "pending", null: false
-    t.string   "error"
-    t.string   "transaction_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "credits", ["credits_package_id"], name: "index_credits_on_credits_package_id", using: :btree
-  add_index "credits", ["user_id"], name: "index_credits_on_user_id", using: :btree
-
   create_table "credits_packages", force: true do |t|
     t.integer  "price_cents",    default: 0,     null: false
     t.string   "price_currency", default: "USD", null: false
@@ -129,6 +116,7 @@ ActiveRecord::Schema.define(version: 20130809063849) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.integer  "cost",       default: 0,         null: false
   end
 
   create_table "gifts", force: true do |t|
@@ -269,6 +257,26 @@ ActiveRecord::Schema.define(version: 20130809063849) do
     t.datetime "updated_at"
   end
 
+  create_table "transactions", force: true do |t|
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "recipient_id"
+    t.string   "recipient_type"
+    t.integer  "amount"
+    t.string   "key"
+    t.string   "error"
+    t.string   "state",          default: "pending", null: false
+    t.string   "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "transactions", ["owner_id", "owner_type"], name: "index_transactions_on_owner_id_and_owner_type", using: :btree
+  add_index "transactions", ["recipient_id", "recipient_type"], name: "index_transactions_on_recipient_id_and_recipient_type", using: :btree
+  add_index "transactions", ["trackable_id", "trackable_type"], name: "index_transactions_on_trackable_id_and_trackable_type", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "email",                             default: "",       null: false
     t.string   "encrypted_password",                default: "",       null: false
@@ -296,7 +304,7 @@ ActiveRecord::Schema.define(version: 20130809063849) do
     t.boolean  "subscribed",                        default: true
     t.string   "state",                             default: "active"
     t.integer  "avatar_id"
-    t.decimal  "credits_amount",                    default: 0.0,      null: false
+    t.integer  "credits_amount",                    default: 0,        null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

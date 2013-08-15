@@ -41,6 +41,10 @@ ActiveAdmin.register GiftTemplate do
 
     column :name
 
+    column :cost do |gift_template|
+      gift_template.cost
+    end
+
     column :image do |gift_template|
       link_to gift_template.image.url, class: :fancybox_popups do
         image_tag gift_template.image.url(:medium)
@@ -63,6 +67,7 @@ ActiveAdmin.register GiftTemplate do
       row :image do
         image_tag(gift_template.image_url(:medium))
       end
+      row :cost
       row :state
       row :created_at
       row :updated_at
@@ -73,6 +78,7 @@ ActiveAdmin.register GiftTemplate do
   form do |f|
     f.inputs 'Gift template' do
       f.input :name
+      f.input :cost
       f.input :image, hint: f.template.image_tag(f.object.image.url(:medium))
     end
     f.actions

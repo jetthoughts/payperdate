@@ -43,6 +43,8 @@ class AdminAbility
         end
         if admin.get_permissions[:permission_accounting]
           can :manage, CreditsPackage
+          can :manage, Transaction
+          can :manage, Service
         end
       end
 
