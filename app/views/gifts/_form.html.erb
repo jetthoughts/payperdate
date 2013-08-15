@@ -13,6 +13,7 @@
                 <%= f.radio_button :gift_template_id, gift.id, class: 'radio' %>
                 <%= f.label "gift_template_id_#{gift.id}", class: 'gift_label' do %>
                     <span class="gift_name"><%= gift.name %></span>
+                    <span><%= pluralize gift.cost, 'credit' %></span>
                     <%= image_tag gift.image.url(:medium) %>
                 <% end %>
               </div>
