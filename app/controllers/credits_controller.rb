@@ -1,7 +1,7 @@
 class CreditsController < BaseController
 
   def index
-    @credits = current_user.credits.processed.page(params[:page] || 1)
+    @credits = current_user.transactions.page(params[:page] || 1)
   end
 
   def new
