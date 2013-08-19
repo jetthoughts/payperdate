@@ -15,4 +15,5 @@ class ProfileLoaderTest < ActiveSupport::TestCase
     user = User.find(@users['joe'].id)
     assert user.profile.filled?, 'user with profile should have filled profile'
   end
+
 end
