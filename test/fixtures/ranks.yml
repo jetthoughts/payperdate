@@ -1,0 +1,11 @@
+great:
+  name: Great!
+  value: 3
+
+ok:
+  name: OK
+  value: 2
+
+not_so_much:
+  name: Not so much!
+  value: 1

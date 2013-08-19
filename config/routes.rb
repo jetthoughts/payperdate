@@ -55,6 +55,7 @@ Payperdate::Application.routes.draw do
       end
       resources :winks, only: [:create, :index]
       resources :invitations do
+        resources :date_ranks, only: [:new, :create]
         collection do
           get :accepted
           get :rejected

@@ -1,0 +1,25 @@
+<h1>Rank date</h1>
+<%= form_for([@invitation, @date_rank], method: :post) do |f| %>
+  <div class="control-group">
+    <%= f.label :courtesy_rank_id %>
+    <div class="controls">
+      <%= f.select :courtesy_rank_id, options_from_collection_for_select(@ranks, :id, :name) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :punctuality_rank_id %>
+    <div class="controls">
+      <%= f.select :punctuality_rank_id, options_from_collection_for_select(@ranks, :id, :name) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :authenticity_rank_id %>
+    <div class="controls">
+      <%= f.select :authenticity_rank_id, options_from_collection_for_select(@ranks, :id, :name) %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+  </div>
+<% end %>
