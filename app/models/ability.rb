@@ -48,6 +48,14 @@ class Ability
         user.can_wink?(u)
       end
 
+      can :rank, Invitation do |invitation|
+        invitation.can_be_ranked?(user)
+      end
+
+      can :view_rank, Invitation do |invitation|
+        invitation.can_view_rank?(user)
+      end
+
     end
   end
 end

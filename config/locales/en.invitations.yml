@@ -4,6 +4,7 @@ en:
     reject: 'Reject'
     delete: 'Delete'
     unlock: 'Unlock'
+    rank_date: 'Rank date'
     counter_offer: 'Counter offer'
     counter_price: 'You price'
     reject_reason: 'Select reject reason'
