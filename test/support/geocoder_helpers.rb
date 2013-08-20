@@ -59,7 +59,6 @@ Geocoder::Lookup::Test.add_stub(
   []
 )
 
-
 Geocoder::Lookup::Test.add_stub(
   "678 5th Ave, New York, NY 10019",
   [{"latitude"=>40.760848,
@@ -97,3 +96,38 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 
+Geocoder::Lookup::Test.add_stub(
+  "678 5th Ave, New York, NY 10019",
+  [{"latitude"=>40.760848,
+ "longitude"=>-73.97626199999999,
+ "address"=>"678 5th Avenue, New York, NY 10019, USA",
+ "state"=>"New York",
+ "state_code"=>"NY",
+ "country"=>"United States",
+ "country_code"=>"US"}]
+)
+
+Geocoder::Lookup::Test.add_stub(
+  "8 Rue de Londres, Paris, France 75009",
+  [{"latitude"=>48.8769798,
+ "longitude"=>2.3300511,
+ "address"=>"8 Rue de Londres, 75009 Paris, France",
+ "state"=>"Île-de-France",
+ "state_code"=>"IDF",
+ "country"=>"France",
+ "country_code"=>"FR",
+ "postal_code"=>"75009"}]
+)
+
+
+Geocoder::Lookup::Test.add_stub(
+  "8 Rue de Londres, Paris, france 75109",
+  [{"latitude"=>48.8769798,
+ "longitude"=>2.3300511,
+ "address"=>"8 Rue de Londres, 75009 Paris, France",
+ "state"=>"Île-de-France",
+ "state_code"=>"IDF",
+ "country"=>"France",
+ "country_code"=>"FR",
+ "postal_code"=>"75009"}]
+)

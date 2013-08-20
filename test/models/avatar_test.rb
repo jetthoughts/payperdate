@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AvatarTest < ActiveSupport::TestCase
-  fixtures :users, :profiles, :albums
+  fixtures :users, :profiles, :profile_multiselects, :albums
 
   def test_create
     photo = create_sample_avatar

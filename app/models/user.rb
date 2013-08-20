@@ -7,14 +7,18 @@ class User < ActiveRecord::Base
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
+  has_many :sended_gifts, class_name: "Gift", dependent: :destroy
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
   has_many :messages_sent, class_name: 'Message', inverse_of: :sender, foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
-  has_many :credits
 
-  # blocking
+  has_many :credits, ->{ where(trackable_type: "CreditsPackage") }, as: :owner, class_name: "Transaction"
+
   has_many :block_relationships
   has_many :blocked_users, through: :block_relationships, source: :target
+
+  has_many :transactions, as: :owner
+  has_many :recivied_transactions, class_name: "Transaction", as: :recipient
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
@@ -27,6 +31,7 @@ class User < ActiveRecord::Base
   before_create { create_profile }
   before_create { create_published_profile }
   after_save :update_subscription, if: :subscribed_changed?
+  after_save :enqueue_for_approval, if: :free_form_fields_changed?
 
   scope :reverse_order, -> { order('users.created_at DESC, users.id DESC') }
   scope :active, -> { where(state: 'active') }
@@ -61,11 +66,13 @@ class User < ActiveRecord::Base
     where(arel_table[:last_sign_in_at].lt(Time.now - days.to_i.days))
   }
 
+  # TODO: check if this is covered by test.
   def self.by_age_ranging(start_age, end_age)
     if start_age or end_age
-      conditions = Profile.arel_table[:optional_info_age].eq(nil)
-      conditions = conditions.or(Profile.arel_table[:optional_info_age].gteq(start_age)) if start_age
-      conditions = conditions.or(Profile.arel_table[:optional_info_age].lteq(end_age)) if end_age
+      birthday_field = Profile.arel_table[:optional_info_birthday]
+      conditions = birthday_field.eq(nil)
+      conditions = conditions.or(birthday_field.gteq(Date.today - end_age.to_i.year)) if end_age
+      conditions = conditions.or(birthday_field.lteq(Date.today - start_age.to_i.year)) if start_age
     end
 
     joins(:profile).where(conditions)
@@ -108,6 +115,11 @@ class User < ActiveRecord::Base
     self.find_by(email: login) || self.find_by(nickname: login)
   end
 
+  def can_communicated_with?(user)
+    communication = UsersCommunication.where(["(owner_id = ? AND recipient_id = ?) OR (owner_id = ? AND recipient_id = ?)",self.id,user.id,user.id,self.id]).first
+    communication && communication.unlocked || false
+  end
+
   def unsubscribe!
     update! subscribed: true
   end
@@ -145,7 +157,11 @@ class User < ActiveRecord::Base
 
   #TODO: das ist fantastisch
   def age
-    22
+    published_profile && published_profile.filled? && published_profile.optional_info_age || 22
+  end
+
+  def enqueue_for_approval
+    profile.enqueue_for_approval
   end
 
   def operate_with_himself?(user)
@@ -159,8 +175,7 @@ class User < ActiveRecord::Base
   end
 
   def add_credits(credits_count)
-    self.credits_amount += credits_count
-    save!
+    update!(credits_amount: self.credits_amount + credits_count)
   end
 
   private
@@ -179,5 +194,9 @@ class User < ActiveRecord::Base
 
   def notify_account_was_deleted
     NotificationMailer.user_was_deleted(email, name)
+  end
+
+  def free_form_fields_changed?
+    [name_changed?, nickname_changed?].any?
   end
 end

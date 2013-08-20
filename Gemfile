@@ -70,6 +70,8 @@ gem 'formtastic'
 gem 'kaminari'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'draper', '>= 1.0.0'
+
+#FIXME: @XsErG please update to jetthoughts/mandrill-api
 gem 'mandrill-api', github: 'XsErG/mandrill-api', require: 'mandrill'
 
 gem 'obscenity' # profanity filter, used only to help approver
@@ -83,20 +85,26 @@ gem 'geocoder'
 gem 'nude'
 gem 'face'
 
-gem 'airbrake'
+group :staging, :production do
+  gem 'airbrake'
+end
 
 group :development, :test do
   gem 'capybara'
+  gem 'simplecov', require: false
+  gem 'poltergeist'
+  gem 'capybara-screenshot'
+  gem 'awesome_print'
+
 end
 
 group :development do
   gem 'quiet_assets'
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'better_errors', require: false
+  gem 'binding_of_caller', require: false
   gem 'pry-rails'
-  gem 'awesome_print'
-  gem 'push2heroku', github: "XsErG/push2heroku"
-  gem 'heroku'
+  #FIXME: @XsErG please update to jetthoughts/push2heroku
+  gem 'push2heroku', github: 'XsErG/push2heroku'
 end
 
 group :staging do

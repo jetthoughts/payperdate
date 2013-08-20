@@ -1,15 +1,41 @@
 extend ProfilesHelper
 
-editable_form do |f|
-  edit_link '#physical_features'
+form_for profile, url: admin_profile_path(profile) do |f|
+  span do
+    link_to 'Edit', '#physical_features', class: 'profile-inline-edit-activate'
+  end
+
   attributes_table_for profile do
-    editable_row :optional_info_height, profile: profile, f: f, with: :cm, &(editable_number 130, 300)
-    editable_row :optional_info_body_type, profile: profile, f: f, with: :select,
-                 type: 'body_type', &(editable_select 'body_type')
-    editable_row :optional_info_hair_color, profile: profile, f: f, with: :select,
-                 type: 'hair_color', &(editable_select 'hair_color')
-    editable_row :optional_info_eye_color, profile: profile, f: f, with: :select,
-                 type: 'eye_color', &(editable_select 'eye_color')
-    edit_submit f
+    row :optional_info_height, class: 'profile-inline-edit' do
+      select_title('height', profile.optional_info_height)
+    end
+    row :optional_info_height_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_height, select_options('height'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_body_type, class: 'profile-inline-edit' do
+      select_title('body_type', profile.optional_info_body_type)
+    end
+    row :optional_info_body_type_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_body_type, select_options('body_type'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_hair_color, class: 'profile-inline-edit' do
+      select_title('hair_color', profile.optional_info_hair_color)
+    end
+    row :optional_info_hair_color_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_hair_color, select_options('hair_color'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row :optional_info_eye_color, class: 'profile-inline-edit' do
+      select_title('eye_color', profile.optional_info_eye_color)
+    end
+    row :optional_info_eye_color_edit, class: 'profile-hide profile-inline-edit' do
+      f.select :optional_info_eye_color, select_options('eye_color'), class: 'profile-hide profile-inline-edit'
+    end
+
+    row 'Submit', class: 'profile-hide profile-inline-edit' do
+      f.submit class: 'button profile-hide profile-inline-edit'
+    end
   end
 end

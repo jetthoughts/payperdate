@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130808083702) do
+ActiveRecord::Schema.define(version: 20130816083824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,18 +85,15 @@ ActiveRecord::Schema.define(version: 20130808083702) do
   add_index "block_relationships", ["target_id"], name: "index_block_relationships_on_target_id", using: :btree
   add_index "block_relationships", ["user_id"], name: "index_block_relationships_on_user_id", using: :btree
 
-  create_table "credits", force: true do |t|
-    t.integer  "credits_package_id",                     null: false
-    t.integer  "user_id",                                null: false
-    t.string   "state",              default: "pending", null: false
-    t.string   "error"
-    t.string   "transaction_id"
+  create_table "communication_costs", force: true do |t|
+    t.integer  "start_amount_cents",    default: 0,     null: false
+    t.string   "start_amount_currency", default: "USD", null: false
+    t.integer  "end_amount_cents",      default: 0,     null: false
+    t.string   "end_amount_currency",   default: "USD", null: false
+    t.integer  "cost"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "credits", ["credits_package_id"], name: "index_credits_on_credits_package_id", using: :btree
-  add_index "credits", ["user_id"], name: "index_credits_on_user_id", using: :btree
 
   create_table "credits_packages", force: true do |t|
     t.integer  "price_cents",    default: 0,     null: false
@@ -129,6 +126,7 @@ ActiveRecord::Schema.define(version: 20130808083702) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.integer  "cost",       default: 0,         null: false
   end
 
   create_table "gifts", force: true do |t|
@@ -147,14 +145,16 @@ ActiveRecord::Schema.define(version: 20130808083702) do
 
   create_table "invitations", force: true do |t|
     t.string   "message"
-    t.integer  "amount",          default: 0,         null: false
-    t.integer  "user_id",                             null: false
-    t.integer  "invited_user_id",                     null: false
-    t.boolean  "counter",         default: false,     null: false
-    t.string   "state",           default: "pending", null: false
+    t.integer  "amount_cents",           default: 0,         null: false
+    t.string   "amount_currency",        default: "USD",     null: false
+    t.integer  "user_id",                                    null: false
+    t.integer  "invited_user_id",                            null: false
+    t.boolean  "counter",                default: false,     null: false
+    t.string   "state",                  default: "pending", null: false
     t.string   "reject_reason"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "communication_unlocked", default: false
   end
 
   add_index "invitations", ["invited_user_id", "counter"], name: "index_invitations_on_invited_user_id_and_counter", using: :btree
@@ -202,6 +202,16 @@ ActiveRecord::Schema.define(version: 20130808083702) do
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
+  create_table "profile_multiselects", force: true do |t|
+    t.integer  "profile_id"
+    t.string   "name"
+    t.string   "select_type"
+    t.string   "value"
+    t.boolean  "checked"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "profile_notes", force: true do |t|
     t.string   "text",          null: false
     t.integer  "profile_id",    null: false
@@ -228,20 +238,14 @@ ActiveRecord::Schema.define(version: 20130808083702) do
     t.string   "general_info_tagline"
     t.text     "general_info_description"
     t.string   "personal_preferences_sex"
-    t.string   "personal_preferences_partners_sex"
-    t.string   "personal_preferences_relationship"
-    t.string   "personal_preferences_want_relationship"
     t.string   "date_preferences_accepted_distance"
     t.string   "date_preferences_accepted_distance_do_care"
-    t.string   "date_preferences_smoker"
-    t.string   "date_preferences_drinker"
     t.text     "date_preferences_description"
-    t.integer  "optional_info_age"
     t.string   "optional_info_education"
     t.string   "optional_info_occupation"
     t.string   "optional_info_annual_income"
-    t.integer  "optional_info_net_worth"
-    t.integer  "optional_info_height"
+    t.string   "optional_info_net_worth"
+    t.string   "optional_info_height"
     t.string   "optional_info_body_type"
     t.string   "optional_info_religion"
     t.string   "optional_info_ethnicity"
@@ -250,17 +254,39 @@ ActiveRecord::Schema.define(version: 20130808083702) do
     t.string   "optional_info_children"
     t.string   "optional_info_smoker"
     t.string   "optional_info_drinker"
+    t.date     "optional_info_birthday"
+    t.string   "nickname_cache"
+    t.string   "name_cache"
   end
 
   create_table "services", force: true do |t|
     t.string   "key"
     t.string   "name"
-    t.integer  "cost_cents",    default: 0,     null: false
-    t.string   "cost_currency", default: "USD", null: false
+    t.integer  "cost",        default: 0, null: false
     t.boolean  "use_credits"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "transactions", force: true do |t|
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "recipient_id"
+    t.string   "recipient_type"
+    t.integer  "amount"
+    t.string   "key"
+    t.string   "error"
+    t.string   "state",          default: "pending", null: false
+    t.string   "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "transactions", ["owner_id", "owner_type"], name: "index_transactions_on_owner_id_and_owner_type", using: :btree
+  add_index "transactions", ["recipient_id", "recipient_type"], name: "index_transactions_on_recipient_id_and_recipient_type", using: :btree
+  add_index "transactions", ["trackable_id", "trackable_type"], name: "index_transactions_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                             default: "",       null: false
@@ -289,7 +315,7 @@ ActiveRecord::Schema.define(version: 20130808083702) do
     t.boolean  "subscribed",                        default: true
     t.string   "state",                             default: "active"
     t.integer  "avatar_id"
-    t.decimal  "credits_amount",                    default: 0.0,      null: false
+    t.integer  "credits_amount",                    default: 0,        null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -297,6 +323,16 @@ ActiveRecord::Schema.define(version: 20130808083702) do
   add_index "users", ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "users_communications", force: true do |t|
+    t.integer  "owner_id"
+    t.integer  "recipient_id"
+    t.boolean  "unlocked",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users_communications", ["owner_id", "recipient_id"], name: "index_users_communications_on_owner_id_and_recipient_id", unique: true, using: :btree
 
   create_table "wink_templates", force: true do |t|
     t.string   "name",                       null: false

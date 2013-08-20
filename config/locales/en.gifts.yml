@@ -18,3 +18,4 @@ en:
             base:
               cant_send_gift_to_self: "It's not possible to send gift to self"
               cant_send_disabled_gifts: "This gift is disabled. You couldn't send it to anybody"
+              cant_send_gift_with_this_price: "Gift cost greate than your balance."

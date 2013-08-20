@@ -56,7 +56,7 @@ task setup_sample_data: :environment do
   end
 
   %w(camomile rose roses).each do |gift_name|
-    GiftTemplate.create name: gift_name, image: File.open(Rails.root.join('db', 'sample_data', 'gift_templates', "#{gift_name}.jpg"))
+    GiftTemplate.create name: gift_name, cost: 10, image: File.open(Rails.root.join('db', 'sample_data', 'gift_templates', "#{gift_name}.jpg"))
   end
 
   credits_packages = [
@@ -69,6 +69,16 @@ task setup_sample_data: :environment do
     CreditsPackage.create package
   end
 
+  communication_costs = [
+    {start_amount: 5,   end_amount: 50,  cost: 10},
+    {start_amount: 51,  end_amount: 80,  cost: 20},
+    {start_amount: 81,  end_amount: 120, cost: 30},
+    {start_amount: 121, end_amount: 0,   cost: 40}
+  ]
+
+  communication_costs.each do |cost|
+    CommunicationCost.create cost
+  end
 
   puts 'Setting up users..'
 

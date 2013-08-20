@@ -44,11 +44,11 @@
               = f.label 'Who are you?'
               %div= f.select :personal_preferences_sex, select_options('sex')
               = f.label 'Looking for?'
-              %div= f.select :personal_preferences_partners_sex, select_options('sex')
+              %div= render 'me/profiles/multiselect', value: @profile.personal_preferences_partners_sex_multiselect
               = f.label 'Relationship status'
-              %div= f.select :personal_preferences_relationship, select_options('relationship')
+              %div= render 'me/profiles/multiselect', value: @profile.personal_preferences_relationship_multiselect
               = f.label 'What are you looking for'
-              %div= f.select :personal_preferences_want_relationship, select_options('want_relationship')
+              %div= render 'me/profiles/multiselect', value: @profile.personal_preferences_want_relationship_multiselect
               .row
                 %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_date_pref' }
                   Next
@@ -75,10 +75,10 @@
                   I don't care
                   %a.btn{ href: '#', 'data-bind' => '{ click: datePreferences.acceptedDistance.doCare }' } Do care
                   / /ko
-              = f.label 'Smoking and drinking habits of partner'
-              %div
-                = f.select :date_preferences_smoker, select_options('smoker')
-                = f.select :date_preferences_drinker, select_options('drinker')
+              = f.label 'Smoking habits of partner'
+              %div= render 'me/profiles/multiselect', value: @profile.date_preferences_smoker_multiselect
+              = f.label 'Drinking habits of partner'
+              %div= render 'me/profiles/multiselect', value: @profile.date_preferences_drinker_multiselect
               %div= f.text_area :date_preferences_description, placeholder: 'Description for the date', rows: 5, class: :span11
               .row
                 %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_optional_info' }
@@ -89,8 +89,8 @@
               Optional info about yourself
           .accordion-body.collapse#collapse_optional_info
             .accordion-inner
-              = f.label :age
-              %div= f.number_field :optional_info_age, min: 16, max: 100
+              = f.label :birthday
+              %div= f.date_field :optional_info_birthday
               = f.label :education
               %div
                 = f.select :optional_info_education, select_options('education')
@@ -100,11 +100,11 @@
                   %i.icon-question-sign= ' '
               %div
                 = f.text_field :optional_info_occupation, placeholder: 'Occupation'
-                = f.number_field :optional_info_annual_income, placeholder: 'Annual income', 'data-toggle' => 'tooltip', title: 'Your yearly income with applied taxes', rel: :tooltip, min: 0
-                = f.number_field :optional_info_net_worth, placeholder: 'Net worth', 'data-toggle' => 'tooltip', title: 'The amount by which your assets exceed your liabilities', rel: :tooltip, min: 0
+                = f.select :optional_info_annual_income, select_options('income'), 'data-toggle' => 'tooltip', title: 'Your yearly income with applied taxes', rel: :tooltip
+                = f.select :optional_info_net_worth, select_options('net_worth'), 'data-toggle' => 'tooltip', title: 'The amount by which your assets exceed your liabilities', rel: :tooltip
               = f.label :physique
               %div
-                = f.number_field :optional_info_height, placeholder: 'Height in cm', min: 0
+                = f.select :optional_info_height, select_options('height')
                 = f.select :optional_info_body_type, select_options('body_type')
               = f.label :religion
               %div= f.select :optional_info_religion, select_options('religion')

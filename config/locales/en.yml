@@ -25,6 +25,11 @@ en:
   max_distance: "Maximum Distance"
   are_you_sure: 'Are you sure?'
   unsubscribed: "Your email removed from subscribe"
+  credit_transaction:
+    keys:
+      send_gift: "Sended gift '%{name}' to %{username} with amount %{amount} credits."
+      purchased_credits: "Purchased %{name}"
+      unlock_communication: "%{owner_name} unlocked communication with %{recipient_name} for %{amount}"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
@@ -41,6 +46,10 @@ en:
       required_field: 'Field is required'
       invalid_address: 'Address is invalid'
       invalid_zipcode: 'Invalid zipcode. We expected %{zipcode}'
+  invitations:
+    invitation:
+      unlock_confirm: 'Do you confirm payment %{credits} credits for unlock messages?'
+      unlock: 'Unlock'
   activerecord:
     errors:
       models:
@@ -50,6 +59,8 @@ en:
               size_too_big: 'Size too big'
         invitation:
           attributes:
+            base:
+              cant_unlocked_invitation: 'Your balans less then price of unlock message'
             invited_user_id:
               cant_invite_himself: 'You cant invite yourself'
               already_sent: 'Invitation already sent'

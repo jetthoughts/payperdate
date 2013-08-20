@@ -1,11 +1,11 @@
 class CreditsController < BaseController
 
   def index
-    @credits = current_user.credits.processed.page(params[:page] || 1)
+    @credits = current_user.transactions.page(params[:page] || 1)
   end
 
   def new
-    @credit = Credit.new
+    @credit = Transaction.new
   end
 
   def create
@@ -14,13 +14,13 @@ class CreditsController < BaseController
   end
 
   def update
-    @credit = Credit.find(params[:id])
+    @credit = Transaction.with_credits_package.find(params[:id])
     @credit.update_attributes(credit_params)
     save_and_redirect_to_paypal @credit
   end
 
   def complete_purchase
-    @credit = Credit.find(params[:id])
+    @credit = Transaction.with_credits_package.find(params[:id])
     if @credit.complete_purchase(params[:token], params[:PayerID])
       redirect_to credits_path, notice: t('credits.was_added')
     else
@@ -31,7 +31,7 @@ class CreditsController < BaseController
   private
 
   def credit_params
-    params.require(:credit).permit(:credits_package_id)
+    params.require(:transaction).permit(:trackable_id)
   end
 
   def save_and_redirect_to_paypal credit

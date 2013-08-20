@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ProfileTest < ActiveSupport::TestCase
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_multiselects
 
   test 'should be invalid if address is incorrect' do
     profile = Profile.create  general_info_address_line_1: '5th avenue',
@@ -37,7 +37,7 @@ class ProfileTest < ActiveSupport::TestCase
                              general_info_city: 'Paris',
                              general_info_state: 'France',
                              general_info_zip_code: '75009'
-    assert profile.obtained_zipcode == '75009'
+    assert_equal profile.obtained_zipcode, '75009'
     assert profile.valid_zipcode?
   end
 
@@ -46,7 +46,7 @@ class ProfileTest < ActiveSupport::TestCase
                              general_info_city: 'Paris',
                              general_info_state: 'france',
                              general_info_zip_code: '75109'
-    assert profile.obtained_zipcode == '75009'
+    assert_equal profile.obtained_zipcode, '75009'
     refute profile.valid_zipcode?
   end
 
@@ -59,25 +59,21 @@ class ProfileTest < ActiveSupport::TestCase
 
   test 'should be invalid if age lesser or equal 0' do
     profile = profiles(:martins)
-    profile.optional_info_age = 15
+    profile.optional_info_birthday = Date.today + 15.year
     refute profile.valid?
   end
 
-  test 'should be invalid if annual income lesser or equal 0' do
-    profile = profiles(:martins)
-    profile.optional_info_annual_income = -15
-    refute profile.valid?
+  test 'should update only pending profile when admin changes published' do
+    published_profile = profiles(:sophias)
+
+    new_profile_info_tagline = 'Something intolerant'
+    old_profile_info_tagline = published_profile.general_info_tagline
+
+    published_profile.general_info_tagline = new_profile_info_tagline
+    published_profile.save!
+
+    assert_equal new_profile_info_tagline, profiles(:sophias_pending).general_info_tagline
+    assert_equal old_profile_info_tagline, profiles(:sophias).general_info_tagline
   end
 
-  test 'should be invalid if annual net worth lesser or equal 0' do
-    profile = profiles(:martins)
-    profile.optional_info_net_worth = -15
-    refute profile.valid?
-  end
-
-  test 'should be invalid if annual height lesser or equal 0' do
-    profile = profiles(:martins)
-    profile.optional_info_height = -15
-    refute profile.valid?
-  end
 end

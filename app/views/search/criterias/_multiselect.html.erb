@@ -1,0 +1,11 @@
+<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+  <% selects[subtype].each do |select| %>
+      <li>
+        <label class="checkbox">
+          <% checked = params[:q][:"#{section}_#{key}_multiselect"] && params[:q][:"#{section}_#{key}_multiselect"].include?(select[:key]) %>
+          <%= check_box_tag("q[#{section}_#{key}_multiselect][]", select[:key], checked) %>
+          <span><%= select[:title] %></span>
+        </label>
+      </li>
+  <% end %>
+</ul>

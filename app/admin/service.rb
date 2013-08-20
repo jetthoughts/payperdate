@@ -8,9 +8,7 @@ ActiveAdmin.register Service do
     selectable_column
 
     column :name
-    column :cost do |service|
-      number_to_currency(service.cost)
-    end
+    column :cost
 
     column :use_credits
     

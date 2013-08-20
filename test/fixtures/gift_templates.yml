@@ -1,7 +1,16 @@
-kitten:
-  image: 'tmp/img/image.jpeg'
-  state: enabled
-
-dark_kitten:
-  image: 'tmp/img/image.jpeg'
+camomile:
+  name: 'camomile'
+  cost: 5
+  image: 'db/sample_data/gift_templates/camomile.jpg'
   state: disabled
+
+rose:
+  name: 'rose'
+  cost: 6
+  image: 'db/sample_data/gift_templates/rose.jpg'
+
+roses:
+  name: 'roses'
+  cost: 24
+  image: 'db/sample_data/gift_templates/roses.jpg'
+
