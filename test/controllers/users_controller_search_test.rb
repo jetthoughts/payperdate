@@ -100,6 +100,13 @@ class UsersControllerSearchTest < ActionController::TestCase
     assert_equal 1, all_users.count
   end
 
+  test 'user should not be able to see deleted users in search' do
+    users(:mia).delete!
+    get :index
+    assert_equal 3, all_users.count
+    assert all_users_are { |e| !e.deleted? }
+  end
+
   private
 
   def all_users
@@ -124,13 +131,15 @@ class UsersControllerSearchTest < ActionController::TestCase
 
   def want_female
     -> e {
-      e.profile.personal_preferences_partners_sex_multiselect.where(checked: true).pluck(:value).include? 'F'
+      e.profile.personal_preferences_partners_sex_multiselect
+          .where(checked: true).pluck(:value).include? 'F'
     }
   end
 
   def want_male
     -> e {
-      e.profile.personal_preferences_partners_sex_multiselect.where(checked: true).pluck(:value).include? 'M'
+      e.profile.personal_preferences_partners_sex_multiselect
+          .where(checked: true).pluck(:value).include? 'M'
     }
   end
 

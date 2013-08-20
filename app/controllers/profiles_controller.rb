@@ -4,6 +4,7 @@ class ProfilesController < BaseController
   before_filter :ensure_user_has_filled_profile
   before_filter :require_filled_profile
   before_filter :check_if_user_is_blocked
+  before_filter :check_if_user_is_deleted
 
   def show
   end
@@ -18,6 +19,13 @@ class ProfilesController < BaseController
   def check_if_user_is_blocked
     if @user.blocked?
       flash[:alert] = t 'users.errors.user_blocked'
+      redirect_to root_path
+    end
+  end
+
+  def check_if_user_is_deleted
+    if @user.deleted?
+      flash[:alert] = I18n.t('flash.profiles.deleted.alert')
       redirect_to root_path
     end
   end

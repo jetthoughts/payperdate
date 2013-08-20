@@ -23,17 +23,17 @@ class Me::MessagesController < BaseController
 
   def unread
     @messages = Message.received_by(current_user).unread
-    render 'index'
+    render :index
   end
 
   def received
     @messages = Message.received_by(current_user)
-    render 'index'
+    render :index
   end
 
   def sent
     @messages = Message.sent_by(current_user)
-    render 'index'
+    render :index
   end
 
   private

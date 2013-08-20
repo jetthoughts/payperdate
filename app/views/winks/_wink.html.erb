@@ -1,5 +1,8 @@
 <div>
   <div>
+  	<% if wink.user.deleted? %>
+  		<span class="label">Deleted</span>
+  	<% end %>
     <%= link_to wink.user.name, user_profile_path(wink.user) -%>
     <%= format_date (wink.created_at) -%>
   </div>
