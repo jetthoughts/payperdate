@@ -141,6 +141,61 @@ sophias:
   optional_info_occupation: Transportation
   optional_info_annual_income:
 
+sophias_pending:
+  filled: true
+  reviewed: false
+  latitude: 25.75593
+  longitude: -80.2920819
+  general_info_city: Miami
+  general_info_state: Florida
+  general_info_tagline: Glass Half Full..
+  general_info_zip_code: '33155'
+  general_info_description: Here is a brief description of myself...mature,smart,sexy, cerebral,
+    passionate, loyal, caring, trustworthy,understanding young lady. I have had
+    a variety of life experiences and I like to live life to the fullest! I am not
+    a conventional person and I don't like to be placed in a box. I have always
+    been a more progressive thinker but I was placed in this world ahead of my time.
+    I have a very youthful appearance and although I will be flirty forty this year
+    I am often told by people that have nothing to gain that I look like I am in
+    my late twenties. I'll take that (smile) how about you?
+  general_info_address_line_1: 5920 SW 16th St
+  general_info_address_line_2: ''
+  personal_preferences_sex: F
+  # personal_preferences_partners_sex: M
+  # personal_preferences_relationship: D
+  # personal_preferences_want_relationship: D
+  # date_preferences_smoker: D
+  # date_preferences_drinker: DC
+  date_preferences_description: My ideal first date consists of inviting company, delectable food
+    and an amazing atmosphere. Sexy music ( think Beres Hammond, Greggory Issac)
+    and tropical drinks are a very welcome bonus (well maybe that should be the
+    second date) ha-ha. I want to feel like the lady that I am. I love a gentleman
+    (opening car doors, pulling out my chair);however, if that isn't your thing
+    I will be a soldier and open my own door (I may not agree to a second date)
+    :) Even though I am a forward thinker I like to indulge my sense of femininity
+    in this ambiguous world of political correctness when interacting with the opposite
+    sex (smile). In other words, by all means treat me like a lady. I am not looking
+    for payment for the first date (or any date for that matter). I just want to
+    show up,look beautiful,engage you in stimulating conversation, and have a great
+    time (and not pay for or go dutch for dinner...old school). If we click and
+    you decide to spoil me madly I will not object (smile).
+  date_preferences_accepted_distance: '50'
+  date_preferences_accepted_distance_do_care: 'true'
+  optional_info_birthday: 1975-11-19
+  optional_info_height: M6
+  optional_info_smoker: N
+  optional_info_drinker: N
+  optional_info_children: N
+  optional_info_religion: C
+  optional_info_body_type: Av
+  optional_info_education: S
+  optional_info_ethnicity: O
+  optional_info_eye_color: brown
+  optional_info_net_worth:
+  optional_info_hair_color: DBro
+  optional_info_occupation: Transportation
+  optional_info_annual_income:
+
 roberts:
   filled: true
   reviewed: true

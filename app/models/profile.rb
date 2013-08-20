@@ -148,6 +148,7 @@ class Profile < ActiveRecord::Base
   attr_accessor :inner_dont_care_about_review_notifications
   attr_accessor :inner_dont_care_about_geocoding
   attr_accessor :inner_shouldnt_be_auto_approved
+  attr_accessor :inner_changed_by_approving
 
   multiselect_accessor :profile_multiselects, :personal_preferences_partners_sex, 'sex'
   multiselect_accessor :profile_multiselects, :personal_preferences_want_relationship, 'want_relationship'
@@ -221,6 +222,8 @@ class Profile < ActiveRecord::Base
 
   before_validation :regeocode, unless: :inner_dont_care_about_geocoding # auto-fetch coordinates
 
+  before_save :update_current_profile_and_discard_changes_to_published, if: :need_move_changes_to_current_profile?
+
   after_save :cache_filled
 
   after_save :enqueue_for_approval, if: :free_form_fields_changed?
@@ -289,6 +292,7 @@ class Profile < ActiveRecord::Base
   def approve
     self.inner_shouldnt_be_auto_approved = true
     update! reviewed: true
+    published_version.inner_changed_by_approving = true
     published_version.inner_dont_care_about_geocoding = true
     published_version.inner_dont_care_about_review_notifications = true
     published_version.inner_shouldnt_be_auto_approved = true
@@ -307,6 +311,20 @@ class Profile < ActiveRecord::Base
         notify_user_about_review_status :queued unless inner_dont_care_about_review_notifications
       end
     end
+  end
+
+  def need_move_changes_to_current_profile?
+    published_version? && (published_version.id != current_version.id) && !inner_changed_by_approving
+  end
+
+  def update_current_profile_and_discard_changes_to_published
+    changed_attributes = { }
+    changed.each do |changed_attribute|
+      changed_attributes[changed_attribute] = send(changed_attribute.to_sym)
+    end
+    changed_attributes['reviewed'] = false
+    current_version.update! changed_attributes
+    reload
   end
 
   def profane?
