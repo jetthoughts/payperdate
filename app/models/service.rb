@@ -1,3 +1,10 @@
 class Service < ActiveRecord::Base
-  monetize :cost_cents, numericality: { greater_than_or_equal_to: 0 }
+  def self.get(service_key)
+    find_by(key: service_key.to_s, use_credits: true)
+  end
+
+  def self.get_price(service_key)
+    service = get(service_key)
+    service.cost.to_f if service
+  end
 end

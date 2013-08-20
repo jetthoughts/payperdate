@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809063849) do
+ActiveRecord::Schema.define(version: 20130816083824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,16 @@ ActiveRecord::Schema.define(version: 20130809063849) do
   add_index "block_relationships", ["target_id"], name: "index_block_relationships_on_target_id", using: :btree
   add_index "block_relationships", ["user_id"], name: "index_block_relationships_on_user_id", using: :btree
 
+  create_table "communication_costs", force: true do |t|
+    t.integer  "start_amount_cents",    default: 0,     null: false
+    t.string   "start_amount_currency", default: "USD", null: false
+    t.integer  "end_amount_cents",      default: 0,     null: false
+    t.string   "end_amount_currency",   default: "USD", null: false
+    t.integer  "cost"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "credits_packages", force: true do |t|
     t.integer  "price_cents",    default: 0,     null: false
     t.string   "price_currency", default: "USD", null: false
@@ -135,14 +145,16 @@ ActiveRecord::Schema.define(version: 20130809063849) do
 
   create_table "invitations", force: true do |t|
     t.string   "message"
-    t.integer  "amount",          default: 0,         null: false
-    t.integer  "user_id",                             null: false
-    t.integer  "invited_user_id",                     null: false
-    t.boolean  "counter",         default: false,     null: false
-    t.string   "state",           default: "pending", null: false
+    t.integer  "amount_cents",           default: 0,         null: false
+    t.string   "amount_currency",        default: "USD",     null: false
+    t.integer  "user_id",                                    null: false
+    t.integer  "invited_user_id",                            null: false
+    t.boolean  "counter",                default: false,     null: false
+    t.string   "state",                  default: "pending", null: false
     t.string   "reject_reason"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "communication_unlocked", default: false
   end
 
   add_index "invitations", ["invited_user_id", "counter"], name: "index_invitations_on_invited_user_id_and_counter", using: :btree
@@ -250,8 +262,7 @@ ActiveRecord::Schema.define(version: 20130809063849) do
   create_table "services", force: true do |t|
     t.string   "key"
     t.string   "name"
-    t.integer  "cost_cents",    default: 0,     null: false
-    t.string   "cost_currency", default: "USD", null: false
+    t.integer  "cost",        default: 0, null: false
     t.boolean  "use_credits"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -312,6 +323,16 @@ ActiveRecord::Schema.define(version: 20130809063849) do
   add_index "users", ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "users_communications", force: true do |t|
+    t.integer  "owner_id"
+    t.integer  "recipient_id"
+    t.boolean  "unlocked",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users_communications", ["owner_id", "recipient_id"], name: "index_users_communications_on_owner_id_and_recipient_id", unique: true, using: :btree
 
   create_table "wink_templates", force: true do |t|
     t.string   "name",                       null: false

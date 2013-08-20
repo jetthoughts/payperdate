@@ -115,6 +115,11 @@ class User < ActiveRecord::Base
     self.find_by(email: login) || self.find_by(nickname: login)
   end
 
+  def can_communicated_with?(user)
+    communication = UsersCommunication.where(["(owner_id = ? AND recipient_id = ?) OR (owner_id = ? AND recipient_id = ?)",self.id,user.id,user.id,self.id]).first
+    communication && communication.unlocked || false
+  end
+
   def unsubscribe!
     update! subscribed: true
   end
@@ -170,8 +175,7 @@ class User < ActiveRecord::Base
   end
 
   def add_credits(credits_count)
-    self.credits_amount += credits_count
-    save!
+    update!(credits_amount: self.credits_amount + credits_count)
   end
 
   private

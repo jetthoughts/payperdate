@@ -1,0 +1,30 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start_amount_cents: 500
+  start_amount_currency: 'USD'
+  end_amount_cents: 5000
+  end_amount_currency: 'USD'
+  cost: 10
+
+two:
+  start_amount_cents: 5100
+  start_amount_currency: 'USD'
+  end_amount_cents: 8000
+  end_amount_currency: 'USD'
+  cost: 20
+
+three:
+  start_amount_cents: 8100
+  start_amount_currency: 'USD'
+  end_amount_cents: 12000
+  end_amount_currency: 'USD'
+  cost: 30
+
+four:
+  start_amount_cents: 12100
+  start_amount_currency: 'USD'
+  end_amount_cents: 000
+  end_amount_currency: 'USD'
+  cost: 40
+

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+locked_communication_paul_lily:
+  owner: paul
+  recipient: lily
+  unlocked: false
+
+locked_communication_john_lily:
+  owner: john
+  recipient: lily
+  unlocked: false
+
+locked_communications_martin_mia:
+  owner: martin
+  recipient: mia
+  unlocked: false
+
+unlocked_communications_john_paul:
+  owner: john
+  recipient: paul
+  unlocked: true
