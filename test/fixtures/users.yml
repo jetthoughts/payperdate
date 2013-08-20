@@ -7,6 +7,8 @@ paul:
   confirmed_at: <%= Time.current %>
   profile: pauls
   published_profile: pauls
+  credits_amount: 100
+
 
 # User without completed profile filled
 john:
@@ -28,6 +30,8 @@ martin:
   confirmed_at: <%= Time.current %>
   profile: martins
   published_profile: martins
+  credits_amount: 100
+
 
 # Another user with completed profile filled
 mia:

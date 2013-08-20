@@ -6,5 +6,4 @@ class CreditsPackage < ActiveRecord::Base
   def to_s
     "%d credits for %.2f %s" % [credits, price, price_currency]
   end
-
 end

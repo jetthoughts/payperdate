@@ -1,15 +1,17 @@
 class Invitation < ActiveRecord::Base
+  monetize :amount_cents, numericality: { greater_than_or_equal_to: 0 }
+
   belongs_to :user
   belongs_to :invited_user, class_name: 'User'
 
   validates :user, :invited_user, presence: true
-  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :validate_user_can_invite_himself
   validate :validate_user_can_blocked_by_self
   validate :validate_user_can_blocker
   validate :validate_already_sent, on: :create
 
   after_commit :notify_recipient, on: :create
+  after_create :create_users_communication
 
   state_machine :state, :initial => :pending do
     event :accept do
@@ -29,8 +31,16 @@ class Invitation < ActiveRecord::Base
 
   end
 
+  sifter :by_users do |user1, user2|
+    (user_id == user1.id) & (invited_user_id == user2.id)
+  end
+
   def self.existing_states
     Invitation.state_machines[:state].states.map(&:value)
+  end
+
+  def self.find_by_users(user1, user2)
+    where{ sift(:by_users, user1, user2) | sift(:by_users, user2, user1) }.first
   end
 
   existing_states.each do |scope_name|
@@ -51,6 +61,15 @@ class Invitation < ActiveRecord::Base
       res
     end
   end
+
+  def can_be_communicated?
+    user.can_communicated_with?(invited_user)
+  end
+
+  def can_be_unlocked_by?(u)
+    accepted? && user == u && !can_be_communicated?
+  end
+
 
   def can_be_countered_by?(u)
     pending? && !counter && invited_user == u
@@ -76,6 +95,17 @@ class Invitation < ActiveRecord::Base
     friend(inviter)
   end
 
+  def unlock
+    if user.credits_amount > communication_cost
+      users_communication = communications
+      users_communication.unlock
+    else
+      self.errors.add(:base, :cant_unlocked_invitation)
+    end
+    errors.empty?
+  end
+
+
   def friend(cur_user)
     cur_user == user ? invited_user : user
   end
@@ -99,6 +129,10 @@ class Invitation < ActiveRecord::Base
     self.errors.add(:invited_user_id, :already_sent) if user.already_invited?(invited_user)
   end
 
+  def validate_user_credits_amount_to_unlock_communication
+    self.errors.add(:base, :cant_unlocked_invitation) if user.credits_amount < communication_cost
+  end
+
   def notify_recipient
     if counter
       InvitationMailer.delay.counter_invitation(self.id)
@@ -107,4 +141,15 @@ class Invitation < ActiveRecord::Base
     end
   end
 
+  def communication_cost
+    @communication_cost ||= CommunicationCost.get(amount).cost
+  end
+
+  def create_users_communication
+     UsersCommunication.where(owner_id: user, recipient_id: invited_user).first_or_create
+  end
+
+  def communications
+    UsersCommunication.find_by_users user, invited_user
+  end
 end

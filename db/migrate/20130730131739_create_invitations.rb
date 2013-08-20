@@ -2,7 +2,7 @@ class CreateInvitations < ActiveRecord::Migration
   def change
     create_table :invitations do |t|
       t.string :message
-      t.integer :amount, null: false, default: 0
+      t.money :amount, null: false, default: 0
       t.references :user, null: false
       t.references :invited_user, null: false
       t.boolean :counter, null: false, default: false
