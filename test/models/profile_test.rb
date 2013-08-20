@@ -63,23 +63,17 @@ class ProfileTest < ActiveSupport::TestCase
     refute profile.valid?
   end
 
-  # This should go away. This fields are not integers now, but selects.
+  test 'should update only pending profile when admin changes published' do
+    published_profile = profiles(:sophias)
 
-  # test 'should be invalid if annual income lesser or equal 0' do
-  #   profile = profiles(:martins)
-  #   profile.optional_info_annual_income = -15
-  #   refute profile.valid?
-  # end
+    new_profile_info_tagline = 'Something intolerant'
+    old_profile_info_tagline = published_profile.general_info_tagline
 
-  # test 'should be invalid if annual net worth lesser or equal 0' do
-  #   profile = profiles(:martins)
-  #   profile.optional_info_net_worth = -15
-  #   refute profile.valid?
-  # end
+    published_profile.general_info_tagline = new_profile_info_tagline
+    published_profile.save!
 
-  # test 'should be invalid if annual height lesser or equal 0' do
-  #   profile = profiles(:martins)
-  #   profile.optional_info_height = -15
-  #   refute profile.valid?
-  # end
+    assert_equal new_profile_info_tagline, profiles(:sophias_pending).general_info_tagline
+    assert_equal old_profile_info_tagline, profiles(:sophias).general_info_tagline
+  end
+
 end
