@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :messages, :block_relationships
+  fixtures :users, :messages, :block_relationships, :users_communications
+
 
   def test_create
     user = User.create! email:    'quux@example.com',
@@ -41,6 +42,17 @@ class UserTest < ActiveSupport::TestCase
     refute users(:ria).blocked_for? users(:robert)
     # check if unblock user just deletes relation, but not target user
     assert User.find(users(:ria).id)
+  end
+
+  def test_can_communicated_with
+    paul = users(:paul)
+    lily = users(:lily)
+    john =  users(:john)
+    users_communications(:unlocked_communications_john_paul)
+    assert paul.can_communicated_with?(john)
+    assert john.can_communicated_with?(paul)
+
+    refute john.can_communicated_with?(lily)
   end
 
 end

@@ -34,6 +34,14 @@ end
 
 if ENV['INTEGRATION_TESTS']
   require 'capybara/rails'
+  require 'capybara/poltergeist'
+  require 'capybara-screenshot/minitest'
+
+  Capybara.current_driver = :poltergeist
+
+  class ActionDispatch::IntegrationTest
+    include Capybara::DSL
+  end
 else
   class ActionDispatch::IntegrationTest
     setup do

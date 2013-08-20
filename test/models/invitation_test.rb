@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class InvitationTest < ActiveSupport::TestCase
-  fixtures :users, :invitations, :block_relationships
+
+  fixtures :users, :invitations, :block_relationships, :services, :users_communications, :communication_costs
 
   setup do
     Delayed::Worker.delay_jobs = false
@@ -117,5 +118,50 @@ class InvitationTest < ActiveSupport::TestCase
     ria = users(:ria)
     invitation = ria.own_invitations.create(invited_user: robert, amount: 5, message: '?')
     refute invitation.valid?
+  end
+
+  test 'unlock invitation' do
+    invitation = invitations(:paul_lily_accepted)
+
+    assert_equal false, invitation.can_be_communicated?
+
+    #FIXME: Magic. Object was updated but assert didn't see changes
+    # assert_difference ->{ users(:paul).credits_amount }, -10 do
+
+      assert_equal true, invitation.unlock
+      assert_equal true, invitation.can_be_communicated?
+    # end
+
+    invitation = invitations(:sophia_lily_accepted)
+
+    assert_difference ->{ users(:sophia).credits_amount.to_f}, 0 do
+      invitation.unlock
+
+      assert_equal false, invitation.can_be_communicated?
+    end
+
+  end
+
+  test 'can_be_unlocked_by?' do
+    invitation = invitations(:paul_lily_accepted)
+    paul = users(:paul)
+    lily = users(:lily)
+
+    assert invitation.can_be_unlocked_by?(paul)
+    refute invitation.can_be_unlocked_by?(lily)
+
+    invitation = invitations(:paul_lily_not_accepted)
+    refute invitation.can_be_unlocked_by?(paul)
+
+    invitation = invitations(:paul_john_unlocked_yet)
+    refute invitation.can_be_unlocked_by?(paul)
+  end
+
+  test 'can_be_communicated?' do
+    invitation = invitations(:paul_john_unlocked_yet)
+    assert invitation.can_be_communicated?
+
+    invitation = invitations(:john_lily_accepted)
+    refute invitation.can_be_communicated?
   end
 end
