@@ -294,6 +294,153 @@ mias_231:
   select_type: drinker
 
 
+sophias_pending_211:
+  profile: sophias_pending
+  name: personal_preferences_partners_sex
+  checked: true
+  value: M
+  select_type: sex
+
+sophias_pending_212:
+  profile: sophias_pending
+  name: personal_preferences_partners_sex
+  checked: false
+  value: F
+  select_type: sex
+
+sophias_pending_217:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: false
+  value: S
+  select_type: relationship
+
+sophias_pending_218:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: true
+  value: D
+  select_type: relationship
+
+sophias_pending_219:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: false
+  value: W
+  select_type: relationship
+
+sophias_pending_220:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: false
+  value: M
+  select_type: relationship
+
+sophias_pending_221:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: false
+  value: Se
+  select_type: relationship
+
+sophias_pending_222:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: false
+  value: Da
+  select_type: relationship
+
+sophias_pending_223:
+  profile: sophias_pending
+  name: personal_preferences_relationship
+  checked: false
+  value: C
+  select_type: relationship
+
+sophias_pending_213:
+  profile: sophias_pending
+  name: personal_preferences_want_relationship
+  checked: false
+  value: S
+  select_type: want_relationship
+
+sophias_pending_214:
+  profile: sophias_pending
+  name: personal_preferences_want_relationship
+  checked: true
+  value: D
+  select_type: want_relationship
+
+sophias_pending_215:
+  profile: sophias_pending
+  name: personal_preferences_want_relationship
+  checked: false
+  value: F
+  select_type: want_relationship
+
+sophias_pending_216:
+  profile: sophias_pending
+  name: personal_preferences_want_relationship
+  checked: false
+  value: A
+  select_type: want_relationship
+
+sophias_pending_224:
+  profile: sophias_pending
+  name: date_preferences_smoker
+  checked: false
+  value: S
+  select_type: smoker
+
+sophias_pending_225:
+  profile: sophias_pending
+  name: date_preferences_smoker
+  checked: true
+  value: N
+  select_type: smoker
+
+sophias_pending_226:
+  profile: sophias_pending
+  name: date_preferences_smoker
+  checked: false
+  value: O
+  select_type: smoker
+
+sophias_pending_227:
+  profile: sophias_pending
+  name: date_preferences_smoker
+  checked: false
+  value: D
+  select_type: smoker
+
+sophias_pending_228:
+  profile: sophias_pending
+  name: date_preferences_drinker
+  checked: false
+  value: D
+  select_type: drinker
+
+sophias_pending_229:
+  profile: sophias_pending
+  name: date_preferences_drinker
+  checked: true
+  value: N
+  select_type: drinker
+
+sophias_pending_230:
+  profile: sophias_pending
+  name: date_preferences_drinker
+  checked: false
+  value: ND
+  select_type: drinker
+
+sophias_pending_231:
+  profile: sophias_pending
+  name: date_preferences_drinker
+  checked: false
+  value: DC
+  select_type: drinker
+
 
 sophias_211:
   profile: sophias
