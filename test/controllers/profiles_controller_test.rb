@@ -118,4 +118,11 @@ class ProfilesControllerTest < ActionController::TestCase
     assert_select 'a', { text: 'Wink', count: 0 }
     assert_select 'button', { text: 'Wink', count: 0 }
   end
+
+  test 'show should redirect to page saying that user was deleted if user was deleted' do
+    users(:sophia).delete!
+    get :show, user_id: users(:sophia)
+    assert_redirected_to root_path
+    assert_equal 'Sorry, but this user was deleted', flash[:alert]
+  end
 end

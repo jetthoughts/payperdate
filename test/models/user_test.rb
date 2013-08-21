@@ -55,4 +55,9 @@ class UserTest < ActiveSupport::TestCase
     refute john.can_communicated_with?(lily)
   end
 
+  def test_delete_user
+    users(:john).delete!
+    assert_equal 'deleted_by_himself', users(:john).deleted_state
+  end
+
 end

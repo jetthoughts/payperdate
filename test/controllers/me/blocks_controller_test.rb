@@ -15,6 +15,13 @@ class Me::BlocksControllerTest < ActionController::TestCase
   test 'should get list of blocked users on index' do
     get :index
     assert_select 'a', 'Ria Condra'
+    assert_select 'span', 'Not deleted' # just hidden span to test
+  end
+
+  test 'should get list with deleted labels' do
+    users(:ria).delete!
+    get :index
+    assert_select 'span', 'Deleted'
   end
 
 end

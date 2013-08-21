@@ -2,7 +2,7 @@
    <%- if resource.unconfirmed_email.present? -%>
     You have unconfired email "<%= resource.unconfirmed_email -%>". Please, confirm it before using our service
    <%- end -%>
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 
   <div><%= f.label :name %>
@@ -31,5 +31,7 @@
 
   <div><%= f.submit "Update" %></div>
 <% end %>
+
+  <div> <%= link_to 'Delete account', user_registration_path, method: :delete, "data-confirm" => t('devise.registrations.edit.confirm') %> </div>
 
 <%= link_to "Back", :back %>

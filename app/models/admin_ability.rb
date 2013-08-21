@@ -20,6 +20,7 @@ class AdminAbility
           can :read, User
           can :block, User
           can :delete, User
+          can :restore, User
 
           can :manage, Profile
           can :read, Profile

@@ -63,4 +63,12 @@ class Users::SessionsControllerTest < ActionController::TestCase
       delete :destroy
     end
   end
+
+  test 'deleted user should not be able to sign in' do
+    users(:martin).delete!
+
+    post :create, user: { email: 'martin', password: 'password' }
+    assert_response :success
+    assert_equal 'This account was deleted', flash[:alert]
+  end
 end
