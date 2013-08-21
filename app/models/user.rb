@@ -144,8 +144,8 @@ class User < ActiveRecord::Base
   end
 
   def can_communicated_with?(user)
-    communication = UsersCommunication.where(["(owner_id = ? AND recipient_id = ?) OR (owner_id = ? AND recipient_id = ?)",self.id,user.id,user.id,self.id]).first
-    communication && communication.unlocked || false
+    communication = UsersCommunication.find_by_users(user, self)
+    communication && (communication.unlocked || communication.recipient == self) || false
   end
 
   def unsubscribe!

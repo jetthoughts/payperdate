@@ -33,6 +33,19 @@ class InvitationTest < ActiveSupport::TestCase
     assert_match /changed proposed amount/, notification.body.to_s
   end
 
+  test 'need_response_from?' do
+    invitation = invitations(:martin_mia_pending)
+    martin = users(:martin)
+    mia = users(:mia)
+    assert invitation.need_response_from?(mia)
+    refute invitation.need_response_from?(martin)
+
+    invitation.make_counter_offer(999)
+
+    assert invitation.need_response_from?(martin)
+    refute invitation.need_response_from?(mia)
+  end
+
   test 'cant invite self' do
     martin = users(:martin)
     invitation = martin.own_invitations.create(invited_user: martin, amount: 5, message: '?')
@@ -121,48 +134,45 @@ class InvitationTest < ActiveSupport::TestCase
   end
 
   test 'unlock invitation' do
-    invitation = invitations(:paul_lily_accepted)
+    invitation = invitations(:paul_john_locked_yet)
 
-    assert_equal false, invitation.can_be_communicated?
+    assert_equal false, invitation.user.can_communicated_with?(invitation.invited_user)
 
     #FIXME: Magic. Object was updated but assert didn't see changes
     # assert_difference ->{ users(:paul).credits_amount }, -10 do
-
       assert_equal true, invitation.unlock
-      assert_equal true, invitation.can_be_communicated?
+      assert_equal true, invitation.user.can_communicated_with?(invitation.invited_user)
     # end
 
-    invitation = invitations(:sophia_lily_accepted)
+    invitation = invitations(:john_lily_locked_yet)
 
-    assert_difference ->{ users(:sophia).credits_amount.to_f}, 0 do
+    assert_difference ->{ users(:john).credits_amount.to_f }, 0 do
       invitation.unlock
-
-      assert_equal false, invitation.can_be_communicated?
+      assert_equal false, invitation.user.can_communicated_with?(invitation.invited_user)
     end
 
   end
 
-  test 'can_be_unlocked_by?' do
-    invitation = invitations(:paul_lily_accepted)
-    paul = users(:paul)
-    lily = users(:lily)
-
-    assert invitation.can_be_unlocked_by?(paul)
-    refute invitation.can_be_unlocked_by?(lily)
-
-    invitation = invitations(:paul_lily_not_accepted)
-    refute invitation.can_be_unlocked_by?(paul)
-
-    invitation = invitations(:paul_john_unlocked_yet)
-    refute invitation.can_be_unlocked_by?(paul)
+  test 'accepted invitation should create user communication' do
+    invitation = invitations(:martin_mia_pending)
+    assert_difference ->{
+      UsersCommunication.where(owner_id: invitation.user, recipient_id: invitation.invited_user).count }, +1 do
+      invitation.accept!
+    end
   end
 
-  test 'can_be_communicated?' do
-    invitation = invitations(:paul_john_unlocked_yet)
-    assert invitation.can_be_communicated?
+  test 'can_be_unlocked_by?' do
+    john = users(:john)
+    lily = users(:lily)
+    sophia = users(:sophia)
 
-    invitation = invitations(:john_lily_accepted)
-    refute invitation.can_be_communicated?
+    invitation = invitations(:john_lily_locked_yet)
+    assert invitation.can_be_unlocked_by?(john)
+    refute invitation.can_be_unlocked_by?(lily)
+
+    invitation = invitations(:sophia_lily_accepted)
+    refute invitation.can_be_unlocked_by?(sophia)
+    refute invitation.can_be_unlocked_by?(lily)
   end
 
   test 'can_be_ranked? by not referenced user' do
@@ -171,7 +181,7 @@ class InvitationTest < ActiveSupport::TestCase
     invitation = invitations(:paul_lily_not_accepted)
     assert !invitation.can_be_ranked?(mia)
 
-    invitation = invitations(:paul_lily_accepted)
+    invitation.accept!
     assert !invitation.can_be_ranked?(mia)
   end
 
@@ -183,44 +193,44 @@ class InvitationTest < ActiveSupport::TestCase
     assert !invitation.can_be_ranked?(paul)
     assert !invitation.can_be_ranked?(lily)
 
-    invitation = invitations(:paul_lily_accepted)
+    invitation.accept!
     assert invitation.can_be_ranked?(paul)
     assert invitation.can_be_ranked?(lily)
   end
 
   test 'ranked?' do
-    paul = users(:paul)
+    john = users(:john)
     lily = users(:lily)
     rank_ok = ranks(:ok)
 
-    invitation = invitations(:paul_lily_accepted)
-    assert !invitation.ranked?(paul)
+    invitation = invitations(:john_lily_locked_yet)
+    assert !invitation.ranked?(john)
     assert !invitation.ranked?(lily)
 
-    invitation.date_ranks.create! user: paul, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
-    assert invitation.ranked?(paul)
+    invitation.date_ranks.create! user: john, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
+    assert invitation.ranked?(john)
     assert !invitation.ranked?(lily)
 
     invitation.date_ranks.create! user: lily, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
-    assert invitation.ranked?(paul)
+    assert invitation.ranked?(john)
     assert invitation.ranked?(lily)
   end
 
   test 'can_view_rank?' do
     mia = users(:mia) # not referenced in invitation user
     paul = users(:paul)
-    lily = users(:lily)
+    john = users(:john)
     rank_ok = ranks(:ok)
 
-    invitation = invitations(:paul_lily_accepted)
+    invitation = invitations(:paul_john_locked_yet)
     assert !invitation.can_view_rank?(mia)
     assert !invitation.can_view_rank?(paul)
-    assert !invitation.can_view_rank?(lily)
+    assert !invitation.can_view_rank?(john)
 
     invitation.date_ranks.create! user: paul, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
     assert !invitation.can_view_rank?(mia)
     assert invitation.can_view_rank?(paul)
-    assert !invitation.can_view_rank?(lily)
+    assert !invitation.can_view_rank?(john)
   end
 
 end

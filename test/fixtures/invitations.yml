@@ -1,6 +1,4 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-# funny
+# pending | not accepted:
 
 martin_mia_pending:
   message: 'Hi. Are you interested in sex with me for 5 bucks?'
@@ -16,7 +14,19 @@ paul_lily_not_accepted:
   user: paul
   invited_user: lily
 
-paul_john_unlocked_yet:
+# countered:
+
+lily_john_countered:
+  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  amount_cents: 500
+  amount_currency: 'USD'
+  user: lily
+  invited_user: john
+  counter: true
+
+# accepted (has users communications):
+
+paul_john_locked_yet:
   message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
@@ -24,12 +34,11 @@ paul_john_unlocked_yet:
   invited_user: john
   state: 'accepted'
 
-
-paul_lily_accepted:
+john_lily_locked_yet:
   message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
-  user: paul
+  user: john
   invited_user: lily
   state: 'accepted'
 
@@ -40,12 +49,3 @@ sophia_lily_accepted:
   user: sophia
   invited_user: lily
   state: 'accepted'
-
-john_lily_accepted:
-  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
-  amount_cents: 500
-  amount_currency: 'USD'
-  user: john
-  invited_user: lily
-  state: 'accepted'
-
