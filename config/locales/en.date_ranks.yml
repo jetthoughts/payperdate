@@ -1,0 +1,12 @@
+en:
+  date_ranks:
+    create:
+      ranked: Date succesfully ranked
+    date_rank:
+
+      courtesy: 'Courtesy:'
+      punctuality: 'Punctuality:'
+      authenticity: 'Authenticity:'
+      prepend: (
+      delimiter: ','
+      append: )
