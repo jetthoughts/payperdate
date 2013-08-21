@@ -3,10 +3,15 @@ class MessagesController < BaseController
   before_filter :load_user
 
   def new
-    @message = current_user.messages_sent.build(recipient: @user)
+    if can? :communicate, @user
+      @message = current_user.messages_sent.build(recipient: @user)
+    else
+      redirect_to user_profile_path(@user), alert: t('messages.messages.can_not_send_to_this_user')
+    end
   end
 
   def create
+    authorize! :communicate, @user
     @message = current_user.messages_sent.build(messages_attributes.merge(recipient: @user))
     if @message.save
       redirect_to user_profile_path(@user), notice: t('messages.messages.was_sent')

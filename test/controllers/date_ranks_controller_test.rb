@@ -1,30 +1,30 @@
 require 'test_helper'
 
-class DateRanksControllerTest < ActionController::TestCase
-  fixtures :invitations, :users, :ranks
+class Me::DateRanksControllerTest < ActionController::TestCase
+  fixtures :users_dates, :users, :ranks
 
   def setup
-    sign_in users(:john)
+    sign_in users(:sophia)
   end
 
   test 'should get new' do
-    get :new, invitation_id: invitations(:john_lily_locked_yet)
+    get :new, users_date_id: users_dates(:unlocked_date_sophia_lily)
     assert_response :success
   end
 
   test 'create should render new with incomplete data' do
     rank_ok = ranks(:ok)
-    post :create, invitation_id: invitations(:john_lily_locked_yet), date_rank: { courtesy_rank_id: rank_ok }
+    post :create, users_date_id: users_dates(:unlocked_date_sophia_lily), date_rank: { courtesy_rank_id: rank_ok }
     assert_response :success
     assert_template :new
   end
 
   test 'create should redirect to accepted invitations with complete data' do
     rank_ok = ranks(:ok)
-    post :create, invitation_id: invitations(:john_lily_locked_yet), date_rank: { courtesy_rank_id:     rank_ok,
-                                                                                punctuality_rank_id:  rank_ok,
-                                                                                authenticity_rank_id: rank_ok }
-    assert_redirected_to accepted_invitations_path
+    post :create, users_date_id: users_dates(:unlocked_date_sophia_lily), date_rank: { courtesy_rank_id:     rank_ok,
+                                                                                       punctuality_rank_id:  rank_ok,
+                                                                                       authenticity_rank_id: rank_ok }
+    assert_redirected_to users_dates_path
   end
 
 end

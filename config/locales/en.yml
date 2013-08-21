@@ -29,7 +29,7 @@ en:
     keys:
       send_gift: "Sended gift '%{name}' to %{username} with amount %{amount} credits."
       purchased_credits: "Purchased %{name}"
-      unlock_communication: "%{owner_name} unlocked communication with %{recipient_name} for %{amount}"
+      unlock_communication: "%{name} unlocked communication with %{username} for %{amount}"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
