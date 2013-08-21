@@ -143,6 +143,9 @@ en:
         notice: 'User has been successfully blocked'
       unblock:
         notice: 'User has been successfully unblocked'
+    profiles:
+      deleted:
+        alert: 'Sorry, but this user was deleted'
 
   number:
     format:

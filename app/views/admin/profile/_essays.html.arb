@@ -4,7 +4,7 @@ form_for profile, url: admin_profile_path(profile) do |f|
   strong 'Marked words are possible profane' if profile.profane?
 
   span do
-    link_to 'Edit', '#essays', class: 'profile-inline-edit-activate'
+    link_to 'Edit', '#essays', class: 'profile-inline-edit-activate' if editable
   end
 
   attributes_table_for profile do

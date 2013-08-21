@@ -2,11 +2,19 @@ extend ProfilesHelper
 
 form_for profile, url: admin_profile_path(profile) do |f|
   span do
-    link_to 'Edit', '#profile_info', class: 'profile-inline-edit-activate'
+    link_to 'Edit', '#profile_info', class: 'profile-inline-edit-activate' if editable
   end
 
   attributes_table_for profile do
-    row :auto_user
+    if editable
+      row :user do
+        profile.auto_user
+      end
+    else
+      row :user do
+        profile.auto_user.name
+      end
+    end
 
     row :personal_preferences_sex, class: 'profile-inline-edit' do
       select_title('sex', profile.personal_preferences_sex)

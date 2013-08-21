@@ -99,7 +99,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
     delete :delete, id: users(:martin).id
     assert_redirected_to admin_users_path
 
-    assert_equal [], User.where(id: users(:martin).id)
+    users(:martin).reload()
+    assert users(:martin).deleted_by_admin?
   end
 
   test 'deleted user should receive notification' do
@@ -115,5 +116,37 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_equal 'Your account has been deleted', deleted_notification.subject
     assert_equal users(:mia).email, deleted_notification.to[0]
     assert_match /your account was deleted/, deleted_notification.body.to_s
+  end
+
+  test 'delete user by admin should track activity' do
+    sign_in admin_users(:admin)
+
+    assert_difference -> { Activity.count }, +1 do
+      delete :delete, id: users(:martin)
+    end
+
+    activities = users(:martin).activities.last(1)
+
+    delete_user_activity = activities[0]
+    assert_equal users(:martin), delete_user_activity.subject
+    assert_equal 'deleted_by_admin', delete_user_activity.action
+    assert_equal "#{admin_users(:admin).id}", delete_user_activity.details['admin_id']
+  end
+
+  test 'restore user should track activity' do
+    sign_in admin_users(:admin)
+
+    users(:martin).delete_by_admin!
+
+    assert_difference -> { Activity.count }, +1 do
+      put :restore, id: users(:martin)
+    end
+
+    activities = users(:martin).activities.last(1)
+
+    restore_user_activity = activities[0]
+    assert_equal users(:martin), restore_user_activity.subject
+    assert_equal 'restore', restore_user_activity.action
+    assert_equal "#{admin_users(:admin).id}", restore_user_activity.details['admin_id']
   end
 end

@@ -8,7 +8,9 @@ div class: 'profile-grid' do
     strong profile.full_address
     br
     div 'Status:'
-    strong 'Active' unless profile.auto_user.blocked?
+    strong profile.auto_user.state
+    div 'Deleted status:'
+    strong profile.auto_user.deleted_state
     strong 'Suspended' if profile.auto_user.blocked?
     br
     div 'Last activity:'

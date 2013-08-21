@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130816083824) do
+ActiveRecord::Schema.define(version: 20130820190537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -316,6 +316,8 @@ ActiveRecord::Schema.define(version: 20130816083824) do
     t.string   "state",                             default: "active"
     t.integer  "avatar_id"
     t.integer  "credits_amount",                    default: 0,        null: false
+    t.string   "deleted_reason"
+    t.string   "deleted_state",                     default: "none"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
