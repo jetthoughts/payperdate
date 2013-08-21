@@ -30,22 +30,8 @@
                 data:   { disable_with: '...', confirm: t('are_you_sure'), method: :delete } %>
   <%- end -%>
 
-  <%- if can? :unlock, invitation -%>
-      <%= link_to t('invitations.unlock'),
-                  unlock_invitation_path(invitation),
-                  data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: CommunicationCost.get(invitation.amount).cost), method: :post } %>
-  <%- end -%>
-
   <%- if can? :communicated, invitation -%>
       <%= link_to "Messages",
                   new_user_message_path(invitation.friend(current_user)) %>
-  <%- end -%>
-
-  <%- if can? :rank, invitation -%>
-    <%= link_to t('invitations.rank_date'), new_invitation_date_rank_path(invitation) %>
-  <%- end -%>
-
-  <%- if can? :view_rank, invitation -%>
-    <%= render 'date_ranks/date_rank', date_rank: invitation.rank_by(current_user) %>
   <%- end -%>
 </div>

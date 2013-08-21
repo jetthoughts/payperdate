@@ -22,5 +22,20 @@ ActiveAdmin.register Transaction do
     column :created_at
   end
 
+  show do |transaction|
+    attributes_table do
+      row :id
+      row :trackable
+      row :owner
+      row :recipient
+      row :amount do |transaction|
+        pluralize transaction.amount, "credit"
+      end
+      row :action
+      row :state
+      row :created_at
+    end
+  end
+
 
 end

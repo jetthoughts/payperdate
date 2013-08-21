@@ -63,10 +63,10 @@ class Transaction < ActiveRecord::Base
   end
 
   def action
-    if trackable.is_a? CommunicationCost
+    if trackable.is_a? UsersDate
       I18n.t("credit_transaction.keys.#{key}",
-            owner_name: owner.name,
-            recipient_name: recipient.name,
+            name: owner.name,
+            username: recipient.name,
             amount: "#{amount} #{'credit'.pluralize(amount)}")
     elsif trackable.is_a? CreditsPackage
       I18n.t("credit_transaction.keys.#{key}",
