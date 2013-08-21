@@ -2,12 +2,14 @@
   <% inviter = invitation.friend(current_user) %>
 
   <%= link_to inviter.name, user_profile_path(inviter) -%>
+  <% if inviter.deleted? %>
+    <span class="label">Deleted</span>
+  <% end %>
   <%= invitation.message -%>
   <%= number_to_currency(invitation.amount) -%>
   <%- if invitation.reject_reason.present? -%>
     (<%= invitation.reject_reason -%>)
   <%- end -%>
-
 
   <%- if can? :accept, invitation -%>
       <%= render 'accept_link', { invitation: invitation } -%>
@@ -29,7 +31,7 @@
   <%- end -%>
 
   <%- if can? :unlock, invitation -%>
-      <%= link_to t('.unlock'),
+      <%= link_to t('invitations.unlock'),
                   unlock_invitation_path(invitation),
                   data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: CommunicationCost.get(invitation.amount).cost), method: :post } %>
   <%- end -%>
@@ -37,5 +39,13 @@
   <%- if can? :communicated, invitation -%>
       <%= link_to "Messages",
                   new_user_message_path(invitation.invited_user) %>
+  <%- end -%>
+
+  <%- if can? :rank, invitation -%>
+    <%= link_to t('invitations.rank_date'), new_invitation_date_rank_path(invitation) %>
+  <%- end -%>
+
+  <%- if can? :view_rank, invitation -%>
+    <%= render 'date_ranks/date_rank', date_rank: invitation.rank_by(current_user) %>
   <%- end -%>
 </div>

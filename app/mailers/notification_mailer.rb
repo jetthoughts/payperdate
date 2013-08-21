@@ -21,6 +21,11 @@ class NotificationMailer < BaseMailer
     deliver_mail mail(to: email, subject: 'Your account has been deleted')
   end
 
+  def user_was_restored(email, name)
+    @name = name
+    deliver_mail mail(to: email, subject: 'Your account has been restored')
+  end
+
   private
 
   def deliver_mail(mail)

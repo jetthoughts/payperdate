@@ -103,13 +103,17 @@ class Profile < ActiveRecord::Base
   end
 
   # scopes
-  scope :approve_queue, -> { where reviewed: false }
+  scope :approve_queue, -> { joins(:user).where(reviewed: false, users: { deleted_state: 'none' }) }
 
-  scope :published, -> { joins(:published_user).where(filled: true) }
+  scope :all_published, -> { joins(:published_user).where(filled: true, reviewed: true) }
 
-  scope :published_and_active, -> { published.where("users.state = 'active'") }
+  scope :published_and_active, -> { all_published.where(users: { state: 'active', deleted_state: 'none' }) }
 
-  scope :active, -> { joins(:user).where("users.state = 'active'") }
+  scope :published, -> { published_and_active }
+
+  scope :archived, -> { joins(:published_user).where(filled: true).where("users.deleted_state != 'none'") }
+
+  scope :active, -> { joins(:user).where(users: { state: 'active' }) }
 
   ransacker :optional_info_age, formatter: -> (v) { Date.today - v.to_i.year } do |parent|
     parent.table[:optional_info_birthday]
@@ -135,11 +139,11 @@ class Profile < ActiveRecord::Base
   end
 
   def next_queued_for_approval
-    Profile.approve_queue.where('id > ?', id).order('id ASC').first
+    Profile.approve_queue.where('profiles.id > ?', id).order('profiles.id ASC').first
   end
 
   def prev_queued_for_approval
-    Profile.approve_queue.where('id < ?', id).order('id DESC').first
+    Profile.approve_queue.where('profiles.id < ?', id).order('profiles.id DESC').first
   end
 
   # accessors

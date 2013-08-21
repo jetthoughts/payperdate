@@ -97,4 +97,16 @@ class Me::MessagesControllerTest < ActionController::TestCase
     assert_not_nil flash[:alert]
   end
 
+  def test_get_all_user_messages_with_deleted_user
+    users(:mia).delete!
+    get :index
+    assert_select 'span', 'Deleted'
+  end
+
+  def test_get_message_show_with_deleted_user
+    users(:mia).delete!
+    get :show, id: messages(:john_message_received_unread)
+    assert_select 'span', 'Deleted'
+  end
+
 end

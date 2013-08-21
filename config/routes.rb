@@ -14,17 +14,9 @@ Payperdate::Application.routes.draw do
              path_names:  { sign_in: 'login', sign_out: 'logout' },
              controllers: { registrations:      'users/registrations',
                             sessions:           'users/sessions',
-                            omniauth_callbacks: 'users/omniauth_callbacks' }
+                            omniauth_callbacks: 'users/omniauth_callbacks',
+                            passwords:          'users/passwords' }
 
-
-  # FIXME: need to cut it.
-  resources :users do
-    resource :profile
-
-    resources :albums, only: :index do
-      resources :photos, only: :index
-    end
-  end
 
   unauthenticated :user do
     root to: 'pages#landing', as: :guest_root
@@ -63,6 +55,7 @@ Payperdate::Application.routes.draw do
       end
       resources :winks, only: [:create, :index]
       resources :invitations do
+        resources :date_ranks, only: [:new, :create]
         collection do
           get :accepted
           get :rejected

@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   has_many :transactions, as: :owner
   has_many :recivied_transactions, class_name: "Transaction", as: :recipient
 
+  has_many :date_ranks, inverse_of: :user
+
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
@@ -34,8 +36,10 @@ class User < ActiveRecord::Base
   after_save :enqueue_for_approval, if: :free_form_fields_changed?
 
   scope :reverse_order, -> { order('users.created_at DESC, users.id DESC') }
-  scope :active, -> { where(state: 'active') }
-  scope :blocked, -> { where(state: 'blocked') }
+  scope :active, -> { where(state: 'active', deleted_state: 'none') }
+  scope :deleted, -> { where "deleted_state != 'none'" }
+  scope :non_deleted, -> { where deleted_state: 'none' }
+  scope :blocked, -> { where(state: 'blocked', deleted_state: 'none') }
   scope :abuse, -> { where(abuse: true) }
   scope :subscribed, -> { where(subscribed: true) }
   scope :unsubscribed, -> { where(subscribed: false) }
@@ -80,6 +84,7 @@ class User < ActiveRecord::Base
 
   state_machine :state, initial: :active do
     after_transition any => :blocked, do: :notify_account_was_blocked
+    after_transition :blocked => :active, do: :enqueue_archived_profile_for_approval
 
     event :block! do
       transition all => :blocked
@@ -91,6 +96,29 @@ class User < ActiveRecord::Base
 
     state :active
     state :blocked
+  end
+
+  state_machine :deleted_state, initial: :none do
+    after_transition any => :deleted_by_admin, do: :notify_account_was_deleted
+    after_transition deleted_by_himself: :none, do: :notify_account_was_restored
+    after_transition deleted_by_admin: :none, do: :notify_account_was_restored
+    after_transition any => :none, do: :enqueue_archived_profile_for_approval
+
+    event :delete! do
+      transition all => :deleted_by_himself
+    end
+
+    event :delete_by_admin! do
+      transition all => :deleted_by_admin
+    end
+
+    event :restore! do
+      transition all => :none
+    end
+
+    state :none
+    state :deleted_by_himself
+    state :deleted_by_admin
   end
 
   attr_accessor :distance
@@ -128,12 +156,6 @@ class User < ActiveRecord::Base
     update! subscribed: false
   end
 
-  #FIXME: We do not have accounts. Need to rename this.
-  def delete_account!
-    destroy!
-    notify_account_was_deleted
-  end
-
   def block_user(user)
     blocked_users << user
   end
@@ -144,6 +166,10 @@ class User < ActiveRecord::Base
 
   def blocked_for?(user)
     user.blocked_users.include?(self)
+  end
+
+  def deleted?
+    deleted_by_himself? || deleted_by_admin?
   end
 
   def female?
@@ -194,6 +220,15 @@ class User < ActiveRecord::Base
 
   def notify_account_was_deleted
     NotificationMailer.user_was_deleted(email, name)
+  end
+
+  def notify_account_was_restored
+    NotificationMailer.user_was_restored(email, name)
+  end
+
+  def enqueue_archived_profile_for_approval
+    profile && profile.enqueue_for_approval
+    published_profile && published_profile.update_attributes!(reviewed: false)
   end
 
   def free_form_fields_changed?

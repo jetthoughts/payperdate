@@ -8,16 +8,16 @@ module ProfilesHelper
   end
 
   # for active admin table views
-  def profile_panel(name)
+  def profile_panel(name, opts)
     name = name.to_s
     panel name.humanize, id: name do
-      render "admin/profile/#{name}"
+      render "admin/profile/#{name}", opts
     end
   end
 
-  def profile_panels(*names)
+  def profile_panels(*names, opts)
     names.each do |name|
-      profile_panel name
+      profile_panel name, opts
     end
   end
 end

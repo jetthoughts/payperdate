@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130816083824) do
+ActiveRecord::Schema.define(version: 20130820190537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,22 @@ ActiveRecord::Schema.define(version: 20130816083824) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "date_ranks", force: true do |t|
+    t.integer  "user_id",              null: false
+    t.integer  "invitation_id",        null: false
+    t.integer  "courtesy_rank_id",     null: false
+    t.integer  "punctuality_rank_id",  null: false
+    t.integer  "authenticity_rank_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "date_ranks", ["authenticity_rank_id"], name: "index_date_ranks_on_authenticity_rank_id", using: :btree
+  add_index "date_ranks", ["courtesy_rank_id"], name: "index_date_ranks_on_courtesy_rank_id", using: :btree
+  add_index "date_ranks", ["invitation_id"], name: "index_date_ranks_on_invitation_id", using: :btree
+  add_index "date_ranks", ["punctuality_rank_id"], name: "index_date_ranks_on_punctuality_rank_id", using: :btree
+  add_index "date_ranks", ["user_id"], name: "index_date_ranks_on_user_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -259,6 +275,13 @@ ActiveRecord::Schema.define(version: 20130816083824) do
     t.string   "name_cache"
   end
 
+  create_table "ranks", force: true do |t|
+    t.string   "name",       null: false
+    t.integer  "value",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "services", force: true do |t|
     t.string   "key"
     t.string   "name"
@@ -316,6 +339,8 @@ ActiveRecord::Schema.define(version: 20130816083824) do
     t.string   "state",                             default: "active"
     t.integer  "avatar_id"
     t.integer  "credits_amount",                    default: 0,        null: false
+    t.string   "deleted_reason"
+    t.string   "deleted_state",                     default: "none"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

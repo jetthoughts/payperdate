@@ -1,21 +1,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+# funny
+
 martin_mia_pending:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: martin
   invited_user: mia
 
 paul_lily_not_accepted:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: paul
   invited_user: lily
 
 paul_john_unlocked_yet:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: paul
@@ -24,7 +26,7 @@ paul_john_unlocked_yet:
 
 
 paul_lily_accepted:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: paul
@@ -32,7 +34,7 @@ paul_lily_accepted:
   state: 'accepted'
 
 sophia_lily_accepted:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: sophia
@@ -40,11 +42,10 @@ sophia_lily_accepted:
   state: 'accepted'
 
 john_lily_accepted:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: john
   invited_user: lily
   state: 'accepted'
-
 
