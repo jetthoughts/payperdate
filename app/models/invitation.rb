@@ -4,6 +4,8 @@ class Invitation < ActiveRecord::Base
   belongs_to :user
   belongs_to :invited_user, class_name: 'User'
 
+  has_many :date_ranks, inverse_of: :invitation
+
   validates :user, :invited_user, presence: true
   validate :validate_user_can_invite_himself
   validate :validate_user_can_blocked_by_self
@@ -70,6 +72,25 @@ class Invitation < ActiveRecord::Base
     accepted? && user == u && !can_be_communicated?
   end
 
+  # methods for ranking/showing rank accepted invitation (date)
+
+  def rank_by(u)
+    date_ranks.where(user_id: u).first
+  end
+
+  def ranked?(u)
+    rank_by(u) != nil
+  end
+
+  def can_be_ranked?(u)
+    accepted? && belongs_to_user?(u) && !ranked?(u)
+  end
+
+  def can_view_rank?(u)
+    belongs_to_user?(u) && ranked?(u)
+  end
+
+  # end ranking methods
 
   def can_be_countered_by?(u)
     pending? && !counter && invited_user == u
@@ -108,6 +129,10 @@ class Invitation < ActiveRecord::Base
 
   def friend(cur_user)
     cur_user == user ? invited_user : user
+  end
+
+  def belongs_to_user?(cur_user)
+    cur_user == user || cur_user == invited_user
   end
 
   private

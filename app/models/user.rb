@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   has_many :transactions, as: :owner
   has_many :recivied_transactions, class_name: "Transaction", as: :recipient
 
+  has_many :date_ranks, inverse_of: :user
+
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'

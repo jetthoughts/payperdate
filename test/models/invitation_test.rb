@@ -2,7 +2,7 @@ require 'test_helper'
 
 class InvitationTest < ActiveSupport::TestCase
 
-  fixtures :users, :invitations, :block_relationships, :services, :users_communications, :communication_costs
+  fixtures :users, :invitations, :block_relationships, :services, :users_communications, :communication_costs, :ranks
 
   setup do
     Delayed::Worker.delay_jobs = false
@@ -164,4 +164,63 @@ class InvitationTest < ActiveSupport::TestCase
     invitation = invitations(:john_lily_accepted)
     refute invitation.can_be_communicated?
   end
+
+  test 'can_be_ranked? by not referenced user' do
+    mia = users(:mia)
+
+    invitation = invitations(:paul_lily_not_accepted)
+    assert !invitation.can_be_ranked?(mia)
+
+    invitation = invitations(:paul_lily_accepted)
+    assert !invitation.can_be_ranked?(mia)
+  end
+
+  test 'can_be_ranked? by referenced users' do
+    paul = users(:paul)
+    lily = users(:lily)
+
+    invitation = invitations(:paul_lily_not_accepted)
+    assert !invitation.can_be_ranked?(paul)
+    assert !invitation.can_be_ranked?(lily)
+
+    invitation = invitations(:paul_lily_accepted)
+    assert invitation.can_be_ranked?(paul)
+    assert invitation.can_be_ranked?(lily)
+  end
+
+  test 'ranked?' do
+    paul = users(:paul)
+    lily = users(:lily)
+    rank_ok = ranks(:ok)
+
+    invitation = invitations(:paul_lily_accepted)
+    assert !invitation.ranked?(paul)
+    assert !invitation.ranked?(lily)
+
+    invitation.date_ranks.create! user: paul, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
+    assert invitation.ranked?(paul)
+    assert !invitation.ranked?(lily)
+
+    invitation.date_ranks.create! user: lily, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
+    assert invitation.ranked?(paul)
+    assert invitation.ranked?(lily)
+  end
+
+  test 'can_view_rank?' do
+    mia = users(:mia) # not referenced in invitation user
+    paul = users(:paul)
+    lily = users(:lily)
+    rank_ok = ranks(:ok)
+
+    invitation = invitations(:paul_lily_accepted)
+    assert !invitation.can_view_rank?(mia)
+    assert !invitation.can_view_rank?(paul)
+    assert !invitation.can_view_rank?(lily)
+
+    invitation.date_ranks.create! user: paul, courtesy_rank: rank_ok, punctuality_rank: rank_ok, authenticity_rank: rank_ok
+    assert !invitation.can_view_rank?(mia)
+    assert invitation.can_view_rank?(paul)
+    assert !invitation.can_view_rank?(lily)
+  end
+
 end

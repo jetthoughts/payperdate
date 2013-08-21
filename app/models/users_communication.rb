@@ -13,7 +13,7 @@ class UsersCommunication < ActiveRecord::Base
 
   def unlock
     update! unlocked: true
-    
+
     transaction = ::Transaction.create key: 'unlock_communication',
       recipient: recipient,
       trackable: communication_cost,
