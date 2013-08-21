@@ -23,7 +23,7 @@ class InvitationsControllerTest < ActionController::TestCase
     assert_select 'span', 'Deleted'
   end
 
-  def test_should_can_accept_invitations
+  def test_can_accept_invitations
     sign_in users(:lily)
     invitation = invitations(:paul_lily_not_accepted)
     assert_difference [-> { invitation.recipient.messages_sent.count },
@@ -33,7 +33,17 @@ class InvitationsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_should_can_accept_countered_invitations
+  def test_can_accept_invitations_without_message
+    sign_in users(:lily)
+    invitation = invitations(:paul_lily_not_accepted)
+    assert_difference [-> { invitation.recipient.messages_sent.count },
+                       -> { invitation.inviter.messages_received.count }], 0 do
+      post :accept, id: invitation
+      assert_redirected_to accepted_invitations_path
+    end
+  end
+
+  def test_can_accept_countered_invitations
     sign_in users(:lily)
     invitation = invitations(:lily_john_countered)
     assert_difference [-> { invitation.recipient.messages_sent.count },

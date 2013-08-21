@@ -47,8 +47,12 @@ task setup_sample_data: :environment do
   CommunicationCost.delete_all
   puts 'Cleaning ranks...'
   Rank.delete_all
+  puts 'Cleaning users dates...'
+  UsersDate.delete_all
   puts 'Cleaning date ranks...'
   DateRank.delete_all
+  puts 'Cleaning transactions...'
+  Transaction.delete_all
 
   puts 'Setting up master admin..'
 
@@ -88,16 +92,6 @@ task setup_sample_data: :environment do
 
   communication_costs.each do |cost|
     CommunicationCost.create cost
-  end
-
-  puts 'Setting up ranks...'
-  ranks = [
-      { name: 'Great!',       value: 3 },
-      { name: 'OK',           value: 2 },
-      { name: 'Not so much!', value: 1 }
-  ]
-  ranks.each do |rank|
-    Rank.create rank
   end
 
   puts 'Setting up users..'

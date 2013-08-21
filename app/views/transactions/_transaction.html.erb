@@ -1,7 +1,5 @@
 <div>
   <%= transaction.amount -%>
-  <%= t("credit_transaction.keys.#{transaction.key}", name: transaction.trackable.to_s,
-          username: transaction.recipient.try(:name),
-              amount: transaction.amount) %>
+  <%= transaction.action %>
   <%= format_date_time transaction.created_at -%>
 </div>

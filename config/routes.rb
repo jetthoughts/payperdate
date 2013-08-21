@@ -57,7 +57,6 @@ Payperdate::Application.routes.draw do
       end
       resources :winks, only: [:create, :index]
       resources :invitations do
-        resources :date_ranks, only: [:new, :create]
         collection do
           get :accepted
           get :rejected
@@ -67,7 +66,6 @@ Payperdate::Application.routes.draw do
           post :accept
           post :reject
           patch :counter
-          post :unlock
         end
       end
       resources :credits do
@@ -82,6 +80,16 @@ Payperdate::Application.routes.draw do
 
     namespace :me, as: '' do
       resource :profile
+      resources :users_dates, only: [:index] do
+        resources :date_ranks, only: [:new, :create]
+        collection do
+          get :unlocked
+          get :locked
+        end
+        member do
+          post :unlock
+        end
+      end
       resources :messages, only: [:index, :show, :destroy] do
         collection do
           get :unread

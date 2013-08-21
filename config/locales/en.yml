@@ -29,7 +29,7 @@ en:
     keys:
       send_gift: "Sended gift '%{name}' to %{username} with amount %{amount} credits."
       purchased_credits: "Purchased %{name}"
-      unlock_communication: "%{owner_name} unlocked communication with %{recipient_name} for %{amount}"
+      unlock_communication: "%{name} unlocked communication with %{username} for %{amount}"
   recaptcha:
     errors:
       incorrect-captcha-sol: 'Fail'
@@ -59,8 +59,6 @@ en:
               size_too_big: 'Size too big'
         invitation:
           attributes:
-            base:
-              cant_unlocked_invitation: 'Your balans less then price of unlock message'
             invited_user_id:
               cant_invite_himself: 'You cant invite yourself'
               already_sent: 'Invitation already sent'

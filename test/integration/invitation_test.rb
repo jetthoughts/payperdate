@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AcceptInviteTest < ActionDispatch::IntegrationTest
 
-  fixtures :users, :profiles, :invitations, :users_communications, :communication_costs
+  fixtures :users, :profiles, :invitations, :users_dates, :communication_costs
 
   # def setup
   #   reset_session!
@@ -18,15 +18,27 @@ class AcceptInviteTest < ActionDispatch::IntegrationTest
     within('.invitation') do
       assert page.has_link?('Accept')
       assert page.has_link?('Reject')
-      refute page.has_link?('Unlock')
       refute page.has_link?('Messages')
     end
 
+    visit "/me/users_dates"
+    within('.users_dates') do
+      refute page.has_link?('Unlock')
+    end
+
+    visit "/me/invitations"
     page.click_link 'Accept'
     page.fill_in :message, with: "Test message"
     within(".accept_form") do
       page.click_button 'Accept'
     end
+
+    visit "/me/users_dates"
+    within('.users_dates') do
+      refute page.has_link?('Unlock')
+      assert page.has_link?(martin.name)
+    end
+
     page.click_link 'mia'
     page.click_link 'SignOut'
 
@@ -35,16 +47,17 @@ class AcceptInviteTest < ActionDispatch::IntegrationTest
 
     page.click_link 'Accepted'
     within('.invitation') do
-      assert page.has_link?('Unlock')
       refute page.has_link?('Accept')
       refute page.has_link?('Reject')
       refute page.has_link?('Messages')
     end
 
-    within('.invitation') do
+    visit "/me/users_dates"
+    within('.users_dates') do
+      assert page.has_link?('Unlock')
       page.click_link 'Unlock'
       confirm_js_popup
-      assert page.has_link?('Messages')
+      refute page.has_link?('Unlock')
     end
 
   end

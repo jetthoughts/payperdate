@@ -1,0 +1,30 @@
+<%= div_for users_date do %>
+  <% if current_user == users_date.owner %>
+    me
+  <% else %>
+    <%= link_to(users_date.owner.name, user_profile_path(users_date.owner)) %>
+  <% end %>
+  &#8658;
+  <% if current_user == users_date.recipient %>
+    me
+  <% else %>
+    <%= link_to(users_date.recipient.name, user_profile_path(users_date.recipient)) %>
+  <% end %>
+  <% unless users_date.unlocked %>
+    <i class="icon-lock"></i>
+  <% end %>
+
+  <%- if can? :unlock, users_date -%>
+    <%= link_to t('.unlock'),
+                unlock_users_date_path(users_date),
+                data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: users_date.communication_cost.cost), method: :post } %>
+  <%- end -%>
+
+  <%- if can? :rank, users_date -%>
+    <%= link_to t('.rank_date'), new__users_date_date_rank_path(users_date) %>
+  <%- end -%>
+
+  <%- if can? :view_rank, users_date -%>
+    <%= render 'me/date_ranks/date_rank', date_rank: users_date.rank_by(current_user) %>
+  <%- end -%>
+<% end %>

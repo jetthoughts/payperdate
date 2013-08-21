@@ -43,6 +43,7 @@ class AdminAbility
           can [:send_message, :read], ActiveAdmin::Page, name: "Mass Mailing"
         end
         if admin.get_permissions[:permission_accounting]
+          can :manage, UsersDate
           can :manage, CreditsPackage
           can :manage, Transaction
           can :manage, Service
