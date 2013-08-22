@@ -38,7 +38,7 @@
 
   <%- if can? :communicated, invitation -%>
       <%= link_to "Messages",
-                  new_user_message_path(invitation.invited_user) %>
+                  new_user_message_path(invitation.friend(current_user)) %>
   <%- end -%>
 
   <%- if can? :rank, invitation -%>

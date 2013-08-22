@@ -24,12 +24,8 @@ class Ability
         invitation.can_be_deleted_by?(user)
       end
 
-      can :reject, Invitation do |invitation|
-        invitation.can_be_rejected_by?(user)
-      end
-
-      can :accept, Invitation do |invitation|
-        invitation.can_be_accepted_by?(user)
+      can [:reject, :accept], Invitation do |invitation|
+        invitation.need_response_from?(user)
       end
 
       can :counter, Invitation do |invitation|
@@ -41,7 +37,7 @@ class Ability
       end
 
       can :communicated, Invitation do |invitation|
-        invitation.can_be_communicated?
+        user.can_communicated_with?(invitation.friend(user))
       end
 
       can :send_wink, User do |u|
