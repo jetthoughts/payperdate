@@ -11,37 +11,37 @@
         ---
 
         *Body Type:*
-        #{"#{select_title 'height', profile.optional_info_height} – "}#{select_title 'body_type', profile.optional_info_body_type}
+        #{"#{t "enums.height.value_#{profile.optional_info_height}"} – "}#{t "enums.body_type.value_#{profile.optional_info_body_type}"}
 
         ---
 
         *Hair / Eyes:*
-        #{select_title 'hair_color', profile.optional_info_hair_color} / #{select_title 'eye_color', profile.optional_info_eye_color}
+        #{t "enums.hair_color.value_#{profile.optional_info_hair_color}"} / #{t "enums.eye_color.value_#{profile.optional_info_eye_color}"}
 
         ---
 
         *Education*
-        #{select_title 'education', profile.optional_info_education}
+        #{t "enums.education.value_#{profile.optional_info_education}"}
 
         ---
 
         *Children*
-        #{select_title 'children', profile.optional_info_children}
+        #{t "enums.children.value_#{profile.optional_info_children}"}
 
         ---
 
         *Ethnicity*
-        #{select_title 'ethnicity', profile.optional_info_ethnicity}
+        #{t "enums.ethnicity.value_#{profile.optional_info_ethnicity}"}
 
         ---
 
         *Religion*
-        #{select_title 'religion', profile.optional_info_religion}
+        #{t "enums.religion.value_#{profile.optional_info_religion}"}
 
         ---
 
         *Smoking / Drinking*
-        #{select_title 'me_smoker', profile.optional_info_smoker} / #{select_title 'me_drinker', profile.optional_info_drinker}
+        #{t "enums.me_smoker.value_#{profile.optional_info_smoker}"} / #{t "enums.me_drinker.value_#{profile.optional_info_drinker}"}
 
         ---
 
@@ -52,7 +52,7 @@
         %br
         %strong= t 'profile.review.under_review'
     :textile
-      h3. #{profile.name_cache || profile.auto_user.name} <small>(#{select_title 'sex', profile.personal_preferences_sex})</small>
+      h3. #{profile.name_cache || profile.auto_user.name} <small>(#{t "enums.gender.value_#{profile.personal_preferences_sex}"})</small>
 
       ---
 
@@ -117,39 +117,36 @@
       ---
 
       *Annual Income:*
-      #{select_title 'income', profile.optional_info_annual_income}
+      #{t "enums.income.value_#{profile.optional_info_annual_income}"}
 
       ---
 
       *Net Worth:*
-      #{select_title 'net_worth', profile.optional_info_net_worth}
+      #{t "enums.net_worth.value_#{profile.optional_info_net_worth}"}
 
       ---
 
       *Relationship Status:*
-    - profile.personal_preferences_relationship_multiselect.each do |select|
-      - if select.checked
-        %span= select_title 'relationship', select.value
-        = '/'
+    - profile.personal_relationship_multiselect.each do |select|
+      %span= t "enums.relationship.value_#{select.to_s}"
+      = '/'
 
     :textile
 
       ---
 
       *Looking To Meet:*
-    - profile.personal_preferences_partners_sex_multiselect.each do |select|
-      - if select.checked
-        %span= select_title 'sex', select.value
-        = '/'
+    - profile.personal_partners_sex_multiselect.each do |select|
+      %span= t "enums.gender.value_#{select.to_s}"
+      = '/'
 
     :textile
       ---
 
       *Interested In:*
-    - profile.personal_preferences_want_relationship_multiselect.each do |select|
-      - if select.checked
-        %span= select_title 'want_relationship', select.value
-        = '/'
+    - profile.personal_want_relationship_multiselect.each do |select|
+      %span= t "enums.want_relationship.value_#{select.to_s}"
+      = '/'
 
     :textile
       ---

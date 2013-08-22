@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PhotosControllerTest < ActionController::TestCase
-  fixtures :users, :profiles, :profile_multiselects, :albums
+  fixtures :users, :profiles, :profile_preferences, :albums
   photos_and_avatars_fixtures
 
   setup do

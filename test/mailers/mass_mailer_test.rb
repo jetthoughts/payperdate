@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MassMailerTest < ActiveSupport::TestCase
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
 
   # TODO: check if this need to be fixed (age range)
   def test_filtered_users
@@ -11,12 +11,12 @@ class MassMailerTest < ActiveSupport::TestCase
     assert_equal mailer.send(:filtered_users).load.size, 9
 
     mailer = MassMailer.new
-    mailer.sex << 'F'
+    mailer.sex << 'female'
 
     assert_equal mailer.send(:filtered_users).load.size, 3
 
     mailer = MassMailer.new
-    mailer.sex << 'M'
+    mailer.sex << 'male'
 
     assert_equal mailer.send(:filtered_users).load.size, 2
 

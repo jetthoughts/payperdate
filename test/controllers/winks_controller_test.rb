@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class WinksControllerTest < ActionController::TestCase
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_preferences
 
   setup do
     @wink_template = WinkTemplate.create image: create_tmp_image, name: 'test'

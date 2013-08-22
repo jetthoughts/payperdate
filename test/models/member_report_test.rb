@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MemberReportTest < ActiveSupport::TestCase
-  fixtures :users, :profiles, :member_reports
+  fixtures :users, :profiles, :profile_preferences, :member_reports
 
   def test_member_report_create
     report = MemberReport.create! user:          users(:john),

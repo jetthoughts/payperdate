@@ -42,13 +42,13 @@
           .accordion-body.collapse#collapse_personal_pref
             .accordion-inner
               = f.label 'Who are you?'
-              %div= f.select :personal_preferences_sex, select_options('sex')
+              %div= f.select :personal_preferences_sex, select_options('gender')
               = f.label 'Looking for?'
-              %div= render 'me/profiles/multiselect', value: @profile.personal_preferences_partners_sex_multiselect
+              %div= render 'me/profiles/multiselect', values: select_options('gender'), param: 'personal_partners_sex', multiselect: @profile.personal_partners_sex_multiselect
               = f.label 'Relationship status'
-              %div= render 'me/profiles/multiselect', value: @profile.personal_preferences_relationship_multiselect
+              %div= render 'me/profiles/multiselect', values: select_options('relationship'), param: 'personal_relationship', multiselect: @profile.personal_relationship_multiselect
               = f.label 'What are you looking for'
-              %div= render 'me/profiles/multiselect', value: @profile.personal_preferences_want_relationship_multiselect
+              %div= render 'me/profiles/multiselect', values: select_options('want_relationship'), param: 'personal_want_relationship', multiselect: @profile.personal_want_relationship_multiselect
               .row
                 %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_date_pref' }
                   Next
@@ -76,9 +76,9 @@
                   %a.btn{ href: '#', 'data-bind' => '{ click: datePreferences.acceptedDistance.doCare }' } Do care
                   / /ko
               = f.label 'Smoking habits of partner'
-              %div= render 'me/profiles/multiselect', value: @profile.date_preferences_smoker_multiselect
+              %div= render 'me/profiles/multiselect', values: select_options('smoker'), param: 'date_smoker', multiselect: @profile.date_smoker_multiselect
               = f.label 'Drinking habits of partner'
-              %div= render 'me/profiles/multiselect', value: @profile.date_preferences_drinker_multiselect
+              %div= render 'me/profiles/multiselect', values: select_options('drinker'), param: 'date_smoker', multiselect: @profile.date_drinker_multiselect
               %div= f.text_area :date_preferences_description, placeholder: 'Description for the date', rows: 5, class: :span11
               .row
                 %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_optional_info' }
@@ -93,33 +93,33 @@
               %div= f.date_field :optional_info_birthday
               = f.label :education
               %div
-                = f.select :optional_info_education, select_options('education')
+                = f.select :optional_info_education, select_options('education', false)
               %label
                 Wealth in $
                 %a{ 'data-toggle' => 'tooltip', 'title' => '<strong>Annual income</strong> - your yearly income with applied taxes<br/><strong>Net worth</strong> - the amount by which your assets exceed your liabilities', rel: :tooltip, href: '#', 'data-html' => 'true', 'data-placement' => 'right' }
                   %i.icon-question-sign= ' '
               %div
                 = f.text_field :optional_info_occupation, placeholder: 'Occupation'
-                = f.select :optional_info_annual_income, select_options('income'), 'data-toggle' => 'tooltip', title: 'Your yearly income with applied taxes', rel: :tooltip
-                = f.select :optional_info_net_worth, select_options('net_worth'), 'data-toggle' => 'tooltip', title: 'The amount by which your assets exceed your liabilities', rel: :tooltip
+                = f.select :optional_info_annual_income, select_options('income', false), 'data-toggle' => 'tooltip', title: 'Your yearly income with applied taxes', rel: :tooltip
+                = f.select :optional_info_net_worth, select_options('net_worth', false), 'data-toggle' => 'tooltip', title: 'The amount by which your assets exceed your liabilities', rel: :tooltip
               = f.label :physique
               %div
-                = f.select :optional_info_height, select_options('height')
-                = f.select :optional_info_body_type, select_options('body_type')
+                = f.select :optional_info_height, select_options('height', false)
+                = f.select :optional_info_body_type, select_options('body_type', false)
               = f.label :religion
-              %div= f.select :optional_info_religion, select_options('religion')
+              %div= f.select :optional_info_religion, select_options('religion', false)
               = f.label :ethnicity
-              %div= f.select :optional_info_ethnicity, select_options('ethnicity')
+              %div= f.select :optional_info_ethnicity, select_options('ethnicity', false)
               = f.label 'Appearance (eye and hair color)'
               %div
-                = f.select :optional_info_eye_color, select_options('eye_color')
-                = f.select :optional_info_hair_color, select_options('hair_color')
+                = f.select :optional_info_eye_color, select_options('eye_color', false)
+                = f.select :optional_info_hair_color, select_options('hair_color', false)
               = f.label :children
-              %div= f.select :optional_info_children, select_options('children')
+              %div= f.select :optional_info_children, select_options('children', false)
               = f.label 'Smoking and drinking habits'
               %div
-                = f.select :optional_info_smoker, select_options('me_smoker')
-                = f.select :optional_info_drinker, select_options('me_drinker')
+                = f.select :optional_info_smoker, select_options('me_smoker', false)
+                = f.select :optional_info_drinker, select_options('me_drinker', false)
               .row
                 %a.btn.btn-primary.span2.offset9.accordion-toggle{ 'data-toggle' => 'collapse', 'data-parent' => '#profile_master_accordion', href: '#collapse_subscribe_options' }
                   Next

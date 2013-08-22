@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Me::ProfilesControllerTest < ActionController::TestCase
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
 
   def setup
     sign_in users(:paul)
@@ -27,7 +27,7 @@ class Me::ProfilesControllerTest < ActionController::TestCase
     sign_in users(:martin)
 
     assert_difference -> { Activity.count }, +1 do
-      patch :update, profile: { personal_preferences_sex: 'M' }
+      patch :update, profile: { personal_preferences_sex: 'male' }
     end
 
     change_profile_activity = users(:martin).activities.last
@@ -45,7 +45,7 @@ class Me::ProfilesControllerTest < ActionController::TestCase
 
   test 'successfull update should be with flash notice' do
     sign_in users(:martin)
-    patch :update, profile: { personal_preferences_sex: 'F' }
+    patch :update, profile: { personal_preferences_sex: 'female' }
     assert_redirected_to me_path
     assert_equal 'Profile successfully updated', flash[:notice]
   end

@@ -1,10 +1,12 @@
 pauls:
   filled: false
   reviewed: true
+  profile_preference: pauls_preferences
 
 johns:
   filled: false
   reviewed: true
+  profile_preference: johns_preferences
 
 martins:
   filled: true
@@ -18,30 +20,26 @@ martins:
   general_info_description: Fun, educated, intelligent but very busy schedule, so no time for games.
   general_info_address_line_1: 21 SW 59th Ave
   general_info_address_line_2: ''
-  personal_preferences_sex: M
-  # personal_preferences_partners_sex: F
-  # personal_preferences_relationship: M
-  # personal_preferences_want_relationship: D
-  # date_preferences_smoker: D
-  # date_preferences_drinker: DC
+  personal_preferences_sex: male
   date_preferences_description: Something that would surprise both people involved. I am a very busy
     man and time is go out and meet new friends is not as much as I would like.
     I am interested in a fun person that I can share some private time with.
   date_preferences_accepted_distance_do_care: 'false'
   optional_info_birthday: 1974-02-17
-  optional_info_height: L9
-  optional_info_smoker: O
-  optional_info_drinker: N
-  optional_info_children: N
-  optional_info_religion: C
-  optional_info_body_type: Av
-  optional_info_education: G
-  optional_info_ethnicity: W
-  optional_info_eye_color: brown
-  optional_info_net_worth:
-  optional_info_hair_color: LBro
+  optional_info_height: height_190_195_cm
+  optional_info_smoker: occasional_smoker
+  optional_info_drinker: occasionally
+  optional_info_children: no_children
+  optional_info_religion: christian
+  optional_info_body_type: average
+  optional_info_education: graduate_degree
+  optional_info_ethnicity: white_caucasian
+  optional_info_eye_color: brown_eyes
+  optional_info_net_worth: null
+  optional_info_hair_color: light_brown_hair
   optional_info_occupation: International trade
-  optional_info_annual_income:
+  optional_info_annual_income: null
+  profile_preference: martins_preferences
 
 mias:
   filled: true
@@ -62,29 +60,25 @@ mias:
     Volunteering, and Wine tasting.\r\n"
   general_info_address_line_1: 940 Sylvania Blvd
   general_info_address_line_2: ''
-  personal_preferences_sex: F
-  # personal_preferences_partners_sex: M
-  # personal_preferences_relationship: D
-  # personal_preferences_want_relationship: D
-  # date_preferences_smoker: N
-  # date_preferences_drinker: N
+  personal_preferences_sex: female
   date_preferences_description: I'm not picky as long as we are able to have some time to talk and
     connect with each other.
   date_preferences_accepted_distance_do_care: 'false'
   optional_info_birthday: 1984-09-27
-  optional_info_height: M7
-  optional_info_smoker: N
-  optional_info_drinker: N
-  optional_info_children: C1
-  optional_info_religion: C
-  optional_info_body_type: At
-  optional_info_education: S
-  optional_info_ethnicity: L
-  optional_info_eye_color: brown
-  optional_info_net_worth:
-  optional_info_hair_color: DBro
+  optional_info_height: height_170_175_cm
+  optional_info_smoker: non_smoker
+  optional_info_drinker: occasionally
+  optional_info_children: has_1_child
+  optional_info_religion: christian
+  optional_info_body_type: athletic
+  optional_info_education: some_college
+  optional_info_ethnicity: latin_hispanic
+  optional_info_eye_color: brown_eyes
+  optional_info_net_worth: null
+  optional_info_hair_color: dark_brown_hair
   optional_info_occupation: Sales
-  optional_info_annual_income:
+  optional_info_annual_income: null
+  profile_preference: mias_preferences
 
 sophias:
   filled: true
@@ -105,12 +99,7 @@ sophias:
     my late twenties. I'll take that (smile) how about you?
   general_info_address_line_1: 5920 SW 16th St
   general_info_address_line_2: ''
-  personal_preferences_sex: F
-  # personal_preferences_partners_sex: M
-  # personal_preferences_relationship: D
-  # personal_preferences_want_relationship: D
-  # date_preferences_smoker: D
-  # date_preferences_drinker: DC
+  personal_preferences_sex: female
   date_preferences_description: My ideal first date consists of inviting company, delectable food
     and an amazing atmosphere. Sexy music ( think Beres Hammond, Greggory Issac)
     and tropical drinks are a very welcome bonus (well maybe that should be the
@@ -127,19 +116,20 @@ sophias:
   date_preferences_accepted_distance: '50'
   date_preferences_accepted_distance_do_care: 'true'
   optional_info_birthday: 1975-11-19
-  optional_info_height: M6
-  optional_info_smoker: N
-  optional_info_drinker: N
-  optional_info_children: N
-  optional_info_religion: C
-  optional_info_body_type: Av
-  optional_info_education: S
-  optional_info_ethnicity: O
-  optional_info_eye_color: brown
-  optional_info_net_worth:
-  optional_info_hair_color: DBro
+  optional_info_height: height_160_165_cm
+  optional_info_smoker: non_smoker
+  optional_info_drinker: occasionally
+  optional_info_children: no_children
+  optional_info_religion: christian
+  optional_info_body_type: average
+  optional_info_education: some_college
+  optional_info_ethnicity: other_ethnicity
+  optional_info_eye_color: brown_eyes
+  optional_info_net_worth: null
+  optional_info_hair_color: dark_brown_hair
   optional_info_occupation: Transportation
-  optional_info_annual_income:
+  optional_info_annual_income: null
+  profile_preference: sophias_preferences
 
 sophias_pending:
   filled: true
@@ -160,12 +150,7 @@ sophias_pending:
     my late twenties. I'll take that (smile) how about you?
   general_info_address_line_1: 5920 SW 16th St
   general_info_address_line_2: ''
-  personal_preferences_sex: F
-  # personal_preferences_partners_sex: M
-  # personal_preferences_relationship: D
-  # personal_preferences_want_relationship: D
-  # date_preferences_smoker: D
-  # date_preferences_drinker: DC
+  personal_preferences_sex: female
   date_preferences_description: My ideal first date consists of inviting company, delectable food
     and an amazing atmosphere. Sexy music ( think Beres Hammond, Greggory Issac)
     and tropical drinks are a very welcome bonus (well maybe that should be the
@@ -182,19 +167,20 @@ sophias_pending:
   date_preferences_accepted_distance: '50'
   date_preferences_accepted_distance_do_care: 'true'
   optional_info_birthday: 1975-11-19
-  optional_info_height: M6
-  optional_info_smoker: N
-  optional_info_drinker: N
-  optional_info_children: N
-  optional_info_religion: C
-  optional_info_body_type: Av
-  optional_info_education: S
-  optional_info_ethnicity: O
-  optional_info_eye_color: brown
-  optional_info_net_worth:
-  optional_info_hair_color: DBro
+  optional_info_height: height_160_165_cm
+  optional_info_smoker: non_smoker
+  optional_info_drinker: occasionally
+  optional_info_children: no_children
+  optional_info_religion: christian
+  optional_info_body_type: average
+  optional_info_education: some_college
+  optional_info_ethnicity: other_ethnicity
+  optional_info_eye_color: brown_eyes
+  optional_info_net_worth: null
+  optional_info_hair_color: dark_brown_hair
   optional_info_occupation: Transportation
-  optional_info_annual_income:
+  optional_info_annual_income: null
+  profile_preference: sophias_pending_preferences
 
 roberts:
   filled: true
@@ -211,12 +197,7 @@ roberts:
     people, and enjoying all the cool little spots the city has to offer.
   general_info_address_line_1: 6456 SW 10th Terrace
   general_info_address_line_2: ''
-  personal_preferences_sex: M
-  # personal_preferences_partners_sex: F
-  # personal_preferences_relationship: S
-  # personal_preferences_want_relationship: D
-  # date_preferences_smoker: N
-  # date_preferences_drinker: N
+  personal_preferences_sex: male
   date_preferences_description: This is a tough one, some dates have gone really well. Some not so
     much. Definitely depends on chemistry! Other than that I would say the perfect
     date would be a mix between a nice dinner somewhere (preferably somewhere outdoors
@@ -224,19 +205,20 @@ roberts:
     vibe (Say the shoreclub on a Friday).
   date_preferences_accepted_distance_do_care: 'false'
   optional_info_birthday: 1988-04-03
-  optional_info_height: M65
-  optional_info_smoker: N
-  optional_info_drinker: N
-  optional_info_children: N
-  optional_info_religion: J
-  optional_info_body_type: At
-  optional_info_education: G
-  optional_info_ethnicity: L
-  optional_info_eye_color: other
-  optional_info_net_worth:
-  optional_info_hair_color: DBro
+  optional_info_height: height_165_170_cm
+  optional_info_smoker: non_smoker
+  optional_info_drinker: occasionally
+  optional_info_children: no_children
+  optional_info_religion: jewish
+  optional_info_body_type: athletic
+  optional_info_education: graduate_degree
+  optional_info_ethnicity: latin_hispanic
+  optional_info_eye_color: other_eyes
+  optional_info_net_worth: null
+  optional_info_hair_color: dark_brown_hair
   optional_info_occupation: Investment Banking
-  optional_info_annual_income: '120000'
+  optional_info_annual_income: income_100_000_150_000_bucks_per_year
+  profile_preference: roberts_preferences
 
 rias:
   filled: true
@@ -250,34 +232,32 @@ rias:
   general_info_zip_code: '50007'
   general_info_tagline: Hi guys.
   general_info_description: I'm funny, smart, honest woman. With me you will not miss.
-  personal_preferences_sex: F
-  # personal_preferences_partners_sex: M
-  # personal_preferences_relationship: D
-  # personal_preferences_want_relationship: D
-  # date_preferences_smoker: N
-  # date_preferences_drinker: N
+  personal_preferences_sex: female
   date_preferences_accepted_distance:
   date_preferences_accepted_distance_do_care: 'false'
   date_preferences_description: First date should be romantic with flowers and candles.
   optional_info_birthday: 1990-06-05
-  optional_info_education: B
+  optional_info_education: bachelors_degree
   optional_info_occupation: Work and study
-  optional_info_annual_income:
-  optional_info_net_worth:
-  optional_info_height: M65
-  optional_info_body_type: S
-  optional_info_religion: O
-  optional_info_ethnicity: W
-  optional_info_eye_color: blue
-  optional_info_hair_color: Blo
-  optional_info_children: C1
-  optional_info_smoker: N
-  optional_info_drinker: N
+  optional_info_annual_income: null
+  optional_info_net_worth: null
+  optional_info_height: height_165_170_cm
+  optional_info_body_type: slim_slender
+  optional_info_religion: other_religion
+  optional_info_ethnicity: white_caucasian
+  optional_info_eye_color: blue_eyes
+  optional_info_hair_color: blonde_hair
+  optional_info_children: has_1_child
+  optional_info_smoker: non_smoker
+  optional_info_drinker: occasionally
+  profile_preference: rias_preferences
 
 lilys:
   filled: false
   reviewed: true
+  profile_preference: lilys_preferences
 
 lolas:
   filled: false
   reviewed: true
+  profile_preference: lolas_preferences

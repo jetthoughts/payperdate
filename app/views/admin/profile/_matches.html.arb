@@ -19,40 +19,42 @@ form_for profile, url: admin_profile_path(profile) do |f|
       f.number_field :date_preferences_accepted_distance, class: 'profile-hide profile-inline-edit'
     end
 
-    row :date_preferences_smoker, class: 'profile-inline-edit' do
-      type = profile.date_preferences_smoker_multiselect.first.select_type
-      profile.date_preferences_smoker_multiselect.where(checked: true).pluck(:value)
-          .map { |e| select_title(type, e) }.join(" / ")
+    row :date_smoker, class: 'profile-inline-edit' do
+      profile.date_smoker_multiselect
+          .map { |e| I18n.t("enums.smoker.value_#{e}") }.join(" / ")
     end
-    row :date_preferences_smoker_edit, class: 'profile-hide profile-inline-edit' do
-      profile.date_preferences_smoker_multiselect.each do |select|
-        div do
-          span do
-            check_box_tag("profile[date_preferences_smoker_multiselect][]", select.value, select.checked)
-          end
-          span do
-            select_title(select.select_type, select.value)
-          end
-        end
-      end
+    row :date_smoker_edit, class: 'profile-hide profile-inline-edit' do
+      # profile.date_smoker_multiselect.each do |select|
+      #   div do
+      #     span do
+      #       check_box_tag("profile[date_smoker_multiselect][]", select.value, select.checked)
+      #     end
+      #     span do
+      #       select_title(select.select_type, select.value)
+      #     end
+      #   end
+      # end
+      render 'me/profiles/multiselect', values: select_options('smoker'), param: 'date_smoker',
+             multiselect: profile.date_smoker_multiselect
     end
 
-    row :date_preferences_drinker, class: 'profile-inline-edit' do
-      type = profile.date_preferences_drinker_multiselect.first.select_type
-      profile.date_preferences_drinker_multiselect.where(checked: true).pluck(:value)
-          .map { |e| select_title(type, e) }.join(" / ")
+    row :date_drinker, class: 'profile-inline-edit' do
+      profile.date_drinker_multiselect
+          .map { |e| I18n.t("enums.drinker.value_#{e}") }.join(" / ")
     end
-    row :date_preferences_drinker_edit, class: 'profile-hide profile-inline-edit' do
-      profile.date_preferences_drinker_multiselect.each do |select|
-        div do
-          span do
-            check_box_tag("profile[date_preferences_drinker_multiselect][]", select.value, select.checked)
-          end
-          span do
-            select_title(select.select_type, select.value)
-          end
-        end
-      end
+    row :date_drinker_edit, class: 'profile-hide profile-inline-edit' do
+      # profile.date_drinker_multiselect.each do |select|
+      #   div do
+      #     span do
+      #       check_box_tag("profile[date_drinker_multiselect][]", select.value, select.checked)
+      #     end
+      #     span do
+      #       select_title(select.select_type, select.value)
+      #     end
+      #   end
+      # end
+      render 'me/profiles/multiselect', values: select_options('drinker'), param: 'date_drinker',
+             multiselect: profile.date_drinker_multiselect
     end
 
     row 'Submit', class: 'profile-hide profile-inline-edit' do

@@ -1,0 +1,3 @@
+require 'payperdate/postgres_enum'
+
+load_enum_types_and_hack_active_record

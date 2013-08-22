@@ -5,7 +5,7 @@ class Admin::ProfilesControllerTest < ActionController::TestCase
     @controller = ::Admin::ProfilesController.new
   end
 
-  fixtures :admin_users, :users, :profiles, :profile_multiselects
+  fixtures :admin_users, :users, :profiles, :profile_preferences
   self.use_transactional_fixtures = false
 
   test 'admin should be able to view users profile' do

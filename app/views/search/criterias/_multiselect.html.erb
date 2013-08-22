@@ -1,11 +1,27 @@
+<%# = Ransacks advanced search notation = %>
+<%# g = grouping %>
+<%# m = and or or %>
+<%# c = combinator %>
+<%# p = predicate %>
+<%# a = arguments %>
+<%# v = values %>
+
 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-  <% selects[subtype].each do |select| %>
-      <li>
-        <label class="checkbox">
-          <% checked = @search_query[:"#{section}_#{key}_multiselect"] && @search_query[:"#{section}_#{key}_multiselect"].include?(select[:key]) %>
-          <%= check_box_tag("query[#{section}_#{key}_multiselect][]", select[:key], checked) %>
-          <span><%= select[:title] %></span>
-        </label>
-      </li>
+  <% @grouping += 1 %>
+  <%= hidden_field_tag "query[g][#{@grouping}][m]", 'or' %>
+
+  <% selects[subtype].each_with_index do |value, number| %>
+    <%= hidden_field_tag "query[g][#{@grouping}][c][#{number}][a][0][name]", "#{section}_#{key}_is_#{value}" %>
+    <%= hidden_field_tag "query[g][#{@grouping}][c][#{number}][p]", 'eq' %>
+    <li>
+      <label class="checkbox">
+        <% checked = @search_query['g'] && @search_query['g']["#{@grouping}"] && 
+            @search_query['g']["#{@grouping}"]['c']["#{number}"] &&
+            @search_query['g']["#{@grouping}"]['c']["#{number}"]['v'] &&
+            @search_query['g']["#{@grouping}"]['c']["#{number}"]['v']['0']['value'] == 'true' %>
+        <%= check_box_tag("query[g][#{@grouping}][c][#{number}][v][0][value]", true, checked) %>
+        <span><%= t "enums.#{subtype}.value_#{value}" %></span>
+      </label>
+    </li>
   <% end %>
 </ul>

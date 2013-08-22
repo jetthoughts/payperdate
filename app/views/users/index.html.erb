@@ -5,7 +5,8 @@
 <p>
   <strong>Basic criterias</strong>
 <hr/>
-<%= search_form_for @query, as: 'query', url: search_path, method: :get, id: :new_search do |f| %>
+<% grouping = 0 %>
+<%= search_form_for @query, as: 'query', url: search_path, method: :post, id: :new_search do |f| %>
     <div class="row-fluid">
       <div class="span3">
         <label><strong><%= t :where_are_you %></strong></label>
@@ -36,14 +37,14 @@
       <hr>
       <div class="row-fluid">
         <% Profile.searchable_params[:primary].each do |criteria| %>
-            <%= render partial: 'search/primary_section', locals: { criteria: criteria, f: f } %>
+            <%= render 'search/primary_section', criteria: criteria, f: f, grouping: grouping %>
         <% end %>
       </div>
       <hr>
       <% Profile.searchable_params[:hidden].each_slice(4) do |criterias| %>
           <div class="row-fluid">
             <% criterias.each do |criteria| %>
-                <%= render partial: 'search/hidden_section', locals: { criteria: criteria, f: f } %>
+                <%= render 'search/hidden_section', criteria: criteria, f: f, grouping: grouping %>
             <% end %>
           </div>
       <% end %>

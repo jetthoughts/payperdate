@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ProfileTest < ActiveSupport::TestCase
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
 
   test 'should be invalid if address is incorrect' do
     profile = Profile.create  general_info_address_line_1: '5th avenue',

@@ -17,8 +17,13 @@ class ProfileLoader
       u = create_user(user['name'])
       u.profile.user = u
       u.profile.inner_dont_care_about_review_notifications = true
-      u.profile.update!(user['profile'])
-      u.profile.approve!
+      if user['profile']
+        profile_preference = user['profile'].slice('profile_preference')['profile_preference']
+        user['profile'] = user['profile'].slice!('profile_preference')
+        u.profile.update!(user['profile'])
+        u.profile.profile_preference.update!(profile_preference)
+      end
+      u.profile.approve
       loaded_users[u.nickname] = u
     end
     loaded_users

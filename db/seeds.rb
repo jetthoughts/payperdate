@@ -6,7 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
 services = [
   { key: :bookmark_members,             cost: 5.00,   use_credits: true,  name: "Bookmark Members" },
   { key: :participate_speed_dating,     cost: 10.00,  use_credits: true,  name: "Participate in speed dating events" },
@@ -91,3 +90,4 @@ ranks = [
 ranks.each do |rank|
   Rank.create! rank
 end
+

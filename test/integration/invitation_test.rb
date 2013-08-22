@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AcceptInviteTest < ActionDispatch::IntegrationTest
 
-  fixtures :users, :profiles, :invitations, :users_dates, :communication_costs
+  fixtures :users, :profiles, :profile_preferences, :invitations, :users_dates, :communication_costs
 
   # def setup
   #   reset_session!

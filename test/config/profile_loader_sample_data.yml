@@ -9,32 +9,32 @@
       games.
     general_info_address_line_1: 21 SW 59th Ave
     general_info_address_line_2: ''
-    personal_preferences_sex: M
-    personal_preferences_partners_sex_multiselect: 
-      - F
-    personal_preferences_relationship_multiselect:
-      - M
-    personal_preferences_want_relationship_multiselect:
-      - D
-    date_preferences_smoker_multiselect:
-      - D
-    date_preferences_drinker_multiselect:
-      - DC
+    personal_preferences_sex: male
+    personal_partners_sex_multiselect: 
+      - female
+    personal_relationship_multiselect:
+      - married
+    personal_want_relationship_multiselect:
+      - date
+    date_smoker_multiselect:
+      - dont_care
+    date_drinker_multiselect:
+      - dont_care
     date_preferences_description: Something that would surprise both people involved. I am a very busy
       man and time is go out and meet new friends is not as much as I would like.
       I am interested in a fun person that I can share some private time with.
     date_preferences_accepted_distance_do_care: 'false'
     optional_info_birthday: 17.02.1974
-    optional_info_height: L9
-    optional_info_smoker: O
-    optional_info_drinker: N
-    optional_info_children: N
-    optional_info_religion: C
-    optional_info_body_type: Av
-    optional_info_education: G
-    optional_info_ethnicity: W
-    optional_info_eye_color: brown
-    optional_info_net_worth: ''
-    optional_info_hair_color: LBro
+    optional_info_height: height_190_195_cm
+    optional_info_smoker: occasional_smoker
+    optional_info_drinker: occasionally
+    optional_info_children: no_children
+    optional_info_religion: christian
+    optional_info_body_type: average
+    optional_info_education: graduate_degree
+    optional_info_ethnicity: white_caucasian
+    optional_info_eye_color: brown_eyes
+    optional_info_net_worth: null
+    optional_info_hair_color: light_brown_hair
     optional_info_occupation: International trade
-    optional_info_annual_income: ''
+    optional_info_annual_income: null

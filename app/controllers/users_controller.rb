@@ -50,8 +50,10 @@ class UsersController < BaseController
   private
 
   def setup_profiles_and_users
+    @grouping = 0
     @profile = current_user.profile
     @query = @profile.public_search(@search_query)
+    @query.build_grouping unless @query.groupings.any?
     @profiles = @query.result
     @users = @profiles.collect(&:auto_user_with_distance).compact
   end

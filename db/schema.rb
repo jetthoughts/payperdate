@@ -17,6 +17,27 @@ ActiveRecord::Schema.define(version: 20130904160330) do
   enable_extension "plpgsql"
   enable_extension "hstore"
 
+  # These are enum types defined in this project
+  create_enum_type :gender, ["", :female, :male]
+  create_enum_type :relationship, ["", :single, :divorced, :widowed, :married, :separated, :dating, :cohabiting]
+  create_enum_type :want_relationship, ["", :short_term_relationship, :date, :friendship, :activity_partner]
+  create_enum_type :smoker, ["", :smoker, :non_smoker, :occasional_smoker, :dont_care]
+  create_enum_type :me_smoker, ["", :smoker, :non_smoker, :occasional_smoker]
+  create_enum_type :drinker, ["", :drink_every_night, :occasionally, :non_drinker, :dont_care]
+  create_enum_type :me_drinker, ["", :drink_every_night, :occasionally, :non_drinker]
+  create_enum_type :education, ["", :high_school, :some_college, :associates_degree, :bachelors_degree, :graduate_degree, :post_doctoral]
+  create_enum_type :body_type, ["", :slim_slender, :athletic, :average, :a_few_extra_pounds, :full_overweight]
+  create_enum_type :religion, ["", :agnostic, :buddhist, :christian, :hindu, :jewish, :muslim, :other_religion]
+  create_enum_type :ethnicity, ["", :asian, :black_african_descent, :latin_hispanic, :east_indian, :middle_eastern, :mixed_race, :native_american, :pacific_islander, :white_caucasian, :other_ethnicity]
+  create_enum_type :eye_color, ["", :black_eyes, :blue_eyes, :brown_eyes, :gray_eyes, :green_eyes, :other_eyes]
+  create_enum_type :hair_color, ["", :auburn_hair, :black_hair, :blonde_hair, :dark_blonde_hair, :light_brown_hair, :dark_brown_hair, :gray_hair, :red_hair, :white_hair, :other_hair]
+  create_enum_type :children, ["", :no_children, :has_1_child, :has_2_children, :has_3_child, :greater_3_children]
+  create_enum_type :height, ["", :lower_140_cm, :height_140_150_cm, :height_150_160_cm, :height_160_165_cm, :height_165_170_cm, :height_170_175_cm, :height_175_180_cm, :height_180_185_cm, :height_185_190_cm, :height_190_195_cm, :height_195_200_cm, :greater_200_cm]
+  create_enum_type :income, ["", :lower_10_000_bucks_per_year, :income_10_000_30_000_bucks_per_year, :income_30_000_50_000_bucks_per_year, :income_50_000_70_000_bucks_per_year, :income_70_000_100_000_bucks_per_year, :income_100_000_150_000_bucks_per_year, :income_150_000_500_000_bucks_per_year, :ok_i_m_very_wealthy]
+  create_enum_type :net_worth, ["", :lower_50_000_bucks, :worth_50_000_150_000_bucks, :worth_150_000_250_000_bucks, :worth_250_000_350_000_bucks, :worth_350_000_500_000_bucks, :worth_500_000_1_500_000_bucks, :worth_1_500_000_5_000_000_bucks, :ok_i_m_very_wealthy]
+  load_enum_types_and_hack_active_record
+  # Finished with enum types
+
   create_table "activities", force: true do |t|
     t.integer  "user_id"
     t.integer  "subject_id"
@@ -237,16 +258,6 @@ ActiveRecord::Schema.define(version: 20130904160330) do
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
-  create_table "profile_multiselects", force: true do |t|
-    t.integer  "profile_id"
-    t.string   "name"
-    t.string   "select_type"
-    t.string   "value"
-    t.boolean  "checked"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "profile_notes", force: true do |t|
     t.string   "text",          null: false
     t.integer  "profile_id",    null: false
@@ -256,6 +267,37 @@ ActiveRecord::Schema.define(version: 20130904160330) do
   end
 
   add_index "profile_notes", ["profile_id"], name: "index_profile_notes_on_profile_id", using: :btree
+
+  create_table "profile_preferences", force: true do |t|
+    t.boolean  "personal_relationship_is_"
+    t.boolean  "personal_relationship_is_single"
+    t.boolean  "personal_relationship_is_divorced"
+    t.boolean  "personal_relationship_is_widowed"
+    t.boolean  "personal_relationship_is_married"
+    t.boolean  "personal_relationship_is_separated"
+    t.boolean  "personal_relationship_is_dating"
+    t.boolean  "personal_relationship_is_cohabiting"
+    t.boolean  "personal_want_relationship_is_"
+    t.boolean  "personal_want_relationship_is_short_term_relationship"
+    t.boolean  "personal_want_relationship_is_date"
+    t.boolean  "personal_want_relationship_is_friendship"
+    t.boolean  "personal_want_relationship_is_activity_partner"
+    t.boolean  "personal_partners_sex_is_"
+    t.boolean  "personal_partners_sex_is_female"
+    t.boolean  "personal_partners_sex_is_male"
+    t.boolean  "date_smoker_is_"
+    t.boolean  "date_smoker_is_smoker"
+    t.boolean  "date_smoker_is_non_smoker"
+    t.boolean  "date_smoker_is_occasional_smoker"
+    t.boolean  "date_smoker_is_dont_care"
+    t.boolean  "date_drinker_is_"
+    t.boolean  "date_drinker_is_drink_every_night"
+    t.boolean  "date_drinker_is_occasionally"
+    t.boolean  "date_drinker_is_non_drinker"
+    t.boolean  "date_drinker_is_dont_care"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "profile_views", force: true do |t|
     t.integer  "user_id"
@@ -268,40 +310,41 @@ ActiveRecord::Schema.define(version: 20130904160330) do
   add_index "profile_views", ["viewed_id"], name: "index_profile_views_on_viewed_id", using: :btree
 
   create_table "profiles", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.boolean  "filled"
-    t.string   "full_address_saved"
-    t.boolean  "reviewed"
-    t.string   "general_info_address_line_1"
-    t.string   "general_info_address_line_2"
-    t.string   "general_info_city"
-    t.string   "general_info_state"
-    t.string   "general_info_zip_code"
-    t.string   "general_info_tagline"
-    t.text     "general_info_description"
-    t.string   "personal_preferences_sex"
-    t.string   "date_preferences_accepted_distance"
-    t.string   "date_preferences_accepted_distance_do_care"
-    t.text     "date_preferences_description"
-    t.string   "optional_info_education"
-    t.string   "optional_info_occupation"
-    t.string   "optional_info_annual_income"
-    t.string   "optional_info_net_worth"
-    t.string   "optional_info_height"
-    t.string   "optional_info_body_type"
-    t.string   "optional_info_religion"
-    t.string   "optional_info_ethnicity"
-    t.string   "optional_info_eye_color"
-    t.string   "optional_info_hair_color"
-    t.string   "optional_info_children"
-    t.string   "optional_info_smoker"
-    t.string   "optional_info_drinker"
-    t.date     "optional_info_birthday"
-    t.string   "nickname_cache"
-    t.string   "name_cache"
+    t.datetime        "created_at"
+    t.datetime        "updated_at"
+    t.float           "latitude"
+    t.float           "longitude"
+    t.boolean         "filled"
+    t.string          "full_address_saved"
+    t.boolean         "reviewed"
+    t.string          "general_info_address_line_1"
+    t.string          "general_info_address_line_2"
+    t.string          "general_info_city"
+    t.string          "general_info_state"
+    t.string          "general_info_zip_code"
+    t.string          "general_info_tagline"
+    t.text            "general_info_description"
+    t.string          "date_preferences_accepted_distance"
+    t.string          "date_preferences_accepted_distance_do_care"
+    t.text            "date_preferences_description"
+    t.string          "optional_info_occupation"
+    t.date            "optional_info_birthday"
+    t.string          "nickname_cache"
+    t.string          "name_cache"
+    t.enum_gender     "personal_preferences_sex"
+    t.enum_education  "optional_info_education"
+    t.enum_income     "optional_info_annual_income"
+    t.enum_net_worth  "optional_info_net_worth"
+    t.enum_height     "optional_info_height"
+    t.enum_body_type  "optional_info_body_type"
+    t.enum_religion   "optional_info_religion"
+    t.enum_ethnicity  "optional_info_ethnicity"
+    t.enum_eye_color  "optional_info_eye_color"
+    t.enum_hair_color "optional_info_hair_color"
+    t.enum_children   "optional_info_children"
+    t.enum_me_smoker  "optional_info_smoker"
+    t.enum_me_drinker "optional_info_drinker"
+    t.integer         "profile_preference_id"
   end
 
   create_table "ranks", force: true do |t|

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LoginIfDeletedTest < ActionDispatch::IntegrationTest
 
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
 
   def setup
     users(:martin).delete_by_admin!

@@ -1,0 +1,139 @@
+---
+gender:
+- ''
+- :female
+- :male
+relationship:
+- ''
+- :single
+- :divorced
+- :widowed
+- :married
+- :separated
+- :dating
+- :cohabiting
+want_relationship:
+- ''
+- :short_term_relationship
+- :date
+- :friendship
+- :activity_partner
+smoker:
+- ''
+- :smoker
+- :non_smoker
+- :occasional_smoker
+- :dont_care
+me_smoker:
+- ''
+- :smoker
+- :non_smoker
+- :occasional_smoker
+drinker:
+- ''
+- :drink_every_night
+- :occasionally
+- :non_drinker
+- :dont_care
+me_drinker:
+- ''
+- :drink_every_night
+- :occasionally
+- :non_drinker
+education:
+- ''
+- :high_school
+- :some_college
+- :associates_degree
+- :bachelors_degree
+- :graduate_degree
+- :post_doctoral
+body_type:
+- ''
+- :slim_slender
+- :athletic
+- :average
+- :a_few_extra_pounds
+- :full_overweight
+religion:
+- ''
+- :agnostic
+- :buddhist
+- :christian
+- :hindu
+- :jewish
+- :muslim
+- :other_religion
+ethnicity:
+- ''
+- :asian
+- :black_african_descent
+- :latin_hispanic
+- :east_indian
+- :middle_eastern
+- :mixed_race
+- :native_american
+- :pacific_islander
+- :white_caucasian
+- :other_ethnicity
+eye_color:
+- ''
+- :black_eyes
+- :blue_eyes
+- :brown_eyes
+- :gray_eyes
+- :green_eyes
+- :other_eyes
+hair_color:
+- ''
+- :auburn_hair
+- :black_hair
+- :blonde_hair
+- :dark_blonde_hair
+- :light_brown_hair
+- :dark_brown_hair
+- :gray_hair
+- :red_hair
+- :white_hair
+- :other_hair
+children:
+- ''
+- :no_children
+- :has_1_child
+- :has_2_children
+- :has_3_child
+- :greater_3_children
+height:
+- ''
+- :lower_140_cm
+- :height_140_150_cm
+- :height_150_160_cm
+- :height_160_165_cm
+- :height_165_170_cm
+- :height_170_175_cm
+- :height_175_180_cm
+- :height_180_185_cm
+- :height_185_190_cm
+- :height_190_195_cm
+- :height_195_200_cm
+- :greater_200_cm
+income:
+- ''
+- :lower_10_000_bucks_per_year
+- :income_10_000_30_000_bucks_per_year
+- :income_30_000_50_000_bucks_per_year
+- :income_50_000_70_000_bucks_per_year
+- :income_70_000_100_000_bucks_per_year
+- :income_100_000_150_000_bucks_per_year
+- :income_150_000_500_000_bucks_per_year
+- :ok_i_m_very_wealthy
+net_worth:
+- ''
+- :lower_50_000_bucks
+- :worth_50_000_150_000_bucks
+- :worth_150_000_250_000_bucks
+- :worth_250_000_350_000_bucks
+- :worth_350_000_500_000_bucks
+- :worth_500_000_1_500_000_bucks
+- :worth_1_500_000_5_000_000_bucks
+- :ok_i_m_very_wealthy

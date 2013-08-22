@@ -18,28 +18,29 @@ form_for profile, url: admin_profile_path(profile) do |f|
 
     row :personal_preferences_sex,
         class: "profile-inline-edit #{changed_field? profile, :personal_preferences_sex}" do
-      select_title('sex', profile.personal_preferences_sex)
+      I18n.t "enums.gender.value_#{profile.personal_preferences_sex}"
     end
     row :personal_preferences_sex_edit, class: 'profile-hide profile-inline-edit' do
-      f.select :personal_preferences_sex, select_options('sex'), class: 'profile-hide profile-inline-edit'
+      f.select :personal_preferences_sex, select_options('gender'), class: 'profile-hide profile-inline-edit'
     end
 
-    row :personal_preferences_partners_sex, class: 'profile-inline-edit' do
-      type = profile.personal_preferences_partners_sex_multiselect.first.select_type
-      profile.personal_preferences_partners_sex_multiselect.where(checked: true).pluck(:value)
-          .map { |e| select_title(type, e) }.join(" / ")
+    row :personal_partners_sex, class: 'profile-inline-edit' do
+      profile.personal_partners_sex_multiselect
+          .map { |e| I18n.t("enums.gender.value_#{e}") }.join(" / ")
     end
-    row :personal_preferences_partners_sex_edit, class: 'profile-hide profile-inline-edit' do
-      profile.personal_preferences_partners_sex_multiselect.each do |select|
-        div do
-          span do
-            check_box_tag("profile[personal_preferences_partners_sex_multiselect][]", select.value, select.checked)
-          end
-          span do
-            select_title(select.select_type, select.value)
-          end
-        end
-      end
+    row :personal_partners_sex_edit, class: 'profile-hide profile-inline-edit' do
+      # profile.personal_partners_sex_multiselect.each do |select|
+      #   div do
+      #     span do
+      #       check_box_tag("profile[personal_partners_sex_multiselect][]", select.value, select.checked)
+      #     end
+      #     span do
+      #       t "enums.gender.value_#{select}"
+      #     end
+      #   end
+      # end
+      render 'me/profiles/multiselect', values: select_options('gender'), param: 'personal_partners_sex',
+             multiselect: profile.personal_partners_sex_multiselect
     end
 
     row :optional_info_birthday, class: 'profile-inline-edit'
@@ -47,40 +48,42 @@ form_for profile, url: admin_profile_path(profile) do |f|
       f.date_field :optional_info_birthday, class: 'profile-hide profile-inline-edit'
     end
 
-    row :personal_preferences_relationship, class: 'profile-inline-edit' do
-      type = profile.personal_preferences_relationship_multiselect.first.select_type
-      profile.personal_preferences_relationship_multiselect.where(checked: true).pluck(:value)
-          .map { |e| select_title(type, e) }.join(" / ")
+    row :personal_relationship, class: 'profile-inline-edit' do
+      profile.personal_relationship_multiselect
+          .map { |e| I18n.t("enums.relationship.value_#{e}") }.join(" / ")
     end
-    row :personal_preferences_relationship_edit, class: 'profile-hide profile-inline-edit' do
-      profile.personal_preferences_relationship_multiselect.each do |select|
-        div do
-          span do
-            check_box_tag("profile[personal_preferences_relationship_multiselect][]", select.value, select.checked)
-          end
-          span do
-            select_title(select.select_type, select.value)
-          end
-        end
-      end
+    row :personal_relationship_edit, class: 'profile-hide profile-inline-edit' do
+      # profile.personal_relationship_multiselect.each do |select|
+      #   div do
+      #     span do
+      #       check_box_tag("profile[personal_relationship_multiselect][]", select.value, select.checked)
+      #     end
+      #     span do
+      #       select_title(select.select_type, select.value)
+      #     end
+      #   end
+      # end
+      render 'me/profiles/multiselect', values: select_options('relationship'), param: 'personal_relationship',
+             multiselect: profile.personal_relationship_multiselect
     end
 
-    row :personal_preferences_want_relationship, class: 'profile-inline-edit' do
-      type = profile.personal_preferences_want_relationship_multiselect.first.select_type
-      profile.personal_preferences_want_relationship_multiselect.where(checked: true).pluck(:value)
-          .map { |e| select_title(type, e) }.join(" / ")
+    row :personal_want_relationship, class: 'profile-inline-edit' do
+      profile.personal_want_relationship_multiselect
+          .map { |e| I18n.t("enums.want_relationship.value_#{e}") }.join(" / ")
     end
-    row :personal_preferences_want_relationship_edit, class: 'profile-hide profile-inline-edit' do
-      profile.personal_preferences_want_relationship_multiselect.each do |select|
-        div do
-          span do
-            check_box_tag("profile[personal_preferences_want_relationship_multiselect][]", select.value, select.checked)
-          end
-          span do
-            select_title(select.select_type, select.value)
-          end
-        end
-      end
+    row :personal_want_relationship_edit, class: 'profile-hide profile-inline-edit' do
+      # profile.personal_want_relationship_multiselect.each do |select|
+      #   div do
+      #     span do
+      #       check_box_tag("profile[personal_want_relationship_multiselect][]", select.value, select.checked)
+      #     end
+      #     span do
+      #       select_title(select.select_type, select.value)
+      #     end
+      #   end
+      # end
+      render 'me/profiles/multiselect', values: select_options('want_relationship'),
+             param: 'personal_want_relationship', multiselect: profile.personal_want_relationship_multiselect
     end
 
     row 'Submit', class: 'profile-hide profile-inline-edit' do

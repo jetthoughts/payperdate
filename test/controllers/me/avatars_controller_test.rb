@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Me::AvatarsControllerTest < ActionController::TestCase
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
   photos_and_avatars_fixtures
 
   def setup

@@ -5,7 +5,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     @controller = ::Admin::UsersController.new
   end
 
-  fixtures :admin_users, :users, :profiles, :profile_multiselects
+  fixtures :admin_users, :users, :profiles, :profile_preferences
 
   test 'master admin should have access to users' do
     sign_in admin_users(:admin)

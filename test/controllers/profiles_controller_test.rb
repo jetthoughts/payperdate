@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ProfilesControllerTest < ActionController::TestCase
-  fixtures :users, :profiles, :block_relationships
+  fixtures :users, :profiles, :profile_preferences, :block_relationships
 
   def setup
     @current_user = users(:martin)

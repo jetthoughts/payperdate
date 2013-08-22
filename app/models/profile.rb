@@ -15,25 +15,25 @@ class Profile < ActiveRecord::Base
     :optional_info_body_type, :optional_info_religion, :optional_info_ethnicity,
     :optional_info_eye_color, :optional_info_hair_color, :optional_info_children,
     :optional_info_smoker, :optional_info_drinker,
-    date_preferences_smoker_multiselect: [],
-    date_preferences_drinker_multiselect: [],
-    personal_preferences_relationship_multiselect: [],
-    personal_preferences_want_relationship_multiselect: [],
-    personal_preferences_partners_sex_multiselect: [],
+    date_smoker_multiselect: [],
+    date_drinker_multiselect: [],
+    personal_relationship_multiselect: [],
+    personal_want_relationship_multiselect: [],
+    personal_partners_sex_multiselect: [],
     user_attributes: [:subscribed, :id]
   ]
 
   SEARCHABLE_PARAMS = {
       primary: [
-                   { section: 'personal_preferences', key: 'sex', type: :select, subtype: 'sex' },
+                   { section: 'personal_preferences', key: 'sex', type: :select, subtype: 'gender' },
                    { section: 'optional_info', key: 'age', type: :inv_range },
                    { section: 'general_info', key: 'city', type: :string },
                    { section: 'general_info', key: 'state', type: :string }
                ],
       hidden:  [
-                   { section: 'personal_preferences', key: 'partners_sex', type: :multiselect, subtype: 'sex' },
-                   { section: 'personal_preferences', key: 'relationship', type: :multiselect, subtype: 'relationship' },
-                   { section: 'personal_preferences', key: 'want_relationship', type: :multiselect, subtype: 'want_relationship' },
+                   { section: 'profile_preference_personal', key: 'partners_sex', type: :multiselect, subtype: 'gender' },
+                   { section: 'profile_preference_personal', key: 'relationship', type: :multiselect, subtype: 'relationship' },
+                   { section: 'profile_preference_personal', key: 'want_relationship', type: :multiselect, subtype: 'want_relationship' },
                    { section: 'date_preferences', key: 'accepted_distance', type: :range },
                    { section: 'optional_info', key: 'education', type: :select, subtype: 'education' },
                    { section: 'optional_info', key: 'occupation', type: :string },
@@ -46,8 +46,8 @@ class Profile < ActiveRecord::Base
                    { section: 'optional_info', key: 'eye_color', type: :select, subtype: 'eye_color' },
                    { section: 'optional_info', key: 'hair_color', type: :select, subtype: 'hair_color' },
                    { section: 'optional_info', key: 'children', type: :select, subtype: 'children' },
-                   { section: 'optional_info', key: 'smoker', type: :multiselect, subtype: 'me_smoker' },
-                   { section: 'optional_info', key: 'drinker', type: :multiselect, subtype: 'me_drinker' }
+                   { section: 'optional_info', key: 'smoker', type: :select, subtype: 'me_smoker' },
+                   { section: 'optional_info', key: 'drinker', type: :select, subtype: 'me_drinker' }
                ]
   }
 
@@ -64,9 +64,9 @@ class Profile < ActiveRecord::Base
   ]
 
   MULTISELECT_PARAMS = [
-      :personal_preferences_partners_sex_multiselect, :personal_preferences_want_relationship_multiselect,
-      :personal_preferences_relationship_multiselect, :date_preferences_smoker_multiselect,
-      :date_preferences_drinker_multiselect
+      :personal_partners_sex_multiselect, :personal_want_relationship_multiselect,
+      :personal_relationship_multiselect, :date_smoker_multiselect,
+      :date_drinker_multiselect
   ]
 
   MAX_DISTANCE = 9999999
@@ -79,9 +79,9 @@ class Profile < ActiveRecord::Base
   accepts_nested_attributes_for :user
 
   belongs_to :avatar
+  belongs_to :profile_preference
 
   has_many :profile_notes
-  has_many :profile_multiselects
 
   # association methods
 
@@ -142,7 +142,6 @@ class Profile < ActiveRecord::Base
     search_query = search_query.clone.slice! 'location', 'max_distance'
     near_me(geo_query['location'], geo_query['max_distance']).not_mine(self)
         .preload(:user).published_and_active
-        .multiselect_search(search_query.slice(*Profile.multiselect_params.collect(&:to_s)))
         .search(search_query.slice!(*Profile.multiselect_params.collect(&:to_s)))
   end
 
@@ -163,11 +162,13 @@ class Profile < ActiveRecord::Base
   attr_accessor :inner_shouldnt_be_auto_approved
   attr_accessor :inner_changed_by_approving
 
-  multiselect_accessor :profile_multiselects, :personal_preferences_partners_sex, 'sex'
-  multiselect_accessor :profile_multiselects, :personal_preferences_want_relationship, 'want_relationship'
-  multiselect_accessor :profile_multiselects, :personal_preferences_relationship, 'relationship'
-  multiselect_accessor :profile_multiselects, :date_preferences_smoker, 'smoker'
-  multiselect_accessor :profile_multiselects, :date_preferences_drinker, 'drinker'
+  multiselect_init :profile_preference, :profile_preferences
+
+  multiselect_accessor :personal_partners_sex, 'gender'
+  multiselect_accessor :personal_want_relationship, 'want_relationship'
+  multiselect_accessor :personal_relationship, 'relationship'
+  multiselect_accessor :date_smoker, 'smoker'
+  multiselect_accessor :date_drinker, 'drinker'
 
   # accessor methods
 
@@ -238,6 +239,8 @@ class Profile < ActiveRecord::Base
   validate :validate_address, if: :filled?
 
   # callbacks
+
+  before_create { create_profile_preference }
 
   before_validation :regeocode, unless: :inner_dont_care_about_geocoding # auto-fetch coordinates
 
@@ -316,9 +319,10 @@ class Profile < ActiveRecord::Base
     published_version.inner_dont_care_about_review_notifications = true
     published_version.inner_shouldnt_be_auto_approved = true
     MULTISELECT_PARAMS.each do |param|
-      published_version.send(:"#{param}=", send(param).where(checked: true).pluck(:value))
+      published_version.send(:"#{param}=", send(param))
     end
     published_version.update! get_attributes
+    published_version.profile_preference.update! profile_preference.get_attributes
     published_version.update! nickname_cache: auto_user.nickname, name_cache: auto_user.name
   end
 

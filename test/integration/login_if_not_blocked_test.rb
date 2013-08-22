@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LoginIfNotBlockedTest < ActionDispatch::IntegrationTest
 
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
 
   def setup
     sign_in users(:lily)

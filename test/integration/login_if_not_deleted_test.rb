@@ -1,10 +1,9 @@
 require 'test_helper'
 
 class LoginIfNotDeletedTest < ActionDispatch::IntegrationTest
+  fixtures :users, :profiles, :profile_preferences
 
-  fixtures :users, :profiles, :profile_multiselects
-
-  def setup
+  setup do
     sign_in users(:martin)
   end
 

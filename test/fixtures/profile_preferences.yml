@@ -1,0 +1,74 @@
+pauls_preferences:
+  personal_partners_sex_is_female: true
+
+johns_preferences:
+  personal_partners_sex_is_female: true
+
+martins_preferences:
+  personal_partners_sex_is_male: true
+  personal_relationship_is_divorced: true
+  personal_want_relationship_is_date: true
+  personal_want_relationship_is_friendship: true
+  date_smoker_is_non_smoker: true
+  date_smoker_is_occasional_smoker: true
+  date_drinker_is_non_drinker: true
+  date_drinker_is_occasionally: true
+
+mias_preferences:
+  personal_partners_sex_is_male: true
+  personal_partners_sex_is_female: true
+  personal_relationship_is_divorced: true
+  personal_want_relationship_is_date: true
+  date_smoker_is_non_smoker: true
+  date_drinker_is_occasionally: true
+
+sophias_pending_preferences:
+  personal_partners_sex_is_male: true
+  personal_relationship_is_divorced: true
+  personal_want_relationship_is_date: true
+  date_smoker_is_non_smoker: true
+  date_drinker_is_occasionally: true
+
+sophias_preferences:
+  personal_partners_sex_is_male: true
+  personal_partners_sex_is_female: true
+  personal_relationship_is_single: true
+  personal_relationship_is_divorced: true
+  personal_relationship_is_widowed: true
+  personal_relationship_is_married: true
+  personal_relationship_is_separated: true
+  personal_relationship_is_dating: true
+  personal_relationship_is_cohabiting: true
+  personal_want_relationship_is_short_term_relationship: true
+  personal_want_relationship_is_date: true
+  personal_want_relationship_is_friendship: true
+  personal_want_relationship_is_activity_partner: true
+  date_smoker_is_smoker: true
+  date_smoker_is_non_smoker: true
+  date_smoker_is_occasional_smoker: true
+  date_smoker_is_dont_care: true
+  date_drinker_is_drink_every_night: true
+  date_drinker_is_occasionally: true
+  date_drinker_is_non_drinker: true
+  date_drinker_is_dont_care: true
+
+
+roberts_preferences:
+  personal_partners_sex_is_female: true
+  personal_relationship_is_divorced: true
+  personal_want_relationship_is_date: true
+  date_smoker_is_non_smoker: true
+  date_drinker_is_occasionally: true
+
+rias_preferences:
+  personal_partners_sex_is_male: true
+  personal_relationship_is_divorced: true
+  personal_want_relationship_is_date: true
+  date_smoker_is_non_smoker: true
+  date_drinker_is_occasionally: true
+
+lilys_preferences:
+  personal_partners_sex_is_male: true
+
+lolas_preferences:
+  personal_partners_sex_is_male: true

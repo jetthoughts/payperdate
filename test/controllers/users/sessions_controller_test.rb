@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Users::SessionsControllerTest < ActionController::TestCase
   include Devise::TestHelpers
-  fixtures :users, :profiles, :profile_multiselects
+  fixtures :users, :profiles, :profile_preferences
 
   def setup
     super

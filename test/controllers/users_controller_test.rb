@@ -22,7 +22,7 @@ class UsersControllerAuthorizationTest < ActionController::TestCase
 end
 
 class UsersControllerTest < ActionController::TestCase
-  fixtures :users, :profiles
+  fixtures :users, :profiles, :profile_preferences
 
   def setup
     sign_in users(:martin)

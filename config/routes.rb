@@ -109,6 +109,7 @@ Payperdate::Application.routes.draw do
     root to: 'users#index'
 
     get '/search', to: 'users#search'
+    post '/search', to: 'users#search'
   end
   get '/about', to: 'pages#about'
 end

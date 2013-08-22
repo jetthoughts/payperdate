@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Me::ViewersControllerTest < ActionController::TestCase
 
-  fixtures :users, :profiles, :profile_views
+  fixtures :users, :profiles, :profile_preferences, :profile_views
 
   setup do
     @current_user = users(:martin)

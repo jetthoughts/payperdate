@@ -1,11 +1,12 @@
 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-  <% selects[subtype].each do |select| %>
-      <li>
-        <label class="checkbox">
-          <% checked = @search_query[:"#{section}_#{key}_in"] && @search_query[:"#{section}_#{key}_in"].include?(select[:key]) %>
-          <%= check_box_tag("query[#{section}_#{key}_in][]", select[:key], checked) %>
-          <span><%= select[:title] %></span>
-        </label>
-      </li>
+  <% selects[subtype].each do |value| %>
+    <li>
+      <label class="checkbox">
+        <% checked = @search_query[:"#{section}_#{key}_in"] && 
+            @search_query[:"#{section}_#{key}_in"].include?(value) %>
+        <%= check_box_tag("query[#{section}_#{key}_in][]", value, checked) %>
+        <span><%= t "enums.#{subtype}.value_#{value}" %></span>
+      </label>
+    </li>
   <% end %>
 </ul>
