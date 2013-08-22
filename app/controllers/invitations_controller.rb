@@ -34,10 +34,10 @@ class InvitationsController < BaseController
 
   def accept
     authorize! :accept, @invitation
-    @invitation.invited_user.messages_sent.create(recipient_id: @invitation.user_id, content: params[:message])
+    Message.create!(sender: current_user, recipient: @invitation.friend(current_user), content: params[:message])
     @invitation.accept
     #TODO: AJAX
-    redirect_to accepted_invitations_path(@invitation)
+    redirect_to accepted_invitations_path
   end
 
   def reject

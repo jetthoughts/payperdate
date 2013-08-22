@@ -44,15 +44,34 @@ class UserTest < ActiveSupport::TestCase
     assert User.find(users(:ria).id)
   end
 
-  def test_can_communicated_with
-    paul = users(:paul)
+  def test_can_communicated_with_when_no_communication
+    martin = users(:martin)
+    mia = users(:mia)
+
+    # There is no UserCommunication between 'Martin' and 'Mia'. Only pending invitation.
+
+    refute mia.can_communicated_with?(martin)
+    refute martin.can_communicated_with?(mia)
+  end
+
+  def test_can_communicated_with_when_unlocked
+    sophia = users(:sophia)
     lily = users(:lily)
-    john =  users(:john)
-    users_communications(:unlocked_communications_john_paul)
-    assert paul.can_communicated_with?(john)
-    assert john.can_communicated_with?(paul)
+
+    users_communications(:unlocked_communications_sophia_lily)
+
+    assert sophia.can_communicated_with?(lily)
+    assert lily.can_communicated_with?(sophia)
+  end
+
+  def test_can_communicated_with_when_locked
+    john = users(:john)
+    lily =  users(:lily)
+
+    users_communications(:locked_communication_john_lily)
 
     refute john.can_communicated_with?(lily)
+    assert lily.can_communicated_with?(john)
   end
 
   def test_delete_user

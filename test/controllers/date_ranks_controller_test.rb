@@ -8,20 +8,20 @@ class DateRanksControllerTest < ActionController::TestCase
   end
 
   test 'should get new' do
-    get :new, invitation_id: invitations(:john_lily_accepted)
+    get :new, invitation_id: invitations(:john_lily_locked_yet)
     assert_response :success
   end
 
   test 'create should render new with incomplete data' do
     rank_ok = ranks(:ok)
-    post :create, invitation_id: invitations(:john_lily_accepted), date_rank: { courtesy_rank_id: rank_ok }
+    post :create, invitation_id: invitations(:john_lily_locked_yet), date_rank: { courtesy_rank_id: rank_ok }
     assert_response :success
     assert_template :new
   end
 
   test 'create should redirect to accepted invitations with complete data' do
     rank_ok = ranks(:ok)
-    post :create, invitation_id: invitations(:john_lily_accepted), date_rank: { courtesy_rank_id:     rank_ok,
+    post :create, invitation_id: invitations(:john_lily_locked_yet), date_rank: { courtesy_rank_id:     rank_ok,
                                                                                 punctuality_rank_id:  rank_ok,
                                                                                 authenticity_rank_id: rank_ok }
     assert_redirected_to accepted_invitations_path
