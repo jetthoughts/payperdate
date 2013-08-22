@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class InvitationsControllerTest < ActionController::TestCase
-  fixtures :users, :invitations
+  fixtures :users, :invitations, :ranks
 
   setup do
     Delayed::Worker.delay_jobs = false
@@ -22,5 +22,25 @@ class InvitationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'span', 'Deleted'
   end
-end
 
+  def test_should_can_accept_invitations
+    sign_in users(:lily)
+    invitation = invitations(:paul_lily_not_accepted)
+    assert_difference [-> { invitation.recipient.messages_sent.count },
+                       -> { invitation.inviter.messages_received.count }], +1 do
+      post :accept, id: invitation, message: 'Sample message'
+      assert_redirected_to accepted_invitations_path
+    end
+  end
+
+  def test_should_can_accept_countered_invitations
+    sign_in users(:lily)
+    invitation = invitations(:lily_john_countered)
+    assert_difference [-> { invitation.recipient.messages_sent.count },
+                       -> { invitation.inviter.messages_received.count }], +1 do
+      post :accept, id: invitation, message: 'Sample message'
+      assert_redirected_to accepted_invitations_path
+    end
+  end
+
+end
