@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :messages, :block_relationships, :users_communications
+  fixtures :users, :messages, :block_relationships, :users_communications, :favorites
 
 
   def test_create
@@ -25,6 +25,21 @@ class UserTest < ActiveSupport::TestCase
     assert_difference -> { recipient.messages_received.count }, +1 do
       sender.messages_sent.create! recipient: recipient, content: 'Hello!'
     end
+  end
+
+  def test_favorite_user
+    users(:john).favorite_user(users(:mia))
+    assert users(:mia).favorite_for? users(:john)
+  end
+
+  def test_remove_favorite_user
+    users(:robert).remove_favorite_user(users(:mia)) 
+    refute users(:mia).favorite_for?(users(:robert))
+  end
+
+  def test_favorite_for
+    refute users(:mia).favorite_for? users(:john)
+    assert users(:mia).favorite_for? users(:robert)
   end
 
   def test_block_user
