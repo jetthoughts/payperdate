@@ -4,7 +4,7 @@ require 'test_helper'
 #TODO: Move authorization tests from all controllers to one test unit
 #TODO: Extract to separate file
 class UsersControllerAuthorizationTest < ActionController::TestCase
-  fixtures :users, :block_relationships
+  fixtures :users, :block_relationships, :favorites
 
   tests UsersController
 
@@ -118,6 +118,27 @@ class UsersControllerTest < ActionController::TestCase
   test 'should have link to blocked user list' do
     get :index
     assert_select 'a', 'Blocked users'
+  end
+
+  test 'unsubscribe action' do
+    get :unsubscribe, md_email: users(:martin).email
+    assert_redirected_to root_path
+    refute users(:martin).reload.subscribed
+  end
+
+  test 'favorite action' do
+    post :favorite, id: users(:ria)
+    assert_redirected_to user_profile_path users(:ria)
+    assert users(:ria).favorite_for? users(:martin)
+  end
+
+  test 'remove favorite action' do
+    sign_in users(:robert)
+
+    assert users(:mia).favorite_for? users(:robert)
+    post :remove_favorite, id: users(:mia)
+    assert_redirected_to user_profile_path users(:mia)
+    refute users(:mia).favorite_for? users(:robert)
   end
 
 end
