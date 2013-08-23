@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :blocked_users, through: :block_relationships, source: :target
 
   has_many :transactions, as: :owner
-  has_many :recivied_transactions, class_name: "Transaction", as: :recipient
+  has_many :received_transactions, class_name: "Transaction", as: :recipient
 
   has_many :date_ranks, inverse_of: :user
 
@@ -167,11 +167,11 @@ class User < ActiveRecord::Base
   end
 
   def unsubscribe!
-    update! subscribed: true
+    update! subscribed: false
   end
 
   def subscribe!
-    update! subscribed: false
+    update! subscribed: true
   end
 
   def view_user(user)

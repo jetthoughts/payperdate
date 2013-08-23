@@ -312,13 +312,13 @@ ActiveRecord::Schema.define(version: 20130826150449) do
   end
 
   create_table "transactions", force: true do |t|
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.integer  "owner_id"
-    t.string   "owner_type"
+    t.integer  "trackable_id",                       null: false
+    t.string   "trackable_type",                     null: false
+    t.integer  "owner_id",                           null: false
+    t.string   "owner_type",                         null: false
     t.integer  "recipient_id"
     t.string   "recipient_type"
-    t.integer  "amount"
+    t.integer  "amount",                             null: false
     t.string   "key"
     t.string   "error"
     t.string   "state",          default: "pending", null: false

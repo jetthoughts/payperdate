@@ -9,7 +9,7 @@ class MassMailer
   attr_accessor :sex, :subject, :text, :test_profile_name, :test_email_address, :send_test_email, :status, :activity_more_than
 
   integer_attr_accessor :birthdate_start, :birthdate_end
-  boolean_attr_accessor :reviewed, :confirmed, :have_photo, :send_as_html 
+  boolean_attr_accessor :reviewed, :confirmed, :have_photo, :send_as_html
 
   attr_reader   :errors
 
@@ -37,7 +37,7 @@ class MassMailer
   def send_messages
     return false unless valid?
     begin
-      response = Mandrill::API.new.messages.send message if users_for_send.any?
+      response = Mandrill::API.new.messages.send message if users_for_send.any? && !Rails.env.test?
     rescue Exception => e
       errors.add :base, e.message
 
@@ -52,11 +52,11 @@ class MassMailer
   end
 
   def self.add_subscribe(email)
-    Mandrill::API.new.rejects.delete email
+    Mandrill::API.new.rejects.delete email unless Rails.env.test?
   end
 
   def self.remove_subscribe(email)
-    Mandrill::API.new.rejects.add email
+    Mandrill::API.new.rejects.add email unless Rails.env.test?
   end
 
   private
