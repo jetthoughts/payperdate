@@ -1,0 +1,26 @@
+# plain photos
+
+one:
+  album: favorites
+  image: 'tmp/image3.jpeg'
+
+two:
+  album: favorites
+  image: 'tmp/image4.jpeg'
+
+three:
+  album: favorites
+  image: 'tmp/image5.jpeg'
+
+# avatars
+
+martins:
+  album: martins_avatars
+  image: 'tmp/image.jpeg'
+  type: 'Avatar'
+
+another:
+  album: martins_avatars
+  image: 'tmp/image2.jpeg'
+  type: 'Avatar'
+

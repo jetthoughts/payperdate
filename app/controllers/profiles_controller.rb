@@ -1,4 +1,5 @@
 class ProfilesController < BaseController
+  # FIXME: cut this
   layout 'application'
   before_filter :load_profile
   before_filter :ensure_user_has_filled_profile
@@ -26,6 +27,7 @@ class ProfilesController < BaseController
 
   def check_if_user_is_deleted
     if @user.deleted?
+      # TODO: cover conditional path by test
       flash[:alert] = I18n.t('flash.profiles.deleted.alert')
       redirect_to root_path
     end

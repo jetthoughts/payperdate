@@ -1,5 +1,6 @@
 class AlbumsController < BaseController
   before_filter :ensure_user_has_filled_profile
+  before_action :setup_album, only: [:edit, :update, :destroy]
   respond_to :js, :html
   load_and_authorize_resource except: [:create]
 
@@ -13,11 +14,9 @@ class AlbumsController < BaseController
   end
 
   def edit
-    @album = current_user.albums.find(params[:id])
   end
 
   def update
-    @album = current_user.albums.find(params[:id])
     if @album.update_attributes(albums_attributes)
       redirect_to albums_path
     else
@@ -26,16 +25,17 @@ class AlbumsController < BaseController
   end
 
   def destroy
-    album = current_user.albums.find(params[:id])
-    #FIXME: Remove this logic from controller
-    @album_id = dom_id(album)
-    album.destroy
-    respond_with(@album_id)
+    @album.destroy
+    render formats: [:js]
   end
 
   private
 
   def albums_attributes
     params.require(:album).permit(:name)
+  end
+
+  def setup_album
+    @album = current_user.albums.find(params[:id])
   end
 end

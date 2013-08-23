@@ -2,6 +2,6 @@
   <%= link_to  album.name, page_owner? ? album_photos_path(album) : user_album_photos_path(selected_user, album) -%>
   <% if can? :destroy, album %>
     <%= link_to 'edit', edit_album_path(album) -%>
-    <%= link_to 'remove', album, remote: true, method: :delete, confirm: 'Sure?' -%>
+    <%= link_to 'remove', album, remote: true, method: :delete, data: { confirm: 'Sure?' } -%>
   <%- end -%>
 </div>

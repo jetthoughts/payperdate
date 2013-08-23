@@ -16,6 +16,7 @@ class Me::UsersDatesController < BaseController
     render 'index'
   end
 
+  # TODO: cover this by test
   def unlock
     authorize! :unlock, @users_date
     @users_date.unlock
