@@ -21,6 +21,15 @@ GIT
       hashr
 
 GIT
+  remote: git://github.com/colszowka/simplecov.git
+  revision: e6a678a7b3e5b0c9a89e0908258bda3a123c420c
+  branch: v0.8.0.pre
+  specs:
+    simplecov (0.8.0.pre)
+      multi_json
+      simplecov-html (~> 0.7.1)
+
+GIT
   remote: git://github.com/gregbell/active_admin.git
   revision: 72a9c30cef47b3f38c38039de021aaa3194c188b
   branch: rails4
@@ -356,9 +365,6 @@ GEM
       railties (>= 4.0.0.beta, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
-    simplecov (0.7.1)
-      multi_json (~> 1.0)
-      simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
     sinatra (1.4.3)
       rack (~> 1.4)
@@ -472,7 +478,7 @@ DEPENDENCIES
   recaptcha
   responders!
   sass-rails (~> 4.0.0)
-  simplecov
+  simplecov!
   sprockets-rails
   squeel
   state_machine
