@@ -39,6 +39,8 @@ Payperdate::Application.routes.draw do
       member do
         post :block
         post :unblock
+        post :favorite
+        post :remove_favorite
       end
     end
 
@@ -75,6 +77,7 @@ Payperdate::Application.routes.draw do
       end
 
       resource :blocks, to: 'me/blocks#index'
+      resource :favorites, to: 'me/favorites#index'
     end
 
     namespace :me, as: '' do

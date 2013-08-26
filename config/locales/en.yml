@@ -143,6 +143,10 @@ en:
         notice: 'User has been successfully blocked'
       unblock:
         notice: 'User has been successfully unblocked'
+      favorite:
+        notice: 'User has been successfully added to favorite.'
+      remove_favorite:
+        notice: 'User has been successfully removed from favorite.'
     profiles:
       deleted:
         alert: 'Sorry, but this user was deleted'
@@ -154,3 +158,4 @@ en:
 
   navigation:
     blocked: 'Blocked users'
+    favorite: 'My Favorite List'

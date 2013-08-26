@@ -13,7 +13,6 @@ class Invitation < ActiveRecord::Base
   validate :validate_already_sent, on: :create
 
   after_commit :notify_recipient, on: :create
-  after_create :create_users_communication
 
   state_machine :state, :initial => :pending do
     event :accept do
@@ -24,6 +23,7 @@ class Invitation < ActiveRecord::Base
     end
 
     after_transition pending: :accepted do |invitation, transition|
+      UsersCommunication.create!(owner: invitation.user, recipient: invitation.invited_user)
       InvitationMailer.delay.invitation_was_accepted(invitation.id)
     end
 
@@ -64,12 +64,8 @@ class Invitation < ActiveRecord::Base
     end
   end
 
-  def can_be_communicated?
-    user.can_communicated_with?(invited_user)
-  end
-
   def can_be_unlocked_by?(u)
-    accepted? && user == u && !can_be_communicated?
+    accepted? && user == u && communications && !communications.unlocked?
   end
 
   # methods for ranking/showing rank accepted invitation (date)
@@ -92,16 +88,12 @@ class Invitation < ActiveRecord::Base
 
   # end ranking methods
 
+  def need_response_from?(u)
+    pending? && recipient == u
+  end
+
   def can_be_countered_by?(u)
-    pending? && !counter && invited_user == u
-  end
-
-  def can_be_rejected_by?(u)
-    pending? && (((user == u) && counter) || ((invited_user == u) && !counter))
-  end
-
-  def can_be_accepted_by?(u)
-    pending? && (((user == u) && counter) || ((invited_user == u) && !counter))
+    !counter && need_response_from?(u)
   end
 
   def can_be_deleted_by?(u)
@@ -168,10 +160,6 @@ class Invitation < ActiveRecord::Base
 
   def communication_cost
     @communication_cost ||= CommunicationCost.get(amount).cost
-  end
-
-  def create_users_communication
-     UsersCommunication.where(owner_id: user, recipient_id: invited_user).first_or_create
   end
 
   def communications
