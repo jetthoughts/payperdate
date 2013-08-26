@@ -63,6 +63,7 @@
     = render 'profiles/invite_link', user: @user
     = render 'profiles/block_link', user: @user
     = render 'profiles/send_wink_link', user: @user
+    = render 'profiles/favorite_link', user: @user
     = link_to 'Albums', user_albums_path(@user), class: :btn
 
     - if @user == current_user

@@ -1,7 +1,7 @@
 class UsersController < BaseController
   before_filter :ensure_user_has_filled_profile
   before_filter :setup_profiles_and_users
-  before_filter :setup_target_user, only: [:block, :unblock]
+  before_filter :setup_target_user, only: [:block, :unblock, :favorite, :remove_favorite]
   after_filter :track_block_activity, only: :block
   after_filter :track_unblock_activity, only: :unblock
 
@@ -17,6 +17,18 @@ class UsersController < BaseController
     user.unsubscribe!
 
     redirect_to root_path, notice: t("unsubscribed")
+  end
+
+  def favorite
+    current_user.favorite_user @target
+    flash[:notice] = I18n.t('flash.users.favorite.notice')
+    redirect_to user_profile_path @target
+  end
+
+  def remove_favorite
+    current_user.remove_favorite_user @target
+    flash[:notice] = I18n.t('flash.users.remove_favorite.notice')
+    redirect_to user_profile_path @target
   end
 
   def block
