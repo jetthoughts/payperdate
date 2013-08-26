@@ -23,9 +23,10 @@ class User < ActiveRecord::Base
   has_many :date_ranks, inverse_of: :user
 
   has_many :favorites, dependent: :destroy
-  has_many :favorite_users, through: :favorites, dependent: :destroy, source: :favorite
+  has_many :favorite_users, through: :favorites, source: :favorite
 
   has_many :back_favorites, class_name: "Favorite", foreign_key: :favorite_id, dependent: :destroy
+  has_many :back_favorite_users, through: :back_favorites, source: :user
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
