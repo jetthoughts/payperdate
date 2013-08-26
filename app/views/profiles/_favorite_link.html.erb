@@ -1,0 +1,7 @@
+<% if user && current_user.id != user.id %>
+	<% if user.favorite_for? current_user %>
+		<%= link_to 'Remove from Favorite', remove_favorite_user_path(user), class: 'btn', method: :post %>
+	<% else %>
+		<%= link_to 'Favorite', favorite_user_path(user), class: 'btn', method: :post %>
+	<% end %>
+<% end %>

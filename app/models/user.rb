@@ -22,6 +22,11 @@ class User < ActiveRecord::Base
 
   has_many :date_ranks, inverse_of: :user
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_users, through: :favorites, dependent: :destroy, source: :user
+
+  has_many :back_favorites, class_name: "Favorite", foreign_key: :favorite_id, dependent: :destroy
+
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
@@ -154,6 +159,18 @@ class User < ActiveRecord::Base
 
   def subscribe!
     update! subscribed: false
+  end
+
+  def favorite_user(user)
+    favorites.create favorite: user
+  end
+
+  def remove_favorite_user(user)
+    favorites.where(favorite_id: user.id).destroy_all
+  end
+
+  def favorite_for?(user)
+    back_favorites.find_by(user_id: user) && true
   end
 
   def block_user(user)
