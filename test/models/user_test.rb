@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :messages, :block_relationships, :users_communications
+  fixtures :users, :messages, :block_relationships, :users_dates
 
 
   def test_create
@@ -50,28 +50,28 @@ class UserTest < ActiveSupport::TestCase
 
     # There is no UserCommunication between 'Martin' and 'Mia'. Only pending invitation.
 
-    refute mia.can_communicated_with?(martin)
-    refute martin.can_communicated_with?(mia)
+    refute mia.can_communicate_with?(martin)
+    refute martin.can_communicate_with?(mia)
   end
 
   def test_can_communicated_with_when_unlocked
     sophia = users(:sophia)
     lily = users(:lily)
 
-    users_communications(:unlocked_communications_sophia_lily)
+    users_dates(:unlocked_date_sophia_lily)
 
-    assert sophia.can_communicated_with?(lily)
-    assert lily.can_communicated_with?(sophia)
+    assert sophia.can_communicate_with?(lily)
+    assert lily.can_communicate_with?(sophia)
   end
 
   def test_can_communicated_with_when_locked
     john = users(:john)
     lily =  users(:lily)
 
-    users_communications(:locked_communication_john_lily)
+    users_dates(:locked_date_john_lily)
 
-    refute john.can_communicated_with?(lily)
-    assert lily.can_communicated_with?(john)
+    refute john.can_communicate_with?(lily)
+    assert lily.can_communicate_with?(john)
   end
 
   def test_delete_user

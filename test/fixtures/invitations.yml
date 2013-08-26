@@ -36,7 +36,7 @@ paul_john_locked_yet:
 
 john_lily_locked_yet:
   message: 'Hi. Are you interesting in sex with me for 5 bucks?'
-  amount_cents: 500
+  amount_cents: 5001
   amount_currency: 'USD'
   user: john
   invited_user: lily
@@ -48,4 +48,28 @@ sophia_lily_accepted:
   amount_currency: 'USD'
   user: sophia
   invited_user: lily
+  state: 'accepted'
+
+john_sophia_accepted:
+  message: 'Hi! Can we speak?'
+  amount_cents: 500
+  amount_currency: 'USD'
+  user: john
+  invited_user: sophia
+  state: 'accepted'
+
+john_mia_accepted:
+  message: 'Hi! Can we speak?'
+  amount_cents: 500
+  amount_currency: 'USD'
+  user: john
+  invited_user: mia
+  state: 'accepted'
+
+ria_robert_accepted:
+  message: 'Hi! Can we speak?'
+  amount_cents: 500
+  amount_currency: 'USD'
+  user: ria
+  invited_user: robert
   state: 'accepted'

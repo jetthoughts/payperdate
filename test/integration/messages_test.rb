@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MessagesTest < ActionDispatch::IntegrationTest
 
-  fixtures :users, :invitations, :users_communications, :communication_costs
+  fixtures :users, :invitations, :users_dates, :communication_costs
 
   test 'should have hidden messages' do
     martin = users(:martin)
@@ -26,10 +26,9 @@ class MessagesTest < ActionDispatch::IntegrationTest
       refute page.has_content?("Test message")
     end
 
-    visit "/me/invitations"
-    page.click_link 'Accepted'
-
-    within('.invitation') do
+    visit "/me/users_dates"
+    page.click_link 'Locked'
+    within('.users_date') do
       page.click_link 'Unlock'
       confirm_js_popup
     end

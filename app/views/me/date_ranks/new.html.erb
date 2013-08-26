@@ -1,5 +1,5 @@
 <h1>Rank date</h1>
-<%= form_for([@invitation, @date_rank], method: :post) do |f| %>
+<%= form_for(@date_rank, method: :post, url: _users_date_date_ranks_path(@users_date)) do |f| %>
   <div class="control-group">
     <%= f.label :courtesy_rank_id %>
     <div class="controls">
@@ -20,6 +20,6 @@
   </div>
 
   <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= f.submit t('.submit'), class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -57,13 +57,6 @@ class InvitationsController < BaseController
     render nothing: true
   end
 
-  def unlock
-    authorize! :unlock, @invitation
-    @invitation.unlock
-    flash[:alert] = @invitation.errors.full_messages.join(" ") if @invitation.errors.any?
-    redirect_to accepted_invitations_path
-  end
-
   private
 
   def invitation_params

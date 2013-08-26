@@ -20,10 +20,9 @@ class Message < ActiveRecord::Base
   scope :received_by, ->(user) { where { sift :received_and_not_deleted, user  } }
   scope :sent_by, ->(user) { where { sift :sent_and_not_deleted, user } }
 
-  validates :sender, :recipient, presence: true
-  validates :content, presence: true
-
-  validate :vaidate_can_send_to_blocker
+  validates :sender, :recipient, :content, presence: true
+  validate :validate_can_send_to_himself
+  validate :validate_can_send_to_blocker
 
   state_machine :recipient_state, initial: :unread do
     event :read do
@@ -38,6 +37,14 @@ class Message < ActiveRecord::Base
   state_machine :sender_state, initial: :sent do
     event :delete_by_sender do
       transition all => :deleted_by_sender
+    end
+  end
+
+  def interlocutor(user)
+    if sender == user
+      recipient
+    else
+      sender
     end
   end
 
@@ -71,7 +78,11 @@ class Message < ActiveRecord::Base
 
   private
 
-  def vaidate_can_send_to_blocker
+  def validate_can_send_to_himself
+    self.errors.add(:recipient_id, :cant_send_message_to_himself) if recipient == sender
+  end
+
+  def validate_can_send_to_blocker
     self.errors.add(:recipient_id, :cant_send_message_to_blocker) if sender && sender.blocked_for?(recipient)
   end
 
