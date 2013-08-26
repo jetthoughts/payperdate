@@ -1,10 +1,11 @@
 class ProfileLoader
   def self.create_user(name)
-    user = User.create! nickname:     name.split(' ').first.downcase, # => john
-                     name:         name,
-                     email:        "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
-                     password:     'welcome',
-                     confirmed_at: Time.current
+    user = User.create! nickname:       name.split(' ').first.downcase, # => john
+                        name:           name,
+                        email:          "#{name.gsub(' ', '.').downcase}@example.com", # => john.smith@example.com
+                        password:       'welcome',
+                        confirmed_at:   Time.current,
+                        credits_amount: 100
     puts user.email if Rails.env.development?
     user
   end
