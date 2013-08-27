@@ -5,8 +5,8 @@
     <% else -%>
       <%= t :'messages.show.to' -%>
     <% end -%>
-    <%= other_user_of_message(@message, current_user).name %>
-    <% if other_user_of_message(@message, current_user).deleted? %>
+    <%= @message.interlocutor(current_user).name %>
+    <% if @message.interlocutor(current_user).deleted? %>
       <span class="label">Deleted</span>
     <% end %>
   </h3>
@@ -18,11 +18,11 @@
 </blockquote>
 
 <div class="form-actions">
-  <%= link_to t('messages.index.back', default: t("helpers.links.back")),
-              messages_path, class: 'btn'  %>
-  <%= link_to t(:'messages.index.reply'), new_user_message_path(other_user_of_message(@message, current_user)), class: 'btn' %>
+  <%= link_to t(:'messages.index.back', default: t("helpers.links.back")), unread_messages_path, class: 'btn' %>
+  <%= link_to t(:'messages.index.reply'), new_user_message_path(@message.interlocutor(current_user)),
+              class: 'btn' if can? :communicate, @message.interlocutor(current_user) %>
   <%= link_to t(:'messages.index.destroy'), message_path(@message),
               method: 'delete',
               data:   { confirm: t('messages.index.confirm') },
-              class:  'btn btn-danger' %>
+              class:  'btn btn-danger' if can? :destroy, @message %>
 </div>

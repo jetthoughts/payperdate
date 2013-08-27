@@ -47,8 +47,12 @@ task setup_sample_data: :environment do
   CommunicationCost.delete_all
   puts 'Cleaning ranks...'
   Rank.delete_all
+  puts 'Cleaning users dates...'
+  UsersDate.delete_all
   puts 'Cleaning date ranks...'
   DateRank.delete_all
+  puts 'Cleaning transactions...'
+  Transaction.delete_all
 
   puts 'Setting up master admin..'
 
@@ -90,25 +94,38 @@ task setup_sample_data: :environment do
     CommunicationCost.create cost
   end
 
-  puts 'Setting up ranks...'
-  ranks = [
-      { name: 'Great!',       value: 3 },
-      { name: 'OK',           value: 2 },
-      { name: 'Not so much!', value: 1 }
-  ]
-  ranks.each do |rank|
-    Rank.create rank
-  end
-
   puts 'Setting up users..'
 
   create_users
 
   User.first.gifts.create gift_template: GiftTemplate.first, user: User.last
 
+  puts 'Creating approved avatars for users'
+  create_avatars 'approved' do |avatar|
+    avatar.approve!
+  end
+
+  puts 'Creating declined avatars for users'
+  create_avatars 'declined' do |avatar|
+    avatar.decline!
+  end
+
+  puts 'Creating pending avatars for users'
+  create_avatars 'pending'
+
   puts 'setup_sample_data done'
 end
 
+def create_avatars(folder)
+  path = Rails.root.join('db', 'sample_data', 'avatars', folder)
+  Dir.new(path).each do |filename|
+    user = User.find_by_nickname(filename.split('.').first)
+    if user
+      avatar = Avatar.create! image: File.open(File.join(path, filename)), owner: user
+      yield avatar if block_given?
+    end
+  end
+end
 
 def create_users
   ProfileLoader.load 'config/sample_data.yml'

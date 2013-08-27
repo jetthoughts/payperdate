@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   has_many :date_ranks, inverse_of: :user
 
   has_many :favorites, dependent: :destroy
-  has_many :favorite_users, through: :favorites, dependent: :destroy, source: :user
+  has_many :favorite_users, through: :favorites, dependent: :destroy, source: :favorite
 
   has_many :back_favorites, class_name: "Favorite", foreign_key: :favorite_id, dependent: :destroy
 
@@ -148,9 +148,13 @@ class User < ActiveRecord::Base
     self.find_by(email: login) || self.find_by(nickname: login)
   end
 
-  def can_communicated_with?(user)
-    communication = UsersCommunication.find_by_users(user, self)
-    communication && (communication.unlocked || communication.recipient == self) || false
+  def can_access?(message)
+    can_communicate_with?(message.interlocutor(self)) && !message.deleted_by?(self)
+  end
+
+  def can_communicate_with?(user)
+    date = UsersDate.find_by_users(user, self)
+    date && date.can_be_communicated?(self, user)
   end
 
   def unsubscribe!

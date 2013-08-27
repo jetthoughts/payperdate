@@ -20,6 +20,18 @@ class Ability
         user.can_invite?(u)
       end
 
+      can :send_wink, User do |u|
+        user.can_wink?(u)
+      end
+
+      can :communicate, User do |u|
+        user.can_communicate_with?(u) && !user.blocked_for?(u)
+      end
+
+      can [:read, :destroy], Message do |message|
+        user.can_access?(message)
+      end
+
       can :destroy, Invitation do |invitation|
         invitation.can_be_deleted_by?(user)
       end
@@ -32,24 +44,16 @@ class Ability
         invitation.can_be_countered_by?(user)
       end
 
-      can :unlock, Invitation do |invitation|
-        invitation.can_be_unlocked_by?(user)
+      can :unlock, UsersDate do |users_date|
+        users_date.can_be_unlocked_by?(user)
       end
 
-      can :communicated, Invitation do |invitation|
-        user.can_communicated_with?(invitation.friend(user))
+      can :rank, UsersDate do |users_date|
+        users_date.can_be_ranked?(user)
       end
 
-      can :send_wink, User do |u|
-        user.can_wink?(u)
-      end
-
-      can :rank, Invitation do |invitation|
-        invitation.can_be_ranked?(user)
-      end
-
-      can :view_rank, Invitation do |invitation|
-        invitation.can_view_rank?(user)
+      can :view_rank, UsersDate do |users_date|
+        users_date.can_view_rank?(user)
       end
 
     end

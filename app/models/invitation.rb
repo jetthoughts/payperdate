@@ -4,8 +4,6 @@ class Invitation < ActiveRecord::Base
   belongs_to :user
   belongs_to :invited_user, class_name: 'User'
 
-  has_many :date_ranks, inverse_of: :invitation
-
   validates :user, :invited_user, presence: true
   validate :validate_user_can_invite_himself
   validate :validate_user_can_blocked_by_self
@@ -14,7 +12,7 @@ class Invitation < ActiveRecord::Base
 
   after_commit :notify_recipient, on: :create
 
-  state_machine :state, :initial => :pending do
+  state_machine :state, initial: :pending do
     event :accept do
       transition pending: :accepted
     end
@@ -23,7 +21,7 @@ class Invitation < ActiveRecord::Base
     end
 
     after_transition pending: :accepted do |invitation, transition|
-      UsersCommunication.create!(owner: invitation.user, recipient: invitation.invited_user)
+      UsersDate.where(owner_id: invitation.user, recipient_id: invitation.invited_user).first_or_create
       InvitationMailer.delay.invitation_was_accepted(invitation.id)
     end
 
@@ -37,6 +35,8 @@ class Invitation < ActiveRecord::Base
     (user_id == user1.id) & (invited_user_id == user2.id)
   end
 
+  scope :accepted, -> { where(state: 'accepted') }
+
   def self.existing_states
     Invitation.state_machines[:state].states.map(&:value)
   end
@@ -47,6 +47,13 @@ class Invitation < ActiveRecord::Base
 
   existing_states.each do |scope_name|
     scope scope_name, -> { where(state: scope_name) }
+  end
+
+  def accept_with_message(message)
+    unless message.blank?
+      Message.create!(sender: recipient, recipient: inviter, content: message)
+    end
+    accept
   end
 
   def reject_by_reason(reason = nil)
@@ -63,30 +70,6 @@ class Invitation < ActiveRecord::Base
       res
     end
   end
-
-  def can_be_unlocked_by?(u)
-    accepted? && user == u && communications && !communications.unlocked?
-  end
-
-  # methods for ranking/showing rank accepted invitation (date)
-
-  def rank_by(u)
-    date_ranks.where(user_id: u).first
-  end
-
-  def ranked?(u)
-    rank_by(u) != nil
-  end
-
-  def can_be_ranked?(u)
-    accepted? && belongs_to_user?(u) && !ranked?(u)
-  end
-
-  def can_view_rank?(u)
-    belongs_to_user?(u) && ranked?(u)
-  end
-
-  # end ranking methods
 
   def need_response_from?(u)
     pending? && recipient == u
@@ -107,17 +90,6 @@ class Invitation < ActiveRecord::Base
   def recipient
     friend(inviter)
   end
-
-  def unlock
-    if user.credits_amount > communication_cost
-      users_communication = communications
-      users_communication.unlock
-    else
-      self.errors.add(:base, :cant_unlocked_invitation)
-    end
-    errors.empty?
-  end
-
 
   def friend(cur_user)
     cur_user == user ? invited_user : user
@@ -146,10 +118,6 @@ class Invitation < ActiveRecord::Base
     self.errors.add(:invited_user_id, :already_sent) if user.already_invited?(invited_user)
   end
 
-  def validate_user_credits_amount_to_unlock_communication
-    self.errors.add(:base, :cant_unlocked_invitation) if user.credits_amount < communication_cost
-  end
-
   def notify_recipient
     if counter
       InvitationMailer.delay.counter_invitation(self.id)
@@ -162,7 +130,7 @@ class Invitation < ActiveRecord::Base
     @communication_cost ||= CommunicationCost.get(amount).cost
   end
 
-  def communications
-    UsersCommunication.find_by_users user, invited_user
+  def dates
+    UsersDate.find_by_users user, invited_user
   end
 end

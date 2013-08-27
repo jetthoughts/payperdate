@@ -1,0 +1,29 @@
+locked_date_paul_john:
+  owner: paul
+  recipient: john
+  unlocked: false
+
+locked_date_john_lily:
+  owner: john
+  recipient: lily
+  unlocked: false
+
+unlocked_date_sophia_lily:
+  owner: sophia
+  recipient: lily
+  unlocked: true
+
+unlocked_date_john_sophia:
+  owner: john
+  recipient: sophia
+  unlocked: true
+
+unlocked_date_john_mia:
+  owner: john
+  recipient: mia
+  unlocked: true
+
+unlocked_date_ria_robert:
+  owner: ria
+  recipient: robert
+  unlocked: true
