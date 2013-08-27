@@ -1,10 +1,12 @@
 class Invitation < ActiveRecord::Base
-  monetize :amount_cents, numericality: { greater_than_or_equal_to: 0 }
+  monetize :amount_cents
 
   belongs_to :user
   belongs_to :invited_user, class_name: 'User'
 
   validates :user, :invited_user, presence: true
+  validates :amount, numericality: { greater_than_or_equal_to: 5 }
+  validate :validate_has_communication_cost
   validate :validate_user_can_invite_himself
   validate :validate_user_can_blocked_by_self
   validate :validate_user_can_blocker
@@ -113,6 +115,9 @@ class Invitation < ActiveRecord::Base
     self.errors.add(:invited_user_id, :cant_invite_blocker) if user.blocked_for?(invited_user)
   end
 
+  def validate_has_communication_cost
+    self.errors.add(:amount, :cant_find_communication_cost_for_amount) unless CommunicationCost.get(amount)
+  end
 
   def validate_already_sent
     self.errors.add(:invited_user_id, :already_sent) if user.already_invited?(invited_user)
