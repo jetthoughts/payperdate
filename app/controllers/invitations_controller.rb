@@ -34,8 +34,7 @@ class InvitationsController < BaseController
 
   def accept
     authorize! :accept, @invitation
-    Message.create!(sender: current_user, recipient: @invitation.friend(current_user), content: params[:message])
-    @invitation.accept
+    @invitation.accept_with_message(params[:message])
     #TODO: AJAX
     redirect_to accepted_invitations_path
   end
@@ -55,13 +54,6 @@ class InvitationsController < BaseController
     authorize! :destroy, @invitation
     @invitation.destroy!
     render nothing: true
-  end
-
-  def unlock
-    authorize! :unlock, @invitation
-    @invitation.unlock
-    flash[:alert] = @invitation.errors.full_messages.join(" ") if @invitation.errors.any?
-    redirect_to accepted_invitations_path
   end
 
   private

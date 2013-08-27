@@ -81,3 +81,13 @@ services = [
 services.each do |service|
   Service.create! service
 end
+
+ranks = [
+  { name: 'Great!',       value: 3 },
+  { name: 'OK',           value: 2 },
+  { name: 'Not so much!', value: 1 }
+]
+
+ranks.each do |rank|
+  Rank.create! rank
+end

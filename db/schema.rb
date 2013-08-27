@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20130823152840) do
 
   create_table "date_ranks", force: true do |t|
     t.integer  "user_id",              null: false
-    t.integer  "invitation_id",        null: false
+    t.integer  "users_date_id",        null: false
     t.integer  "courtesy_rank_id",     null: false
     t.integer  "punctuality_rank_id",  null: false
     t.integer  "authenticity_rank_id", null: false
@@ -116,9 +116,9 @@ ActiveRecord::Schema.define(version: 20130823152840) do
 
   add_index "date_ranks", ["authenticity_rank_id"], name: "index_date_ranks_on_authenticity_rank_id", using: :btree
   add_index "date_ranks", ["courtesy_rank_id"], name: "index_date_ranks_on_courtesy_rank_id", using: :btree
-  add_index "date_ranks", ["invitation_id"], name: "index_date_ranks_on_invitation_id", using: :btree
   add_index "date_ranks", ["punctuality_rank_id"], name: "index_date_ranks_on_punctuality_rank_id", using: :btree
   add_index "date_ranks", ["user_id"], name: "index_date_ranks_on_user_id", using: :btree
+  add_index "date_ranks", ["users_date_id"], name: "index_date_ranks_on_users_date_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -359,7 +359,7 @@ ActiveRecord::Schema.define(version: 20130823152840) do
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "users_communications", force: true do |t|
+  create_table "users_dates", force: true do |t|
     t.integer  "owner_id"
     t.integer  "recipient_id"
     t.boolean  "unlocked",     default: false
@@ -367,7 +367,7 @@ ActiveRecord::Schema.define(version: 20130823152840) do
     t.datetime "updated_at"
   end
 
-  add_index "users_communications", ["owner_id", "recipient_id"], name: "index_users_communications_on_owner_id_and_recipient_id", unique: true, using: :btree
+  add_index "users_dates", ["owner_id", "recipient_id"], name: "index_users_dates_on_owner_id_and_recipient_id", unique: true, using: :btree
 
   create_table "wink_templates", force: true do |t|
     t.string   "name",                       null: false

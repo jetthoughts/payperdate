@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Me::MessagesControllerTest < ActionController::TestCase
 
-  fixtures :users, :messages
+  fixtures :users, :messages, :users_dates
 
   def setup
     @user = users(:john)
@@ -79,8 +79,8 @@ class Me::MessagesControllerTest < ActionController::TestCase
     assert message.read?
   end
 
-  def test_get_message_show_deleted
-    assert_raise ActionController::RoutingError do
+  def test_get_message_access_denied_on_show_deleted
+    assert_raise CanCan::AccessDenied do
       get :show, id: messages(:john_message_sent_deleted)
     end
   end
@@ -91,10 +91,10 @@ class Me::MessagesControllerTest < ActionController::TestCase
     assert_not_nil flash[:notice]
   end
 
-  def test_delete_destroy_not_found_on_error
-    delete :destroy, id: messages(:john_message_received_deleted)
-    assert_redirected_to messages_path
-    assert_not_nil flash[:alert]
+  def test_delete_destroy_access_denied_on_error
+    assert_raise CanCan::AccessDenied do
+      delete :destroy, id: messages(:john_message_received_deleted)
+    end
   end
 
   def test_get_all_user_messages_with_deleted_user
