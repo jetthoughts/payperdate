@@ -4,7 +4,8 @@ class ProfilesControllerTest < ActionController::TestCase
   fixtures :users, :profiles, :block_relationships
 
   def setup
-    sign_in users(:martin)
+    @current_user = users(:martin)
+    sign_in @current_user
   end
 
   test 'should not be able to see others user before current user fill profile' do
@@ -125,4 +126,12 @@ class ProfilesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
     assert_equal 'Sorry, but this user was deleted', flash[:alert]
   end
+
+  test 'should add viewers on view profiles' do
+    mia = users(:mia)
+    assert_difference [ -> { @current_user.viewed_users.count }, -> { mia.viewers.count }], +1 do
+      get :show, user_id: mia
+    end
+  end
+
 end

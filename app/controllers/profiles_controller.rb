@@ -7,6 +7,7 @@ class ProfilesController < BaseController
   before_filter :check_if_user_is_deleted
 
   def show
+    current_user.view_user @user
   end
 
   private
