@@ -21,6 +21,7 @@ class UsersController < BaseController
 
   def favorite
     current_user.favorite_user @target
+
     flash[:notice] = I18n.t('flash.users.favorite.notice')
     redirect_to user_profile_path @target
   end
