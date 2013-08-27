@@ -1,0 +1,27 @@
+<h2>Viewed my profile</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nickname</th>
+      <th>Name</th>
+      <th>Last view</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @views.each do |view| %>
+    <tr>
+      <td>
+        <%= view.user.nickname %>
+        <% if view.user.deleted? %>
+          &nbsp;<span class="label">Deleted</span>
+        <% else %>
+          &nbsp;<span class="hide">Not deleted</span>
+        <% end %>
+      </td>
+      <td><%= link_to view.user.name, user_profile_path(view.user) %></td>
+      <td><%= l view.updated_at, format: :short %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
