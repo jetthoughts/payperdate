@@ -150,6 +150,12 @@ class MessageTest < ActiveSupport::TestCase
     assert message.deleted_by?(message.recipient)
   end
 
+  def test_interlocutor
+    message = messages(:john_message_sent) # mia recipient
+    assert_equal users(:mia), message.interlocutor(users(:john))
+    assert_equal users(:john), message.interlocutor(users(:mia))
+  end
+
   def test_cant_send_message_to_blocker
     message = Message.create sender: @ria, recipient: @robert, content: 'Hello!'
     refute message.valid?
@@ -158,6 +164,11 @@ class MessageTest < ActiveSupport::TestCase
   def test_can_send_message_to_blocked_by_himself
     message = Message.create sender: @robert, recipient: @ria, content: 'Hello!'
     assert message.valid?
+  end
+
+  def test_cant_send_message_to_himself
+    message = Message.create sender: @robert, recipient: @robert, content: 'Hello!'
+    refute message.valid?
   end
 
 end

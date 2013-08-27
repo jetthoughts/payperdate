@@ -1,16 +1,15 @@
 class Me::MessagesController < BaseController
 
-  include ApplicationHelper
-
   before_filter :find_user_message, only: [:show, :destroy]
 
   def show
-    not_found unless @message
+    authorize! :show, @message
     @message.read! if @message.unread?
   end
 
   def destroy
-    if @message && @message.delete_by(current_user)
+    authorize! :destroy, @message
+    if @message.delete_by(current_user)
       redirect_to messages_path, notice: t(:'messages.messages.was_deleted')
     else
       redirect_to messages_path, alert: t(:'messages.messages.was_not_deleted')
@@ -39,7 +38,7 @@ class Me::MessagesController < BaseController
   private
 
   def find_user_message
-    @message = Message.by(current_user).where(id: params[:id]).first
+    @message = Message.find(params[:id])
   end
 
 end

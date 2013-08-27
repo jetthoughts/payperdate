@@ -1,20 +1,19 @@
 <tr>
   <td>
-    <!-- FIXME?: why not ```message.sent_by? current_user``` ? -->
-    <%- if message_sent_by_user? message, current_user %>
+    <%- if message.sent_by?(current_user) %>
       <i class="icon-arrow-right"></i>
     <% else %>
       <i class="icon-arrow-left"></i>
     <% end %>
   </td>
   <td>
-    <%= link_to(other_user_of_message(message, current_user).name,
-                user_profile_path(other_user_of_message(message, current_user))) %>
+    <%= link_to(message.interlocutor(current_user).name,
+                user_profile_path(message.interlocutor(current_user))) %>
   </td>
-  <% if other_user_of_message(message, current_user).deleted? %>
+  <% if message.interlocutor(current_user).deleted? %>
     <span class="label">Deleted</span>
   <% end %>
-  <% if message.sent_by?(current_user) || current_user.can_communicated_with?(message.sender) %>
+  <% if can? :read, message %>
     <td><%= truncate(message.content, length: 20, separator: ' ') %></td>
   <% else %>
     <td>(HIDDEN)</td>
@@ -25,16 +24,16 @@
     <% end %>
   </td>
   <td><%=l message.created_at, format: :short %></td>
-  <% if message.sent_by?(current_user) || current_user.can_communicated_with?(message.sender) %>
     <td>
-      <%= link_to t(:'messages.index.show'), message_path(message), class: 'btn' %>
-      <%= link_to t(:'messages.index.reply'), new_user_message_path(other_user_of_message(message, current_user)), class: 'btn' %>
+      <%= link_to t(:'messages.index.go_to_unlock'),
+                  users_dates_path if can? :unlock, message.users_date %>
+      <%= link_to t(:'messages.index.show'), message_path(message),
+                  class: 'btn' if can? :read, message %>
+      <%= link_to t(:'messages.index.reply'), new_user_message_path(message.interlocutor(current_user)),
+                  class: 'btn' if can? :communicate, message.interlocutor(current_user) %>
       <%= link_to t(:'messages.index.destroy'), message_path(message),
                   method: 'delete',
                   data:   { confirm: t('messages.index.confirm') },
-                  class:  'btn btn-danger' %>
+                  class:  'btn btn-danger' if can? :destroy, message %>
     </td>
-  <% else %>
-    <td> To unlock messsages: <%= link_to t('invitations.unlock'), accepted_invitations_path %> </td>
-  <% end %>
 </tr>
