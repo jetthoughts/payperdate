@@ -1,0 +1,25 @@
+en:
+  activerecord:
+    errors:
+      models:
+        users_date:
+          attributes:
+            base:
+              cant_unlocked_users_date: 'Your balance less then price of unlock message'
+  me:
+    users_dates:
+      users_date:
+        unlock_confirm: 'Do you confirm payment %{credits} credits for unlock messages?'
+        unlock: 'Unlock'
+    date_ranks:
+      new:
+        submit: Create
+      create:
+        ranked: Date succesfully ranked
+      date_rank:
+        courtesy: 'Courtesy:'
+        punctuality: 'Punctuality:'
+        authenticity: 'Authenticity:'
+        prepend: (
+        delimiter: ','
+        append: )
