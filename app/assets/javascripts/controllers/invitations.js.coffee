@@ -35,17 +35,18 @@ class InvitationController
   initNewInvitation: ->
     invitation_form = $('#new_invitation')
 
-    invitation_form.on 'ajax:before', (e, response) ->
-      $(@).closest('.modal').modal('hide')
-
     invitation_form.on 'ajax:success', (e, response) ->
       if response.success
+        $(@).closest('.modal').modal('hide')
+        $('#invite_user_btn').remove()
         FlashPopup.success(response.message)
       else
-        FlashPopup.error(response.message)
-      $('#invite_user_btn').remove()
+        $('#invitation_errors').html("<div class='alert alert-error'>" +
+          "<button type='button' class='close' data-dismiss='alert'>&times;</button>" +
+          "<strong>#{response.message}</strong></div>")
 
     invitation_form.on 'ajax:error', (e, response) ->
+      $(@).closest('.modal').modal('hide')
       FlashPopup.error('Sorry. Something went wrong')
 
   removeInvitation: (obj)->
