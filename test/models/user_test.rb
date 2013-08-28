@@ -94,4 +94,17 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'deleted_by_himself', users(:john).deleted_state
   end
 
+  def test_users_views
+    john = users(:john)
+    mia  = users(:mia)
+
+    assert_difference [-> { john.viewers.count }, -> { mia.viewed_users.count }], +1 do
+      mia.view_user(john)
+    end
+
+    assert_difference [-> { john.viewers.count }, -> { mia.viewed_users.count }], 0 do
+      john.view_user(mia)
+    end
+  end
+
 end

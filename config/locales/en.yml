@@ -62,6 +62,8 @@ en:
             invited_user_id:
               cant_invite_himself: 'You cant invite yourself'
               already_sent: 'Invitation already sent'
+            amount:
+              cant_find_communication_cost_for_amount: 'Can not find communication cost for this amount'
         message:
           attributes:
             recipient_id:
@@ -156,4 +158,6 @@ en:
 
   navigation:
     blocked: 'Blocked users'
-    favorite: 'My Favorite List'
+    favorite: 'My favorites'
+    back_favorite: 'Favorited me'
+    viewers: 'Viewed me'

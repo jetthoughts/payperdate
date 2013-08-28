@@ -23,9 +23,17 @@ class User < ActiveRecord::Base
   has_many :date_ranks, inverse_of: :user
 
   has_many :favorites, dependent: :destroy
-  has_many :favorite_users, through: :favorites, dependent: :destroy, source: :favorite
+  has_many :favorite_users, through: :favorites, source: :favorite
 
   has_many :back_favorites, class_name: "Favorite", foreign_key: :favorite_id, dependent: :destroy
+  has_many :back_favorite_users, through: :back_favorites, source: :user
+
+
+  has_many :profile_views, ->{ order(:updated_at).reverse_order }, dependent: :destroy
+  has_many :viewed_users, through: :profile_views, source: :viewed
+
+  has_many :back_profile_views, ->{ order(:updated_at).reverse_order }, class_name: 'ProfileView', foreign_key: :viewed_id, dependent: :destroy
+  has_many :viewers, through: :back_profile_views, source: :user
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
@@ -163,6 +171,12 @@ class User < ActiveRecord::Base
 
   def subscribe!
     update! subscribed: false
+  end
+
+  def view_user(user)
+    profile_view = profile_views.where(viewed_id: user).first_or_create
+    profile_view.touch
+    profile_view.save!
   end
 
   def favorite_user(user)

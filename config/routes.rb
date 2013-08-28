@@ -75,7 +75,9 @@ Payperdate::Application.routes.draw do
       end
 
       resource :blocks, to: 'me/blocks#index'
-      resource :favorites, to: 'me/favorites#index'
+      get :favorites, to: 'me/favorites#index'
+      get :viewers, to: 'me/viewers#index'
+      get :back_favorites, to: "me/favorites#back"
     end
 
     namespace :me, as: '' do
