@@ -20,6 +20,10 @@ class Message < ActiveRecord::Base
   scope :received_by, ->(user) { where { sift :received_and_not_deleted, user  } }
   scope :sent_by, ->(user) { where { sift :sent_and_not_deleted, user } }
 
+  scope :between, ->(viewer, interlocutor) {
+    where { (sift :sent_or_received_by, viewer) & (sender_id.eq(interlocutor) | recipient_id.eq(interlocutor)) }
+  }
+
   validates :sender, :recipient, :content, presence: true
   validate :validate_can_send_to_himself, on: :create
   validate :validate_can_send_to_blocker, on: :create

@@ -17,8 +17,11 @@
   <%- if can? :unlock, users_date -%>
     <%= link_to t('.unlock'),
                 unlock_users_date_path(users_date),
-                data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: users_date.communication_cost.cost), method: :post } %>
+                data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: users_date.communication_cost.cost), method: :post },
+                class: 'btn' %>
   <%- end -%>
+
+  <%= link_to t('.conversation'), conversation_path(users_date.partner(current_user)) %>
 
   <%- if can? :rank, users_date -%>
     <%= link_to t('.rank_date'), new__users_date_date_rank_path(users_date) %>

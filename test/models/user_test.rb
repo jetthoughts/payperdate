@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
     assert User.find(users(:ria).id)
   end
 
-  def test_can_communicated_with_when_no_communication
+  def test_can_communicate_with_when_no_communication
     martin = users(:martin)
     mia = users(:mia)
 
@@ -69,7 +69,7 @@ class UserTest < ActiveSupport::TestCase
     refute martin.can_communicate_with?(mia)
   end
 
-  def test_can_communicated_with_when_unlocked
+  def test_can_communicate_with_when_unlocked
     sophia = users(:sophia)
     lily = users(:lily)
 
@@ -79,7 +79,7 @@ class UserTest < ActiveSupport::TestCase
     assert lily.can_communicate_with?(sophia)
   end
 
-  def test_can_communicated_with_when_locked
+  def test_can_communicate_with_when_locked
     john = users(:john)
     lily =  users(:lily)
 
