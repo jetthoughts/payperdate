@@ -171,4 +171,14 @@ class MessageTest < ActiveSupport::TestCase
     refute message.valid?
   end
 
+  def test_between_scope
+    john = users(:john)
+    mia  = users(:mia)
+
+    assert_difference [-> { Message.between(john, mia).count },
+                       -> { Message.between(mia, john).count }], +1 do
+      Message.create sender: john, recipient: mia, content: 'Hello!'
+    end
+  end
+
 end

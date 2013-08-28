@@ -1,0 +1,8 @@
+<div class="page-header">
+  <h2><%= t '.title', interlocutor: @conversation.interlocutor.name %></h2>
+</div>
+<p><%= link_to t('.conversations'), conversations_path %></p>
+<div class="messages container-fluid">
+  <%= render partial: 'message', collection: @conversation.messages %>
+</div>
+<%= render 'form', conversation: @conversation, message: @message %>

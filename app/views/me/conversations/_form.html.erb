@@ -1,0 +1,20 @@
+<%= form_for :message, url: append_conversation_path, method: :post do |f| %>
+  <div class="form-actions">
+    <div class="row-fluid">
+      <div class="span1">
+        <%= image_tag conversation.viewer.avatar_url(:thumb) %>
+      </div>
+      <div class="span10">
+        <% if can? :communicate, conversation.interlocutor %>
+          <div class="controls">
+            <%= f.text_area :content, rows: 5, class: 'span12' %>
+          </div>
+          <%= f.submit t('.send'), class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+      <div class="span1">
+        <%= image_tag conversation.interlocutor.avatar_url(:thumb) %>
+      </div>
+    </div>
+  </div>
+<% end %>
