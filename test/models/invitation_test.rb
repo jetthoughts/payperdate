@@ -136,4 +136,14 @@ class InvitationTest < ActiveSupport::TestCase
     end
   end
 
+  test 'invitation amount should be found in communication costs' do
+    john     = users(:john)
+    mia        = users(:mia)
+
+    invitation = Invitation.new user: john, invited_user: mia, amount: 1
+    refute invitation.valid?
+    invitation.amount = 50
+    assert invitation.valid?
+  end
+
 end

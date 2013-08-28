@@ -7,7 +7,7 @@ class InvitationsController < BaseController
     result     = if invitation.save
                    { success: true, message: t('invitations.messages.was_sent') }
                  else
-                   error = invitation.errors.messages.values.flatten.first
+                   error = invitation.errors.full_messages.flatten.first
                    { success: false, message: error || t('invitations.messages.was_not_sent') }
                  end
     render json: result
