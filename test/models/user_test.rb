@@ -59,17 +59,17 @@ class UserTest < ActiveSupport::TestCase
     assert User.find(users(:ria).id)
   end
 
-  def test_can_communicate_with_when_no_communication
+  def test_can_communicate_with_without_date
     martin = users(:martin)
     mia = users(:mia)
 
-    # There is no UserCommunication between 'Martin' and 'Mia'. Only pending invitation.
+    # There is no UsersDate between 'Martin' and 'Mia'. Only pending invitation.
 
     refute mia.can_communicate_with?(martin)
     refute martin.can_communicate_with?(mia)
   end
 
-  def test_can_communicate_with_when_unlocked
+  def test_can_communicate_with_when_date_unlocked
     sophia = users(:sophia)
     lily = users(:lily)
 
@@ -79,7 +79,7 @@ class UserTest < ActiveSupport::TestCase
     assert lily.can_communicate_with?(sophia)
   end
 
-  def test_can_communicate_with_when_locked
+  def test_can_communicate_with_when_date_locked
     john = users(:john)
     lily =  users(:lily)
 
