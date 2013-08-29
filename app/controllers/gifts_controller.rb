@@ -1,14 +1,15 @@
 class GiftsController < BaseController
 
+  before_filter :load_user
+
   def new
-    @gift = recipient.gifts.build
+    @gift = @user.gifts.build
   end
 
   def create
-    @gift = recipient.gifts.build gift_attributes.merge(user: current_user)
-
+    @gift = current_user.sent_gifts.build gift_attributes.merge(recipient: @user)
     if @gift.save
-      redirect_to user_profile_path(@gift.recipient) , notice: t('gifts.messages.was_sent')
+      redirect_to user_profile_path(@user) , notice: t('gifts.messages.was_sent')
     else
       render action: 'new'
     end
@@ -20,8 +21,8 @@ class GiftsController < BaseController
     params.require(:gift).permit(:gift_template_id, :comment, :private)
   end
 
-  def recipient
-    User.find(params[:user_id])
+  def load_user
+    @user = User.find params[:user_id]
   end
 
 end

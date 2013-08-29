@@ -5,9 +5,9 @@ class MessageHelperTest < ActionView::TestCase
 
   def test_message_unread_by_user?
     user = users(:john)
-    assert message_unread_by_user?(messages(:john_message_received_unread), user)
-    assert !message_unread_by_user?(messages(:john_message_received_read), user)
-    assert !message_unread_by_user?(messages(:john_message_sent), user)
+    assert message_unread_by_user?(messages(:mia_john_unread), user)
+    assert !message_unread_by_user?(messages(:sophia_john_read), user)
+    assert !message_unread_by_user?(messages(:john_mia_unread), user)
   end
 
 end

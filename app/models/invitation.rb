@@ -23,7 +23,9 @@ class Invitation < ActiveRecord::Base
     end
 
     after_transition pending: :accepted do |invitation, transition|
-      UsersDate.where(owner_id: invitation.user, recipient_id: invitation.invited_user).first_or_create
+      unless UsersDate.find_by_users(invitation.user, invitation.invited_user)
+        UsersDate.create(owner: invitation.user, recipient: invitation.invited_user)
+      end
       InvitationMailer.delay.invitation_was_accepted(invitation.id)
     end
 
@@ -131,11 +133,4 @@ class Invitation < ActiveRecord::Base
     end
   end
 
-  def communication_cost
-    @communication_cost ||= CommunicationCost.get(amount).cost
-  end
-
-  def dates
-    UsersDate.find_by_users user, invited_user
-  end
 end

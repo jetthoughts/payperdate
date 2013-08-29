@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :albums, dependent: :destroy
   has_many :own_invitations, class_name: 'Invitation'
   has_many :gifts, foreign_key: :recipient_id, dependent: :destroy
-  has_many :sended_gifts, class_name: "Gift", dependent: :destroy
+  has_many :sent_gifts, class_name: "Gift", dependent: :destroy
   has_many :member_reports, foreign_key: :reported_user_id, dependent: :destroy
   has_many :messages_sent, class_name: 'Message', inverse_of: :sender, foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', inverse_of: :recipient, foreign_key: :recipient_id
@@ -157,7 +157,9 @@ class User < ActiveRecord::Base
   end
 
   def can_access?(message)
-    can_communicate_with?(message.interlocutor(self)) && !message.deleted_by?(self)
+    message.belongs_to_user?(self) &&
+        can_communicate_with?(message.interlocutor(self)) &&
+        !message.deleted_by?(self)
   end
 
   def can_communicate_with?(user)

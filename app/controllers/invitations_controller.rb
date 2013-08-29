@@ -1,6 +1,6 @@
 class InvitationsController < BaseController
 
-  before_action :find_invitation, only: [:accept, :reject, :counter, :destroy, :unlock]
+  before_action :find_invitation, only: [:accept, :reject, :counter, :destroy]
 
   # TODO: cover this by test
   def create
