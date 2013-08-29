@@ -14,11 +14,21 @@ class Message < ActiveRecord::Base
     sift(:sent_and_not_deleted, user) | sift(:received_and_not_deleted, user)
   end
 
+  sifter :all_sent_or_received_by do |user|
+    sender_id.eq(user) | recipient_id.eq(user)
+  end
+
   default_scope { order('created_at DESC') }
   scope :by, ->(user) { where { sift :sent_or_received_by, user } }
   scope :unread, -> { where recipient_state: 'unread' }
   scope :received_by, ->(user) { where { sift :received_and_not_deleted, user  } }
   scope :sent_by, ->(user) { where { sift :sent_and_not_deleted, user } }
+
+  scope :between, ->(viewer, interlocutor) do
+    where do
+      sift(:sent_or_received_by, viewer) & sift(:all_sent_or_received_by, interlocutor)
+    end
+  end
 
   validates :sender, :recipient, :content, presence: true
   validate :validate_can_send_to_himself, on: :create

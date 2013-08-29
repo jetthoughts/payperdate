@@ -99,6 +99,9 @@ Payperdate::Application.routes.draw do
           get :received
         end
       end
+      resources :conversations, only: [:index, :show] do
+        post :append, on: :member
+      end
     end
 
     root to: 'users#index'
