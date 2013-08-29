@@ -51,9 +51,6 @@ class MessageTest < ActiveSupport::TestCase
 
     last_message_before_delete.delete_by(conversation.interlocutor)
 
-    puts conversation.messages.to_yaml
-    puts conversation.last_message.to_yaml
-
     assert_equal last_message_before_delete, conversation.last_message
   end
 
