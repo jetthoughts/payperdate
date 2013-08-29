@@ -77,6 +77,10 @@ class UsersDate < ActiveRecord::Base
     "Date (#{owner.name} -> #{recipient.name})"
   end
 
+  def partner(user)
+    user == owner ? recipient : owner
+  end
+
   private
 
   def validate_create_if_exists
