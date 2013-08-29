@@ -1,0 +1,28 @@
+<%= div_for conversation, class: conversation.has_unread? ? 'unread' : '' do %>
+  <div class="row-fluid">
+    <div class="span1">
+      <%= image_tag conversation.interlocutor.avatar_url(:thumb) %>
+    </div>
+    <div class="span2">
+      <%= link_to conversation.interlocutor.name, user_profile_path(conversation) %>
+      <br/>
+      <%= l conversation.last_message.created_at, format: :short %>
+    </div>
+    <div class="span1">
+      <% if conversation.last_message.sender == conversation.viewer %>
+        <%= image_tag conversation.viewer.avatar_url(:thumb), size: '30x30' %>
+      <% end %>
+    </div>
+    <div class="span8">
+      <%= t '.unread_messages', count: conversation.unread_count if conversation.has_unread? %>
+      <%= link_to conversation_path(conversation), style: 'display:block' do %>
+        <% if can? :read, conversation.last_message %>
+          <%= truncate(conversation.last_message.content, length: 20, separator: ' ') %>
+        <% else %>
+          (HIDDEN)
+        <% end %>
+      <% end %>
+      <%= render 'me/users_dates/unlock_button', users_date: conversation.users_date %>
+    </div>
+  </div>
+<% end %>
