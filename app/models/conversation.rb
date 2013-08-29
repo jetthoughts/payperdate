@@ -3,8 +3,6 @@ class Conversation
   extend ActiveModel::Naming
   include ActiveModel::Conversion
 
-  delegate :id, to: :interlocutor
-
   def self.by_user(user)
     messages = Message.by(user).includes(:sender, :recipient)
     messages.map { |message| Conversation.new(user, message.interlocutor(user)) }.uniq
@@ -15,7 +13,22 @@ class Conversation
     Conversation.new(viewer, interlocutor)
   end
 
+  delegate :id, to: :interlocutor
+
   attr_reader :viewer, :interlocutor
+
+  def initialize(viewer, interlocutor)
+    @viewer = viewer
+    @interlocutor = interlocutor
+  end
+
+  def can_be_unlocked?
+    users_date.can_be_unlocked_by?(viewer)
+  end
+
+  def users_date
+    UsersDate.find_by_users(viewer, interlocutor)
+  end
 
   def has_unread?
     unread_count > 0
@@ -61,13 +74,6 @@ class Conversation
 
   def persisted?
     true
-  end
-
-  private
-
-  def initialize(viewer, interlocutor)
-    @viewer = viewer
-    @interlocutor = interlocutor
   end
 
 end

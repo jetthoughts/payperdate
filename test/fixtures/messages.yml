@@ -5,6 +5,7 @@ john_message_received_unread:
   content: Hello John, from Mia
   recipient_state: unread
   sender_state: sent
+  created_at: <%= 2.minutes.ago %>
 
 john_message_sent:
   sender: :john
@@ -12,20 +13,7 @@ john_message_sent:
   content: Hello Mia, from John
   recipient_state: unread
   sender_state: sent
-
-john_message_received_read:
-  sender: :sophia
-  recipient: :john
-  content: Hello John, from Sophia
-  recipient_state: read
-  sender_state: sent
-
-john_message_received_deleted:
-  sender: :sophia
-  recipient: :john
-  content: Hello John, from Sophia
-  recipient_state: deleted_by_recipient
-  sender_state: sent
+  created_at: <%= 1.minutes.ago %>
 
 john_message_sent_deleted:
   sender: :john
@@ -33,3 +21,18 @@ john_message_sent_deleted:
   content: Hello Mia, from John
   recipient_state: unread
   sender_state: deleted_by_sender
+
+john_message_received_read:
+  sender: :sophia
+  recipient: :john
+  content: Hello John, from Sophia
+  recipient_state: read
+  sender_state: sent
+  created_at: <%= 1.minutes.ago %>
+
+john_message_received_deleted:
+  sender: :sophia
+  recipient: :john
+  content: Hello John, from Sophia
+  recipient_state: deleted_by_recipient
+  sender_state: sent
