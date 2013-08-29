@@ -14,12 +14,7 @@
     <i class="icon-lock"></i>
   <% end %>
 
-  <%- if can? :unlock, users_date -%>
-    <%= link_to t('.unlock'),
-                unlock_users_date_path(users_date),
-                data:   { disable_with: '...', confirm: t('.unlock_confirm', credits: users_date.communication_cost.cost), method: :post },
-                class: 'btn' %>
-  <%- end -%>
+  <%= render 'unlock_button', users_date: users_date -%>
 
   <%= link_to t('.conversation'), conversation_path(users_date.partner(current_user)) %>
 

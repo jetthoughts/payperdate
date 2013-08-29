@@ -2,7 +2,8 @@
 <%= link_to t('me.users_dates.users_date.unlock'),
             unlock_users_date_path(users_date),
             data:  { disable_with: '...',
-                     confirm:      t('me.users_dates.users_date.unlock_confirm', credits: users_date.communication_cost.cost),
+                     confirm:      t('me.users_dates.users_date.unlock_confirm',
+                                     credits: users_date.communication_cost.cost),
                      method:       :post },
             class: 'btn' %>
 <% end %>
