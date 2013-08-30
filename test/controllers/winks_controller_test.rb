@@ -7,7 +7,6 @@ class WinksControllerTest < ActionController::TestCase
     @wink_template = WinkTemplate.create image: create_tmp_image, name: 'test'
     @martin = users(:martin)
     @mia = users(:mia)
-    Delayed::Worker.delay_jobs = false
     sign_in @martin
   end
 

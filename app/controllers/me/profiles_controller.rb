@@ -11,11 +11,11 @@ class Me::ProfilesController < BaseController
   end
 
   def update
-    #TODO: Add flash messages
     if @profile.update profile_params
+      flash[:notice] = I18n.t 'profiles.update.flash.notice.success'
       redirect_to me_path
     else
-      # TODO: cover this conditional path by test
+      flash[:alert] = I18n.t 'profiles.update.flash.alert.invalid'
       render :edit
     end
   end

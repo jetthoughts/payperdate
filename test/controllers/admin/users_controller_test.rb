@@ -73,12 +73,16 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test 'blocked user should receive email about that' do
     sign_in admin_users(:bill)
 
-    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+    Delayed::Worker.delay_jobs = false
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
       put :block, id: users(:mia).id
       assert_redirected_to admin_users_path
     end
 
     blocked_notification = ActionMailer::Base.deliveries.last
+
+    Delayed::Worker.delay_jobs = true
 
     assert_equal 'Your account has been blocked', blocked_notification.subject
     assert_equal users(:mia).email, blocked_notification.to[0]
@@ -106,12 +110,16 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test 'deleted user should receive notification' do
     sign_in admin_users(:bill)
 
-    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+    Delayed::Worker.delay_jobs = false
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
       delete :delete, id: users(:mia).id
       assert_redirected_to admin_users_path
     end
 
     deleted_notification = ActionMailer::Base.deliveries.last
+
+    Delayed::Worker.delay_jobs = true
 
     assert_equal 'Your account has been deleted', deleted_notification.subject
     assert_equal users(:mia).email, deleted_notification.to[0]

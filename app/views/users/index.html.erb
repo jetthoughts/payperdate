@@ -4,20 +4,20 @@
 <p>
   <strong>Basic criterias</strong>
 <hr/>
-<%= search_form_for @q, url: search_path, method: :get, id: :new_search do |f| %>
+<%= search_form_for @query, as: 'query', url: search_path, method: :get, id: :new_search do |f| %>
     <div class="row-fluid">
       <div class="span3">
         <label><strong><%= t :where_are_you %></strong></label>
 
         <div class="row-fluid">
-          <div><%= text_field_tag :location, params[:location], class: 'span5' %></div>
+          <div><%= text_field_tag :location, @search_query['location'], class: 'span5' %></div>
         </div>
       </div>
       <div class="span3">
         <label><strong><%= t :max_distance %></strong></label>
 
         <div class="row-fluid">
-          <div><%= number_field_tag :max_distance, params[:max_distance], class: 'span5', min: 0 %></div>
+          <div><%= number_field_tag :max_distance, @search_query['max_distance'], class: 'span5', min: 0 %></div>
         </div>
       </div>
       <div class="span3">
@@ -34,12 +34,12 @@
       <strong>All criterias</strong>
       <hr>
       <div class="row-fluid">
-        <% @profile_sections[:primary].each do |criteria| %>
+        <% Profile.searchable_params[:primary].each do |criteria| %>
             <%= render partial: 'search/primary_section', locals: { criteria: criteria, f: f } %>
         <% end %>
       </div>
       <hr>
-      <% @profile_sections[:hidden].each_slice(4) do |criterias| %>
+      <% Profile.searchable_params[:hidden].each_slice(4) do |criterias| %>
           <div class="row-fluid">
             <% criterias.each do |criteria| %>
                 <%= render partial: 'search/hidden_section', locals: { criteria: criteria, f: f } %>
