@@ -26,17 +26,9 @@ ActiveAdmin.register Profile do
           link_to 'Approve', approve_admin_profile_path(profile), method: :put, class: :button
         end
       end
-      # FIXME: it is ugly
-      begin
-        authorize! :block, User
-        authorized_to_block_user = true
-      rescue
-        authorized_to_block_user = false
-      end
-      # /FIXME
-      if authorized_to_block_user
+      if authorized? :block, User
         span do
-          if profile.auto_user.blocked?
+          if profile.auto_user.state == 'blocked'
             link_to 'Unblock', unblock_admin_user_path(profile.auto_user), method: :put, class: :button
           else
             link_to 'Block', block_admin_user_path(profile.auto_user), method: :put, class: :button

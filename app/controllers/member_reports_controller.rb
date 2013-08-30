@@ -26,6 +26,9 @@ class MemberReportsController < BaseController
 
   def content_from_params(content_hash)
     begin
+      # FIXME: ??? seems to be too hard to understand by one glance
+      #            isn't it dangerous?
+      #            what values :content_type can hold?
       content_hash[:content_type].classify.constantize.find(content_hash[:content_id])
     rescue
       nil

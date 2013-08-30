@@ -3,11 +3,11 @@
   <%= image_tag(photo.image_url(:medium)) %>
 </a>
   <%- if page_owner? -%>
-    <%= link_to 'Use as avatar', use_avatar_path(photo), remote: true, method: :post, data: { behavior: 'use-as-avatar' } if photo.can_be_used_as_avatar? -%>
+    <%= link_to 'Use as avatar', album_photo_use_as_avatar_path(photo.album, photo), remote: true, method: :post, data: { behavior: 'use-as-avatar' } if photo.can_be_used_as_avatar? -%>
   <%- end -%>
   <% if can? :destroy, photo %>
      <%= link_to 'remove', album_photo_path(photo.album, photo),
-                 remote: true, method: :delete, confirm: 'Sure?' -%>
+                 remote: true, method: :delete, data: { confirm: 'Sure?' } -%>
   <%- end -%>
 
 </span>

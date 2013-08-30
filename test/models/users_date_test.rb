@@ -132,11 +132,11 @@ class UsersDateTest < ActiveSupport::TestCase
     users_date = users_dates(:locked_date_paul_john)
     refute users_date.can_be_communicated?(users_date.owner, users_date.recipient)
 
-    # FIXME: Magic. Object was updated but assert didn't see changes
-    #assert_difference ->{ users(:paul).credits_amount }, -10 do
+    # FIXED: Wasn't any magic at all, we just needed to reload user object for assert to check
+    assert_difference ->{ users(:paul).reload.credits_amount }, -10 do
       users_date.unlock
       assert users_date.can_be_communicated?(users_date.owner, users_date.recipient)
-    #end
+    end
 
     users_date = users_dates(:locked_date_john_lily)
     refute users_date.can_be_communicated?(users_date.owner, users_date.recipient)

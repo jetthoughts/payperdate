@@ -47,13 +47,14 @@ Payperdate::Application.routes.draw do
     get '/me', to: 'me/profiles#show'
 
     scope :me do
-      resources :avatars do
+      resources :avatars, controller: 'me/avatars' do
         member do
-          post :use
         end
       end
       resources :albums do
-        resources :photos
+        resources :photos do
+          post :use_as_avatar
+        end
       end
       resources :winks, only: [:create, :index]
       resources :invitations do

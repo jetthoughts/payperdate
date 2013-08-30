@@ -91,7 +91,7 @@ end
 
 group :development, :test do
   gem 'capybara'
-  gem 'simplecov', require: false
+  gem 'simplecov', github: 'colszowka/simplecov', branch: 'v0.8.0.pre', require: false
   gem 'poltergeist'
   gem 'capybara-screenshot'
   gem 'awesome_print'
@@ -117,7 +117,7 @@ end
 
 group :test do
   gem 'minitest'
-  gem 'simplecov'
+  gem 'simplecov', github: 'colszowka/simplecov', branch: 'v0.8.0.pre'
   gem 'minitest-reporters', '>= 0.5.0'
   gem 'mocha', require: false
   gem 'zeus'
