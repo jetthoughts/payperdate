@@ -1,4 +1,5 @@
 class Message < ActiveRecord::Base
+
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
   belongs_to :recipient, class_name: 'User', inverse_of: :messages_received
 
@@ -14,11 +15,21 @@ class Message < ActiveRecord::Base
     sift(:sent_and_not_deleted, user) | sift(:received_and_not_deleted, user)
   end
 
+  sifter :all_sent_or_received_by do |user|
+    sender_id.eq(user) | recipient_id.eq(user)
+  end
+
   default_scope { order('created_at DESC') }
   scope :by, ->(user) { where { sift :sent_or_received_by, user } }
   scope :unread, -> { where recipient_state: 'unread' }
   scope :received_by, ->(user) { where { sift :received_and_not_deleted, user  } }
   scope :sent_by, ->(user) { where { sift :sent_and_not_deleted, user } }
+
+  scope :between, ->(viewer, interlocutor) do
+    where do
+      sift(:sent_or_received_by, viewer) & sift(:all_sent_or_received_by, interlocutor)
+    end
+  end
 
   validates :sender, :recipient, :content, presence: true
   validate :validate_can_send_to_himself, on: :create
@@ -45,11 +56,7 @@ class Message < ActiveRecord::Base
   end
 
   def interlocutor(user)
-    if sender == user
-      recipient
-    else
-      sender
-    end
+    sender == user ? recipient : sender
   end
 
   def received_by?(user)
@@ -61,23 +68,16 @@ class Message < ActiveRecord::Base
   end
 
   def deleted_by?(user)
-    if received_by?(user)
-      self.deleted_by_recipient?
-    elsif sent_by?(user)
-      self.deleted_by_sender?
-    else
-      false
-    end
+    received_by?(user) ? deleted_by_recipient? : deleted_by_sender?
+  end
+
+  def belongs_to_user?(user)
+    received_by?(user) || sent_by?(user)
   end
 
   def delete_by(user)
-    if received_by?(user)
-      self.delete_by_recipient
-    elsif sent_by?(user)
-      self.delete_by_sender
-    else
-      false
-    end
+    false unless belongs_to_user?(user)
+    received_by?(user) ? delete_by_recipient : delete_by_sender
   end
 
   private

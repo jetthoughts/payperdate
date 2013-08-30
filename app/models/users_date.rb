@@ -3,7 +3,7 @@ class UsersDate < ActiveRecord::Base
   belongs_to :owner, class_name: "User"
   belongs_to :recipient, class_name: "User"
   has_many :date_ranks, inverse_of: :users_date
-  has_one :transaction, inverse_of: :trackable, foreign_key: :trackable_id
+  has_one :transaction, inverse_of: :trackable, as: :trackable
 
   sifter :by_users do |user1, user2|
     (owner_id == user1.id) & (recipient_id == user2.id)
@@ -75,6 +75,10 @@ class UsersDate < ActiveRecord::Base
 
   def to_s
     "Date (#{owner.name} -> #{recipient.name})"
+  end
+
+  def partner(user)
+    user == owner ? recipient : owner
   end
 
   private

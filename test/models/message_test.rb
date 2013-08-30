@@ -19,7 +19,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_change_state_to_read
-    message = messages(:john_message_received_unread)
+    message = messages(:mia_john_unread)
     message.read!
     assert message.read?
   end
@@ -85,13 +85,13 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_change_state_to_deleted_by_sender
-    message = messages(:john_message_received_unread)
+    message = messages(:mia_john_unread)
     message.delete_by_sender!
     assert message.deleted_by_sender?
   end
 
   def test_change_state_to_deleted_by_recipient
-    message = messages(:john_message_received_unread)
+    message = messages(:mia_john_unread)
     message.delete_by_recipient!
     assert message.deleted_by_recipient?
   end
@@ -114,20 +114,20 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_received_by?
     user = users(:john)
-    assert messages(:john_message_received_unread).received_by?(user)
-    assert !messages(:john_message_sent).received_by?(user)
+    assert messages(:mia_john_unread).received_by?(user)
+    assert !messages(:john_mia_unread).received_by?(user)
   end
 
   def test_sent_by?
     user = users(:john)
-    assert messages(:john_message_sent).sent_by?(user)
-    assert !messages(:john_message_received_unread).sent_by?(user)
+    assert messages(:john_mia_unread).sent_by?(user)
+    assert !messages(:mia_john_unread).sent_by?(user)
   end
 
   def test_deleted_by?
     user = users(:john)
-    assert messages(:john_message_sent_deleted).deleted_by?(user)
-    assert messages(:john_message_received_deleted).deleted_by?(user)
+    assert messages(:john_mia_deleted_by_john).deleted_by?(user)
+    assert messages(:sophia_john_deleted_by_john).deleted_by?(user)
   end
 
   def test_deleted_messages_should_not_be_listed
@@ -139,7 +139,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_delete_by
-    message = messages(:john_message_sent)
+    message = messages(:john_mia_unread)
 
     assert !message.deleted_by?(message.sender)
     message.delete_by(message.sender)
@@ -151,7 +151,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_interlocutor
-    message = messages(:john_message_sent) # mia recipient
+    message = messages(:john_mia_unread) # mia recipient
     assert_equal users(:mia), message.interlocutor(users(:john))
     assert_equal users(:john), message.interlocutor(users(:mia))
   end
@@ -169,6 +169,16 @@ class MessageTest < ActiveSupport::TestCase
   def test_cant_send_message_to_himself
     message = Message.create sender: @robert, recipient: @robert, content: 'Hello!'
     refute message.valid?
+  end
+
+  def test_between_scope
+    john = users(:john)
+    mia  = users(:mia)
+
+    assert_difference [-> { Message.between(john, mia).count },
+                       -> { Message.between(mia, john).count }], +1 do
+      Message.create sender: john, recipient: mia, content: 'Hello!'
+    end
   end
 
 end

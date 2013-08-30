@@ -1,0 +1,17 @@
+en:
+  me:
+    conversations:
+      index:
+        title: My conversations
+      conversation:
+        unread_messages:
+          one: '%{count} unread message'
+          other: '%{count} unread messages'
+      show:
+        title: Conversation with %{interlocutor}
+        conversations: Back to all conversations
+        conversation_with_yorself: You can't conversations vith yourself :)
+      form:
+        send: Send message
+      append:
+        sent_ok: Message succesfully sent

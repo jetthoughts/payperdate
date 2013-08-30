@@ -1,7 +1,8 @@
 class InvitationsController < BaseController
 
-  before_action :find_invitation, only: [:accept, :reject, :counter, :destroy, :unlock]
+  before_action :find_invitation, only: [:accept, :reject, :counter, :destroy]
 
+  # TODO: cover this by test
   def create
     invitation = current_user.own_invitations.build(invitation_params)
     result     = if invitation.save
@@ -22,11 +23,13 @@ class InvitationsController < BaseController
     render :index
   end
 
+  # TODO: cover this by test
   def rejected
     @invitations = current_user.rejected_invitations
     render :index
   end
 
+  # TODO: cover this by test
   def accepted
     @invitations = current_user.accepted_invitations
     render :index
@@ -39,17 +42,20 @@ class InvitationsController < BaseController
     redirect_to accepted_invitations_path
   end
 
+  # TODO: cover this by test
   def reject
     authorize! :reject, @invitation
     @invitation.reject_by_reason(params[:reason])
     render nothing: true
   end
 
+  # TODO: cover this by test
   def counter
     authorize! :counter, @invitation
     render json: @invitation.make_counter_offer(params[:invitation][:amount].to_i)
   end
 
+  # TODO: cover this by test
   def destroy
     authorize! :destroy, @invitation
     @invitation.destroy!

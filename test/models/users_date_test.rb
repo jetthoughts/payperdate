@@ -10,7 +10,7 @@ class UsersDateTest < ActiveSupport::TestCase
   def test_should_not_create_if_exists
     # locked_date_paul_john exists
     users_date = UsersDate.create owner: users(:john), recipient: users(:paul)
-    assert users_date.errors.any?
+    refute users_date.valid?
     users_date = UsersDate.create owner: users(:paul), recipient: users(:john)
     refute users_date.valid?
   end
@@ -48,23 +48,23 @@ class UsersDateTest < ActiveSupport::TestCase
     mia = users(:mia)
 
     users_date = users_dates(:locked_date_john_lily)
-    assert !users_date.can_be_ranked?(mia)
+    refute users_date.can_be_ranked?(mia)
 
-    #users_date.unlock!
-    #assert !users_date.can_be_ranked?(mia)
+    users_date.unlock
+    refute users_date.can_be_ranked?(mia)
   end
 
-  def test_can_be_ranked_by_not_ferenced_user
+  def test_can_be_ranked_by_referenced_user
     paul = users(:paul)
-    lily = users(:lily)
+    john = users(:john)
 
-    users_date = users_dates(:locked_date_john_lily)
+    users_date = users_dates(:locked_date_paul_john)
     refute users_date.can_be_ranked?(paul)
-    refute users_date.can_be_ranked?(lily)
+    refute users_date.can_be_ranked?(john)
 
-    #users_date.unlock!
-    #assert invitation.can_be_ranked?(paul)
-    #assert invitation.can_be_ranked?(lily)
+    users_date.unlock
+    assert users_date.can_be_ranked?(paul)
+    assert users_date.can_be_ranked?(john)
   end
 
   def test_ranked?
@@ -118,12 +118,10 @@ class UsersDateTest < ActiveSupport::TestCase
 
   def test_can_be_communicated?
     users_date = users_dates(:locked_date_paul_john)
-
     refute users_date.can_be_communicated?(users_date.owner, users_date.recipient)
     assert users_date.can_be_communicated?(users_date.recipient, users_date.owner)
 
     users_date = users_dates(:unlocked_date_sophia_lily)
-
     assert users_date.can_be_communicated?(users_date.owner, users_date.recipient)
     assert users_date.can_be_communicated?(users_date.recipient, users_date.owner)
   end
@@ -132,16 +130,17 @@ class UsersDateTest < ActiveSupport::TestCase
     users_date = users_dates(:locked_date_paul_john)
     refute users_date.can_be_communicated?(users_date.owner, users_date.recipient)
 
-    # FIXME: Magic. Object was updated but assert didn't see changes
-    #assert_difference ->{ users(:paul).credits_amount }, -10 do
+    assert_difference ->{ users(:paul).reload.credits_amount }, -10 do
       users_date.unlock
       assert users_date.can_be_communicated?(users_date.owner, users_date.recipient)
-    #end
+    end
+  end
 
+  def test_unlock_invitation_with_low_credits
     users_date = users_dates(:locked_date_john_lily)
     refute users_date.can_be_communicated?(users_date.owner, users_date.recipient)
 
-    assert_difference ->{ users(:john).credits_amount.to_f }, 0 do
+    assert_difference ->{ users(:john).reload.credits_amount.to_f }, 0 do
       users_date.unlock
       refute users_date.can_be_communicated?(users_date.owner, users_date.recipient)
     end

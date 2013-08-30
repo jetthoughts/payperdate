@@ -9,3 +9,14 @@ module Payperdate::TestHelpers
                                            tempfile:     file)
   end
 end
+
+module Payperdate::TestExtendedHelpers
+  # a bit of magic, 'cause avatars and photos is really one object for db
+  def photos_and_avatars_fixtures
+    fixtures :photos
+
+    define_method :avatars do |name|
+      photos(name)
+    end
+  end
+end

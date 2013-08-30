@@ -1,0 +1,19 @@
+<%= div_for message, class: @conversation.unread_message?(message) ? 'unread' : '' do %>
+  <div class="row-fluid">
+    <div class="span1">
+      <%= image_tag message.sender.avatar_url(:thumb) %>
+    </div>
+    <div class="span9">
+      <%= link_to message.sender.name, user_profile_path(message.sender) %>
+      <% if can? :read, message %>
+        <%= simple_format(message.content) %>
+      <% else %>
+        (HIDDEN)
+      <% end %>
+    </div>
+    <div class="span2">
+      <%= l message.created_at, format: :short %>
+    </div>
+  </div>
+<% end %>
+

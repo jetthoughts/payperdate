@@ -14,6 +14,13 @@ paul_lily_not_accepted:
   user: paul
   invited_user: lily
 
+lily_paul_not_accepted:
+  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
+  amount_cents: 500
+  amount_currency: 'USD'
+  user: lily
+  invited_user: paul
+
 # countered:
 
 lily_john_countered:
