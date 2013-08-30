@@ -1,9 +1,11 @@
 class CreditsController < BaseController
 
+  # TODO: cover this by test
   def index
     @credits = current_user.transactions.page(params[:page] || 1)
   end
 
+  # TODO: cover this by test
   def new
     @credit = Transaction.new
   end
@@ -13,6 +15,7 @@ class CreditsController < BaseController
     save_and_redirect_to_paypal @credit
   end
 
+  # TODO: cover this by test
   def update
     @credit = Transaction.with_credits_package.find(params[:id])
     @credit.update_attributes(credit_params)
@@ -24,6 +27,7 @@ class CreditsController < BaseController
     if @credit.complete_purchase(params[:token], params[:PayerID])
       redirect_to credits_path, notice: t('credits.was_added')
     else
+      # TODO: cover this conditional path by test
       redirect_to credits_path, alert: @credit.error
     end
   end

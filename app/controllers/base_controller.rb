@@ -34,4 +34,13 @@ class BaseController < ApplicationController
                   notice: 'Need to complete registration. Fill your email and password'
     end
   end
+
+  def self.default_profile_activity_tracking(*args)
+    after_filter :default_tracks_profile_activity, *args
+  end
+
+  def default_tracks_profile_activity
+    current_user.activities.create! action: "#{action_name}_#{controller_name.singularize}",
+                                    subject: current_profile
+  end
 end
