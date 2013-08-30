@@ -22,6 +22,16 @@ class BaseController < ApplicationController
     :user_id
   end
 
+  def state_of_model(model)
+    { success: !model.errors.any?,
+      message: if model.errors.any?
+                 model.errors.full_messages.first
+               else
+                 t "#{model.class.name.demodulize.downcase.pluralize}.messages.was_sent"
+               end
+    }
+  end
+
   private
 
   def current_profile
