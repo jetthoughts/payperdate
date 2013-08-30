@@ -13,19 +13,70 @@ class MemberReportTest < ActiveSupport::TestCase
 
   def test_valid_when_content_owned_by_reported_user
     report = member_reports(:mias_report_on_martins_profile)
-    assert_predicate report, :valid?
+    assert report.valid?
   end
 
   def test_not_valid_when_content_not_owned_by_reported_user
     report = member_reports(:mias_report_on_martins_profile)
     report.content = profiles(:sophias)
-    refute_predicate report, :valid?
+    refute report.valid?
   end
 
   def test_not_valid_when_reporting_not_allowed_content
     report = member_reports(:mias_report_on_martins_profile)
-    report.content_type = 'AdminUser'
-    refute_predicate report, :valid?
+    report.content = MemberReport.first
+    refute report.valid?
+  end
+
+  def test_dismiss
+    report = member_reports(:mias_report_on_martins_profile)
+    assert report.active?
+    report.dismiss!
+    assert report.dismissed?
+  end
+
+  def test_dismiss_should_not_block_any_user
+    report = member_reports(:mias_report_on_martins_profile)
+    assert report.active?
+    report.dismiss!
+    assert report.user.active?
+    assert report.reported_user.active?
+  end
+
+  def test_dismiss_should_not_change_other_reports_to_user
+    report = member_reports(:mias_report_on_martins_profile)
+    assert report.active?
+    assert report.reported_user.member_reports.count > 1
+    report.dismiss!
+    report.reported_user.member_reports.each do |member_report|
+      assert member_report.active? unless member_report == report
+    end
+  end
+
+  def test_block_reported_user
+    report = member_reports(:mias_report_on_martins_profile)
+    assert report.active?
+    report.block_reported_user!
+    assert report.user_blocked?
+  end
+
+
+  def test_block_reported_user_should_block_only_reported_user
+    report = member_reports(:mias_report_on_martins_profile)
+    assert report.active?
+    report.block_reported_user!
+    refute report.user.blocked?
+    assert report.reported_user.blocked?
+  end
+
+  def test_block_reported_user_should_set_to_blocked_all_reports_to_user
+    report = member_reports(:mias_report_on_martins_profile)
+    assert report.active?
+    assert report.reported_user.member_reports.count > 1
+    report.block_reported_user!
+    report.reported_user.member_reports.each do |member_report|
+      assert member_report.user_blocked?
+    end
   end
 
 end
