@@ -1,5 +1,4 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-john_message_received_unread:
+mia_john_unread:
   sender: :mia
   recipient: :john
   content: Hello John, from Mia
@@ -7,7 +6,7 @@ john_message_received_unread:
   sender_state: sent
   created_at: <%= 2.minutes.ago %>
 
-john_message_sent:
+john_mia_unread:
   sender: :john
   recipient: :mia
   content: Hello Mia, from John
@@ -22,7 +21,7 @@ john_message_sent_deleted:
   recipient_state: unread
   sender_state: deleted_by_sender
 
-john_message_received_read:
+sophia_john_read:
   sender: :sophia
   recipient: :john
   content: Hello John, from Sophia
@@ -30,9 +29,16 @@ john_message_received_read:
   sender_state: sent
   created_at: <%= 1.minutes.ago %>
 
-john_message_received_deleted:
+sophia_john_deleted_by_john:
   sender: :sophia
   recipient: :john
   content: Hello John, from Sophia
   recipient_state: deleted_by_recipient
   sender_state: sent
+
+john_mia_deleted_by_john:
+  sender: :john
+  recipient: :mia
+  content: Hello Mia, from John
+  recipient_state: unread
+  sender_state: deleted_by_sender

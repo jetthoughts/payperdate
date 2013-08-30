@@ -68,12 +68,12 @@ class Me::MessagesControllerTest < ActionController::TestCase
   end
 
   def test_get_message_show_normal
-    get :show, id: messages(:john_message_sent)
+    get :show, id: messages(:john_mia_unread)
     assert_response :success
   end
 
   def test_message_state_changes_to_read_on_show
-    message = messages(:john_message_received_unread)
+    message = messages(:mia_john_unread)
     get :show, id: message
     message.reload
     assert message.read?
@@ -81,19 +81,26 @@ class Me::MessagesControllerTest < ActionController::TestCase
 
   def test_get_message_access_denied_on_show_deleted
     assert_raise CanCan::AccessDenied do
-      get :show, id: messages(:john_message_sent_deleted)
+      get :show, id: messages(:john_mia_deleted_by_john)
     end
   end
 
   def test_delete_destroy_redirect_on_success
-    delete :destroy, id: messages(:john_message_received_unread)
+    delete :destroy, id: messages(:mia_john_unread)
     assert_redirected_to messages_path
     assert_not_nil flash[:notice]
   end
 
+  def test_delete_destroy_cant_delete_messages_of_other_user
+    sign_in users(:martin)
+    assert_raise CanCan::AccessDenied do
+      delete :destroy, id: messages(:mia_john_unread)
+    end
+  end
+
   def test_delete_destroy_access_denied_on_error
     assert_raise CanCan::AccessDenied do
-      delete :destroy, id: messages(:john_message_received_deleted)
+      delete :destroy, id: messages(:sophia_john_deleted_by_john)
     end
   end
 
@@ -105,7 +112,7 @@ class Me::MessagesControllerTest < ActionController::TestCase
 
   def test_get_message_show_with_deleted_user
     users(:mia).delete!
-    get :show, id: messages(:john_message_received_unread)
+    get :show, id: messages(:mia_john_unread)
     assert_select 'span', 'Deleted'
   end
 

@@ -131,7 +131,8 @@ class InvitationTest < ActiveSupport::TestCase
 
   test 'accepted invitation should create users date' do
     invitation = invitations(:martin_mia_pending)
-    assert_difference -> { UsersDate.where(owner_id: invitation.user, recipient_id: invitation.invited_user).count }, +1 do
+    assert_difference -> { UsersDate.where(owner_id: invitation.user,
+                                           recipient_id: invitation.invited_user).count }, +1 do
       invitation.accept!
     end
   end
@@ -144,6 +145,32 @@ class InvitationTest < ActiveSupport::TestCase
     refute invitation.valid?
     invitation.amount = 50
     assert invitation.valid?
+  end
+
+  test 'belongs_to_user?' do
+    john     = users(:john)
+    mia        = users(:mia)
+    martin  = users(:martin)
+
+    invitation = invitations(:martin_mia_pending)
+    assert invitation.belongs_to_user?(martin)
+    assert invitation.belongs_to_user?(mia)
+
+    refute invitation.belongs_to_user?(john)
+  end
+
+  test 'should be acceptable if there is opposite date' do
+    invitation = invitations(:lily_john_countered)
+    invitation.accept!
+    assert invitation.accepted?
+  end
+
+  test 'accepting does not create date if there is opposite date' do
+    invitation = invitations(:lily_john_countered)
+    assert_difference -> { UsersDate.where(owner_id: invitation.user,
+                                           recipient_id: invitation.invited_user).count }, 0 do
+      invitation.accept!
+    end
   end
 
 end
