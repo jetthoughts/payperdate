@@ -39,8 +39,6 @@ class Invitation < ActiveRecord::Base
     (user_id == user1.id) & (invited_user_id == user2.id)
   end
 
-  scope :accepted, -> { where(state: 'accepted') }
-
   def self.existing_states
     Invitation.state_machines[:state].states.map(&:value)
   end
@@ -105,24 +103,28 @@ class Invitation < ActiveRecord::Base
 
   private
 
+  def users_set?
+    user && invited_user
+  end
+
   def validate_user_can_invite_himself
-    self.errors.add(:invited_user_id, :cant_invite_himself) if user.operate_with_himself?(invited_user)
+    self.errors.add(:invited_user_id, :cant_invite_himself) if users_set? && user.operate_with_himself?(invited_user)
   end
 
   def validate_user_can_blocked_by_self
-    self.errors.add(:invited_user_id, :cant_invite_blocked) if invited_user.blocked_for?(user)
+    self.errors.add(:invited_user_id, :cant_invite_blocked) if users_set? && invited_user.blocked_for?(user)
   end
 
   def validate_user_can_blocker
-    self.errors.add(:invited_user_id, :cant_invite_blocker) if user.blocked_for?(invited_user)
+    self.errors.add(:invited_user_id, :cant_invite_blocker) if users_set? && user.blocked_for?(invited_user)
+  end
+
+  def validate_already_sent
+    self.errors.add(:invited_user_id, :already_sent) if users_set? && user.already_invited?(invited_user)
   end
 
   def validate_has_communication_cost
     self.errors.add(:amount, :cant_find_communication_cost_for_amount) unless CommunicationCost.get(amount)
-  end
-
-  def validate_already_sent
-    self.errors.add(:invited_user_id, :already_sent) if user.already_invited?(invited_user)
   end
 
   def notify_recipient
