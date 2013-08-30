@@ -15,6 +15,7 @@ class Me::ProfilesController < BaseController
     if @profile.update profile_params
       redirect_to me_path
     else
+      # TODO: cover this conditional path by test
       render :edit
     end
   end

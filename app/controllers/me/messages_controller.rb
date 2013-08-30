@@ -12,6 +12,8 @@ class Me::MessagesController < BaseController
     if @message.delete_by(current_user)
       redirect_to messages_path, notice: t(:'messages.messages.was_deleted')
     else
+      # FIXME: Brilliant. Reason why wasn't it deleted?
+      # TODO: Cover this conditional path by test.
       redirect_to messages_path, alert: t(:'messages.messages.was_not_deleted')
     end
   end

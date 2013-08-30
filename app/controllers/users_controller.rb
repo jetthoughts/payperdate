@@ -12,6 +12,7 @@ class UsersController < BaseController
     render :index
   end
 
+  # TODO: cover this by test
   def unsubscribe
     user = User.where(email: params[:md_email]).first
     user.unsubscribe!
@@ -19,6 +20,7 @@ class UsersController < BaseController
     redirect_to root_path, notice: t("unsubscribed")
   end
 
+  # TODO: cover this by test
   def favorite
     current_user.favorite_user @target
 
@@ -26,6 +28,7 @@ class UsersController < BaseController
     redirect_to user_profile_path @target
   end
 
+  # TODO: cover this by test
   def remove_favorite
     current_user.remove_favorite_user @target
     flash[:notice] = I18n.t('flash.users.remove_favorite.notice')
