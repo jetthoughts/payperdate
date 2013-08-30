@@ -1,4 +1,5 @@
 class Message < ActiveRecord::Base
+
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
   belongs_to :recipient, class_name: 'User', inverse_of: :messages_received
 
@@ -55,11 +56,7 @@ class Message < ActiveRecord::Base
   end
 
   def interlocutor(user)
-    if sender == user
-      recipient
-    else
-      sender
-    end
+    sender == user ? recipient : sender
   end
 
   def received_by?(user)
@@ -71,23 +68,16 @@ class Message < ActiveRecord::Base
   end
 
   def deleted_by?(user)
-    if received_by?(user)
-      self.deleted_by_recipient?
-    elsif sent_by?(user)
-      self.deleted_by_sender?
-    else
-      false
-    end
+    received_by?(user) ? deleted_by_recipient? : deleted_by_sender?
+  end
+
+  def belongs_to_user?(user)
+    received_by?(user) || sent_by?(user)
   end
 
   def delete_by(user)
-    if received_by?(user)
-      self.delete_by_recipient
-    elsif sent_by?(user)
-      self.delete_by_sender
-    else
-      false
-    end
+    false unless belongs_to_user?(user)
+    received_by?(user) ? delete_by_recipient : delete_by_sender
   end
 
   private
