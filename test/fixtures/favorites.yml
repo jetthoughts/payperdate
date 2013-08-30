@@ -1,6 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-
 robert_favorite_mia:
   user: robert
   favorite: mia

@@ -4,7 +4,6 @@ en:
     messages:
       was_sent: Message was succesfully sent.
       was_deleted: Message was successfully deleted.
-      was_not_deleted: Something went wrong.
       can_not_send_to_this_user: You can't send messages to this user.
     links:
       all: All mesages
