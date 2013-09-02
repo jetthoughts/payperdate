@@ -1,0 +1,22 @@
+en:
+  email_invitation_mailer:
+    invite_by_email:
+      you_are_invited: You are invited to PayPerDate
+  activerecord:
+    errors:
+      models:
+        email_invitation:
+          attributes:
+            email:
+              user_already_registered: This user already registered
+  users:
+    index:
+      send_email_invitation: Invite friend
+  me:
+    email_invitations:
+      new:
+        invite_your_friend: Invite your friend to PayPerDate
+        email: "Input friend's e-mail"
+        invite: Invite
+      create:
+        email_invitation_sent: Invitation to your friend successfuly sent

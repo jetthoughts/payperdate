@@ -83,6 +83,7 @@ Payperdate::Application.routes.draw do
 
     namespace :me, as: '' do
       resource :profile
+      resource :email_invitation, only: [:new, :create]
       resources :users_dates, only: [:index] do
         resources :date_ranks, only: [:new, :create]
         collection do

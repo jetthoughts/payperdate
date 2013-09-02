@@ -39,6 +39,8 @@ class User < ActiveRecord::Base
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
 
+  has_many :email_invitations, inverse_of: :user
+
   validates :nickname, :name, presence: true
   validates :nickname, uniqueness: true
   validates :phone, uniqueness: true, allow_nil: true
