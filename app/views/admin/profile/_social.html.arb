@@ -13,7 +13,10 @@ form_for profile, url: admin_profile_path(profile) do |f|
       f.select :optional_info_education, select_options('education'), class: 'profile-hide profile-inline-edit'
     end
 
-    row :optional_info_occupation, class: 'profile-inline-edit'
+    row :optional_info_occupation,
+        class: "profile-inline-edit #{changed_field? profile, :optional_info_occupation}" do
+      highlight_obscenity(profile.optional_info_occupation)
+    end
     row :optional_info_occupation_edit, class: 'profile-hide profile-inline-edit' do
       f.text_field :optional_info_occupation, class: 'profile-hide profile-inline-edit'
     end

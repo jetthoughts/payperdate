@@ -16,7 +16,8 @@ form_for profile, url: admin_profile_path(profile) do |f|
       end
     end
 
-    row :personal_preferences_sex, class: 'profile-inline-edit' do
+    row :personal_preferences_sex,
+        class: "profile-inline-edit #{changed_field? profile, :personal_preferences_sex}" do
       select_title('sex', profile.personal_preferences_sex)
     end
     row :personal_preferences_sex_edit, class: 'profile-hide profile-inline-edit' do
