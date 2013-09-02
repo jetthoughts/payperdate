@@ -134,4 +134,11 @@ class ProfilesControllerTest < ActionController::TestCase
     end
   end
 
+  test 'should not be able to view blocked user profile' do
+    users(:sophia).block!
+    get :show, user_id: users(:sophia)
+    assert_redirected_to root_path
+    assert_equal 'Sorry, but this user was suspended.', flash[:alert]
+  end
+
 end

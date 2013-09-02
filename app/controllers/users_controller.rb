@@ -1,6 +1,7 @@
 class UsersController < BaseController
   before_filter :ensure_user_has_filled_profile
-  before_filter :setup_profiles_and_users
+  before_filter :setup_search_params, only: [:index, :search]
+  before_filter :setup_profiles_and_users, only: [:index, :search]
   before_filter :setup_target_user, only: [:block, :unblock, :favorite, :remove_favorite]
   after_filter :track_block_activity, only: :block
   after_filter :track_unblock_activity, only: :unblock
@@ -12,7 +13,8 @@ class UsersController < BaseController
     render :index
   end
 
-  # TODO: cover this by test
+  # FIXME: Why the hell it is GET method ? Shouldn't it be POST or PUT, whatever
+  #        but not GET.
   def unsubscribe
     user = User.where(email: params[:md_email]).first
     user.unsubscribe!
@@ -20,7 +22,6 @@ class UsersController < BaseController
     redirect_to root_path, notice: t("unsubscribed")
   end
 
-  # TODO: cover this by test
   def favorite
     current_user.favorite_user @target
 
@@ -28,7 +29,6 @@ class UsersController < BaseController
     redirect_to user_profile_path @target
   end
 
-  # TODO: cover this by test
   def remove_favorite
     current_user.remove_favorite_user @target
     flash[:notice] = I18n.t('flash.users.remove_favorite.notice')
@@ -49,51 +49,21 @@ class UsersController < BaseController
 
   private
 
-  def user_param_name
-    :id
-  end
-
   def setup_profiles_and_users
-    setup_current_profile
-    setup_search
-    setup_profiles
-    setup_users
-  end
-
-  def setup_current_profile
     @profile = current_user.profile
-  end
-
-  def setup_search
-    #FIXME: do not change params
-    params[:q] ||= {}
-    params[:location] ||= @profile.default_search['location']
-    params[:max_distance] ||= @profile.default_search['max_distance']
-
-    #FIXME: Rename `q` to more readable
-    query = params[:q].clone
-    @q = @profile.near_me(params[:location], params[:max_distance]).not_mine(@profile)
-        .preload(:user).published_and_active
-        .multiselect_search(query.slice(*Profile.multiselect_params))
-        .search(query.slice!(*Profile.multiselect_params))
-  end
-
-  def setup_profiles
-    @profiles = @q.result
-    #FIXME: Convert to helper, too many shared instances
-    @profile_sections = Profile.searchable_params
-  end
-
-  def setup_users
-    @users = @profiles.map do |profile|
-      profile.auto_user.distance = profile['distance'] unless profile.auto_user.nil?
-      profile.auto_user
-    end
-    @users.compact!
+    @query = @profile.public_search(@search_query)
+    @profiles = @query.result
+    @users = @profiles.collect(&:auto_user_with_distance).compact
   end
 
   def setup_target_user
     @target = User.find params[:id]
+  end
+
+  def setup_search_params
+    @search_query = current_user.profile.default_search
+        .merge(params[:query] || {})
+        .merge(params.slice('location', 'max_distance'))
   end
 
   def track_block_activity

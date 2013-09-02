@@ -35,17 +35,17 @@ class UsersControllerSearchTest < ActionController::TestCase
 
   # tests checkbox filters
   test 'user should be able to filter by sex' do
-    get :search, q: { personal_preferences_sex_in: %w(F) }
+    get :search, query: { personal_preferences_sex_in: %w(F) }
     assert_response :success
     assert all_users_are &female
     assert all_users.count > 0
 
-    get :search, q: { personal_preferences_sex_in: %w(M) }
+    get :search, query: { personal_preferences_sex_in: %w(M) }
     assert_response :success
     assert all_users_are &male
     assert all_users.count > 0
 
-    get :search, q: { personal_preferences_sex_in: %w(M F) }
+    get :search, query: { personal_preferences_sex_in: %w(M F) }
     assert_response :success
     assert any_users_are &female
     assert any_users_are &male
@@ -53,17 +53,17 @@ class UsersControllerSearchTest < ActionController::TestCase
   end
 
   test 'user should be able to filter by partners sex' do
-    get :search, q: { personal_preferences_partners_sex_multiselect: ['F'] }
+    get :search, query: { personal_preferences_partners_sex_multiselect: ['F'] }
     assert_response :success
     assert all_users_are &want_female
     assert all_users.count > 0
 
-    get :search, q: { personal_preferences_partners_sex_multiselect: ['M'] }
+    get :search, query: { personal_preferences_partners_sex_multiselect: ['M'] }
     assert_response :success
     assert all_users_are &want_male
     assert all_users.count > 0
 
-    get :search, q: { personal_preferences_partners_sex_multiselect: ['M', 'F'] }
+    get :search, query: { personal_preferences_partners_sex_multiselect: ['M', 'F'] }
     assert_response :success
     assert any_users_are &want_female
     assert any_users_are &want_male
@@ -71,7 +71,7 @@ class UsersControllerSearchTest < ActionController::TestCase
   end
 
   test 'user should be able to filter by two or more multiselects' do
-    get :search, q: { personal_preferences_partners_sex_multiselect: ['M'],
+    get :search, query: { personal_preferences_partners_sex_multiselect: ['M'],
                       date_preferences_want_relationship_multiselect: ['D'] }
     assert_response :success
     assert all_users_are &want_male
@@ -85,7 +85,7 @@ class UsersControllerSearchTest < ActionController::TestCase
   # tests range filters
   test 'user should be able to filter by age' do
     # somehow gteq and lteq for this ransacker are reversed, unable to track it down yet.
-    get :search, q: { optional_info_age_gteq: 30, optional_info_age_lteq: 20 }
+    get :search, query: { optional_info_age_gteq: 30, optional_info_age_lteq: 20 }
     assert_response :success
     assert all_users_are &aged_for((20..30).to_a)
     assert_equal 2, all_users.count
@@ -93,10 +93,10 @@ class UsersControllerSearchTest < ActionController::TestCase
 
   # test string filters
   test 'user should be able to filter by city' do
-    get :search, q: { general_info_city_cont: 'iam' }
+    get :search, query: { general_info_city_cont: 'iam' }
     assert_equal 3, all_users.count
 
-    get :search, q: { general_info_city_cont: 'rivoy' }
+    get :search, query: { general_info_city_cont: 'rivoy' }
     assert_equal 1, all_users.count
   end
 

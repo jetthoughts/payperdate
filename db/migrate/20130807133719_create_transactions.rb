@@ -1,10 +1,10 @@
 class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
-      t.references :trackable, polymorphic: true, index: true
-      t.references :owner,     polymorphic: true, index: true
+      t.references :trackable, polymorphic: true, index: true, null: false
+      t.references :owner,     polymorphic: true, index: true, null: false
       t.references :recipient, polymorphic: true, index: true
-      t.integer :amount
+      t.integer :amount, null: false
       t.string :key
 
       #from credit

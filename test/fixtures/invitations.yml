@@ -1,5 +1,8 @@
 # pending | not accepted:
 
+# "are you interesting" IS WRONG!!!
+# USE "are you interested" !!!
+
 martin_mia_pending:
   message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 500
@@ -8,14 +11,14 @@ martin_mia_pending:
   invited_user: mia
 
 paul_lily_not_accepted:
-  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: paul
   invited_user: lily
 
 lily_paul_not_accepted:
-  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: lily
@@ -24,7 +27,7 @@ lily_paul_not_accepted:
 # countered:
 
 lily_john_countered:
-  message: 'Hi. Do you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Do you interested in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: lily
@@ -34,7 +37,7 @@ lily_john_countered:
 # accepted (has users communications):
 
 paul_john_locked_yet:
-  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: paul
@@ -42,7 +45,7 @@ paul_john_locked_yet:
   state: 'accepted'
 
 john_lily_locked_yet:
-  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 5001
   amount_currency: 'USD'
   user: john
@@ -50,7 +53,7 @@ john_lily_locked_yet:
   state: 'accepted'
 
 sophia_lily_accepted:
-  message: 'Hi. Are you interesting in sex with me for 5 bucks?'
+  message: 'Hi. Are you interested in sex with me for 5 bucks?'
   amount_cents: 500
   amount_currency: 'USD'
   user: sophia
