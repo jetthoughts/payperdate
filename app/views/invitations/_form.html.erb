@@ -1,4 +1,4 @@
-<%= form_for invitation, remote: true do |f| -%>
+<%= form_for [@user, invitation], remote: true do |f| -%>
   <div id="invitation_errors"></div>
   <p><%= f.number_field :amount, min: 5, value: '', step: 0.01, required: true -%></p>
   <p><%= f.text_area :message, placeholder: 'Add message' %></p>

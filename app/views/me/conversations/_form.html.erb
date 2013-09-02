@@ -1,4 +1,4 @@
-<%= form_for :message, url: append_conversation_path, method: :post do |f| %>
+<%= form_for @conversation.build_message, url: user_message_path(@conversation.interlocutor), remote: true do |f| %>
   <div class="form-actions">
     <div class="row-fluid">
       <div class="span1">
