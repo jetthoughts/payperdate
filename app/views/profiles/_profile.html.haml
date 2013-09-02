@@ -64,11 +64,9 @@
     = render 'profiles/block_link', user: @user
     = render 'profiles/send_wink_link', user: @user
     = render 'profiles/favorite_link', user: @user
-    = link_to 'Albums', user_albums_path(@user), class: :btn
 
-    - if @user == current_user
-      = render 'profiles/send_gift_link', user: profile.auto_user
-    - else
+    - unless @user == current_user
+      = link_to 'Albums', user_albums_path(@user), class: :btn
       = render 'profiles/send_gift_link', user: @user
       = render 'profiles/report_violation_link', profile: profile
       = render 'profiles/send_message_link', user: @user
@@ -93,10 +91,6 @@
                   %div
                     failed login counts:
                     = profile.auto_user.failed_sign_in_count
-
-    - if can? :manage, profile
-      = link_to 'Edit profile', edit_profile_path, class: 'btn'
-
 
     :textile
       h3. About
