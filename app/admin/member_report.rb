@@ -13,17 +13,15 @@ ActiveAdmin.register MemberReport do
 
   member_action :dismiss, method: :put do
     member_report = MemberReport.find(params[:id])
-    authorize! :enable, MemberReport
+    authorize! :enable, member_report
     member_report.dismiss!
     redirect_to [:admin, :member_reports]
   end
 
   member_action :block, method: :put do
     member_report = MemberReport.find(params[:id])
-    authorize! :block, MemberReport
-    member_reports_on_user(member_report.user) do |member_report|
-      member_report.block_reported_user! if member_report.active?
-    end
+    authorize! :block, member_report
+    member_report.block_reported_user!
     redirect_to [:admin, :member_reports]
   end
 
@@ -55,15 +53,4 @@ ActiveAdmin.register MemberReport do
     end
   end
 
-  controller do
-
-    private
-
-    def member_reports_on_user(user)
-      MemberReport.where(user_id: user.id).each do |member_report|
-        yield member_report
-      end
-    end
-
-  end
 end
