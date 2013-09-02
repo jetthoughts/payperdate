@@ -92,7 +92,7 @@ en:
       no_permissions: 'No permissions'
       permission_approver: 'Approver (access only to Picture and Profile approval/rejection)'
       permission_customer_care: 'Customer Care (delete users, respond to user questions, etc)'
-      permission_gifts_and_winks: 'Gifts and Winks (manage gifts and winks)'
+      permission_gifts_winks_dates: 'Gifts / Winks / Dates (manage gifts, winks and dates)'
       permission_login_as_user: 'Ability to login as user'
       permission_mass_mailing: "Mass Mailing (send mass mails to users)"
       permission_accounting: "Accounting (access to billing, credits, refunds)"
