@@ -35,15 +35,17 @@ class AdminAbility
 
           can :manage, Profile
         end
-        if admin.get_permissions[:permission_gifts_and_winks]
+        if admin.get_permissions[:permission_gifts_winks_dates]
           can :manage, GiftTemplate
+          can :manage, Gift
           can :manage, WinkTemplate
+          can :manage, Wink
+          can :manage, UsersDate
         end
         if admin.get_permissions[:permission_mass_mailing]
           can [:send_message, :read], ActiveAdmin::Page, name: "Mass Mailing"
         end
         if admin.get_permissions[:permission_accounting]
-          can :manage, UsersDate
           can :manage, CreditsPackage
           can :manage, Transaction
           can :manage, Service
