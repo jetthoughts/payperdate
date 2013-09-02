@@ -42,4 +42,16 @@ ActiveAdmin.register AdminUser do
       end
     end
   end
+
+  controller do
+    before_filter :set_skip_password_validation, only: :update
+
+    private
+
+    def set_skip_password_validation
+      @admin_user ||= AdminUser.find(params[:id])
+      @admin_user.skip_password_validation = true
+    end
+  end
+
 end
