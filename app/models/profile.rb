@@ -138,6 +138,15 @@ class Profile < ActiveRecord::Base
     end
   end
 
+  def public_search(search_query)
+    geo_query = search_query.slice 'location', 'max_distance'
+    search_query = search_query.clone.slice! 'location', 'max_distance'
+    near_me(geo_query['location'], geo_query['max_distance']).not_mine(self)
+        .preload(:user).published_and_active
+        .multiselect_search(search_query.slice(*Profile.multiselect_params.collect(&:to_s)))
+        .search(search_query.slice!(*Profile.multiselect_params.collect(&:to_s)))
+  end
+
   def next_queued_for_approval
     Profile.approve_queue.where('profiles.id > ?', id).order('profiles.id ASC').first
   end
@@ -187,8 +196,14 @@ class Profile < ActiveRecord::Base
     auto_user && "#{auto_user.name}'s Profile" || "Somebody's profile"
   end
 
-  def auto_user
-    user || published_user
+  def auto_user(with_distance = false)
+    res = user || published_user
+    res.distance = self['distance'] if res && with_distance
+    res
+  end
+
+  def auto_user_with_distance
+    auto_user(with_distance=true)
   end
 
   def avatar_url(version=:avatar, public_avatar = true)

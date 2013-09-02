@@ -46,6 +46,12 @@ en:
       required_field: 'Field is required'
       invalid_address: 'Address is invalid'
       invalid_zipcode: 'Invalid zipcode. We expected %{zipcode}'
+    update:
+      flash:
+        notice:
+          success: 'Profile successfully updated'
+        alert:
+          invalid: 'Entered profile data is invalid'
   invitations:
     invitation:
       unlock_confirm: 'Do you confirm payment %{credits} credits for unlock messages?'

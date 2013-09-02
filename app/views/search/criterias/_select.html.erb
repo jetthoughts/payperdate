@@ -2,8 +2,8 @@
   <% selects[subtype].each do |select| %>
       <li>
         <label class="checkbox">
-          <% checked = params[:q][:"#{section}_#{key}_in"] && params[:q][:"#{section}_#{key}_in"].include?(select[:key]) %>
-          <%= check_box_tag("q[#{section}_#{key}_in][]", select[:key], checked) %>
+          <% checked = @search_query[:"#{section}_#{key}_in"] && @search_query[:"#{section}_#{key}_in"].include?(select[:key]) %>
+          <%= check_box_tag("query[#{section}_#{key}_in][]", select[:key], checked) %>
           <span><%= select[:title] %></span>
         </label>
       </li>

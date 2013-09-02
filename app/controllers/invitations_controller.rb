@@ -1,17 +1,11 @@
 class InvitationsController < BaseController
 
+  before_filter :load_user, only: :create
   before_action :find_invitation, only: [:accept, :reject, :counter, :destroy]
 
-  # TODO: cover this by test
   def create
-    invitation = current_user.own_invitations.build(invitation_params)
-    result     = if invitation.save
-                   { success: true, message: t('invitations.messages.was_sent') }
-                 else
-                   error = invitation.errors.full_messages.flatten.first
-                   { success: false, message: error || t('invitations.messages.was_not_sent') }
-                 end
-    render json: result
+    invitation = current_user.own_invitations.create(invitation_params.merge(invited_user: @user))
+    render json: state_of_model(invitation)
   end
 
   def index
@@ -23,13 +17,11 @@ class InvitationsController < BaseController
     render :index
   end
 
-  # TODO: cover this by test
   def rejected
     @invitations = current_user.rejected_invitations
     render :index
   end
 
-  # TODO: cover this by test
   def accepted
     @invitations = current_user.accepted_invitations
     render :index
@@ -42,20 +34,17 @@ class InvitationsController < BaseController
     redirect_to accepted_invitations_path
   end
 
-  # TODO: cover this by test
   def reject
     authorize! :reject, @invitation
     @invitation.reject_by_reason(params[:reason])
     render nothing: true
   end
 
-  # TODO: cover this by test
   def counter
     authorize! :counter, @invitation
     render json: @invitation.make_counter_offer(params[:invitation][:amount].to_i)
   end
 
-  # TODO: cover this by test
   def destroy
     authorize! :destroy, @invitation
     @invitation.destroy!
@@ -64,8 +53,12 @@ class InvitationsController < BaseController
 
   private
 
+  def load_user
+    @user = User.find(params[:user_id])
+  end
+
   def invitation_params
-    params.require(:invitation).permit(:invited_user_id, :message, :amount)
+    params.require(:invitation).permit(:message, :amount)
   end
 
   def find_invitation

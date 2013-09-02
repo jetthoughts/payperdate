@@ -4,8 +4,7 @@ class InvitationsControllerTest < ActionController::TestCase
   fixtures :users, :invitations
 
   setup do
-    Delayed::Worker.delay_jobs = false
-    @current_user = users(:lily)
+    @current_user              = users(:lily)
     sign_in @current_user
   end
 
@@ -70,9 +69,8 @@ class InvitationsControllerTest < ActionController::TestCase
   def test_create
     assert_difference -> { @current_user.own_invitations.count }, +1 do
 
-      post :create, invitation: { invited_user_id: users(:martin),
-                                  message: 'Enough?',
-                                  amount: 100 }
+      post :create, user_id: users(:martin), invitation: { message: 'Enough?',
+                                                           amount:  100 }
 
       assert_response :success
       json = JSON.parse(response.body)
@@ -83,9 +81,8 @@ class InvitationsControllerTest < ActionController::TestCase
   def test_create_on_error
     assert_difference -> { @current_user.own_invitations.count }, 0 do
 
-      post :create, invitation: { invited_user_id: users(:paul),
-                                  message: 'Enough?',
-                                  amount: 100 }
+      post :create, user_id: users(:paul), invitation: { message: 'Enough?',
+                                                         amount:  100 }
 
       assert_response :success
       json = JSON.parse(response.body)

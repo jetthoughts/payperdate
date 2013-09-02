@@ -22,7 +22,6 @@ class PhotoTest < ActiveSupport::TestCase
   end
 
   def test_schedule_nudity_validation
-    Delayed::Worker.delay_jobs = true
     assert_difference -> { Delayed::Job.count }, +1 do
       create_sample_photo.committed!
     end
