@@ -4,10 +4,6 @@ class InvitationTest < ActiveSupport::TestCase
 
   fixtures :users, :invitations, :block_relationships, :services, :users_dates, :communication_costs
 
-  setup do
-    Delayed::Worker.delay_jobs = false
-  end
-
   test 'can_be_countered_by?' do
     invitation = invitations(:martin_mia_pending)
     martin     = users(:martin)
@@ -22,7 +18,9 @@ class InvitationTest < ActiveSupport::TestCase
     mia        = users(:mia)
     assert_equal martin, invitation.inviter
 
-    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+    Delayed::Worker.delay_jobs = false
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
       invitation.make_counter_offer(999)
     end
     assert_equal mia, invitation.inviter
@@ -31,6 +29,8 @@ class InvitationTest < ActiveSupport::TestCase
     notification = ActionMailer::Base.deliveries.last
     assert_equal martin.email, notification.to[0]
     assert_match /changed proposed amount/, notification.body.to_s
+
+    Delayed::Worker.delay_jobs = true
   end
 
   test 'need_response_from?' do
@@ -62,6 +62,7 @@ class InvitationTest < ActiveSupport::TestCase
   end
 
   test 'create invitation' do
+    Delayed::Worker.delay_jobs = false
     Invitation.delete_all
     martin = users(:martin)
     mia    = users(:mia)
@@ -75,9 +76,11 @@ class InvitationTest < ActiveSupport::TestCase
 
     assert_equal 0, martin.active_invitations.count
     assert_equal 1, martin.pending_invitations.count
+    Delayed::Worker.delay_jobs = true
   end
 
   test 'accept invitation' do
+    Delayed::Worker.delay_jobs = false
     invitation = invitations(:martin_mia_pending)
     martin     = users(:martin)
     mia        = users(:mia)
@@ -93,9 +96,11 @@ class InvitationTest < ActiveSupport::TestCase
     notification = ActionMailer::Base.deliveries.last
     assert_equal martin.email, notification.to[0]
     assert_match /accepted/, notification.body.to_s
+    Delayed::Worker.delay_jobs = true
   end
 
   test 'reject invitation' do
+    Delayed::Worker.delay_jobs = false
     invitation = invitations(:martin_mia_pending)
     martin     = users(:martin)
     mia        = users(:mia)
@@ -113,6 +118,7 @@ class InvitationTest < ActiveSupport::TestCase
     notification = ActionMailer::Base.deliveries.last
     assert_equal martin.email, notification.to[0]
     assert_match /rejected/, notification.body.to_s
+    Delayed::Worker.delay_jobs = true
   end
 
   test 'cant invite blocked by self' do

@@ -20,10 +20,10 @@ SimpleCov.start do
   add_group 'Libraries [Payperdate]', '/lib/payperdate'
 end
 # somehow this required for library group to work
-Dir["lib/**/*.rb"].each {|file| load(file); }
-Dir["app/helpers/*.rb"].each {|file| load(file); }
+Dir["lib/**/*.rb"].each {|file| load(file) }
+Dir["app/helpers/*.rb"].each {|file| load(file) }
 # admin group
-Dir["app/admin/*.rb"].each {|file| load(file); }
+Dir["app/admin/*.rb"].each {|file| load(file) }
 
 Dir['./test/support/**/*.rb'].sort.each { |f| require f }
 
@@ -36,9 +36,6 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures = false
 
-  setup do
-    Delayed::Worker.delay_jobs = true
-  end
 end
 
 class ActionController::TestCase
@@ -47,9 +44,6 @@ class ActionController::TestCase
   include Payperdate::TestHelpers
   extend Payperdate::TestExtendedHelpers
 
-  setup do
-    Delayed::Worker.delay_jobs = true
-  end
 end
 
 if ENV['INTEGRATION_TESTS']

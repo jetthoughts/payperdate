@@ -4,7 +4,6 @@ class InvitationsControllerTest < ActionController::TestCase
   fixtures :users, :invitations
 
   setup do
-    Delayed::Worker.delay_jobs = false
     @current_user              = users(:lily)
     sign_in @current_user
   end
