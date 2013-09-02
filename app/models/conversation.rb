@@ -60,8 +60,8 @@ class Conversation
     Message.between(@viewer, @interlocutor).reverse_order
   end
 
-  def append(content)
-    Message.create sender: viewer, recipient: interlocutor, content: content
+  def build_message
+    viewer.messages_sent.build(recipient: interlocutor)
   end
 
   def hash
