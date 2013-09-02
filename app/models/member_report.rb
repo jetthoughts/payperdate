@@ -1,18 +1,22 @@
 class MemberReport < ActiveRecord::Base
 
-  ALLOWED_CONTENT = [ :profile ]
+  ALLOWED_CONTENT = %w(profile)
 
   belongs_to :user
   belongs_to :reported_user, class_name: 'User'
   belongs_to :content, polymorphic: true
 
+  validates :user, :reported_user, :content, presence: true
   validates :message, presence: true, length: { maximum: 1000 }
+
   validate :has_allowed_content?
   validate :reported_user_is_content_owner?
 
   state_machine :state, initial: :active do
     before_transition active: :user_blocked do |member_report|
-      member_report.reported_user.block! if member_report.reported_user.active?
+      user = member_report.reported_user
+      user.block! if user.active?
+      user.member_reports.update_all(state: 'user_blocked')
     end
 
     event :dismiss do
@@ -35,7 +39,7 @@ class MemberReport < ActiveRecord::Base
   private
 
   def has_allowed_content?
-    errors.add(:base, :reporting_to_this_content_not_allowed) unless ALLOWED_CONTENT.include?(content.class.name.underscore.to_sym)
+    errors.add(:base, :reporting_to_this_content_not_allowed) unless ALLOWED_CONTENT.include?(content.class.name.underscore)
   end
 
   def reported_user_is_content_owner?

@@ -4,3 +4,10 @@ mias_report_on_martins_profile:
   content: martins
   content_type: Profile
   message: spammer!
+
+sophias_report_on_martins_profile:
+  user: sophia
+  reported_user: martin
+  content: martins
+  content_type: Profile
+  message: spammer!

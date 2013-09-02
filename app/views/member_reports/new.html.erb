@@ -1,0 +1,24 @@
+<div class="row-fluid">
+  <div class="span4 offset4 well">
+    <div class="row-fluid">
+      <h4><%= t :'.title', content: @member_report.reported_user.name %></h4>
+      <%= form_for [@member_report.reported_user, @member_report] do |f| %>
+        <% if @member_report.errors.full_messages.any? %>
+          <div class="alert alert-error">
+            <% @member_report.errors.full_messages.each do |error_message| %>
+              <%= error_message %>
+              <br/>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="control-group">
+          <%= f.label :message, t(:'.message'), class: 'control-label' %>
+          <div class="controls">
+            <%= f.text_area :message, rows: 3, class: 'span12' %>
+          </div>
+        </div>
+        <%= f.submit t(:'.submit'), class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
