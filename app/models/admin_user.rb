@@ -8,6 +8,8 @@ class AdminUser < ActiveRecord::Base
 
   before_validation :ensure_not_master
 
+  attr_accessor :skip_password_validation
+
   def ensure_not_master
     if master && AdminUser.where('id != ? and master = true', [id]).count > 0
       master = false
@@ -29,4 +31,11 @@ class AdminUser < ActiveRecord::Base
   def master?
     master
   end
+
+  private
+
+  def password_required?
+    super && !skip_password_validation
+  end
+
 end
