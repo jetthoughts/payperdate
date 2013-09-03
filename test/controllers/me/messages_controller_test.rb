@@ -91,6 +91,12 @@ class Me::MessagesControllerTest < ActionController::TestCase
     assert_not_nil flash[:notice]
   end
 
+  def test_xhr_delete_destroy_render_nothing
+    xhr :delete, :destroy, id: messages(:mia_john_unread)
+    assert_response :success
+    assert_equal ' ', response.body
+  end
+
   def test_delete_destroy_cant_delete_messages_of_other_user
     sign_in users(:martin)
     assert_raise CanCan::AccessDenied do

@@ -50,6 +50,18 @@ class MessagesControllerTest < ActionController::TestCase
     assert_includes message.errors, :content
   end
 
+  def test_xhr_create_should_return_rendered_partial
+    xhr :put, :create, user_id: @john, message: { content: 'some message' }
+    assert_response :success
+    assert_template 'me/conversations/_message'
+  end
+
+  def test_xhr_create_should_return_nil_on_error
+    xhr :put, :create, user_id: @john, message: { content: '' }
+    assert_response :success
+    assert_equal ' ', response.body
+  end
+
   def test_redirect_with_alert_when_sending_to_blocker
     sign_in @ria
     put :create, user_id: @robert, message: { content: 'Huhu!' }

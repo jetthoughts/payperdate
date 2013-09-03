@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :messages, :users
+  fixtures :messages, :users, :users_dates
 
-  def test_by_user
+  test 'by_user' do
     sophia = users(:sophia)
     lily   = users(:lily)
 
@@ -16,13 +16,13 @@ class MessageTest < ActiveSupport::TestCase
     end
   end
 
-  def test_by_user_does_not_returns_duplicates
+  test 'by_user does not returns duplicates' do
     john = users(:john)
 
     assert_nil Conversation.by_user(john).map { |conversation| conversation.interlocutor }.uniq!
   end
 
-  def test_last_message_changes_on_creating_messages
+  test 'last_message changes on creating messages' do
     john   = users(:john)
     sophia = users(:sophia)
     johns_conversation = Conversation.by_users(john, sophia)
@@ -34,7 +34,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal new_message, sophias_conversation.last_message
   end
 
-  def test_last_message_changes_on_viewer_deletes_messages
+  test 'last_message changes on viewer deletes messages' do
     john                       = users(:john)
     conversation               = Conversation.by_user(john).first
     last_message_before_delete = conversation.last_message
@@ -44,7 +44,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_not_equal last_message_before_delete, conversation.last_message
   end
 
-  def test_last_message_not_changes_on_interlocutor_deletes_messages
+  test 'last_message not changes on interlocutor deletes messages' do
     john                       = users(:john)
     conversation               = Conversation.by_user(john).first
     last_message_before_delete = conversation.last_message
@@ -52,6 +52,24 @@ class MessageTest < ActiveSupport::TestCase
     last_message_before_delete.delete_by(conversation.interlocutor)
 
     assert_equal last_message_before_delete, conversation.last_message
+  end
+
+  test 'can_be_unlocked? when date locked' do
+    users_date   =users_dates(:locked_date_john_lily)
+    conversation = Conversation.by_users(users_date.owner, users_date.recipient)
+    assert conversation.can_be_unlocked?
+
+    conversation = Conversation.by_users(users_date.recipient, users_date.owner)
+    refute conversation.can_be_unlocked?
+  end
+
+  test 'can_be_unlocked? when date unlocked' do
+    users_date   =users_dates(:unlocked_date_sophia_lily)
+    conversation = Conversation.by_users(users_date.owner, users_date.recipient)
+    refute conversation.can_be_unlocked?
+
+    conversation = Conversation.by_users(users_date.recipient, users_date.owner)
+    refute conversation.can_be_unlocked?
   end
 
 end

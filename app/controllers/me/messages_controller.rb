@@ -10,7 +10,11 @@ class Me::MessagesController < BaseController
   def destroy
     authorize! :destroy, @message
     @message.delete_by(current_user)
-    redirect_to messages_path, notice: t(:'messages.messages.was_deleted')
+    if request.xhr?
+      render nothing: true
+    else
+      redirect_to messages_path, notice: t(:'messages.messages.was_deleted')
+    end
   end
 
   def index
