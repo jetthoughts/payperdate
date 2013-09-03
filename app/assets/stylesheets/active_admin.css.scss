@@ -99,3 +99,7 @@ select.profile-inline-edit {
 tr.profile-inline-edit, tr.profile-inline-edit > td:nth-child(2) {
   width: 65%
 }
+
+.profile-field-changed th {
+  background-color: yellow !important;
+}
