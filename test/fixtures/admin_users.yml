@@ -5,7 +5,7 @@ admin:
   master: true
   permission_approver: false
   permission_customer_care: false
-  permission_gifts_and_winks: false
+  permission_gifts_winks_dates: false
 
 # Non master admin user
 john:
@@ -14,7 +14,7 @@ john:
   master: false
   permission_approver: false
   permission_customer_care: false
-  permission_gifts_and_winks: false
+  permission_gifts_winks_dates: false
 
 # Approver
 james:
@@ -23,7 +23,7 @@ james:
   master: false
   permission_approver: true
   permission_customer_care: false
-  permission_gifts_and_winks: false
+  permission_gifts_winks_dates: false
 
 # Customer Care
 bill:
@@ -32,7 +32,7 @@ bill:
   master: false
   permission_approver: false
   permission_customer_care: true
-  permission_gifts_and_winks: false
+  permission_gifts_winks_dates: false
 
 # Gifts and Winks
 anthony:
@@ -41,4 +41,4 @@ anthony:
   master: false
   permission_approver: false
   permission_customer_care: false
-  permission_gifts_and_winks: true
+  permission_gifts_winks_dates: true
