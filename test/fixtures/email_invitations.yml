@@ -1,0 +1,7 @@
+mias_email_invitation:
+  user: mia
+  email: test@example.com
+
+martins_email_invitation:
+  user: martin
+  email: test@example.com

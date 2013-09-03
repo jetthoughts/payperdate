@@ -1,0 +1,21 @@
+<h2><%= t '.invite_your_friend' %></h2>
+<div class="row-fluid">
+  <div class="span6 offset3 well">
+    <%= form_for @email_invitation, url: email_invitation_path do |f| %>
+      <% if @email_invitation.errors.full_messages.any? %>
+        <div class='alert alert-error'>
+          <% @email_invitation.errors.full_messages.each do |error_message| %>
+            <%= error_message if @email_invitation.errors.full_messages.first == error_message %> <br/>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="controls-group">
+        <%= f.label :email, t('.email') %>
+        <div class="controls">
+          <%= f.email_field :email %>
+        </div>
+      </div>
+      <%= f.submit t('.invite'), class: 'btn btn-primary' %>
+      <% end %>
+  </div>
+</div>
