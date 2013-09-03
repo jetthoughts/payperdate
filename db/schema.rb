@@ -136,6 +136,15 @@ ActiveRecord::Schema.define(version: 20130902124200) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "email_invitations", force: true do |t|
+    t.integer  "user_id",    null: false
+    t.string   "email",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "email_invitations", ["user_id"], name: "index_email_invitations_on_user_id", using: :btree
+
   create_table "favorites", force: true do |t|
     t.integer  "user_id"
     t.integer  "favorite_id"
