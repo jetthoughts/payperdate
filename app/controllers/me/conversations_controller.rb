@@ -1,6 +1,7 @@
 class Me::ConversationsController < ApplicationController
 
   before_filter :create_conversation, except: :index
+  before_filter :find_message, only: :remove_from
   after_filter :read_all_messages, only: :show
 
   def index
@@ -9,16 +10,6 @@ class Me::ConversationsController < ApplicationController
 
   def show
     redirect_to conversations_path, alert: t('.conversation_with_yorself') unless @conversation
-  end
-
-  def append
-    authorize! :communicate, @user
-    message = @conversation.append(message_attributes[:content])
-    if message.valid?
-      redirect_to conversation_path(@user), notice: t('.sent_ok')
-    else
-      redirect_to conversation_path(@user), alert: message.errors.full_messages.flatten.first
-    end
   end
 
   private
@@ -30,10 +21,6 @@ class Me::ConversationsController < ApplicationController
 
   def read_all_messages
     @conversation.read_all! if @conversation
-  end
-
-  def message_attributes
-    params.required(:message).permit(:content)
   end
 
 end

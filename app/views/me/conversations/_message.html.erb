@@ -12,6 +12,9 @@
       <% end %>
     </div>
     <div class="span2">
+      <div class="pull-right">
+        <%= link_to raw('<b>&times;</b>'), message_path(message), method: :delete, remote: true %>
+      </div>
       <%= l message.created_at, format: :short %>
     </div>
   </div>
