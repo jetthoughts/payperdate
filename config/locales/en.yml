@@ -57,6 +57,42 @@ en:
       unlock_confirm: 'Do you confirm payment %{credits} credits for unlock messages?'
       unlock: 'Unlock'
   activerecord:
+    attributes:
+      profile:
+        # general_info
+        general_info_address_line_1: 'Address line'
+        general_info_address_line_2: 'Address line [2]'
+        general_info_city: 'City'
+        general_info_state: 'State'
+        general_info_zip_code: 'Zipcode'
+        general_info_tagline: 'Tagline'
+        general_info_description: 'Desctiption'
+        # personal_preferences
+        personal_preferences_sex: 'Sex'
+        personal_preferences_partners_sex: 'Partners sex'
+        personal_preferences_relationship: 'Current relationship(s)'
+        personal_preferences_want_relationship: 'Desired relationship(s)'
+        # date_preferences
+        date_preferences_description: 'First date desctiption'
+        date_preferences_accepted_distance_do_care: 'Accepted distance do care?'
+        date_preferences_accepted_distance: 'Accepted distance'
+        date_preferences_smoker: 'Looking for smoker?'
+        date_preferences_drinker: 'Looking for drinker?'
+        # optional_info
+        optional_info_birthday: 'Birthday'
+        optional_info_height: 'Height'
+        optional_info_body_type: 'Body type'
+        optional_info_hair_color: 'Hair color'
+        optional_info_eye_color: 'Eye color'
+        optional_info_education: 'Education'
+        optional_info_occupation: 'Occupation'
+        optional_info_annual_income: 'Annual income'
+        optional_info_net_worth: 'Net worth'
+        optional_info_religion: 'Religion'
+        optional_info_ethnicity: 'Ethnicity'
+        optional_info_children: 'Children'
+        optional_info_smoker: 'Smoker'
+        optional_info_drinker: 'Drinker'
     errors:
       models:
         photo:
@@ -92,7 +128,7 @@ en:
       no_permissions: 'No permissions'
       permission_approver: 'Approver (access only to Picture and Profile approval/rejection)'
       permission_customer_care: 'Customer Care (delete users, respond to user questions, etc)'
-      permission_gifts_and_winks: 'Gifts and Winks (manage gifts and winks)'
+      permission_gifts_winks_dates: 'Gifts / Winks / Dates (manage gifts, winks and dates)'
       permission_login_as_user: 'Ability to login as user'
       permission_mass_mailing: "Mass Mailing (send mass mails to users)"
       permission_accounting: "Accounting (access to billing, credits, refunds)"

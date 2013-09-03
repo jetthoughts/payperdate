@@ -1,12 +1,14 @@
 class AdminUser < ActiveRecord::Base
   PERMISSIONS = [:permission_approver, :permission_customer_care,
-                 :permission_gifts_and_winks, :permission_login_as_user,
+                 :permission_gifts_winks_dates, :permission_login_as_user,
                  :permission_mass_mailing, :permission_accounting]
 
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
   before_validation :ensure_not_master
+
+  attr_accessor :skip_password_validation
 
   def ensure_not_master
     if master && AdminUser.where('id != ? and master = true', [id]).count > 0
@@ -29,4 +31,11 @@ class AdminUser < ActiveRecord::Base
   def master?
     master
   end
+
+  private
+
+  def password_required?
+    super && !skip_password_validation
+  end
+
 end

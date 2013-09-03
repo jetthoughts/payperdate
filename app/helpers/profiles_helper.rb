@@ -20,4 +20,12 @@ module ProfilesHelper
       profile_panel name, opts
     end
   end
+
+  def changed_field?(profile, field_name)
+    'profile-field-changed' if profile[field_name] != profile.auto_user.published_profile[field_name]
+  end
+
+  def highlight_obscenity(value)
+    highlight(value, Obscenity.offensive(value))
+  end
 end
