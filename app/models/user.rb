@@ -32,14 +32,16 @@ class User < ActiveRecord::Base
   has_many :profile_views, ->{ order(:updated_at).reverse_order }, dependent: :destroy
   has_many :viewed_users, through: :profile_views, source: :viewed
 
-  has_many :back_profile_views, ->{ order(:updated_at).reverse_order }, class_name: 'ProfileView', foreign_key: :viewed_id, dependent: :destroy
+  has_many :back_profile_views, ->{ order(:updated_at).reverse_order }, class_name: 'ProfileView',
+           foreign_key: :viewed_id, dependent: :destroy
   has_many :viewers, through: :back_profile_views, source: :user
 
   belongs_to :avatar, inverse_of: :owner
   belongs_to :profile, dependent: :destroy
   belongs_to :published_profile, class_name: 'Profile'
 
-  has_many :email_invitations, inverse_of: :user
+  has_many :email_invitations, inverse_of: :user, dependent: :destroy
+  has_one :settings, dependent: :destroy, class_name: 'UserSetting'
 
   validates :nickname, :name, presence: true
   validates :nickname, uniqueness: true
@@ -47,6 +49,7 @@ class User < ActiveRecord::Base
 
   before_create { create_profile }
   before_create { create_published_profile }
+  after_create { create_settings }
   after_save :update_subscription, if: :subscribed_changed?
   after_save :enqueue_for_approval, if: :free_form_fields_changed?
 

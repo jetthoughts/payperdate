@@ -1,0 +1,14 @@
+<p>
+  Hi, <%= @message.recipient.name -%>!
+</p>
+<p>
+  <%= @message.sender.name -%> sent message to you
+</p>
+<p>
+  <% if @message.can_be_read_by_recipient? %>
+    It say: "<%= @message.content -%>"
+  <% else %>
+    You need to unlock communication to read this message
+  <% end %>
+</p>
+<%= link_to 'Go to conversation', conversation_url(@message.sender) -%>
