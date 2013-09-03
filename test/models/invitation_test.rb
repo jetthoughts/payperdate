@@ -2,7 +2,7 @@ require 'test_helper'
 
 class InvitationTest < ActiveSupport::TestCase
 
-  fixtures :users, :invitations, :block_relationships, :services, :users_dates, :communication_costs
+  fixtures :users, :invitations, :block_relationships, :services, :users_dates, :communication_costs, :user_settings
 
   test 'can_be_countered_by?' do
     invitation = invitations(:martin_mia_pending)
@@ -177,6 +177,122 @@ class InvitationTest < ActiveSupport::TestCase
                                            recipient_id: invitation.invited_user).count }, 0 do
       invitation.accept!
     end
+  end
+
+  test 'notification about new invite sends if recipient want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    john = users(:john)
+    mia  = users(:mia)
+    assert mia.settings.notify_invitation_received?
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
+      Invitation.create!(user: john, invited_user: mia, amount: 50).committed!
+    end
+
+    notification = ActionMailer::Base.deliveries.last
+    assert_equal mia.email, notification.to[0]
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about new invite does not send if recipient does not want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    john = users(:john)
+    mia  = users(:mia)
+    mia.settings.update! notify_invitation_received: false
+    refute mia.settings.notify_invitation_received?
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, 0 do
+      Invitation.create!(user: john, invited_user: mia, amount: 50).committed!
+    end
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about accepting sends if sender want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    invitation = invitations(:martin_mia_pending)
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
+      invitation.accept!
+    end
+
+    notification = ActionMailer::Base.deliveries.last
+    assert_equal invitation.user.email, notification.to[0]
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about accepting does not send if sender does not want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    invitation = invitations(:martin_mia_pending)
+    invitation.user.settings.update notify_invitation_responded: false
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, 0 do
+      invitation.accept!
+    end
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about rejecting sends if sender want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    invitation = invitations(:martin_mia_pending)
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
+      invitation.reject_by_reason('some reason')
+    end
+
+    notification = ActionMailer::Base.deliveries.last
+    assert_equal invitation.user.email, notification.to[0]
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about rejecting does not send if sender does not want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    invitation = invitations(:martin_mia_pending)
+    invitation.user.settings.update notify_invitation_responded: false
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, 0 do
+      invitation.reject_by_reason('some reason')
+    end
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about counter sends if sender want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    invitation = invitations(:martin_mia_pending)
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
+      invitation.make_counter_offer(100)
+    end
+
+    notification = ActionMailer::Base.deliveries.last
+    assert_equal invitation.user.email, notification.to[0]
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about counter does not send if sender does not want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    invitation = invitations(:martin_mia_pending)
+    invitation.user.settings.update notify_invitation_responded: false
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, 0 do
+      invitation.make_counter_offer(100)
+    end
+
+    Delayed::Worker.delay_jobs = true
   end
 
 end

@@ -82,8 +82,9 @@ Payperdate::Application.routes.draw do
       get :back_favorites, to: "me/favorites#back"
     end
 
-    namespace :me, as: '' do
+    scope :me, module: 'me' do
       resource :profile
+      resource :settings, only: [:edit, :update]
       resource :email_invitation, only: [:new, :create]
       resources :users_dates, only: [:index] do
         resources :date_ranks, only: [:new, :create]

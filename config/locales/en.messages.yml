@@ -1,5 +1,7 @@
 en:
   messages:
+    mailer:
+      message_received: Yo received new message
     title: Messages
     messages:
       was_sent: Message was succesfully sent.
