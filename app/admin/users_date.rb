@@ -14,13 +14,6 @@ ActiveAdmin.register UsersDate do
     column 'Communication cost' do |users_date|
       users_date.communication_cost.cost
     end
-    column 'Transaction' do |users_date|
-      if users_date.transaction
-        link_to users_date.transaction.action, admin_transaction_path(users_date.transaction)
-      else
-        'has no transaction'
-      end
-    end
     column :created_at
     default_actions
   end
