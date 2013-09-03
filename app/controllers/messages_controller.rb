@@ -10,9 +10,13 @@ class MessagesController < BaseController
   def create
     @message = current_user.messages_sent.build(messages_attributes.merge(recipient: @user))
     if @message.save
-      redirect_to user_profile_path(@user), notice: t('messages.messages.was_sent')
+      if request.xhr?
+        render partial: 'me/conversations/message', locals: { message: @message }
+      else
+        redirect_to user_profile_path(@user), notice: t('messages.messages.was_sent')
+      end
     else
-      render 'new'
+      render request.xhr? ? { nothing: true } : 'new'
     end
   end
 
@@ -20,6 +24,7 @@ class MessagesController < BaseController
 
   def load_user
     @user = User.find params[:user_id]
+    @conversation = Conversation.by_users(current_user, @user)
   end
 
   def redirect_if_cant_communicate

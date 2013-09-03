@@ -28,7 +28,8 @@ Payperdate::Application.routes.draw do
   authenticated :user do
     resources :users do
       resource :profile
-
+      resource :invitations, only: :create
+      resource :winks, only: :create
       resource :gifts, only: [:new, :create]
       resource :member_reports, only: [:new, :create]
       resource :message, only: [:new, :create]
@@ -56,8 +57,8 @@ Payperdate::Application.routes.draw do
           post :use_as_avatar
         end
       end
-      resources :winks, only: [:create, :index]
-      resources :invitations do
+      resources :winks, only: :index
+      resources :invitations, only: [:index, :destroy] do
         collection do
           get :accepted
           get :rejected
@@ -101,9 +102,7 @@ Payperdate::Application.routes.draw do
           get :received
         end
       end
-      resources :conversations, only: [:index, :show] do
-        post :append, on: :member
-      end
+      resources :conversations, only: [:index, :show]
     end
 
     root to: 'users#index'

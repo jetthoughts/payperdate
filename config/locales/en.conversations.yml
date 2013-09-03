@@ -13,5 +13,7 @@ en:
         conversation_with_yorself: You can't conversations vith yourself :)
       form:
         send: Send message
-      append:
-        sent_ok: Message succesfully sent
+      append_to:
+        sent_ok: Message sent
+      remove_from:
+        deleted_ok: Message deleted

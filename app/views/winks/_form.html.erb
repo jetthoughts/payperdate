@@ -1,4 +1,4 @@
-<%= form_for wink, remote: true do |f| -%>
+<%= form_for [@user, wink], remote: true do |f| -%>
   <ul>
     <%- WinkTemplate.enabled.each do |wt| -%>
       <li>
