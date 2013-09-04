@@ -107,4 +107,16 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_online
+    mia = users(:mia)
+    mia.touch(:last_request_at)
+    assert mia.online?
+    Timecop.travel(1.minute) do
+      assert mia.online?
+    end
+    Timecop.travel(2.minutes) do
+      refute mia.online?
+    end
+  end
+
 end

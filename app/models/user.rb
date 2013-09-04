@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  ONLINE_TIMEOUT = 2.minutes
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
          :validatable, :confirmable, :omniauthable
@@ -243,6 +246,10 @@ class User < ActiveRecord::Base
 
   def add_credits(credits_count)
     update!(credits_amount: self.credits_amount + credits_count)
+  end
+
+  def online?
+    Time.now - last_request_at < ONLINE_TIMEOUT if last_request_at
   end
 
   private
