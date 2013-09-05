@@ -1,0 +1,7 @@
+<p>
+  Hi, <%= @favorite.favorite.name -%>!
+</p>
+<p>
+  <%= @favorite.user.name -%> added you to favorites
+</p>
+<%= link_to 'Go to profile', user_profile_url(@favorite.user) -%>

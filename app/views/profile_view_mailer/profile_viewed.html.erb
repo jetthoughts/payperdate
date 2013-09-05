@@ -1,0 +1,7 @@
+<p>
+  Hi, <%= @profile_view.viewed.name -%>!
+</p>
+<p>
+  <%= @profile_view.user.name -%> viewed your profile
+</p>
+<%= link_to 'Go to profile', user_profile_url(@profile_view.user) -%>

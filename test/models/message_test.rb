@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :messages, :users, :block_relationships
+  fixtures :messages, :users, :block_relationships, :user_settings
 
   setup do
     @ria = users(:ria)
@@ -179,6 +179,37 @@ class MessageTest < ActiveSupport::TestCase
                        -> { Message.between(mia, john).count }], +1 do
       Message.create sender: john, recipient: mia, content: 'Hello!'
     end
+  end
+
+  test 'notification about receiving message was sent if recipient want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    john = users(:john)
+    mia  = users(:mia)
+    assert mia.settings.notify_message_received?
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
+      Message.create!(sender: john, recipient: mia, content: 'test').committed!
+    end
+
+    notification = ActionMailer::Base.deliveries.last
+    assert_equal mia.email, notification.to[0]
+
+    Delayed::Worker.delay_jobs = true
+  end
+
+  test 'notification about receiving message was not sent if recipient want to receive them' do
+    Delayed::Worker.delay_jobs = false
+
+    john = users(:john)
+    mia  = users(:mia)
+    mia.settings.update notify_message_received: false
+    refute mia.settings.notify_message_received?
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, 0 do
+      Message.create!(sender: john, recipient: mia, content: 'test').committed!
+    end
+
+    Delayed::Worker.delay_jobs = true
   end
 
 end

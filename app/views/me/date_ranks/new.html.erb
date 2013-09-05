@@ -1,5 +1,5 @@
 <h1>Rank date</h1>
-<%= form_for(@date_rank, method: :post, url: _users_date_date_ranks_path(@users_date)) do |f| %>
+<%= form_for [@users_date, @date_rank] do |f| %>
   <div class="control-group">
     <%= f.label :courtesy_rank_id %>
     <div class="controls">
