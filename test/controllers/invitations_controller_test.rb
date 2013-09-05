@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class InvitationsControllerTest < ActionController::TestCase
-  fixtures :users, :invitations
+  fixtures :users, :invitations, :user_settings
 
   setup do
     @current_user              = users(:lily)

@@ -17,5 +17,9 @@
       <%= nav_link_to(t('navigation.back_favorite'), back_favorites_path) %>
       <%= nav_link_to(t('navigation.viewers'), viewers_path) %>
     </ul>
+    <ul class="nav nav-list">
+      <li class="nav-header"><%= t('navigation.settings')%></li>
+      <%= nav_link_to(t('navigation.email_settings'), edit_settings_path) %>
+    </ul>
   </div><!--/.well -->
 </div>

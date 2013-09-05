@@ -18,10 +18,10 @@ en:
       was_sent: 'Invitation was sent'
       was_not_sent: 'Invitation wasnt sent'
     mailer:
+      new_invitation: 'New invitation'
       your_invitation_was_rejected: 'Your invitation was rejected'
       your_invitation_was_accepted: 'Your invitation was accepted'
-      new_invitation: 'New invitation'
-      new_counter_invitations: 'New counter invitation'
+      your_invitation_was_countered: 'Your invitation was countered'
     reject_reasons:
       - You are not my type
       - You are so good for me
