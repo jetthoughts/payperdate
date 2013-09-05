@@ -224,3 +224,6 @@ en:
     notify_profile_viewed: Viewing my profile
     save: Update settings
     saved: Settings saved
+
+  online: Online
+  offline: ''
