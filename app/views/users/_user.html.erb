@@ -1,18 +1,19 @@
 <% if user.published_profile.filled? %>
-	<div class="span5">
-		<div class="row-fluid search-profile-row">
-			<div class="span3">
-		  		<p><%= image_tag user.avatar_url(:thumb) -%></p>
-		  		<% if user.distance %>
-		  			<p><em><%= t :distance, distance: number_with_precision(user.distance) %></em></p>
-		  		<% end %>
-			</div>
-			<div class="span9">
-				<p><strong><%= user.published_profile.nickname_cache %></strong></p>
-				<p><em><%= user.published_profile.general_info_tagline %></em></p>
-				<p><%= truncate user.published_profile.general_info_description, length: 200 %></p>
-				<div><%= link_to 'Show profile', user_profile_path(user), class: 'btn' -%></div>
-			</div>
-		</div>
-	</div>
+  <div class="span5">
+    <div class="row-fluid search-profile-row">
+      <div class="span3">
+        <p><%= image_tag user.avatar_url(:thumb) -%></p>
+        <p><%= user.online? ? t('online') : t('offline') %></p>
+        <% if user.distance %>
+          <p><em><%= t :distance, distance: number_with_precision(user.distance) %></em></p>
+        <% end %>
+      </div>
+      <div class="span9">
+        <p><strong><%= user.published_profile.nickname_cache %></strong></p>
+        <p><em><%= user.published_profile.general_info_tagline %></em></p>
+        <p><%= truncate user.published_profile.general_info_description, length: 200 %></p>
+        <div><%= link_to 'Show profile', user_profile_path(user), class: 'btn' -%></div>
+      </div>
+    </div>
+  </div>
 <% end %>

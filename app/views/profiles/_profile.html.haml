@@ -2,6 +2,7 @@
   .span2.profile-column
     %div
       = render 'profile/avatar', user: @user
+      = @user.online? ? t('online') : t('offline')
     %p
       :textile
         *Age:*

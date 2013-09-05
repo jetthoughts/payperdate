@@ -19,7 +19,7 @@
   <%= link_to t('.conversation'), conversation_path(users_date.partner(current_user)) %>
 
   <%- if can? :rank, users_date -%>
-    <%= link_to t('.rank_date'), new__users_date_date_rank_path(users_date) %>
+    <%= link_to t('.rank_date'), new_users_date_date_rank_path(users_date) %>
   <%- end -%>
 
   <%- if can? :view_rank, users_date -%>

@@ -31,6 +31,8 @@ class Message < ActiveRecord::Base
     end
   end
 
+  after_commit :notify_recipient, on: :create
+
   validates :sender, :recipient, :content, presence: true
   validate :validate_can_send_to_himself, on: :create
   validate :validate_can_send_to_blocker, on: :create
@@ -80,6 +82,10 @@ class Message < ActiveRecord::Base
     received_by?(user) ? delete_by_recipient : delete_by_sender
   end
 
+  def can_be_read_by_recipient?
+    recipient.can_access?(self)
+  end
+
   private
 
   def validate_can_send_to_himself
@@ -88,6 +94,10 @@ class Message < ActiveRecord::Base
 
   def validate_can_send_to_blocker
     self.errors.add(:recipient_id, :cant_send_message_to_blocker) if sender && sender.blocked_for?(recipient)
+  end
+
+  def notify_recipient
+    MessageMailer.delay.new_message(self.id)
   end
 
 end

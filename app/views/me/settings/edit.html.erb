@@ -1,0 +1,42 @@
+<h2><%= t 'settings.title' %></h2>
+<%= form_for @settings, url: settings_path do |f| %>
+  <legend><%= t('settings.email_notifications_group') %></legend>
+  <div class="control-group">
+    <div class="control">
+      <%= f.label :notify_invitation_received do %>
+        <%= f.check_box :notify_invitation_received %> <%= t('settings.notify_invitation_received') %>
+      <% end %>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="control">
+      <%= f.label :notify_invitation_responded do %>
+        <%= f.check_box :notify_invitation_responded %> <%= t('settings.notify_invitation_responded') %>
+      <% end %>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="control">
+      <%= f.label :notify_message_received do %>
+        <%= f.check_box :notify_message_received %> <%= t('settings.notify_message_received') %>
+      <% end %>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="control">
+      <%= f.label :notify_added_to_favorites do %>
+        <%= f.check_box :notify_added_to_favorites %> <%= t('settings.notify_added_to_favorites') %>
+      <% end %>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="control">
+    <%= f.label :notify_profile_viewed do %>
+      <%= f.check_box :notify_profile_viewed %> <%= t('settings.notify_profile_viewed') %>
+    <% end %>
+    </div>
+  </div>
+  <div class="form-controls">
+    <%= f.submit t('settings.save'), class: 'btn-primary' %>
+  </div>
+<% end %>

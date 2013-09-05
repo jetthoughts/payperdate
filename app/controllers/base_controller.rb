@@ -1,6 +1,7 @@
 class BaseController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_to_finish_signup
+  before_action :update_online
 
   helper_method :page_owner?, :selected_user, :current_profile
 
@@ -53,4 +54,9 @@ class BaseController < ApplicationController
     current_user.activities.create! action: "#{action_name}_#{controller_name.singularize}",
                                     subject: current_profile
   end
+
+  def update_online
+    current_user.touch(:last_request_at) if user_signed_in?
+  end
+
 end
