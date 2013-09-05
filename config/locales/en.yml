@@ -203,3 +203,24 @@ en:
     favorite: 'My favorites'
     back_favorite: 'Favorited me'
     viewers: 'Viewed me'
+    settings: My settings
+    email_settings: e-mail notifications
+
+  favorite:
+    mailer:
+      favoured: You was favored
+
+  profile_view:
+    mailer:
+      profile_viewed: Your profile was viewed
+
+  settings:
+    title: Email notifications settings
+    email_notifications_group: 'Notify me by email about:'
+    notify_invitation_received: Receiving new invitations
+    notify_invitation_responded: Accepting/rejecting my invitations
+    notify_message_received: Receiving new messages
+    notify_added_to_favorites: Adding me to favorites
+    notify_profile_viewed: Viewing my profile
+    save: Update settings
+    saved: Settings saved

@@ -68,7 +68,7 @@ class Invitation < ActiveRecord::Base
       self.amount  = new_amount
       self.counter = true
       res = self.save
-      notify_recipient
+      InvitationMailer.delay.counter_invitation(self.id)
       res
     end
   end
@@ -128,11 +128,7 @@ class Invitation < ActiveRecord::Base
   end
 
   def notify_recipient
-    if counter
-      InvitationMailer.delay.counter_invitation(self.id)
-    else
-      InvitationMailer.delay.new_invitation(self.id)
-    end
+    InvitationMailer.delay.new_invitation(self.id)
   end
 
 end
