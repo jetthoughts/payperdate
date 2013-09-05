@@ -95,7 +95,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'capybara-screenshot'
   gem 'awesome_print'
-
+  gem 'timecop'
 end
 
 group :development do

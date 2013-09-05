@@ -63,3 +63,4 @@ else
     end
   end
 end
+Timecop.safe_mode = true
