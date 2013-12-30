@@ -2,6 +2,7 @@
 # Many of these configuration options can be set straight in your model.
 require 'devise/database_authentiticatable_with_blocked'
 Devise.setup do |config|
+  config.secret_key = '380920c0cf501f4cf2af6238f2762e5d3cd79bdb2955825f8aac0ac52cae4a4ce5cafebdfca93af5fb6c7fdc09135400d3488ee55c19f9e2382fff9b638ed561'
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.

@@ -1,0 +1,10 @@
+.gmap{
+  margin: 0;
+  padding: 0;
+  height: 400px;
+  width: 600px;
+}
+
+img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
+  max-width: none;
+}

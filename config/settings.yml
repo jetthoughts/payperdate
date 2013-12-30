@@ -7,6 +7,10 @@ common:
   url_with_port: http://localhost:3000
   host: localhost:3000
 
+  foursquare:
+    client_id: 'UBDIGFWOJ3OZEOBLKTYM5ICEBU3DJW0NMUOF3JB3IYTBIMDZ'
+    client_secret: 'ALMIRXVW1EY22NVZU2HFQWDKOPLBKRKYATPJSJBRY1XETYOV'
+
   recaptcha:
     public_key: 6LfoU-MSAAAAAJkcGfgpMtKBuGuh41oGizqW8ksW
     private_key: 6LfoU-MSAAAAAAbA6Wua96F8PSbZnoiLz-DcLrT_

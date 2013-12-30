@@ -61,14 +61,9 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'handy', github: 'bigbinary/handy'
 
-# Admin Panel
-gem 'responders', github: 'plataformatec/responders'
-gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'ransack'
-gem 'formtastic'
 
-gem 'kaminari'
-gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'draper', '>= 1.0.0'
 
 #FIXME: @XsErG please update to jetthoughts/mandrill-api
@@ -84,7 +79,7 @@ gem 'delayed_job_web'
 gem 'geocoder'
 gem 'nude'
 gem 'face'
-
+gem 'foursquare2'
 group :staging, :production do
   gem 'airbrake'
 end

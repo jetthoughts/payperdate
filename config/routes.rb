@@ -18,12 +18,18 @@ Payperdate::Application.routes.draw do
                             passwords:          'users/passwords' }
 
 
+  resources :venues do
+    collection do
+      get :search
+    end
+  end
+  get '/about', to: 'pages#about'
+  get :unsubscribe, to: "users#unsubscribe"
+
   unauthenticated :user do
     root to: 'pages#landing', as: :guest_root
     match '*missing' => 'pages#landing', via: [:get, :post]
   end
-
-  get :unsubscribe, to: "users#unsubscribe"
 
   authenticated :user do
     resources :users do
@@ -110,5 +116,4 @@ Payperdate::Application.routes.draw do
 
     get '/search', to: 'users#search'
   end
-  get '/about', to: 'pages#about'
 end
