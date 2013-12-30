@@ -21,6 +21,7 @@ Payperdate::Application.routes.draw do
   resources :venues do
     collection do
       get :search
+      get :yelp
     end
   end
   get '/about', to: 'pages#about'

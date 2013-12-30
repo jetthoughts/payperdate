@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130904160330) do
+ActiveRecord::Schema.define(version: 20131230154617) do
 
   create_table "activities", force: true do |t|
     t.integer  "user_id"
@@ -397,6 +397,22 @@ ActiveRecord::Schema.define(version: 20130904160330) do
   end
 
   add_index "users_dates", ["owner_id", "recipient_id"], name: "index_users_dates_on_owner_id_and_recipient_id", unique: true, using: :btree
+
+  create_table "venues", force: true do |t|
+    t.string   "name"
+    t.float    "rating"
+    t.string   "url"
+    t.string   "address"
+    t.string   "location",    limit: nil
+    t.text     "phones",                  default: [], array: true
+    t.string   "source"
+    t.string   "pic_url"
+    t.string   "description"
+    t.string   "external_id"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "wink_templates", force: true do |t|
     t.string   "name",                       null: false

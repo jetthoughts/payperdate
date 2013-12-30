@@ -1,29 +1,17 @@
-class VenuesMap
+class YelpVenuesMap
   constructor: ->
-
+    @infowindow = new google.maps.InfoWindow
     map_center = new google.maps.LatLng(40.743095,-74.006867)
     options =
       center: map_center
       mapTypeId: google.maps.MapTypeId.ROADMAP
-      zoom: 8
+      zoom: 13
     @venue_markers = []
     @map = new google.maps.Map(document.getElementById("map"), options)
-    # and additional coordinates, just add a new item
-    marker = new google.maps.Marker(
-      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-      position: map_center
-      map: @map,
-      title: "You here"
-      draggable: true
-      animation: google.maps.Animation.DROP
-    )
-    google.maps.event.addListener marker, 'dragend', =>
-      pos = marker.getPosition()
-      @load_venues(pos)
-    @load_venues(map_center)
 
-  load_venues: (point) =>
-    ll = @point_to_ll(point)
+    @load_venues()
+
+  load_venues: () =>
     @clear_venues()
     $.ajax
       method: 'GET'
@@ -31,9 +19,7 @@ class VenuesMap
       type: 'JSON'
       success: @show_venues
       data:
-        ll: ll
-  point_to_ll: (pos)->
-    "#{pos.lat()},#{pos.lng()}"
+        yelp: true
 
   clear_venues: =>
     marker.setMap(null) for marker in @venue_markers
@@ -48,17 +34,35 @@ class VenuesMap
       ((venue) =>
 
         # set the location...
-        latLng = new google.maps.LatLng(venue.location.lat, venue.location.lng)
+        latLng = new google.maps.LatLng(venue.location[0], venue.location[1])
 
         # ...and add the Marker to your map
-        marker = new google.maps.Marker(
+        marker = new google.maps.Marker
           position: latLng
           map: @map,
           title: venue.name
 
-        )
+        google.maps.event.addListener marker, 'click', =>
+          @infowindow.setContent(@venue_content(venue))
+          @infowindow.open(@map, marker)
+
         @venue_markers.push(marker)
       ) venues[i]
       i++
+
+  venue_content: (venue) ->
+    """
+      <div>
+        <img src='#{venue.pic_url}'/>
+        <b>#{venue.name}</b>
+        <p>Rating: #{venue.rating}</p>
+        <p>Phone: #{venue.phones[0]}</p>
+        <p>Address: #{venue.address}</p>
+        <p>#{venue.description}</p>
+        <p><a target='_blank' href='#{venue.url}'>more info</a></p>
+      </div>
+    """
+
 $ ->
-  new VenuesMap
+  if $('#yelp_venues').length
+    new YelpVenuesMap
