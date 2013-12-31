@@ -22,6 +22,7 @@ Payperdate::Application.routes.draw do
     collection do
       get :search
       get :yelp
+      get :list
     end
   end
   get '/about', to: 'pages#about'

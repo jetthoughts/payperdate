@@ -1,0 +1,19 @@
+<table class="table bordered ">
+<%- @venues.each do |venue| %>
+   <tr>
+     <td>
+       <p>Rating: <%= venue.rating %></p>
+     </td>
+     <td>
+       <%= link_to venue.name, venue.url %>
+       <br/>
+       <img src='<%= venue.pic_url %>'/>
+     </td>
+     <td><%= venue.address %>
+       <br/>
+       Phone: <%= venue.phone %></td>
+     <td><%= venue.description %></td>
+   </tr>
+<% end %>
+</table>
+<%= will_paginate @venues %>

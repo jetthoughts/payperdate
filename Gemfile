@@ -80,6 +80,7 @@ gem 'geocoder'
 gem 'nude'
 gem 'face'
 gem 'foursquare2'
+gem 'will_paginate', '~> 3.0'
 group :staging, :production do
   gem 'airbrake'
 end

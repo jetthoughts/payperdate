@@ -7,4 +7,8 @@ class Venue < ActiveRecord::Base
     end
   end
 
+  def phone
+    phones.first
+  end
+
 end
