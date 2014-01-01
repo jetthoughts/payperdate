@@ -7,6 +7,7 @@ class FoursquareVenuesMap
       mapTypeId: google.maps.MapTypeId.ROADMAP
       zoom: 15
     @venue_markers = []
+    @list = $('#venues_list')
     @map = new google.maps.Map(document.getElementById("map"), options)
     # and additional coordinates, just add a new item
     marker = new google.maps.Marker(
@@ -38,15 +39,15 @@ class FoursquareVenuesMap
   clear_venues: =>
     marker.setMap(null) for marker in @venue_markers
     @venue_markers = []
+    @list.html()
 
   show_venues: (venues) =>
     i = 0
-
+    list_content = "<table class='table bordered'>"
     while i < venues.length
-
-      # create a closure for your latitude/longitude pair
+    # create a closure for your latitude/longitude pair
       ((venue) =>
-
+        list_content += @venue_item_content(venue)
         # set the location...
         latLng = new google.maps.LatLng(venue.location.lat, venue.location.lng)
 
@@ -62,6 +63,25 @@ class FoursquareVenuesMap
         @venue_markers.push(marker)
       ) venues[i]
       i++
+    list_content += '</table>'
+    @list.html(list_content)
+
+  venue_item_content: (venue) ->
+    """
+      <tr>
+        <td>
+          <b>#{venue.name}</b>
+        </td>
+        <td>
+          Phone: #{venue.contact?.phone},
+          Address: #{venue.location?.address}, #{venue.location?.crossStreet}, #{venue.location?.city},
+        </td>
+        <td>
+          <a target='_blank' href='#{venue.menu?.url}'>Menu</a>, <a target='_blank' href='#{venue.url}'>more info</a>
+        </td>
+        <td>Checkins count: #{venue.stats?.checkinsCount}</td>
+      </tr>
+    """
 
   venue_content: (venue) ->
     """

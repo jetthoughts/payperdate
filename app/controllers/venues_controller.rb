@@ -13,6 +13,10 @@ class VenuesController < ApplicationController
     @venues = Venue.page(params[:page] || 1)
   end
 
+  def google_list
+
+  end
+
   def search
     if params['yelp']
       render json: Venue.geocoded
