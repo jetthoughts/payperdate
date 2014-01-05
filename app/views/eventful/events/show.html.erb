@@ -6,7 +6,7 @@
     <% end %>
   <% end %>
 
-  <%= link_to event['title'], eventful_event_path(id: event['id']) %>
+  <%= event['title'] %>
 </h3>
 
 <p>City: <%= event['city_name'] %>, Start: <%= event['start_time'] %>, End: <%= event['stop_time'] %> </p>

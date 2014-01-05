@@ -1,8 +1,17 @@
+<%= form_tag url_for({}), method: :get do %>
+  <%= text_field_tag :city, params[:city] || SearchEventfulVenuesService::DEFAULT_CITY, placeholder: 'Location' %>
+  <%= text_field_tag :keywords, params[:keywords] || SearchEventfulVenuesService::DEFAULT_KEYWORDS, placeholder: 'Keywords' %>
+  <%= select_tag :date, options_for_select([ "Future", "Today", "This Week", "Next Week" ], params[:date] || SearchEventfulVenuesService::DEFAULT_DATE) %>
+  <%= submit_tag 'Search' %>
+<% end %>
 <% if @events.empty? %>
   <p>
     Sorry. Nothing was found
   </p>
 <% else %>
+  <div>
+    Total records: <%= @total %>
+  </div>
   <% @events.each do |event| %>
     <div>
       <h3>
@@ -26,10 +35,10 @@
   <% end %>
   <div>
     <% if @prev_page %>
-      <%= link_to 'Prev page', url_for(page: @prev_page) %>
+      <%= link_to 'Prev page', url_for(params.merge(page: @prev_page)) %>
     <% end %>
     <% if @next_page %>
-      <%= link_to 'Next page', url_for(page: @next_page) %>
+      <%= link_to 'Next page', url_for(params.merge(page: @next_page)) %>
     <% end %>
   </div>
 <% end %>

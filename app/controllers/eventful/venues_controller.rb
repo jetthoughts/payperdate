@@ -3,7 +3,8 @@ class Eventful::VenuesController < ApplicationController
 
   def index
     res = SearchEventfulVenuesService.new.search_venues(params)
-    @venues = res['venues']['venue']
+    @venues = Array.wrap(res['venues'] && res['venues']['venue'])
+    @total = res['total_items']
     page  = res['page_number'].to_i
     page_count = res['page_count'].to_i
     if page > 1
