@@ -1,0 +1,62 @@
+<% venue = @venue %>
+<h3>
+  <%= venue['name'] %>
+</h3>
+<% if (images_hash = venue['images'] && venue['images']['image']) %>
+  <% images_hash.each do |image_hash| %>
+    <% if image_url = image_hash['medium'] && image_hash['medium']['url'] %>
+      <%= image_tag image_url %>
+    <% end %>
+  <% end %>
+<% end %>
+<p>Address: <%= venue['address'] %>, <% venue['region'] || venue['region_abbr '] %></p>
+
+  <% if venue['venue_id'] %>
+    <%= link_to venue['venue_name'], venueful_venue_path(id: venue['venue_id']) %></p>
+  <% end %>
+  <div>
+    Events:
+    <% Array(venue['events'] && venue['events']['event']).each do |event| %>
+      <p>
+        <%= link_to event['title'], eventful_event_path(id: event['id']) %>
+      </p>
+    <% end %>
+  </div>
+<div>
+  Properties:
+  <% Array.wrap(venue['properties'] && venue['properties']['property']).each do |property| %>
+    <p>
+      <%= property['name'] %>: <%= property['value'] %>
+    </p>
+  <% end %>
+</div>
+<div>
+  Comments:
+  <% Array.wrap(venue['comments'] && venue['comments']['comment']).each do |comment| %>
+    <p>
+      <span><%= comment['time'] %>:</span><%= comment['text'] %>
+    </p>
+  <% end %>
+</div>
+  <div style="width:470px; height:500px; position: absolute" id="map" class="gmap">
+  </div>
+
+  <script type="application/javascript">
+    jQuery(function () {
+      onLoad();
+    });
+    function onLoad() {
+      var myLatlng = new google.maps.LatLng(<%= venue['latitude'] %>, <%= venue['longitude'] %>);
+      var mapOptions = {
+        zoom: 14,
+        center: myLatlng
+      };
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        title: "Our place"
+      });
+      marker.setMap(map);
+
+    }
+  </script>

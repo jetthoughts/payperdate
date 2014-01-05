@@ -1,0 +1,51 @@
+<% event = @event %>
+<h3>
+  <% Array.wrap(event['images'] && event['images']['image']).each do |image_hash| %>
+    <% if image_url = image_hash['medium'] && image_hash['medium']['url'] %>
+      <%= image_tag image_url %>
+    <% end %>
+  <% end %>
+
+  <%= link_to event['title'], eventful_event_path(id: event['id']) %>
+</h3>
+
+<p>City: <%= event['city_name'] %>, Start: <%= event['start_time'] %>, End: <%= event['stop_time'] %> </p>
+
+<p><%== event['description'] %></p>
+
+<p>at <%= event['venue_address'] %>,
+  <% if event['venue_id'] %>
+    <%= link_to event['venue_name'], eventful_venue_path(id: event['venue_id']) %></p>
+  <% end %>
+
+  <div>
+    Comments:
+    <% Array.wrap(event['comments'] && event['comments']['comment']).each do |comment| %>
+      <p>
+        <span><%= comment['time'] %>:</span><%= comment['text'] %>
+      </p>
+    <% end %>
+  </div>
+
+  <div style="width:470px; height:500px; position: absolute" id="map" class="gmap">
+  </div>
+
+  <script type="application/javascript">
+    jQuery(function () {
+      onLoad();
+    });
+    function onLoad() {
+      var myLatlng = new google.maps.LatLng(<%= event['latitude'] %>, <%= event['longitude'] %>);
+      var mapOptions = {
+        zoom: 14,
+        center: myLatlng
+      };
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        title: "Our place"
+      });
+      marker.setMap(map);
+
+    }
+  </script>

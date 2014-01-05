@@ -27,6 +27,10 @@ Payperdate::Application.routes.draw do
       get :foursquare_list
     end
   end
+  namespace :eventful do
+    resources :venues
+    resources :events
+  end
   get '/about', to: 'pages#about'
   get :unsubscribe, to: "users#unsubscribe"
 

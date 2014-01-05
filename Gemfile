@@ -81,13 +81,14 @@ gem 'nude'
 gem 'face'
 gem 'foursquare2'
 gem 'will_paginate', '~> 3.0'
+gem 'eventful_api'
 group :staging, :production do
   gem 'airbrake'
 end
 
 group :development, :test do
   gem 'capybara'
-  gem 'simplecov', github: 'colszowka/simplecov', branch: 'v0.8.0.pre', require: false
+  #gem 'simplecov', github: 'colszowka/simplecov', branch: 'v0.8.0.pre', require: false
   gem 'poltergeist'
   gem 'capybara-screenshot'
   gem 'awesome_print'

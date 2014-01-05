@@ -1,0 +1,35 @@
+<% if @events.empty? %>
+  <p>
+    Sorry. Nothing was found
+  </p>
+<% else %>
+  <% @events.each do |event| %>
+    <div>
+      <h3>
+        <% if (image_hash = event['image']) %>
+          <% if image_url = image_hash['medium'] && image_hash['medium']['url'] %>
+            <%= image_tag image_url %>
+          <% end %>
+        <% end %>
+        <%= link_to event['title'], eventful_event_path(id: event['id']) %>
+      </h3>
+
+      <p>City: <%= event['city_name'] %>, Start: <%= event['start_time'] %>,  End: <%= event['stop_time'] %> </p>
+
+      <p><%== event['description'] %></p>
+
+      <p>at <%= event['venue_address'] %>,
+        <% if event['venue_id'] %>
+          <%= link_to event['venue_name'], eventful_venue_path(id: event['venue_id']) %></p>
+        <% end %>
+        </div>
+  <% end %>
+  <div>
+    <% if @prev_page %>
+      <%= link_to 'Prev page', url_for(page: @prev_page) %>
+    <% end %>
+    <% if @next_page %>
+      <%= link_to 'Next page', url_for(page: @next_page) %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,30 @@
+<% if @venues.empty? %>
+  <p>
+    Sorry. Nothing was found
+  </p>
+<% else %>
+  <% @venues.each do |venue| %>
+    <div>
+      <h3>
+        <% if (image_hash = venue['image']) %>
+          <% if image_url = image_hash['medium'] && image_hash['medium']['url'] %>
+            <%= image_tag image_url %>
+          <% end %>
+        <% end %>
+        <%= link_to venue['name'], eventful_venue_path(id: venue['id']) %>
+      </h3>
+
+      <p>Address: <%= venue['address'] %>, <% venue['region'] || venue['region_abbr '] %></p>
+
+      <p><%== venue['description'] %></p>
+        </div>
+  <% end %>
+  <div>
+    <% if @prev_page %>
+      <%= link_to 'Prev page', url_for(page: @prev_page) %>
+    <% end %>
+    <% if @next_page %>
+      <%= link_to 'Next page', url_for(page: @next_page) %>
+    <% end %>
+  </div>
+<% end %>
